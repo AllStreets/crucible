@@ -153,6 +153,12 @@ _BUILD_PATTERNS: tuple[tuple[str, FailureClass, tuple[str, ...]], ...] = (
     # Filing continue and opencode under no_installable_manifest would put two
     # of the most widely run coding agents in the dataset as defective when the
     # defect is the recipe's coverage.
+    # pip exiting zero while installing nothing. Same condition as the flat
+    # layout autogen hit, reached by the quieter path: setuptools named the
+    # distribution UNKNOWN instead of refusing. Filed under the same class
+    # because it is the same fact about the repository and needs the same fix.
+    ("crucible-result: workspace root installed nothing",
+     FailureClass.WORKSPACE_ROOT_NOT_INSTALLABLE, ()),
     ("crucible-result: unsupported project language",
      FailureClass.UNSUPPORTED_LANGUAGE, ()),
     ("crucible-result: ambiguous installable manifest",

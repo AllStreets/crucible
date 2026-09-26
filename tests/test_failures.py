@@ -346,3 +346,34 @@ def test_a_typescript_agent_is_our_gap_and_not_its_defect() -> None:
     assert classify_build_log(UNSUPPORTED_LANGUAGE_LOG, 1) is not (
         FailureClass.NO_INSTALLABLE_MANIFEST
     )
+
+
+FALSE_SUCCESS_LOG = """\
+#10 0.132 crucible: found a package definition at the repository root
+#10 6.221 Successfully installed UNKNOWN-0.0.0
+#10 6.310 crucible: pip exited zero but installed a distribution named UNKNOWN,
+#10 6.310 crucible: which means this manifest declares a workspace and not a package
+#10 6.311 crucible-result: workspace root installed nothing
+#10 ERROR: process "/bin/sh -c sh /opt/crucible/resolve_manifest.sh" did not \
+complete successfully: exit code: 2
+"""
+
+
+def test_pip_exiting_zero_is_not_evidence_a_package_was_installed() -> None:
+    """crewai's root pyproject declares crewai-workspace, a uv workspace rather
+    than a distribution. setuptools installed it as a distribution named
+    UNKNOWN, exited zero, and left the agent absent from the image.
+
+    This was recorded as a successful build and passed the environment check,
+    because the probe starts the interpreter without importing the agent. A
+    false success is worse than a failure: it inflates the published viability
+    rate, and nothing downstream can tell it from a real one.
+    """
+    assert classify_build_log(FALSE_SUCCESS_LOG, 2) is (
+        FailureClass.WORKSPACE_ROOT_NOT_INSTALLABLE
+    )
+    # It must not read as a success or as a missing manifest.
+    assert classify_build_log(FALSE_SUCCESS_LOG, 2) is not FailureClass.NONE
+    assert classify_build_log(FALSE_SUCCESS_LOG, 2) is not (
+        FailureClass.NO_INSTALLABLE_MANIFEST
+    )

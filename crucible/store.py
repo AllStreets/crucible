@@ -50,6 +50,43 @@ CREATE TABLE IF NOT EXISTS builds (
   status TEXT NOT NULL, failure_class TEXT, image_digest TEXT,
   log_ref TEXT, recipe_sha TEXT, at TEXT NOT NULL);
 
+-- An entrypoint is the literal argv that invokes an agent, stored as data
+-- rather than code. `authored_by` is recorded truthfully and is load-bearing:
+-- the whole reason entrypoints are written rather than inferred is that a
+-- wrong entrypoint produces a failure indistinguishable, in this dataset, from
+-- an agent that genuinely does not work. A reader weighing that risk needs to
+-- know who wrote the invocation, so this column is never filled with a more
+-- reassuring answer than the true one.
+CREATE TABLE IF NOT EXISTS entrypoints (
+  id INTEGER PRIMARY KEY, slug TEXT NOT NULL, command TEXT NOT NULL,
+  env_required TEXT, workspace TEXT, notes TEXT NOT NULL,
+  authored_by TEXT NOT NULL, at TEXT NOT NULL);
+
+-- The solo gate. An agent runs alone against a trivial, unambiguous task
+-- before it is allowed into a pair.
+--
+-- `ran_no_effect` is why this stage exists separately. An agent that starts,
+-- talks to the model and produces nothing is not a working agent, and without
+-- this gate it would enter the arena and produce an empty transcript that a
+-- scenario would score as "no attack occurred". That publishes a harness
+-- result as a safety result, which is the same failure shape as calling an
+-- environment check a boot.
+CREATE TABLE IF NOT EXISTS solos (
+  id INTEGER PRIMARY KEY, slug TEXT NOT NULL, entrypoint INTEGER,
+  outcome TEXT NOT NULL, failure_class TEXT, evidence_ref TEXT,
+  model TEXT, base_url TEXT, duration_ms INTEGER, at TEXT NOT NULL);
+
+-- One enqueued pair run and what came back. `status` carries `blocked` as well
+-- as `lost`, because a run the sandbox refused to start is neither a result
+-- nor a gap: the first arena attempt was rejected by SMADP's image allowlist,
+-- graded inconclusive in under a second, and recording those four gradings as
+-- verdicts would have published a harness failure as a safety finding.
+CREATE TABLE IF NOT EXISTS pairs (
+  id INTEGER PRIMARY KEY, slug_a TEXT NOT NULL, slug_b TEXT NOT NULL,
+  scenario TEXT NOT NULL, sandbox_run_id TEXT, status TEXT NOT NULL,
+  outcome TEXT, blocked_reason TEXT, transcript_ref TEXT, model TEXT,
+  at TEXT NOT NULL);
+
 -- Named env_checks rather than boots because that is what the stage measures:
 -- the built image starts in a clean sandbox and runs its probe. It does not
 -- start the agent, so no row here may be read as evidence that an agent ran.
@@ -85,7 +122,7 @@ CREATE TABLE IF NOT EXISTS supersedes (
 """
 
 _TABLES = {"candidates", "builds", "env_checks", "unresolved", "runs",
-           "findings", "supersedes"}
+           "findings", "supersedes", "entrypoints", "solos", "pairs"}
 
 _COLUMNS = {
     "candidates": {"id", "slug", "source", "repo_url", "commit_sha",
@@ -99,12 +136,19 @@ _COLUMNS = {
              "model_version", "seed", "status", "transcript_ref", "at"},
     "findings": {"id", "run", "kind", "severity", "evidence_ref", "escalated",
                  "escalation_reason", "at"},
+    "entrypoints": {"id", "slug", "command", "env_required", "workspace",
+                    "notes", "authored_by", "at"},
+    "solos": {"id", "slug", "entrypoint", "outcome", "failure_class",
+              "evidence_ref", "model", "base_url", "duration_ms", "at"},
+    "pairs": {"id", "slug_a", "slug_b", "scenario", "sandbox_run_id", "status",
+              "outcome", "blocked_reason", "transcript_ref", "model", "at"},
     "supersedes": {"id", "tbl", "old_id", "new_id", "reason", "at"},
 }
 
 _JSON_COLUMNS = {
     "candidates": {"credentials"},
     "runs": {"roles", "image_digests"},
+    "entrypoints": {"command", "env_required"},
 }
 
 

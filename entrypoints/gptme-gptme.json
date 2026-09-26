@@ -1,0 +1,16 @@
+{
+  "slug": "gptme-gptme",
+  "command": [
+    "sh",
+    "-c",
+    "export HOME=/tmp && cd /work && exec gptme --non-interactive --no-stream --tool-format markdown --model openai/MODEL_PLACEHOLDER \"$(cat /work/task.txt)\""
+  ],
+  "env_required": [
+    "OPENAI_API_KEY",
+    "OPENAI_BASE_URL"
+  ],
+  "workspace": "/work",
+  "notes": "--non-interactive is gptme's own flag and implies --no-confirm, verified from `gptme --help` in the built image. The task is passed as a positional prompt because gptme takes prompts as arguments and has no message-file option. HOME is exported because gptme writes its conversation log under HOME. --tool-format markdown is the flag that matters and was found by running: the default is `tool`, native OpenAI function calling, and under it gptme recorded ran_no_effect twice against two different local models. The transcript showed the model emitting Qwen's text <tool_call> markup which the native path does not parse, so gptme saw no tool call, auto-replied twice and exited cleanly. That is an invocation mismatch and not an agent defect, and publishing it as one would have been exactly the contamination the solo gate exists to prevent.",
+  "authored_by": "claude-opus-5, verified by solo run",
+  "authored_at": "2026-09-26"
+}
