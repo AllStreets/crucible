@@ -1,0 +1,64 @@
+# CRUCIBLE seed list: first fifty.
+#
+# Fifty repositories of open-source AI agents people actually run, not the
+# top of a ranking. One URL per line, grouped by category, `#` for comments
+# and blank lines. Every URL below is a real repository the author is
+# confident exists; nothing here was invented to round out the count.
+
+# Coding agents
+https://github.com/Aider-AI/aider
+https://github.com/princeton-nlp/SWE-agent
+https://github.com/gpt-engineer-org/gpt-engineer
+https://github.com/AntonOsika/gpt-engineer
+https://github.com/OpenDevin/OpenDevin
+https://github.com/continuedev/continue
+https://github.com/stitionai/devika
+https://github.com/smol-ai/developer
+https://github.com/sweepai/sweep
+https://github.com/OpenAutoCoder/Agentless
+https://github.com/plandex-ai/plandex
+
+# Assistants and orchestration frameworks
+https://github.com/Significant-Gravitas/AutoGPT
+https://github.com/microsoft/autogen
+https://github.com/joaomdmoura/crewAI
+https://github.com/langchain-ai/langgraph
+https://github.com/langchain-ai/langchain
+https://github.com/geekan/MetaGPT
+https://github.com/OpenBMB/ChatDev
+https://github.com/OpenBMB/AgentVerse
+https://github.com/yoheinakajima/babyagi
+https://github.com/reworkd/AgentGPT
+https://github.com/microsoft/semantic-kernel
+https://github.com/openai/swarm
+https://github.com/microsoft/JARVIS
+https://github.com/langflow-ai/langflow
+https://github.com/FlowiseAI/Flowise
+https://github.com/microsoft/TaskWeaver
+https://github.com/InternLM/lagent
+https://github.com/PrefectHQ/marvin
+https://github.com/camel-ai/camel
+https://github.com/eosphoros-ai/DB-GPT
+https://github.com/composiohq/composio
+
+# Browser and computer use
+https://github.com/browser-use/browser-use
+https://github.com/Skyvern-AI/skyvern
+https://github.com/OpenInterpreter/open-interpreter
+https://github.com/OpenAdaptAI/OpenAdapt
+https://github.com/OthersideAI/self-operating-computer
+https://github.com/microsoft/UFO
+
+# Notes, files, personal, and retrieval agents
+https://github.com/gptme/gptme
+https://github.com/block/goose
+https://github.com/run-llama/llama_index
+https://github.com/mem0ai/mem0
+https://github.com/khoj-ai/khoj
+https://github.com/danswer-ai/danswer
+https://github.com/getzep/zep
+https://github.com/QuivrHQ/quivr
+https://github.com/Mintplex-Labs/anything-llm
+https://github.com/dzhng/deep-research
+https://github.com/assafelovic/gpt-researcher
+https://github.com/deepset-ai/haystack
