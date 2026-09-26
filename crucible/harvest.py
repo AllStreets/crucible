@@ -94,14 +94,38 @@ async def resolve_head(repo_url: str, *, run: Runner) -> str | None:
 
 async def harvest(urls: list[str], *, store: Store,
                   run: Runner = default_runner) -> list[Candidate]:
+    """Resolve each URL to a pinned candidate, recorded once per identity.
+
+    A candidate's identity is `(slug, commit_sha)`: the same repository at the
+    same commit is the same candidate, whichever day we asked. So a re-harvest
+    of the same seed list at an unchanged HEAD writes no new candidate row and
+    returns the existing identity.
+
+    It does not write a superseding row either. `supersedes` means "this
+    corrects that", and the earlier row was not wrong; re-observing a fact is
+    not a correction of it, and recording one would put a retraction in the
+    dataset for a measurement that still stands. Append-only is untouched:
+    nothing is mutated or deleted, a duplicate fact is simply not appended.
+
+    A repository resolving to a *different* HEAD is a different candidate and
+    does get its own row, because the code under test is different and every
+    build and check row downstream pins that commit.
+    """
     found: list[Candidate] = []
+    seen: set[tuple[str, str]] = set()
     for url in urls:
         sha = await resolve_head(url, run=run)
         if sha is None:
             continue
         cand = Candidate(slug=slug_for(url), source=source_for(url),
                          repo_url=url, commit_sha=sha)
-        store.record("candidates", slug=cand.slug, source=cand.source,
-                     repo_url=cand.repo_url, commit_sha=cand.commit_sha)
+        identity = (cand.slug, cand.commit_sha)
+        if identity in seen:
+            continue
+        seen.add(identity)
+        known = store.rows("candidates", slug=cand.slug, commit_sha=cand.commit_sha)
+        if not known:
+            store.record("candidates", slug=cand.slug, source=cand.source,
+                         repo_url=cand.repo_url, commit_sha=cand.commit_sha)
         found.append(cand)
     return found

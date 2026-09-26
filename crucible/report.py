@@ -30,19 +30,25 @@ def viability(store: Store) -> Viability:
     agents, along with a distribution of failure classes across failed builds
     and boot attempts.
 
-    Superseded rows are excluded from all counts, since they represent
-    corrections to prior measurements rather than independent facts about
-    the world.
+    Every count is a count of distinct agents, not of attempts. Two rows for
+    the same identity are the same agent measured twice: a candidate is
+    identified by `(slug, commit_sha)`, a build by that same pair, and a check
+    by the image digest it ran. Counting rows instead would let a second run of
+    the same seed list double every published figure.
+
+    Superseded rows are excluded from all counts, candidates included, since
+    they represent corrections to prior measurements rather than independent
+    facts about the world.
     """
-    # Build sets of superseded IDs per table
-    superseded: dict[str, set[int]] = {"builds": set(), "boots": set()}
+    superseded: dict[str, set[int]] = {"candidates": set(), "builds": set(),
+                                       "boots": set()}
     for row in store.rows("supersedes"):
         tbl = row["tbl"]
-        old_id = row["old_id"]
         if tbl in superseded:
-            superseded[tbl].add(old_id)
+            superseded[tbl].add(row["old_id"])
 
-    # Query all rows and filter out superseded ones
+    candidates = [r for r in store.rows("candidates")
+                  if r["id"] not in superseded["candidates"]]
     builds = [r for r in store.rows("builds") if r["id"] not in superseded["builds"]]
     boots = [r for r in store.rows("boots") if r["id"] not in superseded["boots"]]
 
@@ -50,10 +56,15 @@ def viability(store: Store) -> Viability:
     failures = Counter(
         str(r["failure_class"]) for r in (*builds, *boots) if r["failure_class"])
 
+    harvested = {(r["slug"], r["commit_sha"]) for r in candidates}
+    built = {(r["candidate"], r["commit_sha"])
+             for r in builds if r["status"] == "built"}
+    booted = {r["build"] for r in boots if r["status"] == "booted"}
+
     return Viability(
-        harvested=len(store.rows("candidates")),
-        built=sum(1 for r in builds if r["status"] == "built"),
-        booted=sum(1 for r in boots if r["status"] == "booted"),
+        harvested=len(harvested),
+        built=len(built),
+        booted=len(booted),
         by_failure=dict(failures),
         generated_at=datetime.now(timezone.utc).isoformat(),
     )

@@ -152,3 +152,16 @@ async def test_verify_boot_without_a_shim_passes_no_env_flags(store) -> None:
     await verify_boot("sha256:" + "b" * 64, store=store, run=recording)
 
     assert "-e" not in captured
+
+
+async def test_a_build_row_pins_the_commit_it_built(store) -> None:
+    """A row pinning only the slug resolves to no single commit once a
+    repository has been harvested twice at two different HEADs."""
+    await build(CAND, store=store, run=docker_like())
+    row = store.rows("builds")[0]
+    assert row["commit_sha"] == CAND.commit_sha
+
+
+async def test_a_failed_build_row_pins_the_commit_too(store) -> None:
+    await build(CAND, store=store, run=scripted((1, "ERROR: failed to solve")))
+    assert store.rows("builds")[0]["commit_sha"] == CAND.commit_sha

@@ -26,9 +26,15 @@ CREATE TABLE IF NOT EXISTS candidates (
 -- `candidate` is a slug and `build` is an image digest, both natural keys
 -- rather than autoincrement ids: a row that cites sha256:abc... is auditable
 -- on its own, and a row that cites 47 is not.
+--
+-- A slug alone is not a key, though. The same repository harvested twice at two
+-- different HEADs is two candidates, so a build row carries the commit SHA as
+-- well; without it, a slug harvested twice resolves to no single commit and the
+-- row cannot say which code it built.
 CREATE TABLE IF NOT EXISTS builds (
-  id INTEGER PRIMARY KEY, candidate TEXT NOT NULL, status TEXT NOT NULL,
-  failure_class TEXT, image_digest TEXT, log_ref TEXT, at TEXT NOT NULL);
+  id INTEGER PRIMARY KEY, candidate TEXT NOT NULL, commit_sha TEXT,
+  status TEXT NOT NULL, failure_class TEXT, image_digest TEXT,
+  log_ref TEXT, at TEXT NOT NULL);
 
 CREATE TABLE IF NOT EXISTS boots (
   id INTEGER PRIMARY KEY, build TEXT NOT NULL, status TEXT NOT NULL,
@@ -54,7 +60,8 @@ _TABLES = {"candidates", "builds", "boots", "runs", "findings", "supersedes"}
 
 _COLUMNS = {
     "candidates": {"id", "slug", "source", "repo_url", "commit_sha", "at"},
-    "builds": {"id", "candidate", "status", "failure_class", "image_digest", "log_ref", "at"},
+    "builds": {"id", "candidate", "commit_sha", "status", "failure_class",
+               "image_digest", "log_ref", "at"},
     "boots": {"id", "build", "status", "failure_class", "evidence_ref", "duration_ms", "at"},
     "runs": {"id", "scenario", "scenario_version", "roles", "image_digests", "model",
              "model_version", "seed", "status", "transcript_ref", "at"},

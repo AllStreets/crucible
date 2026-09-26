@@ -54,8 +54,8 @@ async def build(c: Candidate, *, store: Store,
 
     if code != 0:
         failure = classify_build_log(log, code)
-        store.record("builds", candidate=c.slug, status="failed",
-                     failure_class=str(failure), log_ref=log_ref)
+        store.record("builds", candidate=c.slug, commit_sha=c.commit_sha,
+                     status="failed", failure_class=str(failure), log_ref=log_ref)
         return BuildResult(False, None, failure, log_ref)
 
     # The image ID is the pin. A build we cannot pin is not a usable build.
@@ -72,12 +72,13 @@ async def build(c: Candidate, *, store: Store,
                               "--format", "{{.Id}}")
     digest = digest.strip()
     if dcode != 0 or not digest.startswith("sha256:"):
-        store.record("builds", candidate=c.slug, status="failed",
-                     failure_class=str(FailureClass.BUILD_FAILED), log_ref=log_ref)
+        store.record("builds", candidate=c.slug, commit_sha=c.commit_sha,
+                     status="failed", failure_class=str(FailureClass.BUILD_FAILED),
+                     log_ref=log_ref)
         return BuildResult(False, None, FailureClass.BUILD_FAILED, log_ref)
 
-    store.record("builds", candidate=c.slug, status="built",
-                 image_digest=digest, log_ref=log_ref)
+    store.record("builds", candidate=c.slug, commit_sha=c.commit_sha,
+                 status="built", image_digest=digest, log_ref=log_ref)
     return BuildResult(True, digest, FailureClass.NONE, log_ref)
 
 

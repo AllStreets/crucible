@@ -110,3 +110,43 @@ async def test_harvest_with_runner_exception_records_good_candidates(store) -> N
     assert [c.slug for c in got] == ["x-good"]
     assert len(store.rows("candidates")) == 1
     assert store.rows("candidates")[0]["commit_sha"] == "b" * 40
+
+
+async def test_harvesting_the_same_seed_list_twice_records_one_row_per_agent(store) -> None:
+    """Re-running a seed file must not double the published harvested count.
+    A candidate's identity is (slug, commit_sha): the same repository at the
+    same commit is the same candidate, not a second one."""
+    run = fake_runner({
+        "one": (0, "a" * 40 + "\trefs/heads/main\n"),
+        "two": (0, "b" * 40 + "\trefs/heads/main\n"),
+    })
+    urls = ["https://github.com/x/one", "https://github.com/x/two"]
+
+    first = await harvest(urls, store=store, run=run)
+    second = await harvest(urls, store=store, run=run)
+
+    assert [c.slug for c in first] == [c.slug for c in second] == ["x-one", "x-two"]
+    rows = store.rows("candidates")
+    assert len(rows) == 2
+    assert {r["slug"] for r in rows} == {"x-one", "x-two"}
+
+
+async def test_the_same_repository_at_a_new_head_is_a_new_candidate(store) -> None:
+    """Different code under test, so a distinct identity with its own row."""
+    url = "https://github.com/x/one"
+    await harvest([url], store=store, run=fake_runner({"one": (0, "a" * 40 + "\tHEAD\n")}))
+    await harvest([url], store=store, run=fake_runner({"one": (0, "c" * 40 + "\tHEAD\n")}))
+
+    rows = store.rows("candidates")
+    assert len(rows) == 2
+    assert {r["commit_sha"] for r in rows} == {"a" * 40, "c" * 40}
+
+
+async def test_two_seed_urls_for_one_commit_are_harvested_once(store) -> None:
+    """Two spellings of the same repository (a rename redirect, say) resolve to
+    the same slug and the same commit, so they are one candidate."""
+    run = fake_runner({"github.com": (0, "a" * 40 + "\tHEAD\n")})
+    got = await harvest(["https://github.com/x/one", "https://github.com/x/one.git"],
+                        store=store, run=run)
+    assert len(got) == 1
+    assert len(store.rows("candidates")) == 1

@@ -130,3 +130,31 @@ def test_normal_counts_unchanged_with_no_supersedes(store: Store) -> None:
     assert (v.harvested, v.built, v.booted) == (10, 6, 4)
     assert v.by_failure["dependency_conflict"] == 4
     assert v.by_failure["boot_crash"] == 2
+
+
+def test_a_second_run_of_the_same_seed_list_does_not_double_the_counts(store: Store) -> None:
+    """Every published figure is a count of distinct agents, not of attempts.
+    Two candidate rows for one identity, or two build rows for one candidate,
+    are the same agent measured twice."""
+    for _ in range(2):
+        store.record("candidates", slug="a0", source="github",
+                     repo_url="u0", commit_sha="a" * 40)
+        store.record("builds", candidate="a0", commit_sha="a" * 40,
+                     status="built", image_digest="sha256:1234")
+        store.record("boots", build="sha256:1234", status="booted")
+
+    v = viability(store)
+    assert (v.harvested, v.built, v.booted) == (1, 1, 1)
+
+
+def test_a_superseded_candidate_is_excluded_from_harvested(store: Store) -> None:
+    """The untreated sibling of the superseded-build bug: a corrected candidate
+    row sits in the denominator of the headline percentage."""
+    old = store.record("candidates", slug="typo", source="github",
+                       repo_url="https://github.com/x/typo", commit_sha="a" * 40)
+    new = store.record("candidates", slug="fixed", source="github",
+                       repo_url="https://github.com/x/fixed", commit_sha="b" * 40)
+    store.supersede("candidates", old, new, "wrong repository url")
+
+    v = viability(store)
+    assert v.harvested == 1
