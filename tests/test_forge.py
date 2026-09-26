@@ -182,3 +182,64 @@ async def test_a_check_row_without_a_shim_pins_no_model(store) -> None:
     await verify_environment("sha256:" + "b" * 64, store=store, run=scripted((0, "ok")))
     row = store.rows("env_checks")[0]
     assert row["model"] is None and row["base_url"] is None
+
+
+async def test_a_raised_exception_during_build_is_a_row_not_a_traceback(store) -> None:
+    """Docker absent raises FileNotFoundError from the runner. The batch must
+    survive it and the dataset must say what happened."""
+    async def raising(*argv: str, **kw):
+        raise FileNotFoundError(2, "No such file or directory: 'docker'")
+
+    res = await build(CAND, store=store, run=raising)
+
+    assert not res.ok and res.failure is FailureClass.UNKNOWN
+    row = store.rows("builds")[0]
+    assert row["status"] == "failed" and row["failure_class"] == "unknown"
+    assert row["image_digest"] is None
+    assert b"FileNotFoundError" in store.read_blob(row["log_ref"])
+
+
+async def test_a_raise_while_reading_the_image_id_keeps_the_build_log(store) -> None:
+    async def flaky(*argv: str, **kw):
+        if "inspect" in " ".join(argv):
+            raise OSError("Cannot connect to the Docker daemon")
+        return (0, "Successfully built")
+
+    res = await build(CAND, store=store, run=flaky)
+    assert res.failure is FailureClass.UNKNOWN
+    evidence = store.read_blob(store.rows("builds")[0]["log_ref"]).decode()
+    assert "Successfully built" in evidence
+    assert "OSError" in evidence
+
+
+async def test_build_and_inspect_are_both_given_a_timeout(store) -> None:
+    """One hung docker build stalls the whole batch forever."""
+    kwargs: list[dict] = []
+
+    async def recording(*argv: str, **kw):
+        kwargs.append(kw)
+        if "inspect" in " ".join(argv):
+            return (0, REAL_IMAGE_ID)
+        return (0, "Successfully built")
+
+    await build(CAND, store=store, run=recording)
+    assert len(kwargs) == 2
+    assert all(kw.get("timeout_s") for kw in kwargs)
+
+
+async def test_a_credential_the_shim_cannot_supply_is_not_a_crash(store) -> None:
+    async def never_called(*argv: str, **kw):
+        raise AssertionError("the container must not be run")
+
+    res = await verify_environment("sha256:" + "b" * 64, store=store,
+                                   run=never_called,
+                                   declared_credentials=("GITHUB_TOKEN",))
+    assert not res.ok and res.failure is FailureClass.NEEDS_CREDENTIALS
+    assert store.rows("env_checks")[0]["failure_class"] == "needs_credentials"
+
+
+async def test_a_credential_the_shim_can_supply_is_not_an_obstacle(store) -> None:
+    res = await verify_environment("sha256:" + "b" * 64, store=store,
+                                   run=scripted((0, "ok")),
+                                   declared_credentials=("OPENAI_API_KEY",))
+    assert res.ok

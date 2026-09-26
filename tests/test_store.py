@@ -116,3 +116,19 @@ def test_string_starting_with_bracket_round_trips(store: Store) -> None:
     rows = store.rows("runs")
     assert rows[0]["roles"] == bracket_string
     assert rows[0]["image_digests"] == bracket_string
+
+
+def test_a_rejected_record_writes_nothing(store: Store) -> None:
+    """Columns are validated before the row is stamped and before anything is
+    written: a timestamp is a fact about a row being written, and a rejected
+    call writes no row."""
+    with pytest.raises(ValueError):
+        store.record("candidates", slug="x", source="github", repo_url="u",
+                     commit_sha="c", nonsense="bad")
+    assert store.rows("candidates") == []
+
+
+def test_declared_credentials_round_trip_as_a_list(store: Store) -> None:
+    store.record("candidates", slug="x", source="github", repo_url="u",
+                 commit_sha="c", credentials=["GITHUB_TOKEN"])
+    assert store.rows("candidates")[0]["credentials"] == ["GITHUB_TOKEN"]

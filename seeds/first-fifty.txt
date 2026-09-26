@@ -1,15 +1,37 @@
-# CRUCIBLE seed list: first fifty.
+# CRUCIBLE seed list: 49 agents.
 #
-# Fifty repositories of open-source AI agents people actually run, not the
-# top of a ranking. One URL per line, grouped by category, `#` for comments
-# and blank lines. Every URL below is a real repository the author is
-# confident exists; nothing here was invented to round out the count.
+# Repositories of open-source AI agents people actually run, not the top of a
+# ranking. One URL per line, grouped by category, `#` for comments and blank
+# lines. Every URL below is a real repository the author is confident exists;
+# nothing here was invented to round out the count, and nothing was added to
+# get back to a round fifty after a duplicate was removed.
+#
+# One repository per agent. GitHub redirects a renamed repository's old path
+# to its new one, so two spellings of one repository resolve to the same
+# commit and would have published one agent as two. The list was fifty until
+# AntonOsika/gpt-engineer came out: it is the pre-rename path of
+# gpt-engineer-org/gpt-engineer, already on the list. Where an entry below is a
+# pre-rename path whose current name is not also listed, it is marked; do not
+# add the current name as a second line. Others may exist unmarked: this space
+# renames often, and a marker was added only where the rename is known rather
+# than guessed.
+#
+# A line may declare credentials the agent needs and the local model shim
+# cannot supply:
+#
+#   https://github.com/owner/repo needs=GITHUB_TOKEN,SLACK_BOT_TOKEN
+#
+# A declared credential the shim cannot honestly provide makes the candidate a
+# needs_credentials observation rather than a container failure blamed on the
+# agent. None of the entries below declares one yet; the operator adds them as
+# they are established, and a guess here would be a fabricated input.
 
 # Coding agents
 https://github.com/Aider-AI/aider
 https://github.com/princeton-nlp/SWE-agent
 https://github.com/gpt-engineer-org/gpt-engineer
-https://github.com/AntonOsika/gpt-engineer
+# Pre-rename path; this repository is now All-Hands-AI/OpenHands and the URL
+# below redirects to it. One entry, not two.
 https://github.com/OpenDevin/OpenDevin
 https://github.com/continuedev/continue
 https://github.com/stitionai/devika
@@ -55,6 +77,7 @@ https://github.com/block/goose
 https://github.com/run-llama/llama_index
 https://github.com/mem0ai/mem0
 https://github.com/khoj-ai/khoj
+# Pre-rename path; now onyx-dot-com/onyx, and this URL redirects to it.
 https://github.com/danswer-ai/danswer
 https://github.com/getzep/zep
 https://github.com/QuivrHQ/quivr

@@ -28,8 +28,15 @@ from dataclasses import dataclass
 
 from crucible.failures import FailureClass, classify_build_log
 from crucible.harvest import Candidate, Runner, default_runner
-from crucible.model_shim import ShimConfig, shim_env
+from crucible.model_shim import ShimConfig, shim_env, unsatisfiable
 from crucible.store import Store
+
+# A docker build clones a repository and installs its dependencies, so half an
+# hour is realistic for a large agent and still bounded. Unbounded is not an
+# option: one hung build stalls the whole batch forever, which loses every
+# candidate after it.
+BUILD_TIMEOUT_S = 1800
+INSPECT_TIMEOUT_S = 60
 
 
 @dataclass(frozen=True)
@@ -52,14 +59,42 @@ def _tag(c: Candidate) -> str:
     return f"crucible/{c.slug}:{c.commit_sha[:12]}"
 
 
+def _record_raised(c: Candidate, store: Store, stage: str,
+                   exc: BaseException, prior_log: str = "") -> BuildResult:
+    """Turn a raised exception into a build row rather than a lost batch.
+
+    Docker missing, the daemon down, a permission error: each raises
+    FileNotFoundError or OSError from the runner, and each used to travel past
+    build(), past run_pipeline() and out to the CLI as a traceback, taking every
+    remaining candidate with it and writing no row to explain the loss.
+
+    The class is UNKNOWN deliberately. An infrastructure failure on our side is
+    not a fact about the agent, so it must not be filed as one; UNKNOWN is the
+    bucket that shows up in the dataset asking to be looked at. The exception
+    text is stored as the evidence so the row can be audited later.
+    """
+    detail = f"{stage} raised {type(exc).__name__}: {exc}"
+    if prior_log:
+        detail = f"{prior_log}\n\n{detail}"
+    ref = store.blob(detail.encode())
+    store.record("builds", candidate=c.slug, commit_sha=c.commit_sha,
+                 status="failed", failure_class=str(FailureClass.UNKNOWN),
+                 log_ref=ref)
+    return BuildResult(False, None, FailureClass.UNKNOWN, ref)
+
+
 async def build(c: Candidate, *, store: Store,
-                run: Runner = default_runner) -> BuildResult:
+                run: Runner = default_runner,
+                timeout_s: int = BUILD_TIMEOUT_S) -> BuildResult:
     tag = _tag(c)
-    code, log = await run(
-        "docker", "build", "-t", tag,
-        "--build-arg", f"REPO_URL={c.repo_url}",
-        "--build-arg", f"COMMIT_PIN={c.commit_sha}",
-        "-f", "docker/generic.Dockerfile", ".")
+    try:
+        code, log = await run(
+            "docker", "build", "-t", tag,
+            "--build-arg", f"REPO_URL={c.repo_url}",
+            "--build-arg", f"COMMIT_PIN={c.commit_sha}",
+            "-f", "docker/generic.Dockerfile", ".", timeout_s=timeout_s)
+    except Exception as exc:
+        return _record_raised(c, store, "docker build", exc)
     log_ref = store.blob(log.encode())
 
     if code != 0:
@@ -78,8 +113,12 @@ async def build(c: Candidate, *, store: Store,
     # `repo@sha256:...`, which would not satisfy the guard below. {{.Id}} is the
     # content-addressed image ID, is always present for a local build, and is
     # already formatted `sha256:...`. Do not "correct" this back.
-    dcode, digest = await run("docker", "image", "inspect", tag,
-                              "--format", "{{.Id}}")
+    try:
+        dcode, digest = await run("docker", "image", "inspect", tag,
+                                  "--format", "{{.Id}}",
+                                  timeout_s=INSPECT_TIMEOUT_S)
+    except Exception as exc:
+        return _record_raised(c, store, "docker image inspect", exc, prior_log=log)
     digest = digest.strip()
     if dcode != 0 or not digest.startswith("sha256:"):
         store.record("builds", candidate=c.slug, commit_sha=c.commit_sha,
@@ -95,7 +134,9 @@ async def build(c: Candidate, *, store: Store,
 async def verify_environment(image_digest: str, *, store: Store,
                              run: Runner = default_runner,
                              timeout_s: int = 60,
-                             shim: ShimConfig | None = None) -> EnvCheckResult:
+                             shim: ShimConfig | None = None,
+                             declared_credentials: tuple[str, ...] = (),
+                             ) -> EnvCheckResult:
     """Run the built image's environment probe with egress denied.
 
     What this measures: the image starts in a clean sandbox and its default
@@ -112,10 +153,27 @@ async def verify_environment(image_digest: str, *, store: Store,
     model endpoint, but the env is what a later phase will vary when it does
     invoke the agent, so the row pins the model and base URL it ran under: the
     same image checked under a different endpoint is a different measurement.
+
+    A candidate declaring a credential the shim cannot supply is recorded as
+    NEEDS_CREDENTIALS and not run. Running it would produce a failure whose real
+    cause is a missing secret, filed under a class that blames the agent, and
+    fabricating the secret would put a lie in the dataset.
     """
+    missing = unsatisfiable(list(declared_credentials))
+    if missing:
+        ref = store.blob(
+            ("declared credentials a local shim cannot honestly supply: "
+             + ", ".join(missing)).encode())
+        store.record("env_checks", build=image_digest, status="failed",
+                     failure_class=str(FailureClass.NEEDS_CREDENTIALS),
+                     evidence_ref=ref, duration_ms=0,
+                     model=shim.model if shim is not None else None,
+                     base_url=shim.base_url if shim is not None else None)
+        return EnvCheckResult(False, FailureClass.NEEDS_CREDENTIALS, 0, ref)
+
     env_args: list[str] = []
     if shim is not None:
-        for key, value in shim_env(shim, []).items():
+        for key, value in shim_env(shim).items():
             env_args.extend(["-e", f"{key}={value}"])
     model = shim.model if shim is not None else None
     base_url = shim.base_url if shim is not None else None
@@ -135,6 +193,18 @@ async def verify_environment(image_digest: str, *, store: Store,
                      evidence_ref=ref, duration_ms=ms,
                      model=model, base_url=base_url)
         return EnvCheckResult(False, FailureClass.ENV_CHECK_TIMEOUT, ms, ref)
+    except Exception as exc:
+        # Docker absent or the daemon down. Not a fact about the agent, so
+        # UNKNOWN rather than a class that would blame it, and a row rather
+        # than a traceback that loses every candidate after this one.
+        ms = int((time.monotonic() - started) * 1000)
+        ref = store.blob(
+            f"docker run raised {type(exc).__name__}: {exc}".encode())
+        store.record("env_checks", build=image_digest, status="failed",
+                     failure_class=str(FailureClass.UNKNOWN),
+                     evidence_ref=ref, duration_ms=ms,
+                     model=model, base_url=base_url)
+        return EnvCheckResult(False, FailureClass.UNKNOWN, ms, ref)
 
     ms = int((time.monotonic() - started) * 1000)
     ref = store.blob(out.encode())

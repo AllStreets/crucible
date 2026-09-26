@@ -27,13 +27,18 @@ class ShimConfig:
     api_key: str = "crucible-local"
 
 
-def shim_env(cfg: ShimConfig, declared: list[str]) -> dict[str, str]:
+def shim_env(cfg: ShimConfig) -> dict[str, str]:
     """Environment that redirects a container's model client to the local endpoint.
 
     Emitted unconditionally rather than only for declared variables: agents
     frequently read a base URL they never declare, and an unset base URL means a
     silent call to the real api.openai.com with a junk key, which is a failed
     experiment that looks like an agent defect.
+
+    It takes no list of declared variables for that reason. It used to, unused,
+    because the declared list looked as though it belonged here; it belongs to
+    `unsatisfiable`, which is now wired into the check stage and is the only
+    caller that has any use for it.
     """
     return {
         "OPENAI_BASE_URL": cfg.base_url,

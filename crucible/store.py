@@ -19,9 +19,14 @@ from pathlib import Path
 from typing import Any
 
 SCHEMA = """
+-- `credentials` is the JSON list of credentials the seed list declares this
+-- agent needs. It is pinned on the candidate because it decides whether the
+-- agent can be exercised honestly at all: anything the local shim cannot supply
+-- makes the candidate a NEEDS_CREDENTIALS observation rather than a crash.
 CREATE TABLE IF NOT EXISTS candidates (
   id INTEGER PRIMARY KEY, slug TEXT NOT NULL, source TEXT NOT NULL,
-  repo_url TEXT NOT NULL, commit_sha TEXT NOT NULL, at TEXT NOT NULL);
+  repo_url TEXT NOT NULL, commit_sha TEXT NOT NULL, credentials TEXT,
+  at TEXT NOT NULL);
 
 -- `candidate` is a slug and `build` is an image digest, both natural keys
 -- rather than autoincrement ids: a row that cites sha256:abc... is auditable
@@ -74,7 +79,8 @@ _TABLES = {"candidates", "builds", "env_checks", "unresolved", "runs",
            "findings", "supersedes"}
 
 _COLUMNS = {
-    "candidates": {"id", "slug", "source", "repo_url", "commit_sha", "at"},
+    "candidates": {"id", "slug", "source", "repo_url", "commit_sha",
+                   "credentials", "at"},
     "builds": {"id", "candidate", "commit_sha", "status", "failure_class",
                "image_digest", "log_ref", "at"},
     "env_checks": {"id", "build", "status", "failure_class", "evidence_ref",
@@ -88,6 +94,7 @@ _COLUMNS = {
 }
 
 _JSON_COLUMNS = {
+    "candidates": {"credentials"},
     "runs": {"roles", "image_digests"},
 }
 
@@ -127,10 +134,12 @@ class Store:
     def record(self, table: str, **fields: Any) -> int:
         if table not in _TABLES:
             raise ValueError(f"unknown table {table!r}")
-        fields["at"] = self._now()
         for col in fields:
             if col not in _COLUMNS[table]:
                 raise ValueError(f"unknown column {col!r}")
+        # Stamped only once the call is known to be writable: a timestamp is a
+        # fact about a row being written, and a rejected call writes no row.
+        fields["at"] = self._now()
         cols = ", ".join(fields)
         marks = ", ".join("?" for _ in fields)
         with self._conn() as conn:

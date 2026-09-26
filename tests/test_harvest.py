@@ -1,7 +1,8 @@
 """Tests for the harvest module."""
 import asyncio
 import pytest
-from crucible.harvest import Candidate, harvest, resolve_head, slug_for
+from crucible.harvest import (Candidate, harvest, parse_seed_file,
+                             parse_seed_line, resolve_head, slug_for)
 from crucible.store import Store
 
 
@@ -150,3 +151,67 @@ async def test_two_seed_urls_for_one_commit_are_harvested_once(store) -> None:
                         store=store, run=run)
     assert len(got) == 1
     assert len(store.rows("candidates")) == 1
+
+
+async def test_ls_remote_is_given_a_timeout(store) -> None:
+    """One unreachable host must not stall a batch of fifty forever."""
+    kwargs: list[dict] = []
+
+    async def recording(*argv: str, **kw):
+        kwargs.append(kw)
+        return (0, "a" * 40 + "\tHEAD\n")
+
+    await harvest(["https://github.com/x/one"], store=store, run=recording)
+    assert kwargs[0].get("timeout_s")
+
+
+async def test_an_unresolvable_seed_is_recorded_with_its_reason(store) -> None:
+    run = fake_runner({"gone": (128, "remote: Repository not found.\nfatal: not found")})
+    got = await harvest(["https://github.com/x/gone"], store=store, run=run)
+
+    assert got == []
+    rows = store.rows("unresolved")
+    assert len(rows) == 1
+    assert rows[0]["seed_url"] == "https://github.com/x/gone"
+    assert "128" in rows[0]["reason"]
+
+
+async def test_a_seed_that_times_out_says_so_rather_than_vanishing(store) -> None:
+    async def hangs(*argv: str, **kw):
+        raise TimeoutError()
+
+    await harvest(["https://github.com/x/slow"], store=store, run=hangs)
+    assert "timed out" in store.rows("unresolved")[0]["reason"]
+
+
+async def test_the_same_unresolvable_seed_is_recorded_once(store) -> None:
+    run = fake_runner({"gone": (128, "fatal: not found")})
+    await harvest(["https://github.com/x/gone"], store=store, run=run)
+    await harvest(["https://github.com/x/gone"], store=store, run=run)
+    assert len(store.rows("unresolved")) == 1
+
+
+def test_a_seed_line_declares_the_credentials_an_agent_needs() -> None:
+    seed = parse_seed_line("https://github.com/x/y needs=GITHUB_TOKEN,slack_bot_token")
+    assert seed is not None
+    assert seed.url == "https://github.com/x/y"
+    assert seed.credentials == ("GITHUB_TOKEN", "SLACK_BOT_TOKEN")
+
+
+def test_an_indented_comment_is_a_comment_not_a_url() -> None:
+    """startswith("#") on the unstripped line treated it as a repository URL."""
+    assert parse_seed_line("   # an indented note") is None
+    assert parse_seed_line("") is None
+    assert parse_seed_line("   ") is None
+    assert parse_seed_line("  https://github.com/x/y  ").url == "https://github.com/x/y"
+
+
+def test_the_shipped_seed_list_has_one_entry_per_repository() -> None:
+    """Two spellings of one repository resolve to the same commit and would have
+    published one agent as two."""
+    from pathlib import Path
+    text = Path("seeds/first-fifty.txt").read_text()
+    seeds = parse_seed_file(text)
+    slugs = [slug_for(s.url) for s in seeds]
+    assert len(slugs) == len(set(slugs)), "duplicate repository in the seed list"
+    assert len(seeds) == 49

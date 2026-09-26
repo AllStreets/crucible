@@ -1,14 +1,33 @@
-"""Command line entry point."""
+"""Command line entry point.
+
+`main` returns an exit code for every path it can reach. A traceback out of here
+is a broken contract, not an error message: the caller is a shell, and a batch
+that dies on an unreadable seed file should say which file and stop cleanly.
+"""
 from __future__ import annotations
 
 import argparse
 import asyncio
 from pathlib import Path
 
+from crucible.harvest import Seed, parse_seed_file
 from crucible.model_shim import ShimConfig
 from crucible.pipeline import run_pipeline
 from crucible.report import render_markdown, viability
 from crucible.store import Store
+
+
+def _read_seeds(path: Path) -> list[Seed] | None:
+    """Seeds from a file, or None with a message printed if it cannot be read."""
+    try:
+        text = path.read_text()
+    except FileNotFoundError:
+        print(f"crucible: no seed file at {path}")
+        return None
+    except OSError as exc:
+        print(f"crucible: could not read seed file {path}: {exc}")
+        return None
+    return parse_seed_file(text)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -25,16 +44,19 @@ def main(argv: list[str] | None = None) -> int:
     rep.add_argument("--db", type=Path, default=Path("data/crucible.db"))
 
     args = parser.parse_args(argv)
-    store = Store(args.db)
-    store.init_db()
 
     if args.cmd == "run":
-        urls = [ln.strip() for ln in args.seeds.read_text().splitlines()
-                if ln.strip() and not ln.startswith("#")]
+        seeds = _read_seeds(args.seeds)
+        if seeds is None:
+            return 2
+        store = Store(args.db)
+        store.init_db()
         shim = ShimConfig(base_url=args.ollama, model=args.model)
-        v = asyncio.run(run_pipeline(urls, store=store, shim=shim))
+        v = asyncio.run(run_pipeline(seeds, store=store, shim=shim))
         print(render_markdown(v))
         return 0
 
+    store = Store(args.db)
+    store.init_db()
     print(render_markdown(viability(store)))
     return 0
