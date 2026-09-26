@@ -215,3 +215,22 @@ def test_the_shipped_seed_list_has_one_entry_per_repository() -> None:
     slugs = [slug_for(s.url) for s in seeds]
     assert len(slugs) == len(set(slugs)), "duplicate repository in the seed list"
     assert len(seeds) == 49
+
+
+async def test_a_superseded_candidate_is_re_harvested_rather_than_treated_as_known(store) -> None:
+    """A superseded row has been withdrawn from every figure. Treating it as
+    known left the identity out of harvested while its build rows still counted,
+    which let built exceed harvested."""
+    run = fake_runner({"one": (0, "a" * 40 + "\tHEAD\n")})
+    await harvest(["https://github.com/x/one"], store=store, run=run)
+    first = store.rows("candidates")[0]
+    replacement = store.record("candidates", slug="x-one", source="github",
+                               repo_url="https://github.com/x/one",
+                               commit_sha="b" * 40)
+    store.supersede("candidates", first["id"], replacement, "wrong commit pinned")
+
+    await harvest(["https://github.com/x/one"], store=store, run=run)
+
+    live = [r for r in store.rows("candidates", slug="x-one", commit_sha="a" * 40)
+            if r["id"] != first["id"]]
+    assert len(live) == 1, "the withdrawn identity was never re-recorded"

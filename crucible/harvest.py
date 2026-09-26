@@ -178,9 +178,15 @@ async def harvest(seeds: Sequence[str | Seed], *, store: Store,
     does get its own row, because the code under test is different and every
     build and check row downstream pins that commit.
 
+    A superseded candidate row does not count as known. It has been withdrawn
+    from every figure, so treating it as known would leave the identity absent
+    from `harvested` while its build rows still counted, which is how `built`
+    came to be able to exceed `harvested`. Re-harvesting it writes a fresh row.
+
     A seed that does not resolve gets an `unresolved` row naming the reason, so
     the count of URLs seeded stays recoverable from the dataset.
     """
+    withdrawn = {r["old_id"] for r in store.rows("supersedes", tbl="candidates")}
     found: list[Candidate] = []
     seen: set[tuple[str, str]] = set()
     for seed in seeds:
@@ -196,7 +202,9 @@ async def harvest(seeds: Sequence[str | Seed], *, store: Store,
         if identity in seen:
             continue
         seen.add(identity)
-        known = store.rows("candidates", slug=cand.slug, commit_sha=cand.commit_sha)
+        known = [r for r in store.rows("candidates", slug=cand.slug,
+                                       commit_sha=cand.commit_sha)
+                 if r["id"] not in withdrawn]
         if not known:
             store.record("candidates", slug=cand.slug, source=cand.source,
                          repo_url=cand.repo_url, commit_sha=cand.commit_sha,

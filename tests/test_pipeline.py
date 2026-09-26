@@ -210,3 +210,33 @@ async def test_a_run_of_only_unresolvable_seeds_does_not_look_like_never_having_
     md = render_markdown(v)
     assert v.unresolved == 1
     assert "could not be resolved" in md
+
+
+async def test_a_check_stage_exception_is_not_recorded_as_a_build_failure(store) -> None:
+    """The build succeeded and has its row. A second build row here would tally
+    a check-stage failure under the build stage and hang a phantom build failure
+    next to the successful build for the same candidate."""
+    async def run(*argv: str, **kw):
+        joined = " ".join(argv)
+        if "ls-remote" in joined:
+            return (0, "a" * 40 + "\tHEAD\n")
+        if "docker build" in joined:
+            return (0, "Successfully built")
+        if "image inspect" in joined:
+            return (0, "sha256:" + "b" * 64)
+        if "docker run" in joined:
+            raise RuntimeError("the runner itself exploded")
+        return (1, "unmatched command")
+
+    v = await run_pipeline(["https://github.com/x/only"], store=store, run=run, shim=SHIM)
+
+    builds = store.rows("builds")
+    assert len(builds) == 1 and builds[0]["status"] == "built"
+    assert v.build_failures == {}
+    checks = store.rows("env_checks")
+    assert len(checks) == 1
+    assert checks[0]["status"] == "failed"
+    assert checks[0]["failure_class"] == "unknown"
+    assert checks[0]["build"] == "sha256:" + "b" * 64
+    assert checks[0]["model"] == SHIM.model and checks[0]["base_url"] == SHIM.base_url
+    assert v.env_failures == {"unknown": 1}
