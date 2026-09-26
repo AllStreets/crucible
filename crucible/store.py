@@ -180,6 +180,22 @@ class Store:
                             pass
             return rows
 
+    def live_rows(self, table: str, **where: Any) -> list[dict[str, Any]]:
+        """Rows with superseded ones removed.
+
+        A correction is a new row plus a supersedes row, so a superseded row is
+        a prior measurement that has been replaced rather than an independent
+        fact about the world. Counting both double counts.
+
+        This exists as one method because it is the definition of what gets
+        published, and the report and the site must not each carry their own
+        version of it. Two definitions of what is published is how a figure on
+        a page drifts from the figure in the paper with nobody able to say
+        which is wrong.
+        """
+        excluded = {r["old_id"] for r in self.rows("supersedes") if r["tbl"] == table}
+        return [r for r in self.rows(table, **where) if r["id"] not in excluded]
+
     def supersede(self, table: str, old_id: int, new_id: int, reason: str) -> None:
         self.record("supersedes", tbl=table, old_id=old_id,
                     new_id=new_id, reason=reason)

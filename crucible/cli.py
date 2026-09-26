@@ -13,6 +13,7 @@ from pathlib import Path
 from crucible.harvest import Seed, parse_seed_file
 from crucible.model_shim import ShimConfig
 from crucible.pipeline import run_pipeline
+from crucible.publish import publish_dataset
 from crucible.report import render_markdown, viability
 from crucible.store import Store
 
@@ -43,6 +44,10 @@ def main(argv: list[str] | None = None) -> int:
     rep = sub.add_parser("report", help="print the viability report")
     rep.add_argument("--db", type=Path, default=Path("data/crucible.db"))
 
+    pub = sub.add_parser("publish", help="export the store as static JSON for the site")
+    pub.add_argument("--db", type=Path, default=Path("data/crucible.db"))
+    pub.add_argument("--out", type=Path, default=Path("site/public/data"))
+
     args = parser.parse_args(argv)
 
     if args.cmd == "run":
@@ -54,6 +59,14 @@ def main(argv: list[str] | None = None) -> int:
         shim = ShimConfig(base_url=args.ollama, model=args.model)
         v = asyncio.run(run_pipeline(seeds, store=store, shim=shim))
         print(render_markdown(v))
+        return 0
+
+    if args.cmd == "publish":
+        store = Store(args.db)
+        store.init_db()
+        result = publish_dataset(store, args.out)
+        for path in result.files:
+            print(f"{path}  {path.stat().st_size} bytes")
         return 0
 
     store = Store(args.db)

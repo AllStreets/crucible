@@ -80,18 +80,9 @@ def viability(store: Store) -> Viability:
     they represent corrections to prior measurements rather than independent
     facts about the world.
     """
-    superseded: dict[str, set[int]] = {"candidates": set(), "builds": set(),
-                                       "env_checks": set()}
-    for row in store.rows("supersedes"):
-        tbl = row["tbl"]
-        if tbl in superseded:
-            superseded[tbl].add(row["old_id"])
-
-    candidates = [r for r in store.rows("candidates")
-                  if r["id"] not in superseded["candidates"]]
-    builds = [r for r in store.rows("builds") if r["id"] not in superseded["builds"]]
-    checks = [r for r in store.rows("env_checks")
-              if r["id"] not in superseded["env_checks"]]
+    candidates = store.live_rows("candidates")
+    builds = store.live_rows("builds")
+    checks = store.live_rows("env_checks")
 
     build_failures = Counter(
         str(r["failure_class"]) for r in builds if r["failure_class"])

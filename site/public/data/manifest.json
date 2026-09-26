@@ -1,0 +1,11 @@
+{
+  "counts": {
+    "builds": 10,
+    "candidates": 10,
+    "env_checks": 7,
+    "unresolved": 0
+  },
+  "dataset_sha256": "368860fcd0bcfcd0f4f1edb02cfc9fe565e354fe4ba9a3da7793fafa62f9129d",
+  "engine_commit": "6ff749750e50789cd4a77a1999a4144b4114a12d",
+  "generated_at": "2026-09-26T18:39:53.063818+00:00"
+}

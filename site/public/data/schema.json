@@ -1,0 +1,34 @@
+{
+  "builds": [
+    "at",
+    "candidate",
+    "commit_sha",
+    "failure_class",
+    "id",
+    "image_digest",
+    "log_ref",
+    "recipe_sha",
+    "status"
+  ],
+  "candidates": [
+    "at",
+    "commit_sha",
+    "credentials",
+    "id",
+    "repo_url",
+    "slug",
+    "source"
+  ],
+  "env_checks": [
+    "at",
+    "base_url",
+    "build",
+    "duration_ms",
+    "evidence_ref",
+    "failure_class",
+    "id",
+    "model",
+    "status"
+  ],
+  "unresolved": []
+}

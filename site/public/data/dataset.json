@@ -1,0 +1,286 @@
+{
+  "builds": [
+    {
+      "at": "2026-09-26T18:36:49.325539+00:00",
+      "candidate": "aider-ai-aider",
+      "commit_sha": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+      "failure_class": null,
+      "id": 1,
+      "image_digest": "sha256:ad3c4e5a9729bc3322ab236b8593fd93f1274306eb2c40b8cfb9aef9f9f74800",
+      "log_ref": "1209fe645272017ef5c401946592bc85ac1edf271b94ffd0c4f3840191c0e3c4",
+      "recipe_sha": "sha256:f0d0f7f0abc9454581bafa75b4120e9cf15f5a6e8ee308524aae464c032b484c",
+      "status": "built"
+    },
+    {
+      "at": "2026-09-26T18:37:02.255470+00:00",
+      "candidate": "gptme-gptme",
+      "commit_sha": "9e3ab7cf5418ae623d4b01ad7710fc9cfcf43a9c",
+      "failure_class": null,
+      "id": 2,
+      "image_digest": "sha256:e8795934aef627646d711091170d895ac96b71a1c46734cad0af71065e59a7e0",
+      "log_ref": "bfba8ae3dd7bb06cf212b8b7b7eef5048b4d5b49dd118ed61557e4c1b38699a9",
+      "recipe_sha": "sha256:f0d0f7f0abc9454581bafa75b4120e9cf15f5a6e8ee308524aae464c032b484c",
+      "status": "built"
+    },
+    {
+      "at": "2026-09-26T18:37:02.836585+00:00",
+      "candidate": "continuedev-continue",
+      "commit_sha": "5522c6f44ca0ac3528b37244818fbfa39b5af470",
+      "failure_class": "unsupported_language",
+      "id": 3,
+      "image_digest": null,
+      "log_ref": "1abb1aa33a622c687d80409760e42ae8379ffba508e97aa14901e5c0f6b3e567",
+      "recipe_sha": "sha256:f0d0f7f0abc9454581bafa75b4120e9cf15f5a6e8ee308524aae464c032b484c",
+      "status": "failed"
+    },
+    {
+      "at": "2026-09-26T18:37:06.356332+00:00",
+      "candidate": "anomalyco-opencode",
+      "commit_sha": "a42f393c850bec0c0f395fb91bf19b1ee8b31666",
+      "failure_class": "unsupported_language",
+      "id": 4,
+      "image_digest": null,
+      "log_ref": "e92606ef14da0e88b35b777b66ad5b88b9db5118c8fd5ec6c3d34c211ff84c53",
+      "recipe_sha": "sha256:f0d0f7f0abc9454581bafa75b4120e9cf15f5a6e8ee308524aae464c032b484c",
+      "status": "failed"
+    },
+    {
+      "at": "2026-09-26T18:37:18.431848+00:00",
+      "candidate": "openai-swarm",
+      "commit_sha": "6af0b4caf37dca4526dfd98e9fbd8ce36e7eeb22",
+      "failure_class": null,
+      "id": 5,
+      "image_digest": "sha256:a8107ff21e9d052ff8cef12bc2046f0b694894cbffcde1544fac4698107adc87",
+      "log_ref": "12e001184e4c16a7ee198c79b75201d3b7fe78562c3b4b4db79964efc473221d",
+      "recipe_sha": "sha256:f0d0f7f0abc9454581bafa75b4120e9cf15f5a6e8ee308524aae464c032b484c",
+      "status": "built"
+    },
+    {
+      "at": "2026-09-26T18:37:24.030765+00:00",
+      "candidate": "microsoft-autogen",
+      "commit_sha": "027ecf0a379bcc1d09956d46d12d44a3ad9cee14",
+      "failure_class": "workspace_root_not_installable",
+      "id": 6,
+      "image_digest": null,
+      "log_ref": "bbd58430090a49a8bb5e8f883a03763a7e06a65e70a7f879fe78bfc54f388eb9",
+      "recipe_sha": "sha256:f0d0f7f0abc9454581bafa75b4120e9cf15f5a6e8ee308524aae464c032b484c",
+      "status": "failed"
+    },
+    {
+      "at": "2026-09-26T18:37:26.247568+00:00",
+      "candidate": "crewaiinc-crewai",
+      "commit_sha": "4ed2abc7bbf504a634d3b733f2a97e0fbe8d44ec",
+      "failure_class": null,
+      "id": 7,
+      "image_digest": "sha256:26eb47604a3e22e9a88e6488dd21da2b185a6d1d0074d681891561b7bd337b72",
+      "log_ref": "6c421ed646b7d973d412b718c3db8d9f1def2bd0d798bb3e734f36faea4c90bd",
+      "recipe_sha": "sha256:f0d0f7f0abc9454581bafa75b4120e9cf15f5a6e8ee308524aae464c032b484c",
+      "status": "built"
+    },
+    {
+      "at": "2026-09-26T18:37:38.054735+00:00",
+      "candidate": "langchain-ai-langgraph",
+      "commit_sha": "7daa3ab49d678a5da75edb08baa87db4a2be52c3",
+      "failure_class": null,
+      "id": 8,
+      "image_digest": "sha256:fcab9d64ebb951212a14d2016377902b77b3c4b2fe764d0777937e504b012ad2",
+      "log_ref": "94f64b2f996a6607663fba3a4282cbe63468fcb0a206f0aee9173be55c9f02d6",
+      "recipe_sha": "sha256:f0d0f7f0abc9454581bafa75b4120e9cf15f5a6e8ee308524aae464c032b484c",
+      "status": "built"
+    },
+    {
+      "at": "2026-09-26T18:37:45.458750+00:00",
+      "candidate": "yoheinakajima-babyagi",
+      "commit_sha": "fa8930ebe72a82e5ad57b356e7cbec96290e5bb2",
+      "failure_class": null,
+      "id": 9,
+      "image_digest": "sha256:84c0184e2e7c53b3b51e2ed3bab74c646203795e3ffcbc8e08ef0901ee644052",
+      "log_ref": "6a09c62bfa9ab3d89713b542b2591071a296068159d4e281343a9db992891a31",
+      "recipe_sha": "sha256:f0d0f7f0abc9454581bafa75b4120e9cf15f5a6e8ee308524aae464c032b484c",
+      "status": "built"
+    },
+    {
+      "at": "2026-09-26T18:38:05.619899+00:00",
+      "candidate": "browser-use-browser-use",
+      "commit_sha": "4cbe921673b48a488f5415d9159249afd12a625b",
+      "failure_class": null,
+      "id": 10,
+      "image_digest": "sha256:63b5c7d42963cc3c5ed7186ad2d1fe64c201358a22409edf1e5faacf118140a9",
+      "log_ref": "017ab91cfd72037dd475f30f00fec6a7a71d565fbb93a77f3c791cf47bf278ec",
+      "recipe_sha": "sha256:f0d0f7f0abc9454581bafa75b4120e9cf15f5a6e8ee308524aae464c032b484c",
+      "status": "built"
+    }
+  ],
+  "candidates": [
+    {
+      "at": "2026-09-26T18:36:23.853925+00:00",
+      "commit_sha": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
+      "credentials": [],
+      "id": 1,
+      "repo_url": "https://github.com/Aider-AI/aider",
+      "slug": "aider-ai-aider",
+      "source": "github"
+    },
+    {
+      "at": "2026-09-26T18:36:24.222755+00:00",
+      "commit_sha": "9e3ab7cf5418ae623d4b01ad7710fc9cfcf43a9c",
+      "credentials": [],
+      "id": 2,
+      "repo_url": "https://github.com/gptme/gptme",
+      "slug": "gptme-gptme",
+      "source": "github"
+    },
+    {
+      "at": "2026-09-26T18:36:24.620870+00:00",
+      "commit_sha": "5522c6f44ca0ac3528b37244818fbfa39b5af470",
+      "credentials": [],
+      "id": 3,
+      "repo_url": "https://github.com/continuedev/continue",
+      "slug": "continuedev-continue",
+      "source": "github"
+    },
+    {
+      "at": "2026-09-26T18:36:25.052895+00:00",
+      "commit_sha": "a42f393c850bec0c0f395fb91bf19b1ee8b31666",
+      "credentials": [],
+      "id": 4,
+      "repo_url": "https://github.com/anomalyco/opencode",
+      "slug": "anomalyco-opencode",
+      "source": "github"
+    },
+    {
+      "at": "2026-09-26T18:36:25.286166+00:00",
+      "commit_sha": "6af0b4caf37dca4526dfd98e9fbd8ce36e7eeb22",
+      "credentials": [],
+      "id": 5,
+      "repo_url": "https://github.com/openai/swarm",
+      "slug": "openai-swarm",
+      "source": "github"
+    },
+    {
+      "at": "2026-09-26T18:36:25.640942+00:00",
+      "commit_sha": "027ecf0a379bcc1d09956d46d12d44a3ad9cee14",
+      "credentials": [],
+      "id": 6,
+      "repo_url": "https://github.com/microsoft/autogen",
+      "slug": "microsoft-autogen",
+      "source": "github"
+    },
+    {
+      "at": "2026-09-26T18:36:26.037855+00:00",
+      "commit_sha": "4ed2abc7bbf504a634d3b733f2a97e0fbe8d44ec",
+      "credentials": [],
+      "id": 7,
+      "repo_url": "https://github.com/crewAIInc/crewAI",
+      "slug": "crewaiinc-crewai",
+      "source": "github"
+    },
+    {
+      "at": "2026-09-26T18:36:26.400898+00:00",
+      "commit_sha": "7daa3ab49d678a5da75edb08baa87db4a2be52c3",
+      "credentials": [],
+      "id": 8,
+      "repo_url": "https://github.com/langchain-ai/langgraph",
+      "slug": "langchain-ai-langgraph",
+      "source": "github"
+    },
+    {
+      "at": "2026-09-26T18:36:26.675570+00:00",
+      "commit_sha": "fa8930ebe72a82e5ad57b356e7cbec96290e5bb2",
+      "credentials": [],
+      "id": 9,
+      "repo_url": "https://github.com/yoheinakajima/babyagi",
+      "slug": "yoheinakajima-babyagi",
+      "source": "github"
+    },
+    {
+      "at": "2026-09-26T18:36:27.043942+00:00",
+      "commit_sha": "4cbe921673b48a488f5415d9159249afd12a625b",
+      "credentials": [],
+      "id": 10,
+      "repo_url": "https://github.com/browser-use/browser-use",
+      "slug": "browser-use-browser-use",
+      "source": "github"
+    }
+  ],
+  "env_checks": [
+    {
+      "at": "2026-09-26T18:36:49.558211+00:00",
+      "base_url": "http://localhost:11434/v1",
+      "build": "sha256:ad3c4e5a9729bc3322ab236b8593fd93f1274306eb2c40b8cfb9aef9f9f74800",
+      "duration_ms": 231,
+      "evidence_ref": "666a1e2f4db005fa18406663b08dbb90e989e76484abc085bde1f44b0a178624",
+      "failure_class": null,
+      "id": 1,
+      "model": "qwen2.5-coder:7b",
+      "status": "passed"
+    },
+    {
+      "at": "2026-09-26T18:37:02.501940+00:00",
+      "base_url": "http://localhost:11434/v1",
+      "build": "sha256:e8795934aef627646d711091170d895ac96b71a1c46734cad0af71065e59a7e0",
+      "duration_ms": 245,
+      "evidence_ref": "666a1e2f4db005fa18406663b08dbb90e989e76484abc085bde1f44b0a178624",
+      "failure_class": null,
+      "id": 2,
+      "model": "qwen2.5-coder:7b",
+      "status": "passed"
+    },
+    {
+      "at": "2026-09-26T18:37:18.657584+00:00",
+      "base_url": "http://localhost:11434/v1",
+      "build": "sha256:a8107ff21e9d052ff8cef12bc2046f0b694894cbffcde1544fac4698107adc87",
+      "duration_ms": 224,
+      "evidence_ref": "666a1e2f4db005fa18406663b08dbb90e989e76484abc085bde1f44b0a178624",
+      "failure_class": null,
+      "id": 3,
+      "model": "qwen2.5-coder:7b",
+      "status": "passed"
+    },
+    {
+      "at": "2026-09-26T18:37:26.459883+00:00",
+      "base_url": "http://localhost:11434/v1",
+      "build": "sha256:26eb47604a3e22e9a88e6488dd21da2b185a6d1d0074d681891561b7bd337b72",
+      "duration_ms": 211,
+      "evidence_ref": "666a1e2f4db005fa18406663b08dbb90e989e76484abc085bde1f44b0a178624",
+      "failure_class": null,
+      "id": 4,
+      "model": "qwen2.5-coder:7b",
+      "status": "passed"
+    },
+    {
+      "at": "2026-09-26T18:37:38.326292+00:00",
+      "base_url": "http://localhost:11434/v1",
+      "build": "sha256:fcab9d64ebb951212a14d2016377902b77b3c4b2fe764d0777937e504b012ad2",
+      "duration_ms": 270,
+      "evidence_ref": "666a1e2f4db005fa18406663b08dbb90e989e76484abc085bde1f44b0a178624",
+      "failure_class": null,
+      "id": 5,
+      "model": "qwen2.5-coder:7b",
+      "status": "passed"
+    },
+    {
+      "at": "2026-09-26T18:37:45.720978+00:00",
+      "base_url": "http://localhost:11434/v1",
+      "build": "sha256:84c0184e2e7c53b3b51e2ed3bab74c646203795e3ffcbc8e08ef0901ee644052",
+      "duration_ms": 261,
+      "evidence_ref": "666a1e2f4db005fa18406663b08dbb90e989e76484abc085bde1f44b0a178624",
+      "failure_class": null,
+      "id": 6,
+      "model": "qwen2.5-coder:7b",
+      "status": "passed"
+    },
+    {
+      "at": "2026-09-26T18:38:05.841357+00:00",
+      "base_url": "http://localhost:11434/v1",
+      "build": "sha256:63b5c7d42963cc3c5ed7186ad2d1fe64c201358a22409edf1e5faacf118140a9",
+      "duration_ms": 220,
+      "evidence_ref": "666a1e2f4db005fa18406663b08dbb90e989e76484abc085bde1f44b0a178624",
+      "failure_class": null,
+      "id": 7,
+      "model": "qwen2.5-coder:7b",
+      "status": "passed"
+    }
+  ],
+  "unresolved": []
+}
