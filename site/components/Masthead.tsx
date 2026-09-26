@@ -2,6 +2,7 @@ import Link from "next/link";
 import { loadManifest } from "../lib/dataset";
 
 const SECTIONS = [
+  { href: "/explorer", label: "Explorer" },
   { href: "/findings", label: "Findings" },
   { href: "/papers", label: "Papers" },
   { href: "/methodology", label: "Method" },

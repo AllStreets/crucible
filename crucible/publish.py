@@ -26,10 +26,15 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from crucible.failures import FailureClass
-from crucible.press import VerificationError, generate as generate_paper
+from crucible.press import VerificationError, generate_paper
 from crucible.store import Store
 
-_PUBLISHED_TABLES = ("candidates", "builds", "env_checks", "unresolved")
+#: Every paper the engine knows how to generate. Adding one here is the only
+#: step needed for it to appear on the site.
+_PAPERS = {"container-viability": generate_paper}
+
+_PUBLISHED_TABLES = ("candidates", "builds", "env_checks", "unresolved",
+                     "entrypoints", "solos", "pairs")
 
 
 @dataclass(frozen=True)
@@ -85,18 +90,36 @@ def publish_dataset(store: Store, out_dir: Path) -> PublishResult:
     # The paper travels with the dataset it was generated from. Publishing one
     # without the other is how a page ends up citing figures that the file
     # beside it no longer contains.
-    paper_path = out_dir.parent / "papers" / "container-viability.md"
-    paper_path.parent.mkdir(parents=True, exist_ok=True)
-    try:
-        paper_path.write_text(generate_paper(store))
-        paper_written = True
-    except VerificationError:
-        # An empty or unverifiable store yields no paper, and that is reported
-        # rather than papered over with an empty file the site would render as
-        # a published result.
-        if paper_path.exists():
-            paper_path.unlink()
-        paper_written = False
+    papers_dir = out_dir.parent / "papers"
+    papers_dir.mkdir(parents=True, exist_ok=True)
+
+    # The index is what the site renders, so a paper appears on the site the
+    # moment it generates and disappears the moment it stops verifying. Nobody
+    # edits a list of papers by hand, which is the only way a list of papers
+    # stays true.
+    index: list[dict] = []
+    for slug, generator in _PAPERS.items():
+        target = papers_dir / f"{slug}.md"
+        try:
+            document, meta = generator(store, slug)
+        except VerificationError:
+            # A store that cannot support this paper yields no file, rather
+            # than an empty template the site would render as a published
+            # result.
+            if target.exists():
+                target.unlink()
+            continue
+        target.write_text(document)
+        index.append({
+            "slug": meta.slug, "title": meta.title, "abstract": meta.abstract,
+            "generated_at": meta.generated_at, "filename": meta.filename,
+            "word_count": meta.word_count,
+            "sha256": hashlib.sha256(document.encode()).hexdigest(),
+        })
+
+    (papers_dir / "index.json").write_text(
+        json.dumps(index, indent=2, sort_keys=True) + "\n")
+    paper_written = len(index) > 0
 
     manifest_path = out_dir / "manifest.json"
     manifest_path.write_text(json.dumps({
@@ -104,10 +127,10 @@ def publish_dataset(store: Store, out_dir: Path) -> PublishResult:
         "engine_commit": _engine_commit(),
         "dataset_sha256": hashlib.sha256(body.encode()).hexdigest(),
         "counts": counts,
-        "paper_published": paper_written,
+        "papers_published": len(index),
     }, indent=2, sort_keys=True) + "\n")
 
-    files = [dataset_path, schema_path, labels_path, manifest_path]
-    if paper_written:
-        files.append(paper_path)
+    files = [dataset_path, schema_path, labels_path, manifest_path,
+             papers_dir / "index.json"]
+    files.extend(papers_dir / p["filename"] for p in index)
     return PublishResult(files=tuple(files), counts=counts)

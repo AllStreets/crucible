@@ -52,10 +52,10 @@ export interface Manifest {
   engine_commit: string;
   dataset_sha256: string;
   counts: Record<string, number>;
-  /** False when the record could not support a paper, in which case none was
-   *  written. An empty template rendered as a published result would be the
-   *  same failure as a number with no row behind it. */
-  paper_published: boolean;
+  /** How many papers verified and were written. Zero is a legitimate state
+   *  and the papers page renders it, rather than an empty template presented
+   *  as a published result. */
+  papers_published: number;
 }
 
 const DATA_DIR = join(process.cwd(), "public", "data");
@@ -208,4 +208,36 @@ export function agentRows(d: Dataset): AgentRow[] {
       checkDurationMs: check?.duration_ms ?? null,
     };
   });
+}
+
+
+export interface PaperMeta {
+  slug: string;
+  title: string;
+  abstract: string;
+  generated_at: string;
+  filename: string;
+  word_count: number;
+  sha256: string;
+}
+
+/** The published papers, read from the index the engine writes.
+ *
+ *  Never a hand-maintained list. A paper appears here the moment it generates
+ *  and verifies, and vanishes the moment it stops, which is the only way a
+ *  list of papers stays true as the research grows. */
+export function loadPapers(): PaperMeta[] {
+  try {
+    return JSON.parse(
+      readFileSync(join(process.cwd(), "public", "papers", "index.json"), "utf8"),
+    ) as PaperMeta[];
+  } catch {
+    // An absent index means nothing has been published yet, which is a state
+    // the page renders rather than an error.
+    return [];
+  }
+}
+
+export function loadPaperBody(filename: string): string {
+  return readFileSync(join(process.cwd(), "public", "papers", filename), "utf8");
 }

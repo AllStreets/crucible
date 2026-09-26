@@ -4,7 +4,8 @@ import {
   loadManifest, stageRows, viability,
 } from "../lib/dataset";
 import { FAILURE_LABELS } from "../lib/failures";
-import { VesselPanel } from "../components/VesselPanel";
+import { GraphPanel } from "../components/GraphPanel";
+import { buildGraph, legendFor, stageLegend } from "../lib/graph";
 import { Funnel, type Stage } from "../components/viz/Funnel";
 import { Distribution, type Cause } from "../components/viz/Distribution";
 
@@ -21,6 +22,7 @@ export default function Home() {
   const v = viability(data);
   const rows = agentRows(data);
   const stages = stageRows(data);
+  const graph = buildGraph(data);
   const stranded = builtButNotInvocable(data);
 
   const acted = new Set(data.solos.filter((s) => s.outcome === "acted").map((s) => s.slug));
@@ -87,7 +89,12 @@ export default function Home() {
           </p>
         </div>
 
-        <VesselPanel specimens={stages} />
+        <GraphPanel
+          nodes={graph.nodes}
+          links={graph.links}
+          stageKey={stageLegend(graph.nodes)}
+          edgeKey={legendFor(graph.links)}
+        />
       </section>
 
       <section className="sheet split">

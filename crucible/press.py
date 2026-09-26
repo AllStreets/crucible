@@ -32,6 +32,17 @@ class VerificationError(Exception):
 
 
 @dataclass(frozen=True)
+class Paper:
+    """One generated paper, with the metadata a reader needs before opening it."""
+    slug: str
+    title: str
+    abstract: str
+    generated_at: str
+    filename: str
+    word_count: int
+
+
+@dataclass(frozen=True)
 class Facts:
     """Every number this paper is allowed to state.
 
@@ -301,6 +312,42 @@ def _attribution(cls: str) -> str:
         return "this harness" if FailureClass(cls) in _HARNESS_LIMITS else "the repository"
     except ValueError:
         return "unclassified"
+
+
+def _extract(document: str) -> tuple[str, str]:
+    """Title and abstract, read back out of the finished document.
+
+    Parsed from the output rather than passed alongside it, so a card on the
+    site cannot advertise an abstract the paper does not contain.
+    """
+    lines = document.splitlines()
+    title = next((l[2:].strip() for l in lines if l.startswith("# ")), "Untitled")
+    abstract: list[str] = []
+    seen = False
+    for line in lines:
+        if line.startswith("## Abstract"):
+            seen = True
+            continue
+        if seen:
+            if line.startswith("## "):
+                break
+            if line.strip():
+                abstract.append(line.strip())
+    return title, " ".join(abstract)
+
+
+def generate_paper(store: Store, slug: str = "container-viability") -> tuple[str, Paper]:
+    """The document and its metadata, both derived from the same render."""
+    document = generate(store)
+    title, abstract = _extract(document)
+    return document, Paper(
+        slug=slug,
+        title=title,
+        abstract=abstract,
+        generated_at=datetime.now(timezone.utc).isoformat(),
+        filename=f"{slug}.md",
+        word_count=len(document.split()),
+    )
 
 
 def generate(store: Store) -> str:
