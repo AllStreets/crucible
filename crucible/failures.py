@@ -22,6 +22,8 @@ class FailureClass(StrEnum):
     NONE = "none"
     CLONE_FAILED = "clone_failed"
     NO_INSTALLABLE_MANIFEST = "no_installable_manifest"
+    AMBIGUOUS_MANIFEST = "ambiguous_manifest"
+    PYTHON_VERSION_UNSUPPORTED = "python_version_unsupported"
     NO_BUILD_RECIPE = "no_build_recipe"
     DEPENDENCY_CONFLICT = "dependency_conflict"
     BUILD_FAILED = "build_failed"
@@ -37,6 +39,10 @@ class FailureClass(StrEnum):
             FailureClass.CLONE_FAILED: "Repository could not be cloned",
             FailureClass.NO_INSTALLABLE_MANIFEST:
                 "No installable manifest at the repository root",
+            FailureClass.AMBIGUOUS_MANIFEST:
+                "Several installable subprojects, none of them obviously the agent",
+            FailureClass.PYTHON_VERSION_UNSUPPORTED:
+                "Requires a Python version the base image does not provide",
             FailureClass.NO_BUILD_RECIPE: "No usable build recipe",
             FailureClass.DEPENDENCY_CONFLICT: "Dependencies could not be resolved",
             FailureClass.BUILD_FAILED: "Build failed",
@@ -117,7 +123,21 @@ _BUILD_PATTERNS: tuple[tuple[str, FailureClass, tuple[str, ...]], ...] = (
     # every monorepo in the first run the truthful statement was that we had not
     # looked in the right directory. Different cause, different fix, so a
     # distribution that merges them misdirects the work it exists to direct.
-    ("no installable manifest", FailureClass.NO_INSTALLABLE_MANIFEST, ()),
+    # A Python floor above the base image is a fact about the agent and a fact
+    # about our harness at once, and it is fixable on our side by offering more
+    # than one base image. It gets its own class so the distribution can say how
+    # much of the failure rate is that rather than something about the agent.
+    # Found by running: AutoGPT's installable subproject requires >=3.12 and the
+    # base image is 3.11.
+    ("requires a different python", FailureClass.PYTHON_VERSION_UNSUPPORTED, ()),
+    ("requires python >=", FailureClass.PYTHON_VERSION_UNSUPPORTED, ()),
+    # These two read the script's own result lines, which are printed only on
+    # the path they name. They must stay distinct from anything the Dockerfile
+    # echoes; see docker/resolve_manifest.sh.
+    ("crucible-result: ambiguous installable manifest",
+     FailureClass.AMBIGUOUS_MANIFEST, ()),
+    ("crucible-result: no installable manifest",
+     FailureClass.NO_INSTALLABLE_MANIFEST, ()),
     ("failed to read dockerfile", FailureClass.NO_BUILD_RECIPE, ()),
     ("cannot locate specified dockerfile", FailureClass.NO_BUILD_RECIPE, ()),
     # Generic build failure last. "failed to solve" is BuildKit's wrapper around

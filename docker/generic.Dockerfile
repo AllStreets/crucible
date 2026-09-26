@@ -1,6 +1,10 @@
 # Generic build recipe. Most agents are a pip-installable Python package; the
 # fallbacks cover the common variations. A repository that matches none of them
-# is a NO_BUILD_RECIPE observation rather than a bug to work around.
+# is a recorded observation rather than a bug to work around.
+#
+# This recipe is an experimental variable, and every build row pins a sha256 of
+# these bytes. Editing it changes which agents are viable, so rows produced
+# under two versions of this file are two measurements and must not be pooled.
 FROM python:3.11-slim
 
 ARG REPO_URL
@@ -13,10 +17,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /app
 RUN git clone "$REPO_URL" . && git checkout "$COMMIT_PIN"
 
-RUN if [ -f pyproject.toml ]; then pip install --no-cache-dir -e .; \
-    elif [ -f requirements.txt ]; then pip install --no-cache-dir -r requirements.txt; \
-    elif [ -f setup.py ]; then pip install --no-cache-dir -e .; \
-    else echo "no installable manifest"; exit 1; fi
+# Root first, then exactly one directory down. The logic lives in a script
+# rather than inline because BuildKit echoes the whole failing RUN command in
+# its error trailer, and a sentinel string written inline therefore appears in
+# the log of every failed build of this recipe whatever actually happened. The
+# classifier reads those logs. See docker/resolve_manifest.sh.
+COPY docker/resolve_manifest.sh /opt/crucible/resolve_manifest.sh
+RUN sh /opt/crucible/resolve_manifest.sh
 
 # The default command is an environment probe, not the agent. It starts the
 # interpreter in the built image, prints one line and exits, and that is the

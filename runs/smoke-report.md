@@ -17,7 +17,8 @@ These are tallies of recorded failure rows, not a partition of the candidates ab
 
 | Failure | Count |
 |---|---|
-| no_installable_manifest | 2 |
+| no_installable_manifest | 1 |
+| python_version_unsupported | 1 |
 
 ### Container environment check stage
 
@@ -27,5 +28,5 @@ None recorded.
 
 Failure classification is substring-based and therefore approximate. The unknown bucket collects unmatched failures rather than guessing at a nearest class. Counts in specific buckets may therefore be slightly over- or under-stated. The unknown bucket also holds two failures of this harness rather than of an agent, since filing either under a build class would blame the agent for it: a build that exceeded the 30 minute timeout, which heavy agents will hit and which will therefore not be rare, and the docker command failing to run at all. Both store the exception text as evidence, so they are separable from genuinely unmatched failures by reading the rows. Superseded results are excluded from all counts; the raw dataset may contain more rows than counted here. Counts are over the whole store rather than over a single run, so a store built from more than one seed list reports their union, and the unresolved count is of distinct URLs that failed to resolve at some point rather than of one list's misses. Adding it to the harvested count therefore approximates how many URLs were seeded; it does not measure it.
 
-Generated 2026-09-26T17:54:24.484984+00:00 from the record store. Every count above is a query; none is asserted.
+Generated 2026-09-26T18:06:37.488797+00:00 from the record store. Every count above is a query; none is asserted.
 

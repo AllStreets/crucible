@@ -28,7 +28,7 @@ successfully: exit code: 1
 
 NO_RECIPE_LOG = """\
 #11 [4/5] RUN if [ -f pyproject.toml ]; then pip install --no-cache-dir -e .;
-#11 0.221 no installable manifest
+#11 0.221 crucible-result: no installable manifest
 #11 ERROR: process "/bin/sh -c ..." did not complete successfully: exit code: 1
 ------
 docker/generic.Dockerfile:16
@@ -60,11 +60,8 @@ MONOREPO_ROOT_LOG = """\
 profiles readable by search engines (SECRT-2749) (#14902)
 #7 DONE 200.8s
 
-#8 [5/5] RUN if [ -f pyproject.toml ]; then pip install --no-cache-dir -e .; \
-elif [ -f requirements.txt ]; then pip install --no-cache-dir -r requirements.txt; \
-elif [ -f setup.py ]; then pip install --no-cache-dir -e .; \
-else echo "no installable manifest"; exit 1; fi
-#8 0.289 no installable manifest
+#8 [5/5] RUN sh /opt/crucible/resolve_manifest.sh
+#8 0.289 crucible-result: no installable manifest
 #8 ERROR: process "/bin/sh -c ..." did not complete successfully: exit code: 1
 ------
 generic.Dockerfile:16
@@ -214,3 +211,79 @@ def test_an_outage_during_the_install_step_is_not_blamed_on_the_clone() -> None:
     assert "Cloning into" in INSTALL_DNS_LOG
     assert classify_build_log(INSTALL_DNS_LOG, 1) is not FailureClass.CLONE_FAILED
     assert classify_build_log(INSTALL_DNS_LOG, 1) is FailureClass.BUILD_FAILED
+
+
+PYTHON_FLOOR_LOG = """\
+#8 0.194 crucible: found a single package definition at ./classic
+#8 0.839 Obtaining file:///app/classic
+#8 5.870 ERROR: Package 'autogpt-classic' requires a different Python: \
+3.11.15 not in '<4.0,>=3.12'
+#8 ERROR: process "/bin/sh -c sh /opt/crucible/resolve_manifest.sh" did not \
+complete successfully: exit code: 1
+------
+generic.Dockerfile:25
+--------------------
+ERROR: failed to solve: process "/bin/sh -c sh /opt/crucible/resolve_manifest.sh" \
+did not complete successfully: exit code: 1
+"""
+
+AMBIGUOUS_LOG = """\
+#8 0.201 crucible: found 3 package definitions and will not guess between them:
+#8 0.201   ./agent
+#8 0.201   ./evaluation
+#8 0.201   ./runtime
+#8 0.202 crucible-result: ambiguous installable manifest
+#8 ERROR: process "/bin/sh -c sh /opt/crucible/resolve_manifest.sh" did not \
+complete successfully: exit code: 1
+------
+ERROR: failed to solve: process "/bin/sh -c sh /opt/crucible/resolve_manifest.sh" \
+did not complete successfully: exit code: 1
+"""
+
+
+def test_a_python_floor_above_the_base_image_is_its_own_class() -> None:
+    """Found by running: AutoGPT's only installable subproject requires Python
+    >=3.12 and our base image is 3.11.15. That is a fact about the agent and a
+    fact about our harness at once, and it is fixable on our side by offering
+    more than one base image, so the distribution has to be able to say how much
+    of the failure rate is this rather than something about the agent."""
+    assert classify_build_log(PYTHON_FLOOR_LOG, 1) is (
+        FailureClass.PYTHON_VERSION_UNSUPPORTED
+    )
+    # It resolved a manifest fine, so it is emphatically not a manifest failure.
+    assert classify_build_log(PYTHON_FLOOR_LOG, 1) is not (
+        FailureClass.NO_INSTALLABLE_MANIFEST
+    )
+
+
+def test_a_sentinel_must_not_be_matchable_from_the_buildkit_trailer() -> None:
+    """BuildKit echoes the entire failing RUN command in its error trailer, so
+    a sentinel written inline in the Dockerfile appears in the log of every
+    failed build of that recipe whatever went wrong.
+
+    The first version of the manifest logic was inline, and its "ambiguous"
+    sentinel matched a build that had found exactly one subproject and failed
+    inside pip. The classifier reads these logs, so the leak did not merely look
+    untidy, it misclassified the dataset. The logic now lives in a script and
+    the trailer carries only its path.
+    """
+    for log in (PYTHON_FLOOR_LOG, AMBIGUOUS_LOG):
+        assert "resolve_manifest.sh" in log, "trailer should name the script"
+        assert "ambiguous installable manifest" not in log.split("------")[-1], (
+            "no sentinel may appear in the trailer half of the log"
+        )
+    assert classify_build_log(AMBIGUOUS_LOG, 1) is FailureClass.AMBIGUOUS_MANIFEST
+
+
+def test_a_build_that_merely_ran_the_script_is_not_an_ambiguous_manifest() -> None:
+    """The regression that motivated the split: a log whose only mention of the
+    script is the trailer must not be claimed by a manifest class."""
+    bare = (
+        'ERROR: failed to solve: process "/bin/sh -c sh '
+        '/opt/crucible/resolve_manifest.sh" did not complete successfully: '
+        "exit code: 1\n"
+    )
+    result = classify_build_log(bare, 1)
+    assert result is not FailureClass.AMBIGUOUS_MANIFEST
+    assert result is not FailureClass.NO_INSTALLABLE_MANIFEST
+    assert result is FailureClass.BUILD_FAILED

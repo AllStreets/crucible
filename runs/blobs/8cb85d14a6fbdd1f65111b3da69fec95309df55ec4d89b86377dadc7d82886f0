@@ -1,0 +1,174 @@
+#1 [internal] load .dockerignore
+#1 transferring context: 2B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from generic.Dockerfile
+#2 transferring dockerfile: 1.90kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.11-slim
+#3 DONE 0.0s
+
+#4 [1/6] FROM docker.io/library/python:3.11-slim
+#4 DONE 0.0s
+
+#5 [2/6] RUN apt-get update && apt-get install -y --no-install-recommends         git ca-certificates build-essential     && rm -rf /var/lib/apt/lists/*
+#5 CACHED
+
+#6 [3/6] WORKDIR /app
+#6 CACHED
+
+#7 [4/6] RUN git clone "https://github.com/Significant-Gravitas/AutoGPT" . && git checkout "5e84f064d3779acc49c86c51e2167ba8f660c93d"
+#7 CACHED
+
+#8 [internal] load build context
+#8 transferring context: 74B done
+#8 DONE 0.0s
+
+#9 [5/6] COPY docker/resolve_manifest.sh /opt/crucible/resolve_manifest.sh
+#9 DONE 0.0s
+
+#10 [6/6] RUN sh /opt/crucible/resolve_manifest.sh
+#0 0.110 crucible: resolving installable manifest in /app
+#10 0.127 crucible: found a single package definition at ./classic
+#10 0.734 Obtaining file:///app/classic
+#10 0.735   Installing build dependencies: started
+#10 1.340   Installing build dependencies: finished with status 'done'
+#10 1.340   Checking if build backend supports build_editable: started
+#10 1.391   Checking if build backend supports build_editable: finished with status 'done'
+#10 1.391   Getting requirements to build editable: started
+#10 1.447   Getting requirements to build editable: finished with status 'done'
+#10 1.448   Preparing editable metadata (pyproject.toml): started
+#10 1.547   Preparing editable metadata (pyproject.toml): finished with status 'done'
+#10 1.554 Collecting en-core-web-sm@ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl (from autogpt-classic==0.5.0)
+#10 1.683   Downloading https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl (12.8 MB)
+#10 2.494      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 12.8/12.8 MB 18.1 MB/s eta 0:00:00
+#10 2.647 Collecting Pillow (from autogpt-classic==0.5.0)
+#10 2.706   Downloading pillow-12.3.0-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl.metadata (9.1 kB)
+#10 3.020 Collecting aiohttp<4.0.0,>=3.8.5 (from autogpt-classic==0.5.0)
+#10 3.038   Downloading aiohttp-3.14.3-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (8.3 kB)
+#10 3.077 Collecting anthropic<0.46.0,>=0.45.0 (from autogpt-classic==0.5.0)
+#10 3.094   Downloading anthropic-0.45.2-py3-none-any.whl.metadata (23 kB)
+#10 3.114 Collecting beautifulsoup4<5.0.0,>=4.12.2 (from autogpt-classic==0.5.0)
+#10 3.131   Downloading beautifulsoup4-4.15.0-py3-none-any.whl.metadata (3.8 kB)
+#10 3.342 Collecting boto3<2.0.0,>=1.33.6 (from autogpt-classic==0.5.0)
+#10 3.357   Downloading boto3-1.43.103-py3-none-any.whl.metadata (6.6 kB)
+#10 3.452 Collecting charset-normalizer<4.0.0,>=3.1.0 (from autogpt-classic==0.5.0)
+#10 3.470   Downloading charset_normalizer-3.5.1-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (45 kB)
+#10 3.481      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 45.9/45.9 kB 6.4 MB/s eta 0:00:00
+#10 3.498 Collecting click<9.0,>=8.0 (from autogpt-classic==0.5.0)
+#10 3.515   Downloading click-8.5.0-py3-none-any.whl.metadata (2.6 kB)
+#10 3.529 Collecting colorama<0.5.0,>=0.4.6 (from autogpt-classic==0.5.0)
+#10 3.546   Downloading colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+#10 3.562 Collecting ddgs<10.0,>=9.9 (from autogpt-classic==0.5.0)
+#10 3.580   Downloading ddgs-9.16.0-py3-none-any.whl.metadata (16 kB)
+#10 3.602 Collecting demjson3<4.0.0,>=3.0.0 (from autogpt-classic==0.5.0)
+#10 3.620   Downloading demjson3-3.0.6.tar.gz (131 kB)
+#10 3.640      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 131.5/131.5 kB 6.7 MB/s eta 0:00:00
+#10 3.645   Preparing metadata (setup.py): started
+#10 3.793   Preparing metadata (setup.py): finished with status 'done'
+#10 3.804 Collecting distro<2.0.0,>=1.8.0 (from autogpt-classic==0.5.0)
+#10 3.822   Downloading distro-1.9.0-py3-none-any.whl.metadata (6.8 kB)
+#10 3.844 Collecting docker (from autogpt-classic==0.5.0)
+#10 3.862   Downloading docker-7.2.0-py3-none-any.whl.metadata (3.8 kB)
+#10 3.903 Collecting fastapi<0.110.0,>=0.109.1 (from autogpt-classic==0.5.0)
+#10 3.922   Downloading fastapi-0.109.2-py3-none-any.whl.metadata (25 kB)
+#10 3.942 Collecting gTTS<3.0.0,>=2.3.1 (from autogpt-classic==0.5.0)
+#10 3.960   Downloading gTTS-2.5.4-py3-none-any.whl.metadata (4.1 kB)
+#10 3.980 Collecting gitpython<4.0.0,>=3.1.32 (from autogpt-classic==0.5.0)
+#10 3.999   Downloading gitpython-3.1.62-py3-none-any.whl.metadata (13 kB)
+#10 4.041 Collecting google-api-python-client<3.0,>=2.116 (from autogpt-classic==0.5.0)
+#10 4.059   Downloading google_api_python_client-2.200.0-py3-none-any.whl.metadata (6.8 kB)
+#10 4.082 Collecting google-cloud-logging<4.0.0,>=3.8.0 (from autogpt-classic==0.5.0)
+#10 4.103   Downloading google_cloud_logging-3.16.3-py3-none-any.whl.metadata (9.9 kB)
+#10 4.133 Collecting google-cloud-storage<3.0.0,>=2.13.0 (from autogpt-classic==0.5.0)
+#10 4.151   Downloading google_cloud_storage-2.19.0-py2.py3-none-any.whl.metadata (9.1 kB)
+#10 4.166 Collecting groq<0.9.0,>=0.8.0 (from autogpt-classic==0.5.0)
+#10 4.190   Downloading groq-0.8.0-py3-none-any.whl.metadata (13 kB)
+#10 4.209 Collecting hypercorn<0.15.0,>=0.14.4 (from autogpt-classic==0.5.0)
+#10 4.227   Downloading hypercorn-0.14.4-py3-none-any.whl.metadata (5.4 kB)
+#10 4.242 Collecting jinja2<4.0.0,>=3.1.2 (from autogpt-classic==0.5.0)
+#10 4.261   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+#10 4.278 Collecting jsonschema (from autogpt-classic==0.5.0)
+#10 4.298   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+#10 4.444 Collecting numpy>=2.0.0 (from autogpt-classic==0.5.0)
+#10 4.460   Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl.metadata (6.6 kB)
+#10 4.509 Collecting openai<2.0.0,>=1.50.0 (from autogpt-classic==0.5.0)
+#10 4.526   Downloading openai-1.109.1-py3-none-any.whl.metadata (29 kB)
+#10 4.682 Collecting orjson<4.0.0,>=3.8.10 (from autogpt-classic==0.5.0)
+#10 4.702   Downloading orjson-3.12.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (41 kB)
+#10 4.707      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 42.0/42.0 kB 399.1 MB/s eta 0:00:00
+#10 4.717 Collecting playsound<1.3.0,>=1.2.2 (from autogpt-classic==0.5.0)
+#10 4.735   Downloading playsound-1.2.2-py2.py3-none-any.whl.metadata (3.3 kB)
+#10 4.757 Collecting playwright<2.0.0,>=1.50.0 (from autogpt-classic==0.5.0)
+#10 4.775   Downloading playwright-1.63.0-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (3.3 kB)
+#10 4.795 Collecting prompt-toolkit<4.0.0,>=3.0.0 (from autogpt-classic==0.5.0)
+#10 4.812   Downloading prompt_toolkit-3.0.53-py3-none-any.whl.metadata (6.4 kB)
+#10 4.873 Collecting pydantic<3.0.0,>=2.7.2 (from autogpt-classic==0.5.0)
+#10 4.891   Downloading pydantic-2.13.5-py3-none-any.whl.metadata (110 kB)
+#10 4.899      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 110.2/110.2 kB 16.2 MB/s eta 0:00:00
+#10 4.916 Collecting pylatexenc (from autogpt-classic==0.5.0)
+#10 4.933   Downloading pylatexenc-2.11-py2.py3-none-any.whl.metadata (3.9 kB)
+#10 4.954 Collecting pypdf<4.0.0,>=3.1.0 (from autogpt-classic==0.5.0)
+#10 4.973   Downloading pypdf-3.17.4-py3-none-any.whl.metadata (7.5 kB)
+#10 5.000 Collecting pytest<9.0,>=8.0 (from autogpt-classic==0.5.0)
+#10 5.017   Downloading pytest-8.4.2-py3-none-any.whl.metadata (7.7 kB)
+#10 5.030 Collecting python-docx (from autogpt-classic==0.5.0)
+#10 5.046   Downloading python_docx-1.2.0-py3-none-any.whl.metadata (2.0 kB)
+#10 5.059 Collecting python-dotenv<2.0.0,>=1.0.0 (from autogpt-classic==0.5.0)
+#10 5.075   Downloading python_dotenv-1.2.3-py3-none-any.whl.metadata (29 kB)
+#10 5.090 Collecting python-multipart<0.0.8,>=0.0.7 (from autogpt-classic==0.5.0)
+#10 5.107   Downloading python_multipart-0.0.7-py3-none-any.whl.metadata (2.5 kB)
+#10 5.128 Collecting pyyaml<7.0,>=6.0 (from autogpt-classic==0.5.0)
+#10 5.151   Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (2.4 kB)
+#10 5.172 Collecting requests (from autogpt-classic==0.5.0)
+#10 5.193   Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+#10 5.223 Collecting rich<14.0,>=13.0 (from autogpt-classic==0.5.0)
+#10 5.248   Downloading rich-13.9.4-py3-none-any.whl.metadata (18 kB)
+#10 5.287 Collecting sentry-sdk<2.0.0,>=1.40.4 (from autogpt-classic==0.5.0)
+#10 5.306   Downloading sentry_sdk-1.45.1-py2.py3-none-any.whl.metadata (9.9 kB)
+#10 5.375 Collecting spacy<4.0.0,>=3.8.0 (from autogpt-classic==0.5.0)
+#10 5.392   Downloading spacy-3.8.16-cp311-cp311-manylinux_2_24_aarch64.manylinux_2_28_aarch64.whl.metadata (28 kB)
+#10 5.637 Collecting sqlalchemy<3.0.0,>=2.0.19 (from autogpt-classic==0.5.0)
+#10 5.663   Downloading sqlalchemy-2.1.1-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (9.7 kB)
+#10 5.678 Collecting tenacity<9.0.0,>=8.2.2 (from autogpt-classic==0.5.0)
+#10 5.695   Downloading tenacity-8.5.0-py3-none-any.whl.metadata (1.2 kB)
+#10 5.719 Collecting tiktoken<1.0.0,>=0.7.0 (from autogpt-classic==0.5.0)
+#10 5.737   Downloading tiktoken-0.14.0-cp311-cp311-manylinux_2_28_aarch64.whl.metadata (6.7 kB)
+#10 5.747 Collecting toml<0.11.0,>=0.10.2 (from autogpt-classic==0.5.0)
+#10 5.763   Downloading toml-0.10.2-py2.py3-none-any.whl.metadata (7.1 kB)
+#10 5.781 Collecting trafilatura<3.0,>=2.0 (from autogpt-classic==0.5.0)
+#10 5.798   Downloading trafilatura-2.2.0-py3-none-any.whl.metadata (13 kB)
+#10 5.821 Collecting uvicorn<1,>=0.23.2 (from uvicorn[standard]<1,>=0.23.2->autogpt-classic==0.5.0)
+#10 5.838   Downloading uvicorn-0.54.0-py3-none-any.whl.metadata (6.6 kB)
+#10 5.866 Collecting watchdog<7.0.0,>=6.0.0 (from autogpt-classic==0.5.0)
+#10 5.882   Downloading watchdog-6.0.0-py3-none-manylinux2014_aarch64.whl.metadata (44 kB)
+#10 5.884      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 44.3/44.3 kB 512.4 MB/s eta 0:00:00
+#10 5.885 INFO: pip is looking at multiple versions of autogpt-classic to determine which version is compatible with other requirements. This could take a while.
+#10 5.885 ERROR: Package 'autogpt-classic' requires a different Python: 3.11.15 not in '<4.0,>=3.12'
+#10 5.936 
+#10 5.936 [notice] A new release of pip is available: 24.0 -> 26.2.1
+#10 5.936 [notice] To update, run: pip install --upgrade pip
+#10 ERROR: process "/bin/sh -c sh /opt/crucible/resolve_manifest.sh" did not complete successfully: exit code: 1
+------
+ > [6/6] RUN sh /opt/crucible/resolve_manifest.sh:
+#10 5.821 Collecting uvicorn<1,>=0.23.2 (from uvicorn[standard]<1,>=0.23.2->autogpt-classic==0.5.0)
+#10 5.838   Downloading uvicorn-0.54.0-py3-none-any.whl.metadata (6.6 kB)
+#10 5.866 Collecting watchdog<7.0.0,>=6.0.0 (from autogpt-classic==0.5.0)
+#10 5.882   Downloading watchdog-6.0.0-py3-none-manylinux2014_aarch64.whl.metadata (44 kB)
+#10 5.884      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 44.3/44.3 kB 512.4 MB/s eta 0:00:00
+#10 5.885 INFO: pip is looking at multiple versions of autogpt-classic to determine which version is compatible with other requirements. This could take a while.
+#10 5.885 ERROR: Package 'autogpt-classic' requires a different Python: 3.11.15 not in '<4.0,>=3.12'
+#10 5.936 
+#10 5.936 [notice] A new release of pip is available: 24.0 -> 26.2.1
+#10 5.936 [notice] To update, run: pip install --upgrade pip
+------
+generic.Dockerfile:26
+--------------------
+  24 |     # classifier reads those logs. See docker/resolve_manifest.sh.
+  25 |     COPY docker/resolve_manifest.sh /opt/crucible/resolve_manifest.sh
+  26 | >>> RUN sh /opt/crucible/resolve_manifest.sh
+  27 |     
+  28 |     # The default command is an environment probe, not the agent. It starts the
+--------------------
+ERROR: failed to solve: process "/bin/sh -c sh /opt/crucible/resolve_manifest.sh" did not complete successfully: exit code: 1

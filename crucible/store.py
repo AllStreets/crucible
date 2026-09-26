@@ -36,10 +36,19 @@ CREATE TABLE IF NOT EXISTS candidates (
 -- different HEADs is two candidates, so a build row carries the commit SHA as
 -- well; without it, a slug harvested twice resolves to no single commit and the
 -- row cannot say which code it built.
+-- `recipe_sha` pins the build recipe that produced the row, as a sha256 of the
+-- Dockerfile's bytes. It is here because the recipe is an experimental
+-- variable and was for a while an invisible one: the first live run failed two
+-- monorepos because the recipe looked for an installable manifest only at the
+-- repository root, and changing it to look one directory down changes which
+-- agents are viable. Without this column that edit would silently redefine
+-- every figure in the dataset, old rows and new rows would be incomparable,
+-- and nothing would mark the boundary. A distribution computed across two
+-- recipes is not one measurement.
 CREATE TABLE IF NOT EXISTS builds (
   id INTEGER PRIMARY KEY, candidate TEXT NOT NULL, commit_sha TEXT,
   status TEXT NOT NULL, failure_class TEXT, image_digest TEXT,
-  log_ref TEXT, at TEXT NOT NULL);
+  log_ref TEXT, recipe_sha TEXT, at TEXT NOT NULL);
 
 -- Named env_checks rather than boots because that is what the stage measures:
 -- the built image starts in a clean sandbox and runs its probe. It does not
@@ -82,7 +91,7 @@ _COLUMNS = {
     "candidates": {"id", "slug", "source", "repo_url", "commit_sha",
                    "credentials", "at"},
     "builds": {"id", "candidate", "commit_sha", "status", "failure_class",
-               "image_digest", "log_ref", "at"},
+               "image_digest", "log_ref", "recipe_sha", "at"},
     "env_checks": {"id", "build", "status", "failure_class", "evidence_ref",
                    "duration_ms", "model", "base_url", "at"},
     "unresolved": {"id", "seed_url", "reason", "at"},

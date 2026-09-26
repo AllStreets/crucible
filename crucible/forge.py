@@ -23,8 +23,10 @@ success is indistinguishable from an assumed one.
 from __future__ import annotations
 
 import asyncio
+import hashlib
 import time
 from dataclasses import dataclass
+from pathlib import Path
 
 from crucible.failures import FailureClass, classify_build_log
 from crucible.harvest import Candidate, Runner, default_runner
@@ -37,6 +39,30 @@ from crucible.store import Store
 # candidate after it.
 BUILD_TIMEOUT_S = 1800
 INSPECT_TIMEOUT_S = 60
+
+RECIPE_PATH = "docker/generic.Dockerfile"
+
+
+def recipe_sha(path: str = RECIPE_PATH) -> str:
+    """sha256 of the build recipe, pinned into every build row.
+
+    The recipe is an experimental variable. It decides which agents are
+    buildable at all, and editing it changes the answer: the first live run
+    failed two monorepos only because the recipe looked for an installable
+    manifest at the repository root, and a recipe that looks one directory down
+    makes both of them viable. Rows produced under different recipes are
+    therefore different measurements, and a distribution computed across two of
+    them is not one measurement.
+
+    Recording it costs one file read per build and makes that boundary visible
+    in the dataset instead of living in the commit history, where a reader of
+    the numbers will never look.
+
+    A recipe we cannot read is not a recipe we can attribute results to, so the
+    exception propagates rather than defaulting to a placeholder digest that
+    would make two different recipes look like one.
+    """
+    return "sha256:" + hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
 @dataclass(frozen=True)
@@ -60,7 +86,8 @@ def _tag(c: Candidate) -> str:
 
 
 def _record_raised(c: Candidate, store: Store, stage: str,
-                   exc: BaseException, prior_log: str = "") -> BuildResult:
+                   exc: BaseException, prior_log: str = "",
+                   recipe: str | None = None) -> BuildResult:
     """Turn a raised exception into a build row rather than a lost batch.
 
     Docker missing, the daemon down, a permission error: each raises
@@ -79,7 +106,7 @@ def _record_raised(c: Candidate, store: Store, stage: str,
     ref = store.blob(detail.encode())
     store.record("builds", candidate=c.slug, commit_sha=c.commit_sha,
                  status="failed", failure_class=str(FailureClass.UNKNOWN),
-                 log_ref=ref)
+                 log_ref=ref, recipe_sha=recipe)
     return BuildResult(False, None, FailureClass.UNKNOWN, ref)
 
 
@@ -87,20 +114,22 @@ async def build(c: Candidate, *, store: Store,
                 run: Runner = default_runner,
                 timeout_s: int = BUILD_TIMEOUT_S) -> BuildResult:
     tag = _tag(c)
+    recipe = recipe_sha()
     try:
         code, log = await run(
             "docker", "build", "-t", tag,
             "--build-arg", f"REPO_URL={c.repo_url}",
             "--build-arg", f"COMMIT_PIN={c.commit_sha}",
-            "-f", "docker/generic.Dockerfile", ".", timeout_s=timeout_s)
+            "-f", RECIPE_PATH, ".", timeout_s=timeout_s)
     except Exception as exc:
-        return _record_raised(c, store, "docker build", exc)
+        return _record_raised(c, store, "docker build", exc, recipe=recipe)
     log_ref = store.blob(log.encode())
 
     if code != 0:
         failure = classify_build_log(log, code)
         store.record("builds", candidate=c.slug, commit_sha=c.commit_sha,
-                     status="failed", failure_class=str(failure), log_ref=log_ref)
+                     status="failed", failure_class=str(failure),
+                     log_ref=log_ref, recipe_sha=recipe)
         return BuildResult(False, None, failure, log_ref)
 
     # The image ID is the pin. A build we cannot pin is not a usable build.
@@ -118,16 +147,18 @@ async def build(c: Candidate, *, store: Store,
                                   "--format", "{{.Id}}",
                                   timeout_s=INSPECT_TIMEOUT_S)
     except Exception as exc:
-        return _record_raised(c, store, "docker image inspect", exc, prior_log=log)
+        return _record_raised(c, store, "docker image inspect", exc,
+                              prior_log=log, recipe=recipe)
     digest = digest.strip()
     if dcode != 0 or not digest.startswith("sha256:"):
         store.record("builds", candidate=c.slug, commit_sha=c.commit_sha,
                      status="failed", failure_class=str(FailureClass.BUILD_FAILED),
-                     log_ref=log_ref)
+                     log_ref=log_ref, recipe_sha=recipe)
         return BuildResult(False, None, FailureClass.BUILD_FAILED, log_ref)
 
     store.record("builds", candidate=c.slug, commit_sha=c.commit_sha,
-                 status="built", image_digest=digest, log_ref=log_ref)
+                 status="built", image_digest=digest, log_ref=log_ref,
+                 recipe_sha=recipe)
     return BuildResult(True, digest, FailureClass.NONE, log_ref)
 
 

@@ -243,3 +243,35 @@ async def test_a_credential_the_shim_can_supply_is_not_an_obstacle(store) -> Non
                                    run=scripted((0, "ok")),
                                    declared_credentials=("OPENAI_API_KEY",))
     assert res.ok
+
+
+def test_every_build_row_pins_the_recipe_that_produced_it() -> None:
+    """The recipe decides which agents are buildable at all, so it is an
+    experimental variable and rows produced under different recipes are
+    different measurements.
+
+    This was found by running: the first live run failed AutoGPT and OpenHands
+    only because the recipe looked for an installable manifest at the
+    repository root, and a recipe that looks one directory down makes both
+    viable. Without this pin that edit would silently redefine every figure in
+    the dataset, and a distribution computed across two recipes would look
+    exactly like one measurement.
+    """
+    from crucible.forge import RECIPE_PATH, recipe_sha
+
+    sha = recipe_sha()
+    assert sha.startswith("sha256:")
+    assert len(sha) == 71
+
+    # It is a digest of the recipe's actual bytes, not a constant.
+    import hashlib
+    from pathlib import Path
+    expected = hashlib.sha256(Path(RECIPE_PATH).read_bytes()).hexdigest()
+    assert sha == "sha256:" + expected
+
+    # Editing the recipe must change the digest, or the pin records nothing.
+    import tempfile
+    with tempfile.NamedTemporaryFile("w", suffix=".Dockerfile", delete=False) as f:
+        f.write("FROM python:3.11-slim\n")
+        other = f.name
+    assert recipe_sha(other) != sha
