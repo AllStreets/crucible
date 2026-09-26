@@ -125,7 +125,6 @@ def render_markdown(v: Viability) -> str:
         return "\n".join(lines) + "\n"
 
     pct = 100.0 * v.env_ok / v.harvested
-    seeded = v.harvested + v.unresolved
     lines = [
         "# Agent viability",
         "",
@@ -141,9 +140,9 @@ def render_markdown(v: Viability) -> str:
         "harness rather than the agent, so no figure above or below is evidence "
         "that an agent ran.",
         "",
-        f"- Seed URLs attempted: {seeded}",
-        f"- Could not be resolved, so never pinned: {v.unresolved}",
         f"- Harvested as pinned candidates: {v.harvested}",
+        f"- Seed URLs that could not be resolved, so never pinned: "
+        f"{v.unresolved}",
         f"- Built successfully: {v.built}",
         f"- Passed the container environment check: {v.env_ok}",
         "",
@@ -168,7 +167,10 @@ def render_markdown(v: Viability) -> str:
         "over- or under-stated. Superseded results are excluded from all counts; "
         "the raw dataset may contain more rows than counted here. Counts are "
         "over the whole store rather than over a single run, so a store built "
-        "from more than one seed list reports their union.",
+        "from more than one seed list reports their union, and the unresolved "
+        "count is of distinct URLs that failed to resolve at some point rather "
+        "than of one list's misses. Adding it to the harvested count therefore "
+        "approximates how many URLs were seeded; it does not measure it.",
         "",
         f"Generated {v.generated_at} from the record store. Every count "
         "above is a query; none is asserted.",
