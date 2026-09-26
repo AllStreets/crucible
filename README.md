@@ -186,9 +186,17 @@ it holds 11 executed verdicts. This is the instrument for closing it.
 | **2** | pairs under adversarial scenarios, papers generated from records | next |
 | **3** | the public site: 3D interaction graph, live instrument, the data | after |
 
-Papers are generated from run records rather than written about them. Every numeric slot is
-filled by a query, a model drafts only prose containing no numerals, and a verification pass
-rejects the document if any numeric claim is absent from the underlying records.
+**No paper has been generated, and the press stage is not built.** Saying so here matters more
+than it looks: the sentence that used to sit in this spot described the design in the present
+tense, which reads as a description of working software. A reader came away expecting papers
+that do not exist, which is the precise failure this project exists to avoid, committed by its
+own README.
+
+The design, when built, is that papers are generated from run records rather than written about
+them: every numeric slot filled by a query, a model drafting only prose containing no numerals,
+and a verification pass rejecting the document if any numeric claim is absent from the records.
+None of that is implemented. `crucible/` contains harvest, forge, pipeline, report, store,
+failures and the model shim, and no press module.
 
 ---
 
