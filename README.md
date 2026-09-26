@@ -8,7 +8,7 @@
 
 &nbsp;
 
-<img alt="tests" src="https://img.shields.io/badge/tests-97_passing-4ADE80?style=for-the-badge&labelColor=0a0c10"/>
+<img alt="tests" src="https://img.shields.io/badge/tests-105_passing-4ADE80?style=for-the-badge&labelColor=0a0c10"/>
 <img alt="records" src="https://img.shields.io/badge/records-append--only-D2A056?style=for-the-badge&labelColor=0a0c10"/>
 <img alt="grading" src="https://img.shields.io/badge/grading-deterministic_first-D2A056?style=for-the-badge&labelColor=0a0c10"/>
 <a href="LICENSE"><img alt="license" src="https://img.shields.io/badge/license-Apache--2.0-4ADE80?style=for-the-badge&labelColor=0a0c10"/></a>
@@ -108,7 +108,7 @@ python3 -m venv .venv
 .venv/bin/pip install -e ~/code/SMADP      # the sandbox engine, imported not forked
 .venv/bin/pip install -e ".[dev]"
 
-.venv/bin/pytest -q                        # 97 passing
+.venv/bin/pytest -q                        # 105 passing
 .venv/bin/crucible run seeds/first-fifty.txt
 .venv/bin/crucible report
 ```
