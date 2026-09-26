@@ -13,6 +13,7 @@ from pathlib import Path
 from crucible.harvest import Seed, parse_seed_file
 from crucible.model_shim import ShimConfig
 from crucible.pipeline import run_pipeline
+from crucible.press import generate as generate_paper
 from crucible.publish import publish_dataset
 from crucible.report import render_markdown, viability
 from crucible.store import Store
@@ -44,6 +45,10 @@ def main(argv: list[str] | None = None) -> int:
     rep = sub.add_parser("report", help="print the viability report")
     rep.add_argument("--db", type=Path, default=Path("data/crucible.db"))
 
+    paper = sub.add_parser("paper", help="generate the viability paper from run records")
+    paper.add_argument("--db", type=Path, default=Path("data/crucible.db"))
+    paper.add_argument("--out", type=Path, default=None)
+
     pub = sub.add_parser("publish", help="export the store as static JSON for the site")
     pub.add_argument("--db", type=Path, default=Path("data/crucible.db"))
     pub.add_argument("--out", type=Path, default=Path("site/public/data"))
@@ -59,6 +64,18 @@ def main(argv: list[str] | None = None) -> int:
         shim = ShimConfig(base_url=args.ollama, model=args.model)
         v = asyncio.run(run_pipeline(seeds, store=store, shim=shim))
         print(render_markdown(v))
+        return 0
+
+    if args.cmd == "paper":
+        store = Store(args.db)
+        store.init_db()
+        document = generate_paper(store)
+        if args.out:
+            args.out.parent.mkdir(parents=True, exist_ok=True)
+            args.out.write_text(document)
+            print(f"{args.out}  {args.out.stat().st_size} bytes")
+        else:
+            print(document)
         return 0
 
     if args.cmd == "publish":
