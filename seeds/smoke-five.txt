@@ -1,0 +1,17 @@
+# CRUCIBLE smoke seed list: five agents, chosen to span the outcome space.
+#
+# Purpose is not coverage. It is the first run against a live Docker daemon,
+# to convert the RepoDigests fix from argued to observed and to see what the
+# real failure classes look like before the full fifty is worth running.
+#
+# aider      small, pip-installable, the most likely clean build
+# babyagi    tiny, few dependencies, a second chance at a clean build
+# swarm      small, an OpenAI client wrapper, exercises OPENAI_BASE_URL
+# OpenDevin  renamed upstream to All-Hands-AI/OpenHands; tests harvest redirects
+# AutoGPT    large monorepo, the most likely build failure, and that is data
+
+https://github.com/Aider-AI/aider
+https://github.com/yoheinakajima/babyagi
+https://github.com/openai/swarm
+https://github.com/OpenDevin/OpenDevin
+https://github.com/Significant-Gravitas/AutoGPT
