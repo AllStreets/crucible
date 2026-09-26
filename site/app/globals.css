@@ -1,0 +1,137 @@
+@import "./tokens.css";
+
+/* Surfaces map their own palette onto generic names. No component below this
+ * line knows which room it is in, which is why a component can be moved
+ * between them without being rewritten. */
+
+body[data-surface="specimen"] {
+  --ground:   var(--specimen-ground);
+  --panel:    var(--specimen-panel);
+  --ink:      var(--specimen-ink);
+  --ink-soft: var(--specimen-ink-soft);
+  --rule:     var(--specimen-rule);
+  --grid:     var(--specimen-grid);
+  --accent:   var(--reagent);
+}
+
+body[data-surface="detector"] {
+  --ground:   var(--detector-ground);
+  --panel:    var(--detector-panel);
+  --ink:      var(--detector-ink);
+  --ink-soft: var(--detector-ink-soft);
+  --rule:     var(--detector-rule);
+  --grid:     var(--detector-grid);
+  --accent:   var(--reagent-bright);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  line-height: 1.6;
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+}
+
+/* The grid is the laboratory notebook, drawn once on the ground rather than
+ * as a border on every tile. It is what replaces the uniform rounded card. */
+body[data-surface="specimen"]::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(to right, var(--grid) var(--rule-hair), transparent var(--rule-hair)),
+    linear-gradient(to bottom, var(--grid) var(--rule-hair), transparent var(--rule-hair));
+  background-size: 96px 96px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent 70%);
+}
+
+main { position: relative; z-index: 1; }
+
+/* The measure of the page, not of a paragraph. The grid stays full bleed
+ * behind it so the column reads as a sheet laid on the notebook rather than
+ * as a narrow page with dead space beside it. */
+.sheet {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 5vw, 3rem);
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.15;
+  text-wrap: balance;
+  margin: 0;
+  letter-spacing: -0.012em;
+}
+
+h1 { font-size: var(--t-h1); }
+h2 { font-size: var(--t-h2); }
+h3 { font-size: var(--t-h3); }
+
+p { margin: 0; max-width: var(--measure); }
+
+a { color: inherit; text-decoration-color: var(--rule); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+code, .mono, td.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.92em;
+}
+
+/* Uppercase micro labels. The letter-spacing is what keeps them from reading
+ * as shouting. */
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+table { border-collapse: collapse; width: 100%; font-size: var(--t-small); }
+table.rows { table-layout: fixed; }
+table.rows th:nth-child(1), table.rows td:nth-child(1) { width: 30%; }
+table.rows th:nth-child(2), table.rows td:nth-child(2) { width: 42%; }
+table.rows th:nth-child(3), table.rows td:nth-child(3) { width: 18%; }
+table.rows th:nth-child(4), table.rows td:nth-child(4) { width: 10%; }
+th, td {
+  text-align: left;
+  padding: 0.55rem 0.9rem 0.55rem 0;
+  border-bottom: var(--rule-hair) solid var(--rule);
+  vertical-align: baseline;
+}
+th {
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+td.num { text-align: right; }
+
+/* Wide content scrolls inside its own container. The page body never scrolls
+ * sideways. */
+.scroll-x { overflow-x: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

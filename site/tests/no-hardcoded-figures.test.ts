@@ -1,0 +1,43 @@
+import { readdirSync, readFileSync, statSync } from "node:fs";
+import { join } from "node:path";
+import { expect, test } from "vitest";
+
+function walk(dir: string): string[] {
+  return readdirSync(dir).flatMap((name) => {
+    const path = join(dir, name);
+    if (statSync(path).isDirectory()) return walk(path);
+    return path.endsWith(".tsx") ? [path] : [];
+  });
+}
+
+test("no component hardcodes a figure", () => {
+  // The site's credibility rests on every number being a query. A numeral
+  // typed into JSX text is a number nobody can trace to a row, and it is
+  // exactly how a presentation drifts from its dataset without anyone
+  // noticing. Figure numbers and years are the only exceptions, because
+  // neither is a measurement.
+  const offenders: string[] = [];
+  for (const file of [...walk("app"), ...walk("components")]) {
+    const src = readFileSync(file, "utf8");
+    const body = src.split("<style>")[0];
+    // The > must open a JSX tag, not close an arrow function, or every sort
+    // comparator in the file reads as a hardcoded figure.
+    for (const m of body.matchAll(/(?<![=!<>])>[^<>{}]*\b\d+(?:\.\d+)?\b[^<>{}]*</g)) {
+      if (/Figure \d|20\d\d/.test(m[0])) continue;
+      offenders.push(`${file}: ${m[0].trim().slice(0, 70)}`);
+    }
+  }
+  expect(offenders, `\n${offenders.join("\n")}`).toEqual([]);
+});
+
+test("the research log states no figure", () => {
+  // Prose in the log is written by hand, so a count typed there is precisely
+  // the untraceable number this site must not carry.
+  const src = readFileSync("lib/log.ts", "utf8");
+  const bodies = [...src.matchAll(/body:\s*((?:"[^"]*"\s*\+?\s*)+)/g)].map((m) => m[1]);
+  for (const body of bodies) {
+    // Words are fine, digits are not.
+    expect(/\b\d+\b/.test(body), `a figure appears in a log body: ${body.slice(0, 60)}`)
+      .toBe(false);
+  }
+});

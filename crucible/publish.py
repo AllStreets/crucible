@@ -25,6 +25,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 
+from crucible.failures import FailureClass
 from crucible.store import Store
 
 _PUBLISHED_TABLES = ("candidates", "builds", "env_checks", "unresolved")
@@ -71,6 +72,15 @@ def publish_dataset(store: Store, out_dir: Path) -> PublishResult:
         {t: sorted({k for r in data[t] for k in r}) for t in _PUBLISHED_TABLES},
         indent=2, sort_keys=True) + "\n")
 
+    # The human-readable name of every failure class, published rather than
+    # retyped in the site. FailureClass.label is the single definition; a
+    # TypeScript copy of these strings would drift from it silently, and the
+    # first symptom would be a page describing a failure as something the
+    # engine never meant.
+    labels_path = out_dir / "labels.json"
+    labels_path.write_text(json.dumps(
+        {str(c): c.label for c in FailureClass}, indent=2, sort_keys=True) + "\n")
+
     manifest_path = out_dir / "manifest.json"
     manifest_path.write_text(json.dumps({
         "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -80,4 +90,5 @@ def publish_dataset(store: Store, out_dir: Path) -> PublishResult:
     }, indent=2, sort_keys=True) + "\n")
 
     return PublishResult(
-        files=(dataset_path, schema_path, manifest_path), counts=counts)
+        files=(dataset_path, schema_path, labels_path, manifest_path),
+        counts=counts)

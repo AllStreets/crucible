@@ -55,3 +55,20 @@ def test_the_manifest_pins_the_dataset_it_describes(tmp_path) -> None:
     manifest = json.loads((out / "manifest.json").read_text())
     assert manifest["dataset_sha256"] == hashlib.sha256(body.encode()).hexdigest()
     assert manifest["counts"]["builds"] == 1
+
+
+def test_publish_emits_failure_labels_so_the_site_never_retypes_them(tmp_path) -> None:
+    """FailureClass.label is the single definition of what a class means. A
+    TypeScript copy of these strings would drift silently, and the first
+    symptom would be a page describing a failure as something the engine never
+    meant."""
+    from crucible.failures import FailureClass
+
+    store = Store(tmp_path / "s.db")
+    store.init_db()
+    out = tmp_path / "public"
+    publish_dataset(store, out)
+
+    labels = json.loads((out / "labels.json").read_text())
+    for cls in FailureClass:
+        assert labels[str(cls)] == cls.label

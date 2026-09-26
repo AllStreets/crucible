@@ -1,0 +1,51 @@
+/* Two rooms, not a theme pair.
+ *
+ * Specimen is where results are read: cold laboratory white, hairline grids,
+ * figure numbering, a journal voice. Detector is where the instrument is
+ * watched: dark, dense, live. A page belongs to one room permanently. Moving
+ * between them should feel like stepping from a library into a lab, and the
+ * fact that the contrast has a reason behind it is what a template cannot
+ * reproduce.
+ *
+ * Both rooms share one reagent accent, because they are the same building. */
+
+:root {
+  /* Specimen */
+  --specimen-ground:    #FBFBF9;
+  --specimen-panel:     #FFFFFF;
+  --specimen-ink:       #14161A;
+  --specimen-ink-soft:  #55606E;
+  --specimen-rule:      #D8DCE2;
+  --specimen-grid:      #EAEDF1;
+
+  /* Detector */
+  --detector-ground:    #0A0C10;
+  --detector-panel:     #12161C;
+  --detector-ink:       #E6EAF0;
+  --detector-ink-soft:  #8A95A5;
+  --detector-rule:      #222933;
+  --detector-grid:      #171C24;
+
+  /* Shared reagent and signals. Semantic colour is separate from the accent. */
+  --reagent:            #1F7A5A;
+  --reagent-bright:     #2EE39B;
+  --signal-warn:        #B57A12;
+  --signal-stop:        #B03A30;
+
+  --font-display: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --font-body:    "Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono:    "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* A type scale, kept to, rather than ad hoc sizes. */
+  --t-micro: 0.6875rem;
+  --t-small: 0.8125rem;
+  --t-body:  1rem;
+  --t-lead:  1.1875rem;
+  --t-h3:    1.375rem;
+  --t-h2:    1.875rem;
+  --t-h1:    2.75rem;
+  --t-figure: 4.5rem;
+
+  --measure: 65ch;
+  --rule-hair: 1px;
+}

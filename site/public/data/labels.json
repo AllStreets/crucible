@@ -1,0 +1,16 @@
+{
+  "ambiguous_manifest": "Several installable subprojects, none of them obviously the agent",
+  "build_failed": "Build failed",
+  "clone_failed": "Repository could not be cloned",
+  "dependency_conflict": "Dependencies could not be resolved",
+  "env_check_failed": "Container environment probe exited non-zero",
+  "env_check_timeout": "Container environment probe did not finish in time",
+  "needs_credentials": "Requires credentials we do not supply",
+  "no_build_recipe": "No usable build recipe",
+  "no_installable_manifest": "No installable manifest at the repository root",
+  "none": "No failure",
+  "python_version_unsupported": "Requires a Python version the base image does not provide",
+  "unknown": "Unclassified failure",
+  "unsupported_language": "Written in a language this recipe does not build",
+  "workspace_root_not_installable": "The manifest found is a workspace root, not an installable package"
+}
