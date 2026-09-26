@@ -33,8 +33,9 @@ export default function ThreatModel() {
             agents have yet shared a workspace under measurement here.
           </li>
           <li>
-            <strong>No paper has been generated.</strong> The press stage is not
-            built.
+            <strong>The one paper published reports viability only.</strong> It
+            concerns whether containers build and start, and states no result
+            about agent behaviour or interaction.
           </li>
           <li>
             <strong>The agents measured are Python, and not all of them.</strong>

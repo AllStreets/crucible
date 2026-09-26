@@ -3,6 +3,7 @@ import { loadManifest } from "../lib/dataset";
 
 const SECTIONS = [
   { href: "/findings", label: "Findings" },
+  { href: "/papers", label: "Papers" },
   { href: "/methodology", label: "Methodology" },
   { href: "/threat-model", label: "Threat model" },
   { href: "/data", label: "Data" },

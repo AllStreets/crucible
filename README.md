@@ -186,17 +186,19 @@ it holds 11 executed verdicts. This is the instrument for closing it.
 | **2** | pairs under adversarial scenarios, papers generated from records | next |
 | **3** | the public site: 3D interaction graph, live instrument, the data | after |
 
-**No paper has been generated, and the press stage is not built.** Saying so here matters more
-than it looks: the sentence that used to sit in this spot described the design in the present
-tense, which reads as a description of working software. A reader came away expecting papers
-that do not exist, which is the precise failure this project exists to avoid, committed by its
-own README.
+**One paper exists, and it is generated rather than written.** `crucible paper` gathers a
+closed set of facts by query, renders a typed template against them, then reads its own output
+back and refuses to emit the document if any numeral in it is absent from that set. Verification
+reads the finished text, not the inputs, because a generator that validated its inputs would
+pass while emitting a typo.
 
-The design, when built, is that papers are generated from run records rather than written about
-them: every numeric slot filled by a query, a model drafting only prose containing no numerals,
-and a verification pass rejecting the document if any numeric claim is absent from the records.
-None of that is implemented. `crucible/` contains harvest, forge, pipeline, report, store,
-failures and the model shim, and no press module.
+No model is called. Every sentence is a query result or fixed template prose, so generation
+costs nothing and can run on every commit, and a paper regenerated on every commit cannot drift
+from its data. A model may later draft connective prose under the constraint that it introduce
+no numeral; verification is what turns that constraint from a request into a guarantee.
+
+An earlier version of this section described paper generation in the present tense while no
+such code existed. That retraction is kept in the research log rather than quietly reworded.
 
 ---
 

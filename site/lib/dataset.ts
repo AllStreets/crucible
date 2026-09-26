@@ -32,6 +32,10 @@ export interface Manifest {
   engine_commit: string;
   dataset_sha256: string;
   counts: Record<string, number>;
+  /** False when the record could not support a paper, in which case none was
+   *  written. An empty template rendered as a published result would be the
+   *  same failure as a number with no row behind it. */
+  paper_published: boolean;
 }
 
 const DATA_DIR = join(process.cwd(), "public", "data");

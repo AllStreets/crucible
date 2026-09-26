@@ -26,6 +26,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from crucible.failures import FailureClass
+from crucible.press import VerificationError, generate as generate_paper
 from crucible.store import Store
 
 _PUBLISHED_TABLES = ("candidates", "builds", "env_checks", "unresolved")
@@ -81,14 +82,32 @@ def publish_dataset(store: Store, out_dir: Path) -> PublishResult:
     labels_path.write_text(json.dumps(
         {str(c): c.label for c in FailureClass}, indent=2, sort_keys=True) + "\n")
 
+    # The paper travels with the dataset it was generated from. Publishing one
+    # without the other is how a page ends up citing figures that the file
+    # beside it no longer contains.
+    paper_path = out_dir.parent / "papers" / "container-viability.md"
+    paper_path.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        paper_path.write_text(generate_paper(store))
+        paper_written = True
+    except VerificationError:
+        # An empty or unverifiable store yields no paper, and that is reported
+        # rather than papered over with an empty file the site would render as
+        # a published result.
+        if paper_path.exists():
+            paper_path.unlink()
+        paper_written = False
+
     manifest_path = out_dir / "manifest.json"
     manifest_path.write_text(json.dumps({
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "engine_commit": _engine_commit(),
         "dataset_sha256": hashlib.sha256(body.encode()).hexdigest(),
         "counts": counts,
+        "paper_published": paper_written,
     }, indent=2, sort_keys=True) + "\n")
 
-    return PublishResult(
-        files=(dataset_path, schema_path, labels_path, manifest_path),
-        counts=counts)
+    files = [dataset_path, schema_path, labels_path, manifest_path]
+    if paper_written:
+        files.append(paper_path)
+    return PublishResult(files=tuple(files), counts=counts)

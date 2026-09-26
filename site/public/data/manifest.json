@@ -6,6 +6,7 @@
     "unresolved": 0
   },
   "dataset_sha256": "368860fcd0bcfcd0f4f1edb02cfc9fe565e354fe4ba9a3da7793fafa62f9129d",
-  "engine_commit": "93e516c3aca0001b5ecbda9f793832c60fd3db6d",
-  "generated_at": "2026-09-26T18:43:13.313359+00:00"
+  "engine_commit": "11b868b3623a47570283dff6d17e1391317cb09d",
+  "generated_at": "2026-09-26T18:59:36.634542+00:00",
+  "paper_published": true
 }

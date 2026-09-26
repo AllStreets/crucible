@@ -20,9 +20,12 @@ test("no component hardcodes a figure", () => {
   for (const file of [...walk("app"), ...walk("components")]) {
     const src = readFileSync(file, "utf8");
     const body = src.split("<style>")[0];
-    // The > must open a JSX tag, not close an arrow function, or every sort
-    // comparator in the file reads as a hardcoded figure.
-    for (const m of body.matchAll(/(?<![=!<>])>[^<>{}]*\b\d+(?:\.\d+)?\b[^<>{}]*</g)) {
+    // The > must close a JSX tag, which means it sits directly against the
+    // tag's last character. A > with a space before it is a comparison, and
+    // an arrow function's > follows an equals sign. Both were matched by
+    // earlier drafts of this pattern, so every sort comparator and every
+    // length check in the file read as a hardcoded figure.
+    for (const m of body.matchAll(/(?<=[A-Za-z0-9"'\/}\]])>[^<>{}]*\b\d+(?:\.\d+)?\b[^<>{}]*</g)) {
       if (/Figure \d|20\d\d/.test(m[0])) continue;
       offenders.push(`${file}: ${m[0].trim().slice(0, 70)}`);
     }
