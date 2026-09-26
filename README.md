@@ -8,7 +8,7 @@
 
 &nbsp;
 
-<img alt="tests" src="https://img.shields.io/badge/tests-105_passing-4ADE80?style=for-the-badge&labelColor=0a0c10"/>
+<img alt="tests" src="https://img.shields.io/badge/tests-110_passing-4ADE80?style=for-the-badge&labelColor=0a0c10"/>
 <img alt="records" src="https://img.shields.io/badge/records-append--only-D2A056?style=for-the-badge&labelColor=0a0c10"/>
 <img alt="grading" src="https://img.shields.io/badge/grading-deterministic_first-D2A056?style=for-the-badge&labelColor=0a0c10"/>
 <a href="LICENSE"><img alt="license" src="https://img.shields.io/badge/license-Apache--2.0-4ADE80?style=for-the-badge&labelColor=0a0c10"/></a>
@@ -61,6 +61,36 @@ bytes on disk.
 
 ---
 
+## The first run against a live daemon
+
+Five agents, chosen to span the outcome space rather than to cover the field.
+Every count below resolves to a row in `runs/smoke.db` and every failure to its full
+build log in `runs/blobs/`, addressed by sha256.
+
+```
+  aider-ai-aider                  built    environment check passed   247ms
+  yoheinakajima-babyagi           built    environment check passed   256ms
+  openai-swarm                    built    environment check passed   215ms
+  opendevin-opendevin             failed   no_installable_manifest
+  significant-gravitas-autogpt    failed   python_version_unsupported
+```
+
+Three of five, and the two failures are the interesting half. One repository has no
+package definition at its root or one level below it; the log states the search path
+rather than asserting the conclusion. The other has exactly one installable
+subproject, which requires Python 3.12 against a 3.11 base image. That second one is
+a fact about the agent and about this harness at once, which is why it has its own
+class instead of being pooled into a generic build failure.
+
+The run also cost the project three defects, none of which were visible by reading.
+The recipe was not pinned in the build record, so editing it would have silently
+redefined every figure. The recipe searched only the repository root, so it reported
+our gap as the agent's defect. And a sentinel string written inline in the Dockerfile
+leaked into BuildKit's error trailer, where the classifier read it and mislabelled a
+build that had failed for an entirely different reason.
+
+---
+
 ## What this does not measure
 
 The environment check starts the built image and runs a probe: the interpreter comes up,
@@ -108,7 +138,7 @@ python3 -m venv .venv
 .venv/bin/pip install -e ~/code/SMADP      # the sandbox engine, imported not forked
 .venv/bin/pip install -e ".[dev]"
 
-.venv/bin/pytest -q                        # 105 passing
+.venv/bin/pytest -q                        # 110 passing
 .venv/bin/crucible run seeds/first-fifty.txt
 .venv/bin/crucible report
 ```
