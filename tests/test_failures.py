@@ -128,3 +128,51 @@ def test_an_unrecognized_failure_is_named_rather_than_guessed() -> None:
 def test_every_class_has_a_human_readable_label() -> None:
     for fc in FailureClass:
         assert fc.label and not fc.label.endswith(".")
+
+
+# git's wording when the clone itself cannot reach the remote.
+CLONE_DNS_LOG = """\
+#10 [3/5] RUN git clone "$REPO_URL" . && git checkout "$COMMIT_PIN"
+#10 0.301 Cloning into '.'...
+#10 5.112 fatal: unable to access 'https://github.com/x/y/': \
+Could not resolve host: github.com
+------
+docker/generic.Dockerfile:14
+--------------------
+  14 | >>> RUN git clone "$REPO_URL" . && git checkout "$COMMIT_PIN"
+--------------------
+ERROR: failed to solve: process "/bin/sh -c ..." did not complete \
+successfully: exit code: 128
+"""
+
+# The same words, from apt, three steps after the clone succeeded.
+INSTALL_DNS_LOG = """\
+#9 [3/5] RUN git clone "$REPO_URL" . && git checkout "$COMMIT_PIN"
+#9 0.412 Cloning into '.'...
+#9 3.884 DONE
+#12 [5/5] RUN pip install --no-cache-dir -e .
+#12 1.004 WARNING: Retrying after connection broken by NewConnectionError
+#12 8.221 Could not resolve host: files.pythonhosted.org
+#12 8.500 ERROR: Could not install packages due to an OSError
+------
+docker/generic.Dockerfile:16
+--------------------
+  16 | >>> RUN if [ -f pyproject.toml ]; then pip install --no-cache-dir -e .; \\
+--------------------
+ERROR: failed to solve: process "/bin/sh -c ..." did not complete \
+successfully: exit code: 1
+"""
+
+
+def test_a_clone_that_cannot_resolve_the_host_is_a_clone_failure() -> None:
+    assert classify_build_log(CLONE_DNS_LOG, 1) is FailureClass.CLONE_FAILED
+
+
+def test_an_outage_during_the_install_step_is_not_blamed_on_the_clone() -> None:
+    """apt, curl and pip print "could not resolve host" too, and the clone step's
+    output sits in the same log because it ran and succeeded. Unguarded, a
+    network outage mid-install published as a clone failure."""
+    assert "could not resolve host" in INSTALL_DNS_LOG.lower()
+    assert "Cloning into" in INSTALL_DNS_LOG
+    assert classify_build_log(INSTALL_DNS_LOG, 1) is not FailureClass.CLONE_FAILED
+    assert classify_build_log(INSTALL_DNS_LOG, 1) is FailureClass.BUILD_FAILED

@@ -5,6 +5,13 @@ here rather than as ad hoc strings. UNKNOWN exists and is load-bearing: an
 unrecognized failure bucketed into a neighbouring class would silently distort
 the published distribution, so anything unmatched is named as unmatched and
 shows up in the dataset asking to be looked at.
+
+UNKNOWN holds one more thing, and a reader of the distribution needs to know it:
+two failures of this harness rather than of an agent are filed here too, because
+neither is a fact about the agent and no build class would be honest. They are
+the build timeout (30 minutes, which heavy agents will hit) and the docker
+command failing to run at all. Both store the exception text as evidence, so
+they are identifiable in the dataset, and the report says so in its limitations.
 """
 from __future__ import annotations
 
@@ -58,33 +65,57 @@ class FailureClass(StrEnum):
 # Within that, specific-before-general: pip's resolver messages come first
 # because a dependency failure is also wrapped by BuildKit's generic
 # "failed to solve", which is therefore last of all.
-_BUILD_PATTERNS: tuple[tuple[str, FailureClass], ...] = (
+#
+# A third element, when present, is a guard: the needle only decides the class if
+# the log also contains one of the guard strings. It exists for needles that are
+# specific to a message but not to a stage. "could not resolve host" is the case:
+# git prints it when a clone cannot reach the remote, and so do apt, curl and pip
+# when egress drops during the dependency step, so unguarded it published a
+# mid-install network outage as a clone failure.
+#
+# The guard is git's own transport-failure wording rather than anything naming
+# the clone step. "cloning into" and "git clone" are both useless as guards: the
+# clone step's output and the Dockerfile line that ran it appear in the log of
+# every failed build, including one that failed three steps later. A guarded
+# match that finds no git transport failure falls through to the generic build
+# classes, which is the honest place for an outage we cannot attribute.
+#
+# ("no matching distribution found" has the same shape but is already inside
+# dependency_conflict, where a network fault during resolution belongs, so it
+# needs no guard.)
+_GIT_TRANSPORT_FAILURE = ("fatal: unable to access", "fatal: clone of",
+                          "could not read from remote repository",
+                          "error: rpc failed")
+
+_BUILD_PATTERNS: tuple[tuple[str, FailureClass, tuple[str, ...]], ...] = (
     # Dependency resolution, as pip, uv and poetry actually word it.
-    ("could not find a version that satisfies", FailureClass.DEPENDENCY_CONFLICT),
-    ("no matching distribution found", FailureClass.DEPENDENCY_CONFLICT),
-    ("conflicting dependencies", FailureClass.DEPENDENCY_CONFLICT),
-    ("resolutionimpossible", FailureClass.DEPENDENCY_CONFLICT),
-    ("the conflict is caused by", FailureClass.DEPENDENCY_CONFLICT),
-    ("no solution found when resolving dependencies", FailureClass.DEPENDENCY_CONFLICT),
+    ("could not find a version that satisfies", FailureClass.DEPENDENCY_CONFLICT, ()),
+    ("no matching distribution found", FailureClass.DEPENDENCY_CONFLICT, ()),
+    ("conflicting dependencies", FailureClass.DEPENDENCY_CONFLICT, ()),
+    ("resolutionimpossible", FailureClass.DEPENDENCY_CONFLICT, ()),
+    ("the conflict is caused by", FailureClass.DEPENDENCY_CONFLICT, ()),
+    ("no solution found when resolving dependencies", FailureClass.DEPENDENCY_CONFLICT, ()),
     # Clone, as git words it. Our Dockerfile clones inside the build, so these
     # arrive in the build log rather than from a separate clone step.
-    ("fatal: repository", FailureClass.CLONE_FAILED),
-    ("repository not found", FailureClass.CLONE_FAILED),
-    ("could not read from remote repository", FailureClass.CLONE_FAILED),
-    ("could not resolve host", FailureClass.CLONE_FAILED),
-    ("fatal: reference is not a tree", FailureClass.CLONE_FAILED),
+    ("fatal: repository", FailureClass.CLONE_FAILED, ()),
+    ("repository not found", FailureClass.CLONE_FAILED, ()),
+    ("could not read from remote repository", FailureClass.CLONE_FAILED, ()),
+    ("fatal: unable to access", FailureClass.CLONE_FAILED, ()),
+    # Guarded: apt, curl and pip print this too when egress drops mid-install.
+    ("could not resolve host", FailureClass.CLONE_FAILED, _GIT_TRANSPORT_FAILURE),
+    ("fatal: reference is not a tree", FailureClass.CLONE_FAILED, ()),
     # No usable build recipe. The first needle is the exact sentinel our own
     # Dockerfile echoes when a repository has no installable manifest; the rest
     # are docker's wording for a Dockerfile that could not be read at all.
-    ("no installable manifest", FailureClass.NO_BUILD_RECIPE),
-    ("failed to read dockerfile", FailureClass.NO_BUILD_RECIPE),
-    ("cannot locate specified dockerfile", FailureClass.NO_BUILD_RECIPE),
+    ("no installable manifest", FailureClass.NO_BUILD_RECIPE, ()),
+    ("failed to read dockerfile", FailureClass.NO_BUILD_RECIPE, ()),
+    ("cannot locate specified dockerfile", FailureClass.NO_BUILD_RECIPE, ()),
     # Generic build failure last. "failed to solve" is BuildKit's wrapper around
     # every failing step whatever the cause, so it is only the answer when
     # nothing more specific matched.
-    ("failed to solve", FailureClass.BUILD_FAILED),
-    ("did not complete successfully", FailureClass.BUILD_FAILED),
-    ("returned a non-zero code", FailureClass.BUILD_FAILED),
+    ("failed to solve", FailureClass.BUILD_FAILED, ()),
+    ("did not complete successfully", FailureClass.BUILD_FAILED, ()),
+    ("returned a non-zero code", FailureClass.BUILD_FAILED, ()),
 )
 
 
@@ -92,7 +123,10 @@ def classify_build_log(log: str, exit_code: int) -> FailureClass:
     if exit_code == 0:
         return FailureClass.NONE
     lowered = log.lower()
-    for needle, cls in _BUILD_PATTERNS:
-        if needle in lowered:
-            return cls
+    for needle, cls, guard in _BUILD_PATTERNS:
+        if needle not in lowered:
+            continue
+        if guard and not any(g in lowered for g in guard):
+            continue
+        return cls
     return FailureClass.UNKNOWN
