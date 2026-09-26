@@ -24,13 +24,57 @@ def scripted(*results):
     return run
 
 
-async def test_a_successful_build_records_a_pinned_digest(store) -> None:
-    run = scripted((0, "Successfully built"), (0, "sha256:" + "b" * 64))
-    res = await build(CAND, store=store, run=run)
+# What a real `docker image inspect --format {{.Id}}` prints: the
+# content-addressed image ID, with a trailing newline.
+REAL_IMAGE_ID = "sha256:" + "b" * 64
 
-    assert res.ok and res.image_digest == "sha256:" + "b" * 64
+
+def docker_like(recorder: list[list[str]] | None = None):
+    """A fake that answers each docker command the way docker really answers it.
+
+    `docker image inspect --format '{{index .RepoDigests 0}}'` on a locally
+    built, never-pushed image does not print a digest: the field is an empty
+    list, so the template errors and docker exits 1. This fake reproduces that,
+    which is the behaviour the previous fixture hid by returning a digest for
+    any format string.
+    """
+    async def run(*argv: str, **kw) -> tuple[int, str]:
+        if recorder is not None:
+            recorder.append(list(argv))
+        joined = " ".join(argv)
+        if "docker build" in joined:
+            return (0, "#8 naming to docker.io/library/crucible\nSuccessfully built")
+        if "image inspect" in joined:
+            if "RepoDigests" in joined:
+                return (1, "Template parsing error: template: :1:2: executing "
+                           '"" at <index .RepoDigests 0>: error calling index: '
+                           "index out of range: 0\n")
+            return (0, REAL_IMAGE_ID + "\n")
+        return (1, f"unexpected command: {joined}")
+    return run
+
+
+async def test_a_successful_build_records_a_pinned_digest(store) -> None:
+    res = await build(CAND, store=store, run=docker_like())
+
+    assert res.ok and res.image_digest == REAL_IMAGE_ID
     row = store.rows("builds")[0]
     assert row["status"] == "built" and row["image_digest"] == res.image_digest
+
+
+async def test_the_pin_is_read_from_the_image_id_not_from_repodigests(store) -> None:
+    """RepoDigests is empty for an image we built and never pushed, so asking
+    for it fails every build. Regression guard: if this assertion is ever
+    relaxed back to RepoDigests, no build can succeed against real Docker."""
+    argv_seen: list[list[str]] = []
+    res = await build(CAND, store=store, run=docker_like(argv_seen))
+
+    inspect = [a for a in argv_seen if "inspect" in a]
+    assert inspect, "build never inspected the image it produced"
+    assert "{{.Id}}" in inspect[0]
+    assert not any("RepoDigests" in part for part in inspect[0])
+    assert res.ok and res.image_digest is not None
+    assert res.image_digest.startswith("sha256:")
 
 
 async def test_a_failed_build_is_recorded_with_its_class_and_full_log(store) -> None:

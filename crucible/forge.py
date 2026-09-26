@@ -58,9 +58,18 @@ async def build(c: Candidate, *, store: Store,
                      failure_class=str(failure), log_ref=log_ref)
         return BuildResult(False, None, failure, log_ref)
 
-    # The digest is the pin. A build we cannot pin is not a usable build.
+    # The image ID is the pin. A build we cannot pin is not a usable build.
+    #
+    # Deliberately {{.Id}} and not {{index .RepoDigests 0}}: RepoDigests is
+    # populated only for an image that has a registry association, so for an
+    # image we built here and never pushed it is an empty list, the Go template
+    # errors, docker exits non-zero, and every genuinely viable agent in the
+    # batch would be recorded as a build failure. Its entries are also formatted
+    # `repo@sha256:...`, which would not satisfy the guard below. {{.Id}} is the
+    # content-addressed image ID, is always present for a local build, and is
+    # already formatted `sha256:...`. Do not "correct" this back.
     dcode, digest = await run("docker", "image", "inspect", tag,
-                              "--format", "{{index .RepoDigests 0}}")
+                              "--format", "{{.Id}}")
     digest = digest.strip()
     if dcode != 0 or not digest.startswith("sha256:"):
         store.record("builds", candidate=c.slug, status="failed",
