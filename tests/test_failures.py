@@ -287,3 +287,62 @@ def test_a_build_that_merely_ran_the_script_is_not_an_ambiguous_manifest() -> No
     assert result is not FailureClass.AMBIGUOUS_MANIFEST
     assert result is not FailureClass.NO_INSTALLABLE_MANIFEST
     assert result is FailureClass.BUILD_FAILED
+
+
+WORKSPACE_ROOT_LOG = """\
+#10 0.183 crucible: found a single package definition at ./python
+#10 0.756   Installing build dependencies: started
+#10 1.462   error: subprocess-exited-with-error
+#10 1.462       error: Multiple top-level packages discovered in a flat-layout: \
+['samples', 'packages', 'templates'].
+#10 ERROR: process "/bin/sh -c sh /opt/crucible/resolve_manifest.sh" did not \
+complete successfully: exit code: 1
+------
+ERROR: failed to solve: process "/bin/sh -c sh /opt/crucible/resolve_manifest.sh" \
+did not complete successfully: exit code: 1
+"""
+
+
+def test_a_workspace_root_is_not_a_generic_build_failure() -> None:
+    """Found by running: autogen's python/pyproject.toml is a flat layout
+    holding samples, packages and templates, so setuptools refuses to guess
+    which is the distribution.
+
+    Pooling this into build_failed loses the one fact that makes it actionable,
+    which is that the agent sits one directory below a manifest we did find and
+    needs a hand-written entrypoint naming it. A distribution exists to direct
+    work, and a class that cannot direct any is a class that failed.
+    """
+    assert classify_build_log(WORKSPACE_ROOT_LOG, 1) is (
+        FailureClass.WORKSPACE_ROOT_NOT_INSTALLABLE
+    )
+    assert classify_build_log(WORKSPACE_ROOT_LOG, 1) is not FailureClass.BUILD_FAILED
+    # It resolved a manifest, so it is emphatically not a manifest failure.
+    assert classify_build_log(WORKSPACE_ROOT_LOG, 1) is not (
+        FailureClass.NO_INSTALLABLE_MANIFEST
+    )
+
+
+UNSUPPORTED_LANGUAGE_LOG = """\
+#10 0.131 crucible: no Python package definition, but package.json is present at the root
+#10 0.131 crucible-result: unsupported project language
+#10 ERROR: process "/bin/sh -c sh /opt/crucible/resolve_manifest.sh" did not \
+complete successfully: exit code: 1
+"""
+
+
+def test_a_typescript_agent_is_our_gap_and_not_its_defect() -> None:
+    """continue and opencode are TypeScript and both ship a package.json, so
+    they have an installable manifest. It is simply not one this recipe reads.
+
+    Filing them under no_installable_manifest would place two of the most
+    widely run coding agents in the dataset as defective, when the defect is
+    the recipe's coverage. The same mistake, in three earlier forms, is what
+    the first two live runs kept surfacing.
+    """
+    assert classify_build_log(UNSUPPORTED_LANGUAGE_LOG, 1) is (
+        FailureClass.UNSUPPORTED_LANGUAGE
+    )
+    assert classify_build_log(UNSUPPORTED_LANGUAGE_LOG, 1) is not (
+        FailureClass.NO_INSTALLABLE_MANIFEST
+    )

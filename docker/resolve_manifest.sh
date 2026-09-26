@@ -36,23 +36,55 @@ if [ -f requirements.txt ]; then
     exec pip install --no-cache-dir -r requirements.txt
 fi
 
-# One level down, and one level only. Deeper searching finds vendored copies,
-# test fixtures and example projects, none of which are the agent.
+# Below the root, shallowest first.
 #
-# Only pyproject.toml and setup.py count here. requirements.txt is excluded one
-# level down because monorepos scatter them through docs, examples and CI
+# One level was not enough, and the first ten-agent run is why. langgraph keeps
+# its package at libs/langgraph and autogen keeps its at python/packages, so a
+# one-level search found nothing in one and a workspace root in the other, and
+# both were recorded as failures of the agent when they were failures of this
+# search. Real agent monorepos nest the installable package two directories
+# down, which is a finding in its own right.
+#
+# Depths are tried shallowest first and the first depth that yields anything
+# decides. Going deeper after a hit would start finding vendored copies, test
+# fixtures and example projects, none of which are the agent.
+#
+# Only pyproject.toml and setup.py count below the root. requirements.txt is
+# excluded because monorepos scatter them through docs, examples and CI
 # directories, where they pin dependencies for something that is not the agent.
 #
 # sed rather than find's -printf, which is a GNU extension and absent on the
 # busybox find some slim base images ship.
-found=$(find . -mindepth 2 -maxdepth 2 \
-             \( -name pyproject.toml -o -name setup.py \) \
-             -not -path './.*' 2>/dev/null \
-        | sed 's|/[^/]*$||' \
-        | sort -u)
+repo_name=$(basename "${REPO_URL:-}" .git)
+
+found=""
+for depth in 2 3; do
+    found=$(find . -mindepth "$depth" -maxdepth "$depth" \
+                 \( -name pyproject.toml -o -name setup.py \) \
+                 -not -path './.*' 2>/dev/null \
+            | sed 's|/[^/]*$||' \
+            | sort -u)
+    if [ -n "$found" ]; then
+        echo "crucible: found package definitions at depth $((depth - 1))"
+        break
+    fi
+done
 
 if [ -z "$found" ]; then
-    echo "crucible: searched the root and one level down and found no package definition"
+    # Before reporting no manifest, check whether this is a project in a
+    # language this recipe does not cover. continue and opencode are both
+    # TypeScript and both have a package.json, so reporting that they have no
+    # installable manifest blames them for a gap that is ours. The recipe is
+    # Python only, and saying which language it actually is turns a wrong label
+    # into a queued piece of work.
+    for marker in package.json go.mod Cargo.toml pom.xml build.gradle; do
+        if [ -f "$marker" ]; then
+            echo "crucible: no Python package definition, but $marker is present at the root"
+            echo "crucible-result: unsupported project language"
+            exit 1
+        fi
+    done
+    echo "crucible: searched the root and two levels below it, found no package definition"
     echo "crucible-result: no installable manifest"
     exit 1
 fi
@@ -60,13 +92,29 @@ fi
 count=$(printf '%s\n' "$found" | grep -c . 2>/dev/null || echo 0)
 
 if [ "$count" -gt 1 ]; then
-    # Refusing to choose is the point. Silently installing the alphabetically
-    # first subproject of a monorepo yields a result labelled with the agent's
-    # name that is actually about whichever component we happened to land on,
-    # and nothing downstream could tell the difference. An ambiguous repository
-    # needs a hand-written entrypoint, which is Phase 2 work.
+    # One stated rule, applied before refusing: prefer the subproject whose
+    # directory name is the repository's own name. In a monorepo that publishes
+    # several packages, the one sharing the repository name is the agent and the
+    # rest are its libraries, and langgraph is the case that motivated this.
+    #
+    # The rule is deterministic, is printed when it fires, and does not
+    # generalise into a guess. When no directory matches, the build still stops
+    # rather than picking the alphabetically first subproject, because a result
+    # labelled with the agent's name that is actually about whichever component
+    # we landed on is worse than no result. autogen is that case: it publishes
+    # several packages and none is named for the repository, so it needs a
+    # hand-written entrypoint, which is Phase 2 work.
+    match=$(printf '%s\n' "$found" | while read -r d; do
+        [ "$(basename "$d")" = "$repo_name" ] && echo "$d"
+    done)
+    matches=$(printf '%s\n' "$match" | grep -c . 2>/dev/null || echo 0)
+    if [ "$matches" -eq 1 ]; then
+        echo "crucible: $count candidates, choosing $match because its name is the repository's"
+        exec pip install --no-cache-dir -e "$match"
+    fi
     echo "crucible: found $count package definitions and will not guess between them:"
     printf '  %s\n' $found
+    echo "crucible: none is named for the repository, which is $repo_name"
     echo "crucible-result: ambiguous installable manifest"
     exit 1
 fi

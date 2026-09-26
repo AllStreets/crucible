@@ -1,0 +1,50 @@
+#1 [internal] load build definition from generic.Dockerfile
+#1 transferring dockerfile: 1.90kB done
+#1 DONE 0.1s
+
+#2 [internal] load .dockerignore
+#2 transferring context: 2B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.11-slim
+#3 DONE 0.0s
+
+#4 [1/6] FROM docker.io/library/python:3.11-slim
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 74B done
+#5 DONE 0.0s
+
+#6 [3/6] WORKDIR /app
+#6 CACHED
+
+#7 [2/6] RUN apt-get update && apt-get install -y --no-install-recommends         git ca-certificates build-essential     && rm -rf /var/lib/apt/lists/*
+#7 CACHED
+
+#8 [4/6] RUN git clone "https://github.com/continuedev/continue" . && git checkout "5522c6f44ca0ac3528b37244818fbfa39b5af470"
+#8 CACHED
+
+#9 [5/6] COPY docker/resolve_manifest.sh /opt/crucible/resolve_manifest.sh
+#9 DONE 0.1s
+
+#10 [6/6] RUN sh /opt/crucible/resolve_manifest.sh
+#0 0.143 crucible: resolving installable manifest in /app
+#10 0.177 crucible: searched the root and two levels below it, found no package definition
+#10 0.177 crucible-result: no installable manifest
+#10 ERROR: process "/bin/sh -c sh /opt/crucible/resolve_manifest.sh" did not complete successfully: exit code: 1
+------
+ > [6/6] RUN sh /opt/crucible/resolve_manifest.sh:
+#0 0.143 crucible: resolving installable manifest in /app
+#10 0.177 crucible: searched the root and two levels below it, found no package definition
+#10 0.177 crucible-result: no installable manifest
+------
+generic.Dockerfile:26
+--------------------
+  24 |     # classifier reads those logs. See docker/resolve_manifest.sh.
+  25 |     COPY docker/resolve_manifest.sh /opt/crucible/resolve_manifest.sh
+  26 | >>> RUN sh /opt/crucible/resolve_manifest.sh
+  27 |     
+  28 |     # The default command is an environment probe, not the agent. It starts the
+--------------------
+ERROR: failed to solve: process "/bin/sh -c sh /opt/crucible/resolve_manifest.sh" did not complete successfully: exit code: 1

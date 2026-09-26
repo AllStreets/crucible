@@ -1,0 +1,50 @@
+#1 [internal] load .dockerignore
+#1 transferring context: 2B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from generic.Dockerfile
+#2 transferring dockerfile: 1.90kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.11-slim
+#3 DONE 0.0s
+
+#4 [1/6] FROM docker.io/library/python:3.11-slim
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 74B done
+#5 DONE 0.0s
+
+#6 [2/6] RUN apt-get update && apt-get install -y --no-install-recommends         git ca-certificates build-essential     && rm -rf /var/lib/apt/lists/*
+#6 CACHED
+
+#7 [3/6] WORKDIR /app
+#7 CACHED
+
+#8 [4/6] RUN git clone "https://github.com/anomalyco/opencode" . && git checkout "a42f393c850bec0c0f395fb91bf19b1ee8b31666"
+#8 CACHED
+
+#9 [5/6] COPY docker/resolve_manifest.sh /opt/crucible/resolve_manifest.sh
+#9 DONE 0.0s
+
+#10 [6/6] RUN sh /opt/crucible/resolve_manifest.sh
+#10 0.115 crucible: resolving installable manifest in /app
+#10 0.135 crucible: searched the root and two levels below it, found no package definition
+#10 0.135 crucible-result: no installable manifest
+#10 ERROR: process "/bin/sh -c sh /opt/crucible/resolve_manifest.sh" did not complete successfully: exit code: 1
+------
+ > [6/6] RUN sh /opt/crucible/resolve_manifest.sh:
+#10 0.115 crucible: resolving installable manifest in /app
+#10 0.135 crucible: searched the root and two levels below it, found no package definition
+#10 0.135 crucible-result: no installable manifest
+------
+generic.Dockerfile:26
+--------------------
+  24 |     # classifier reads those logs. See docker/resolve_manifest.sh.
+  25 |     COPY docker/resolve_manifest.sh /opt/crucible/resolve_manifest.sh
+  26 | >>> RUN sh /opt/crucible/resolve_manifest.sh
+  27 |     
+  28 |     # The default command is an environment probe, not the agent. It starts the
+--------------------
+ERROR: failed to solve: process "/bin/sh -c sh /opt/crucible/resolve_manifest.sh" did not complete successfully: exit code: 1

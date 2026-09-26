@@ -1,0 +1,38 @@
+#1 [internal] load build definition from generic.Dockerfile
+#1 transferring dockerfile: 1.90kB done
+#1 DONE 0.0s
+
+#2 [internal] load .dockerignore
+#2 transferring context: 2B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.11-slim
+#3 DONE 0.0s
+
+#4 [1/6] FROM docker.io/library/python:3.11-slim
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 74B done
+#5 DONE 0.0s
+
+#6 [4/6] RUN git clone "https://github.com/yoheinakajima/babyagi" . && git checkout "fa8930ebe72a82e5ad57b356e7cbec96290e5bb2"
+#6 CACHED
+
+#7 [2/6] RUN apt-get update && apt-get install -y --no-install-recommends         git ca-certificates build-essential     && rm -rf /var/lib/apt/lists/*
+#7 CACHED
+
+#8 [3/6] WORKDIR /app
+#8 CACHED
+
+#9 [5/6] COPY docker/resolve_manifest.sh /opt/crucible/resolve_manifest.sh
+#9 CACHED
+
+#10 [6/6] RUN sh /opt/crucible/resolve_manifest.sh
+#10 CACHED
+
+#11 exporting to image
+#11 exporting layers done
+#11 writing image sha256:0ba7778513f41fa6d5f4b96a592f7bb484ab42fb4ba762e0f2e4f243feba019b done
+#11 naming to docker.io/crucible/yoheinakajima-babyagi:fa8930ebe72a done
+#11 DONE 0.0s

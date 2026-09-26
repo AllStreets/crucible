@@ -1,0 +1,112 @@
+#1 [internal] load .dockerignore
+#1 transferring context: 2B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from generic.Dockerfile
+#2 transferring dockerfile: 1.90kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.11-slim
+#3 DONE 0.0s
+
+#4 [1/6] FROM docker.io/library/python:3.11-slim
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 74B done
+#5 DONE 0.0s
+
+#6 [2/6] RUN apt-get update && apt-get install -y --no-install-recommends         git ca-certificates build-essential     && rm -rf /var/lib/apt/lists/*
+#6 CACHED
+
+#7 [3/6] WORKDIR /app
+#7 CACHED
+
+#8 [4/6] RUN git clone "https://github.com/yoheinakajima/babyagi" . && git checkout "fa8930ebe72a82e5ad57b356e7cbec96290e5bb2"
+#8 CACHED
+
+#9 [5/6] COPY docker/resolve_manifest.sh /opt/crucible/resolve_manifest.sh
+#9 DONE 0.0s
+
+#10 [6/6] RUN sh /opt/crucible/resolve_manifest.sh
+#0 0.103 crucible: resolving installable manifest in /app
+#10 0.103 crucible: found a package definition at the repository root
+#10 0.709 Obtaining file:///app
+#10 0.710   Installing build dependencies: started
+#10 1.193   Installing build dependencies: finished with status 'done'
+#10 1.194   Checking if build backend supports build_editable: started
+#10 1.241   Checking if build backend supports build_editable: finished with status 'done'
+#10 1.241   Getting requirements to build editable: started
+#10 1.296   Getting requirements to build editable: finished with status 'done'
+#10 1.297   Preparing editable metadata (pyproject.toml): started
+#10 1.376   Preparing editable metadata (pyproject.toml): finished with status 'done'
+#10 1.434 Collecting db<0.2.0,>=0.1.1 (from babyagi==0.0.8)
+#10 1.462   Downloading db-0.1.1.tar.gz (3.4 kB)
+#10 1.462   Preparing metadata (setup.py): started
+#10 1.605   Preparing metadata (setup.py): finished with status 'done'
+#10 1.621 Collecting flask<4.0.0,>=3.0.3 (from babyagi==0.0.8)
+#10 1.626   Downloading flask-3.1.3-py3-none-any.whl.metadata (3.2 kB)
+#10 1.708 Collecting setuptools<76.0.0,>=75.1.0 (from babyagi==0.0.8)
+#10 1.717   Downloading setuptools-75.9.1-py3-none-any.whl.metadata (6.7 kB)
+#10 1.734 Collecting werkzeug<4.0.0,>=3.0.4 (from babyagi==0.0.8)
+#10 1.742   Downloading werkzeug-3.1.8-py3-none-any.whl.metadata (4.0 kB)
+#10 1.770 Collecting antiorm (from db<0.2.0,>=0.1.1->babyagi==0.0.8)
+#10 1.777   Downloading antiorm-1.2.1.tar.gz (171 kB)
+#10 1.809      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 172.0/172.0 kB 6.4 MB/s eta 0:00:00
+#10 1.810   Preparing metadata (setup.py): started
+#10 1.879   Preparing metadata (setup.py): finished with status 'done'
+#10 1.903 Collecting blinker>=1.9.0 (from flask<4.0.0,>=3.0.3->babyagi==0.0.8)
+#10 1.908   Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+#10 1.921 Collecting click>=8.1.3 (from flask<4.0.0,>=3.0.3->babyagi==0.0.8)
+#10 1.926   Downloading click-8.5.0-py3-none-any.whl.metadata (2.6 kB)
+#10 1.937 Collecting itsdangerous>=2.2.0 (from flask<4.0.0,>=3.0.3->babyagi==0.0.8)
+#10 1.944   Downloading itsdangerous-2.2.0-py3-none-any.whl.metadata (1.9 kB)
+#10 1.957 Collecting jinja2>=3.1.2 (from flask<4.0.0,>=3.0.3->babyagi==0.0.8)
+#10 1.961   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+#10 1.990 Collecting markupsafe>=2.1.1 (from flask<4.0.0,>=3.0.3->babyagi==0.0.8)
+#10 1.997   Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (2.7 kB)
+#10 2.026 Downloading flask-3.1.3-py3-none-any.whl (103 kB)
+#10 2.029    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 103.4/103.4 kB 75.7 MB/s eta 0:00:00
+#10 2.036 Downloading setuptools-75.9.1-py3-none-any.whl (1.2 MB)
+#10 2.060    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 55.2 MB/s eta 0:00:00
+#10 2.068 Downloading werkzeug-3.1.8-py3-none-any.whl (226 kB)
+#10 2.071    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 226.5/226.5 kB 85.4 MB/s eta 0:00:00
+#10 2.076 Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
+#10 2.085 Downloading click-8.5.0-py3-none-any.whl (125 kB)
+#10 2.087    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 125.3/125.3 kB 211.2 MB/s eta 0:00:00
+#10 2.093 Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+#10 2.101 Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+#10 2.103    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 134.9/134.9 kB 78.1 MB/s eta 0:00:00
+#10 2.109 Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (24 kB)
+#10 2.115 Building wheels for collected packages: babyagi, db, antiorm
+#10 2.115   Building editable for babyagi (pyproject.toml): started
+#10 2.196   Building editable for babyagi (pyproject.toml): finished with status 'done'
+#10 2.198   Created wheel for babyagi: filename=babyagi-0.0.8-py3-none-any.whl size=1050 sha256=dc5047dc33e5378bf9c106e6130d64a1b1e37fe33b6e333efa94379f1daf0aec
+#10 2.198   Stored in directory: /tmp/pip-ephem-wheel-cache-hhqe4btc/wheels/57/0f/98/bb57b2b57b95807699b822a35c022f139d38a02c27922f27ce
+#10 2.198   Building wheel for db (setup.py): started
+#10 2.298   Building wheel for db (setup.py): finished with status 'done'
+#10 2.298   Created wheel for db: filename=db-0.1.1-py3-none-any.whl size=3915 sha256=63d006f74b485668db2873fed28afdf9fcfb7488487f53dfea7837b0d9359b43
+#10 2.298   Stored in directory: /tmp/pip-ephem-wheel-cache-hhqe4btc/wheels/1f/a9/df/8e343ae1489f35fa96888200ee3340217512b98bed2c2def2d
+#10 2.298   Building wheel for antiorm (setup.py): started
+#10 2.376   Building wheel for antiorm (setup.py): finished with status 'done'
+#10 2.378   Created wheel for antiorm: filename=antiorm-1.2.1-py3-none-any.whl size=31744 sha256=2fea4087e659bc4fcdf10a67224b0df2d7a96878ccf9419e035c0df831710f3a
+#10 2.378   Stored in directory: /tmp/pip-ephem-wheel-cache-hhqe4btc/wheels/71/04/d9/c9b4297ae902eb961bc1cff29b248a7e706693200ef2656fb2
+#10 2.378 Successfully built babyagi db antiorm
+#10 2.416 Installing collected packages: antiorm, setuptools, markupsafe, itsdangerous, db, click, blinker, werkzeug, jinja2, flask, babyagi
+#10 2.473   Attempting uninstall: setuptools
+#10 2.474     Found existing installation: setuptools 79.0.1
+#10 2.496     Uninstalling setuptools-79.0.1:
+#10 2.556       Successfully uninstalled setuptools-79.0.1
+#10 2.999 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#10 3.001 Successfully installed antiorm-1.2.1 babyagi-0.0.8 blinker-1.9.0 click-8.5.0 db-0.1.1 flask-3.1.3 itsdangerous-2.2.0 jinja2-3.1.6 markupsafe-3.0.3 setuptools-75.9.1 werkzeug-3.1.8
+#10 3.055 
+#10 3.055 [notice] A new release of pip is available: 24.0 -> 26.2.1
+#10 3.055 [notice] To update, run: pip install --upgrade pip
+#10 DONE 3.2s
+
+#11 exporting to image
+#11 exporting layers
+#11 exporting layers 0.1s done
+#11 writing image sha256:1fc5b7e17de8325f2bd50d1cd2a3cfd496b6d929a45a0b2e971b9f2f3bc06121 done
+#11 naming to docker.io/crucible/yoheinakajima-babyagi:fa8930ebe72a done
+#11 DONE 0.2s

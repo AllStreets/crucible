@@ -1,0 +1,38 @@
+#1 [internal] load .dockerignore
+#1 transferring context: 2B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from generic.Dockerfile
+#2 transferring dockerfile: 1.90kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.11-slim
+#3 DONE 0.0s
+
+#4 [1/6] FROM docker.io/library/python:3.11-slim
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 74B done
+#5 DONE 0.0s
+
+#6 [4/6] RUN git clone "https://github.com/Aider-AI/aider" . && git checkout "5dc9490bb35f9729ef2c95d00a19ccd30c26339c"
+#6 CACHED
+
+#7 [5/6] COPY docker/resolve_manifest.sh /opt/crucible/resolve_manifest.sh
+#7 CACHED
+
+#8 [2/6] RUN apt-get update && apt-get install -y --no-install-recommends         git ca-certificates build-essential     && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [3/6] WORKDIR /app
+#9 CACHED
+
+#10 [6/6] RUN sh /opt/crucible/resolve_manifest.sh
+#10 CACHED
+
+#11 exporting to image
+#11 exporting layers done
+#11 writing image sha256:3fe2b56902942ace89720d6081c4810b1153ba1fbdb8e5553c07ba064c3f03c2 done
+#11 naming to docker.io/crucible/aider-ai-aider:5dc9490bb35f done
+#11 DONE 0.0s

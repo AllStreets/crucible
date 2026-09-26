@@ -1,0 +1,96 @@
+#1 [internal] load build definition from generic.Dockerfile
+#1 transferring dockerfile: 1.90kB done
+#1 DONE 0.2s
+
+#2 [internal] load .dockerignore
+#2 transferring context: 2B done
+#2 DONE 0.2s
+
+#3 [internal] load metadata for docker.io/library/python:3.11-slim
+#3 DONE 0.0s
+
+#4 [1/6] FROM docker.io/library/python:3.11-slim
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 74B done
+#5 DONE 0.0s
+
+#6 [3/6] WORKDIR /app
+#6 CACHED
+
+#7 [2/6] RUN apt-get update && apt-get install -y --no-install-recommends         git ca-certificates build-essential     && rm -rf /var/lib/apt/lists/*
+#7 CACHED
+
+#8 [4/6] RUN git clone "https://github.com/microsoft/autogen" . && git checkout "027ecf0a379bcc1d09956d46d12d44a3ad9cee14"
+#8 CACHED
+
+#9 [5/6] COPY docker/resolve_manifest.sh /opt/crucible/resolve_manifest.sh
+#9 DONE 0.1s
+
+#10 [6/6] RUN sh /opt/crucible/resolve_manifest.sh
+#10 0.170 crucible: resolving installable manifest in /app
+#10 0.181 crucible: found package definitions at depth 1
+#10 0.183 crucible: found a single package definition at ./python
+#10 0.843 Obtaining file:///app/python
+#10 0.845   Installing build dependencies: started
+#10 1.551   Installing build dependencies: finished with status 'done'
+#10 1.551   Checking if build backend supports build_editable: started
+#10 1.636   Checking if build backend supports build_editable: finished with status 'done'
+#10 1.636   Getting requirements to build editable: started
+#10 1.723   Getting requirements to build editable: finished with status 'error'
+#10 1.725   error: subprocess-exited-with-error
+#10 1.725   
+#10 1.725   × Getting requirements to build editable did not run successfully.
+#10 1.725   │ exit code: 1
+#10 1.725   ╰─> [14 lines of output]
+#10 1.725       error: Multiple top-level packages discovered in a flat-layout: ['samples', 'packages', 'templates'].
+#10 1.725       
+#10 1.725       To avoid accidental inclusion of unwanted files or directories,
+#10 1.725       setuptools will not proceed with this build.
+#10 1.725       
+#10 1.725       If you are trying to create a single distribution with multiple packages
+#10 1.725       on purpose, you should not rely on automatic discovery.
+#10 1.725       Instead, consider the following options:
+#10 1.725       
+#10 1.725       1. set up custom discovery (`find` directive with `include` or `exclude`)
+#10 1.725       2. use a `src-layout`
+#10 1.725       3. explicitly set `py_modules` or `packages` with a list of names
+#10 1.725       
+#10 1.725       To find more information, look for "package discovery" on setuptools docs.
+#10 1.725       [end of output]
+#10 1.725   
+#10 1.725   note: This error originates from a subprocess, and is likely not a problem with pip.
+#10 1.726 error: subprocess-exited-with-error
+#10 1.726 
+#10 1.726 × Getting requirements to build editable did not run successfully.
+#10 1.726 │ exit code: 1
+#10 1.726 ╰─> See above for output.
+#10 1.726 
+#10 1.726 note: This error originates from a subprocess, and is likely not a problem with pip.
+#10 1.778 
+#10 1.778 [notice] A new release of pip is available: 24.0 -> 26.2.1
+#10 1.778 [notice] To update, run: pip install --upgrade pip
+#10 ERROR: process "/bin/sh -c sh /opt/crucible/resolve_manifest.sh" did not complete successfully: exit code: 1
+------
+ > [6/6] RUN sh /opt/crucible/resolve_manifest.sh:
+#10 1.726 error: subprocess-exited-with-error
+#10 1.726 
+#10 1.726 × Getting requirements to build editable did not run successfully.
+#10 1.726 │ exit code: 1
+#10 1.726 ╰─> See above for output.
+#10 1.726 
+#10 1.726 note: This error originates from a subprocess, and is likely not a problem with pip.
+#10 1.778 
+#10 1.778 [notice] A new release of pip is available: 24.0 -> 26.2.1
+#10 1.778 [notice] To update, run: pip install --upgrade pip
+------
+generic.Dockerfile:26
+--------------------
+  24 |     # classifier reads those logs. See docker/resolve_manifest.sh.
+  25 |     COPY docker/resolve_manifest.sh /opt/crucible/resolve_manifest.sh
+  26 | >>> RUN sh /opt/crucible/resolve_manifest.sh
+  27 |     
+  28 |     # The default command is an environment probe, not the agent. It starts the
+--------------------
+ERROR: failed to solve: process "/bin/sh -c sh /opt/crucible/resolve_manifest.sh" did not complete successfully: exit code: 1

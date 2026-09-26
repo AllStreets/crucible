@@ -24,6 +24,8 @@ class FailureClass(StrEnum):
     NO_INSTALLABLE_MANIFEST = "no_installable_manifest"
     AMBIGUOUS_MANIFEST = "ambiguous_manifest"
     PYTHON_VERSION_UNSUPPORTED = "python_version_unsupported"
+    WORKSPACE_ROOT_NOT_INSTALLABLE = "workspace_root_not_installable"
+    UNSUPPORTED_LANGUAGE = "unsupported_language"
     NO_BUILD_RECIPE = "no_build_recipe"
     DEPENDENCY_CONFLICT = "dependency_conflict"
     BUILD_FAILED = "build_failed"
@@ -43,6 +45,10 @@ class FailureClass(StrEnum):
                 "Several installable subprojects, none of them obviously the agent",
             FailureClass.PYTHON_VERSION_UNSUPPORTED:
                 "Requires a Python version the base image does not provide",
+            FailureClass.WORKSPACE_ROOT_NOT_INSTALLABLE:
+                "The manifest found is a workspace root, not an installable package",
+            FailureClass.UNSUPPORTED_LANGUAGE:
+                "Written in a language this recipe does not build",
             FailureClass.NO_BUILD_RECIPE: "No usable build recipe",
             FailureClass.DEPENDENCY_CONFLICT: "Dependencies could not be resolved",
             FailureClass.BUILD_FAILED: "Build failed",
@@ -129,11 +135,26 @@ _BUILD_PATTERNS: tuple[tuple[str, FailureClass, tuple[str, ...]], ...] = (
     # much of the failure rate is that rather than something about the agent.
     # Found by running: AutoGPT's installable subproject requires >=3.12 and the
     # base image is 3.11.
+    # A manifest that exists but defines a workspace rather than a package.
+    # autogen is the case: python/pyproject.toml is a flat layout holding
+    # samples, packages and templates, and setuptools refuses to guess which is
+    # the distribution. Pooling this into build_failed would lose the one fact
+    # that makes it actionable, which is that the agent is one directory below
+    # a manifest we did find and needs a hand-written entrypoint naming it.
+    ("multiple top-level packages discovered in a flat-layout",
+     FailureClass.WORKSPACE_ROOT_NOT_INSTALLABLE, ()),
     ("requires a different python", FailureClass.PYTHON_VERSION_UNSUPPORTED, ()),
     ("requires python >=", FailureClass.PYTHON_VERSION_UNSUPPORTED, ()),
     # These two read the script's own result lines, which are printed only on
     # the path they name. They must stay distinct from anything the Dockerfile
     # echoes; see docker/resolve_manifest.sh.
+    # Ours, not theirs. The recipe builds Python, and a TypeScript agent with a
+    # package.json has an installable manifest; it is simply not one we read.
+    # Filing continue and opencode under no_installable_manifest would put two
+    # of the most widely run coding agents in the dataset as defective when the
+    # defect is the recipe's coverage.
+    ("crucible-result: unsupported project language",
+     FailureClass.UNSUPPORTED_LANGUAGE, ()),
     ("crucible-result: ambiguous installable manifest",
      FailureClass.AMBIGUOUS_MANIFEST, ()),
     ("crucible-result: no installable manifest",

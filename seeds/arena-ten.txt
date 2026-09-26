@@ -1,0 +1,33 @@
+# CRUCIBLE arena seed list: the ten agents chosen for hand-written entrypoints.
+#
+# Chosen by the author, not by a ranking, on the grounds that these are agents
+# people actually run together: coding agents, orchestrators, a browser agent
+# and a terminal agent. Phase 2a writes one entrypoint per agent, in the format
+# SMADP's curated adapters already use.
+#
+# Two notes a later reader needs.
+#
+# opencode resolves to anomalyco/opencode. The repository most searches return,
+# opencode-ai/opencode, is archived, and seeding it would have measured a dead
+# project while appearing to measure a live one.
+#
+# continue and opencode are TypeScript. The generic recipe installs Python
+# packages only, so both will fail for a reason that is about this harness and
+# not about them. They are seeded anyway: the failure is a recorded observation
+# and the honest starting point for a Node recipe.
+
+# coding agents
+https://github.com/Aider-AI/aider
+https://github.com/gptme/gptme
+https://github.com/continuedev/continue
+https://github.com/anomalyco/opencode
+
+# orchestrators
+https://github.com/openai/swarm
+https://github.com/microsoft/autogen
+https://github.com/crewAIInc/crewAI
+https://github.com/langchain-ai/langgraph
+
+# task loop and browser
+https://github.com/yoheinakajima/babyagi
+https://github.com/browser-use/browser-use

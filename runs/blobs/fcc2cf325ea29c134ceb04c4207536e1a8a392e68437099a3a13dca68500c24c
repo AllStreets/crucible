@@ -1,0 +1,61 @@
+#1 [internal] load build definition from generic.Dockerfile
+#1 transferring dockerfile: 1.90kB done
+#1 DONE 0.0s
+
+#2 [internal] load .dockerignore
+#2 transferring context: 2B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.11-slim
+#3 DONE 0.0s
+
+#4 [1/6] FROM docker.io/library/python:3.11-slim
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 74B done
+#5 DONE 0.0s
+
+#6 [2/6] RUN apt-get update && apt-get install -y --no-install-recommends         git ca-certificates build-essential     && rm -rf /var/lib/apt/lists/*
+#6 CACHED
+
+#7 [3/6] WORKDIR /app
+#7 CACHED
+
+#8 [4/6] RUN git clone "https://github.com/crewAIInc/crewAI" . && git checkout "4ed2abc7bbf504a634d3b733f2a97e0fbe8d44ec"
+#8 CACHED
+
+#9 [5/6] COPY docker/resolve_manifest.sh /opt/crucible/resolve_manifest.sh
+#9 DONE 0.0s
+
+#10 [6/6] RUN sh /opt/crucible/resolve_manifest.sh
+#0 0.119 crucible: resolving installable manifest in /app
+#10 0.119 crucible: found a package definition at the repository root
+#10 0.740 Obtaining file:///app
+#10 0.742   Installing build dependencies: started
+#10 1.341   Installing build dependencies: finished with status 'done'
+#10 1.341   Checking if build backend supports build_editable: started
+#10 1.409   Checking if build backend supports build_editable: finished with status 'done'
+#10 1.410   Getting requirements to build editable: started
+#10 1.530   Getting requirements to build editable: finished with status 'done'
+#10 1.531   Preparing editable metadata (pyproject.toml): started
+#10 1.623   Preparing editable metadata (pyproject.toml): finished with status 'done'
+#10 1.625 Building wheels for collected packages: UNKNOWN
+#10 1.625   Building editable for UNKNOWN (pyproject.toml): started
+#10 1.752   Building editable for UNKNOWN (pyproject.toml): finished with status 'done'
+#10 1.753   Created wheel for UNKNOWN: filename=unknown-0.0.0-0.editable-py3-none-any.whl size=4264 sha256=ad86d6e0b1d50c7c0269c33773ab5b629a066aef959c251322720549c7242d31
+#10 1.753   Stored in directory: /tmp/pip-ephem-wheel-cache-c6smm_84/wheels/57/0f/98/bb57b2b57b95807699b822a35c022f139d38a02c27922f27ce
+#10 1.754 Successfully built UNKNOWN
+#10 1.766 Installing collected packages: UNKNOWN
+#10 1.770 Successfully installed UNKNOWN-0.0.0
+#10 1.770 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#10 1.817 
+#10 1.817 [notice] A new release of pip is available: 24.0 -> 26.2.1
+#10 1.817 [notice] To update, run: pip install --upgrade pip
+#10 DONE 1.9s
+
+#11 exporting to image
+#11 exporting layers 0.0s done
+#11 writing image sha256:73f6f0890fb622df0038dfc2c934ba128b6963512c9d3820cb193a9fc0a9b84e done
+#11 naming to docker.io/crucible/crewaiinc-crewai:4ed2abc7bbf5 done
+#11 DONE 0.0s

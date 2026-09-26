@@ -1,0 +1,336 @@
+#1 [internal] load .dockerignore
+#1 transferring context: 2B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from generic.Dockerfile
+#2 transferring dockerfile: 1.90kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.11-slim
+#3 DONE 0.0s
+
+#4 [1/6] FROM docker.io/library/python:3.11-slim
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 74B done
+#5 DONE 0.0s
+
+#6 [2/6] RUN apt-get update && apt-get install -y --no-install-recommends         git ca-certificates build-essential     && rm -rf /var/lib/apt/lists/*
+#6 CACHED
+
+#7 [3/6] WORKDIR /app
+#7 CACHED
+
+#8 [4/6] RUN git clone "https://github.com/gptme/gptme" . && git checkout "9e3ab7cf5418ae623d4b01ad7710fc9cfcf43a9c"
+#8 CACHED
+
+#9 [5/6] COPY docker/resolve_manifest.sh /opt/crucible/resolve_manifest.sh
+#9 DONE 0.0s
+
+#10 [6/6] RUN sh /opt/crucible/resolve_manifest.sh
+#0 0.115 crucible: resolving installable manifest in /app
+#10 0.116 crucible: found a package definition at the repository root
+#10 0.733 Obtaining file:///app
+#10 0.735   Installing build dependencies: started
+#10 1.184   Installing build dependencies: finished with status 'done'
+#10 1.184   Checking if build backend supports build_editable: started
+#10 1.253   Checking if build backend supports build_editable: finished with status 'done'
+#10 1.253   Getting requirements to build editable: started
+#10 1.290   Getting requirements to build editable: finished with status 'done'
+#10 1.290   Preparing editable metadata (pyproject.toml): started
+#10 1.398   Preparing editable metadata (pyproject.toml): finished with status 'done'
+#10 1.476 Collecting anthropic<0.121,>=0.120 (from gptme==0.34.0)
+#10 1.503   Downloading anthropic-0.120.2-py3-none-any.whl.metadata (3.3 kB)
+#10 1.516 Collecting bashlex<0.19,>=0.18 (from gptme==0.34.0)
+#10 1.529   Downloading bashlex-0.18-py2.py3-none-any.whl.metadata (1.1 kB)
+#10 1.548 Collecting click<9.0,>=8.4 (from gptme==0.34.0)
+#10 1.554   Downloading click-8.5.0-py3-none-any.whl.metadata (2.6 kB)
+#10 1.563 Collecting click-default-group<2.0.0,>=1.2.4 (from gptme==0.34.0)
+#10 1.571   Downloading click_default_group-1.2.4-py2.py3-none-any.whl.metadata (2.8 kB)
+#10 1.597 Collecting ipython<9.0.0,>=8.39.0 (from gptme==0.34.0)
+#10 1.605   Downloading ipython-8.39.0-py3-none-any.whl.metadata (5.1 kB)
+#10 1.632 Collecting json-repair<0.62.0,>=0.61.7 (from gptme==0.34.0)
+#10 1.639   Downloading json_repair-0.61.7-py3-none-any.whl.metadata (20 kB)
+#10 1.658 Collecting mcp<2.0.0,>=1.28.1 (from gptme==0.34.0)
+#10 1.663   Downloading mcp-1.30.0-py3-none-any.whl.metadata (9.3 kB)
+#10 1.675 Collecting multiprocessing-logging<0.4.0,>=0.3.4 (from gptme==0.34.0)
+#10 1.682   Downloading multiprocessing_logging-0.3.4-py2.py3-none-any.whl.metadata (3.4 kB)
+#10 1.725 Collecting openai<3.0,>=2.48 (from gptme==0.34.0)
+#10 1.732   Downloading openai-2.54.0-py3-none-any.whl.metadata (40 kB)
+#10 1.734      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 40.9/40.9 kB 25.6 MB/s eta 0:00:00
+#10 1.767 Collecting pick<3.0.0,>=2.6.0 (from gptme==0.34.0)
+#10 1.776   Downloading pick-2.6.0-py3-none-any.whl.metadata (4.1 kB)
+#10 1.871 Collecting pillow (from gptme==0.34.0)
+#10 1.880   Downloading pillow-12.3.0-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl.metadata (9.1 kB)
+#10 1.899 Collecting platformdirs<5.0,>=4.11 (from gptme==0.34.0)
+#10 1.905   Downloading platformdirs-4.12.0-py3-none-any.whl.metadata (5.5 kB)
+#10 1.916 Collecting python-dateutil<3.0.0,>=2.9.0.post0 (from gptme==0.34.0)
+#10 1.921   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+#10 1.935 Collecting python-dotenv<2.0.0,>=1.2.2 (from gptme==0.34.0)
+#10 1.940   Downloading python_dotenv-1.2.3-py3-none-any.whl.metadata (29 kB)
+#10 1.964 Collecting pyyaml<7.0.0,>=6.0.3 (from gptme==0.34.0)
+#10 1.970   Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (2.4 kB)
+#10 1.979 Collecting questionary<3.0.0,>=2.1.1 (from gptme==0.34.0)
+#10 1.987   Downloading questionary-2.1.1-py3-none-any.whl.metadata (5.4 kB)
+#10 2.003 Collecting requests<3.0,>=2.34 (from gptme==0.34.0)
+#10 2.010   Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+#10 2.046 Collecting rich<16.0,>=15.0 (from gptme==0.34.0)
+#10 2.064   Downloading rich-15.0.0-py3-none-any.whl.metadata (18 kB)
+#10 2.066 Collecting tabulate (from gptme==0.34.0)
+#10 2.072   Downloading tabulate-0.10.0-py3-none-any.whl.metadata (40 kB)
+#10 2.073      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 40.8/40.8 kB 569.1 MB/s eta 0:00:00
+#10 2.096 Collecting tiktoken>=0.13.0 (from gptme==0.34.0)
+#10 2.104   Downloading tiktoken-0.14.0-cp311-cp311-manylinux_2_28_aarch64.whl.metadata (6.7 kB)
+#10 2.119 Collecting tomlkit (from gptme==0.34.0)
+#10 2.125   Downloading tomlkit-0.15.1-py3-none-any.whl.metadata (3.3 kB)
+#10 2.152 Collecting tree-sitter<0.26,>=0.25 (from gptme==0.34.0)
+#10 2.159   Downloading tree_sitter-0.25.2-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (10.0 kB)
+#10 2.175 Collecting tree-sitter-bash<0.26,>=0.25.1 (from gptme==0.34.0)
+#10 2.182   Downloading tree_sitter_bash-0.25.1-cp310-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (2.2 kB)
+#10 2.197 Collecting typing-extensions (from gptme==0.34.0)
+#10 2.209   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+#10 2.224 Collecting anyio<5,>=3.5.0 (from anthropic<0.121,>=0.120->gptme==0.34.0)
+#10 2.230   Downloading anyio-4.15.1-py3-none-any.whl.metadata (4.7 kB)
+#10 2.240 Collecting distro<2,>=1.7.0 (from anthropic<0.121,>=0.120->gptme==0.34.0)
+#10 2.248   Downloading distro-1.9.0-py3-none-any.whl.metadata (6.8 kB)
+#10 2.276 Collecting docstring-parser<1,>=0.15 (from anthropic<0.121,>=0.120->gptme==0.34.0)
+#10 2.281   Downloading docstring_parser-0.18.0-py3-none-any.whl.metadata (3.5 kB)
+#10 2.296 Collecting httpx<1,>=0.25.0 (from anthropic<0.121,>=0.120->gptme==0.34.0)
+#10 2.301   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+#10 2.348 Collecting jiter<1,>=0.4.0 (from anthropic<0.121,>=0.120->gptme==0.34.0)
+#10 2.354   Downloading jiter-0.17.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (5.2 kB)
+#10 2.412 Collecting pydantic<3,>=1.9.0 (from anthropic<0.121,>=0.120->gptme==0.34.0)
+#10 2.417   Downloading pydantic-2.13.5-py3-none-any.whl.metadata (110 kB)
+#10 2.426      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 110.2/110.2 kB 17.1 MB/s eta 0:00:00
+#10 2.436 Collecting sniffio (from anthropic<0.121,>=0.120->gptme==0.34.0)
+#10 2.442   Downloading sniffio-1.3.1-py3-none-any.whl.metadata (3.9 kB)
+#10 2.467 Collecting decorator (from ipython<9.0.0,>=8.39.0->gptme==0.34.0)
+#10 2.474   Downloading decorator-5.3.1-py3-none-any.whl.metadata (3.9 kB)
+#10 2.486 Collecting jedi>=0.16 (from ipython<9.0.0,>=8.39.0->gptme==0.34.0)
+#10 2.492   Downloading jedi-0.20.0-py2.py3-none-any.whl.metadata (23 kB)
+#10 2.503 Collecting matplotlib-inline (from ipython<9.0.0,>=8.39.0->gptme==0.34.0)
+#10 2.509   Downloading matplotlib_inline-0.2.2-py3-none-any.whl.metadata (2.4 kB)
+#10 2.520 Collecting pexpect>4.3 (from ipython<9.0.0,>=8.39.0->gptme==0.34.0)
+#10 2.527   Downloading pexpect-4.9.0-py2.py3-none-any.whl.metadata (2.5 kB)
+#10 2.546 Collecting prompt_toolkit<3.1.0,>=3.0.41 (from ipython<9.0.0,>=8.39.0->gptme==0.34.0)
+#10 2.552   Downloading prompt_toolkit-3.0.53-py3-none-any.whl.metadata (6.4 kB)
+#10 2.569 Collecting pygments>=2.4.0 (from ipython<9.0.0,>=8.39.0->gptme==0.34.0)
+#10 2.578   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+#10 2.585 Collecting stack_data (from ipython<9.0.0,>=8.39.0->gptme==0.34.0)
+#10 2.593   Downloading stack_data-0.6.3-py3-none-any.whl.metadata (18 kB)
+#10 2.605 Collecting traitlets>=5.13.0 (from ipython<9.0.0,>=8.39.0->gptme==0.34.0)
+#10 2.610   Downloading traitlets-5.16.1-py3-none-any.whl.metadata (10 kB)
+#10 2.652 Collecting httpx-sse>=0.4 (from mcp<2.0.0,>=1.28.1->gptme==0.34.0)
+#10 2.659   Downloading httpx_sse-0.4.3-py3-none-any.whl.metadata (9.7 kB)
+#10 2.678 Collecting jsonschema>=4.20.0 (from mcp<2.0.0,>=1.28.1->gptme==0.34.0)
+#10 2.684   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+#10 2.698 Collecting pydantic-settings>=2.5.2 (from mcp<2.0.0,>=1.28.1->gptme==0.34.0)
+#10 2.709   Downloading pydantic_settings-2.15.0-py3-none-any.whl.metadata (3.9 kB)
+#10 2.721 Collecting pyjwt>=2.10.1 (from pyjwt[crypto]>=2.10.1->mcp<2.0.0,>=1.28.1->gptme==0.34.0)
+#10 2.727   Downloading pyjwt-2.15.0-py3-none-any.whl.metadata (3.5 kB)
+#10 2.738 Collecting python-multipart>=0.0.9 (from mcp<2.0.0,>=1.28.1->gptme==0.34.0)
+#10 2.743   Downloading python_multipart-0.0.32-py3-none-any.whl.metadata (2.1 kB)
+#10 2.757 Collecting sse-starlette>=1.6.1 (from mcp<2.0.0,>=1.28.1->gptme==0.34.0)
+#10 2.772   Downloading sse_starlette-3.4.11-py3-none-any.whl.metadata (15 kB)
+#10 2.795 Collecting starlette>=0.27 (from mcp<2.0.0,>=1.28.1->gptme==0.34.0)
+#10 2.800   Downloading starlette-1.7.0-py3-none-any.whl.metadata (6.6 kB)
+#10 2.811 Collecting typing-inspection>=0.4.1 (from mcp<2.0.0,>=1.28.1->gptme==0.34.0)
+#10 2.817   Downloading typing_inspection-0.4.4-py3-none-any.whl.metadata (2.6 kB)
+#10 2.836 Collecting uvicorn>=0.31.1 (from mcp<2.0.0,>=1.28.1->gptme==0.34.0)
+#10 2.842   Downloading uvicorn-0.54.0-py3-none-any.whl.metadata (6.6 kB)
+#10 2.875 Collecting tqdm>4 (from openai<3.0,>=2.48->gptme==0.34.0)
+#10 2.882   Downloading tqdm-4.70.1-py3-none-any.whl.metadata (57 kB)
+#10 2.883      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 57.4/57.4 kB 677.7 MB/s eta 0:00:00
+#10 2.899 Collecting six>=1.5 (from python-dateutil<3.0.0,>=2.9.0.post0->gptme==0.34.0)
+#10 2.908   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+#10 2.973 Collecting charset_normalizer<4,>=2 (from requests<3.0,>=2.34->gptme==0.34.0)
+#10 2.988   Downloading charset_normalizer-3.5.1-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (45 kB)
+#10 2.992      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 45.9/45.9 kB 418.9 MB/s eta 0:00:00
+#10 3.004 Collecting idna<4,>=2.5 (from requests<3.0,>=2.34->gptme==0.34.0)
+#10 3.010   Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+#10 3.031 Collecting urllib3<3,>=1.26 (from requests<3.0,>=2.34->gptme==0.34.0)
+#10 3.037   Downloading urllib3-2.8.0-py3-none-any.whl.metadata (7.4 kB)
+#10 3.051 Collecting certifi>=2023.5.7 (from requests<3.0,>=2.34->gptme==0.34.0)
+#10 3.059   Downloading certifi-2026.7.22-py3-none-any.whl.metadata (2.5 kB)
+#10 3.071 Collecting markdown-it-py>=2.2.0 (from rich<16.0,>=15.0->gptme==0.34.0)
+#10 3.080   Downloading markdown_it_py-4.2.0-py3-none-any.whl.metadata (7.4 kB)
+#10 3.281 Collecting regex (from tiktoken>=0.13.0->gptme==0.34.0)
+#10 3.288   Downloading regex-2026.9.10-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (40 kB)
+#10 3.289      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 40.6/40.6 kB 638.4 MB/s eta 0:00:00
+#10 3.364 Collecting httpcore==1.* (from httpx<1,>=0.25.0->anthropic<0.121,>=0.120->gptme==0.34.0)
+#10 3.369   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+#10 3.383 Collecting h11>=0.16 (from httpcore==1.*->httpx<1,>=0.25.0->anthropic<0.121,>=0.120->gptme==0.34.0)
+#10 3.389   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+#10 3.415 Collecting parso<0.9.0,>=0.8.6 (from jedi>=0.16->ipython<9.0.0,>=8.39.0->gptme==0.34.0)
+#10 3.423   Downloading parso-0.8.7-py2.py3-none-any.whl.metadata (8.2 kB)
+#10 3.445 Collecting attrs>=22.2.0 (from jsonschema>=4.20.0->mcp<2.0.0,>=1.28.1->gptme==0.34.0)
+#10 3.450   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+#10 3.462 Collecting jsonschema-specifications>=2023.03.6 (from jsonschema>=4.20.0->mcp<2.0.0,>=1.28.1->gptme==0.34.0)
+#10 3.468   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+#10 3.486 Collecting referencing>=0.28.4 (from jsonschema>=4.20.0->mcp<2.0.0,>=1.28.1->gptme==0.34.0)
+#10 3.492   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+#10 3.610 Collecting rpds-py>=0.25.0 (from jsonschema>=4.20.0->mcp<2.0.0,>=1.28.1->gptme==0.34.0)
+#10 3.621   Downloading rpds_py-2026.6.3-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (4.1 kB)
+#10 3.632 Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich<16.0,>=15.0->gptme==0.34.0)
+#10 3.638   Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+#10 3.649 Collecting ptyprocess>=0.5 (from pexpect>4.3->ipython<9.0.0,>=8.39.0->gptme==0.34.0)
+#10 3.656   Downloading ptyprocess-0.7.0-py2.py3-none-any.whl.metadata (1.3 kB)
+#10 3.669 Collecting wcwidth>=0.1.4 (from prompt_toolkit<3.1.0,>=3.0.41->ipython<9.0.0,>=8.39.0->gptme==0.34.0)
+#10 3.681   Downloading wcwidth-0.9.1-cp310-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.whl.metadata (23 kB)
+#10 3.689 Collecting annotated-types>=0.6.0 (from pydantic<3,>=1.9.0->anthropic<0.121,>=0.120->gptme==0.34.0)
+#10 3.694   Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+#10 4.100 Collecting pydantic-core==2.46.5 (from pydantic<3,>=1.9.0->anthropic<0.121,>=0.120->gptme==0.34.0)
+#10 4.114   Downloading pydantic_core-2.46.5-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (6.6 kB)
+#10 4.229 Collecting cryptography>=3.4.0 (from pyjwt[crypto]>=2.10.1->mcp<2.0.0,>=1.28.1->gptme==0.34.0)
+#10 4.243   Downloading cryptography-50.0.1-cp311-abi3-manylinux_2_34_aarch64.whl.metadata (4.3 kB)
+#10 4.319 Collecting executing>=1.2.0 (from stack_data->ipython<9.0.0,>=8.39.0->gptme==0.34.0)
+#10 4.325   Downloading executing-2.2.1-py2.py3-none-any.whl.metadata (8.9 kB)
+#10 4.339 Collecting asttokens>=2.1.0 (from stack_data->ipython<9.0.0,>=8.39.0->gptme==0.34.0)
+#10 4.348   Downloading asttokens-3.0.2-py3-none-any.whl.metadata (5.7 kB)
+#10 4.356 Collecting pure-eval (from stack_data->ipython<9.0.0,>=8.39.0->gptme==0.34.0)
+#10 4.362   Downloading pure_eval-0.2.4-py3-none-any.whl.metadata (6.4 kB)
+#10 4.427 Collecting cffi>=2.0.0 (from cryptography>=3.4.0->pyjwt[crypto]>=2.10.1->mcp<2.0.0,>=1.28.1->gptme==0.34.0)
+#10 4.432   Downloading cffi-2.1.1-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.whl.metadata (2.5 kB)
+#10 4.488 Collecting pycparser (from cffi>=2.0.0->cryptography>=3.4.0->pyjwt[crypto]>=2.10.1->mcp<2.0.0,>=1.28.1->gptme==0.34.0)
+#10 4.501   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+#10 4.518 Downloading anthropic-0.120.2-py3-none-any.whl (1.0 MB)
+#10 4.542    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.0/1.0 MB 46.8 MB/s eta 0:00:00
+#10 4.548 Downloading bashlex-0.18-py2.py3-none-any.whl (69 kB)
+#10 4.551    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 69.5/69.5 kB 476.3 MB/s eta 0:00:00
+#10 4.556 Downloading click-8.5.0-py3-none-any.whl (125 kB)
+#10 4.558    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 125.3/125.3 kB 687.7 MB/s eta 0:00:00
+#10 4.565 Downloading click_default_group-1.2.4-py2.py3-none-any.whl (4.1 kB)
+#10 4.575 Downloading ipython-8.39.0-py3-none-any.whl (831 kB)
+#10 4.582    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 831.8/831.8 kB 119.9 MB/s eta 0:00:00
+#10 4.591 Downloading json_repair-0.61.7-py3-none-any.whl (50 kB)
+#10 4.593    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 50.1/50.1 kB 35.3 MB/s eta 0:00:00
+#10 4.599 Downloading mcp-1.30.0-py3-none-any.whl (234 kB)
+#10 4.604    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 234.6/234.6 kB 97.8 MB/s eta 0:00:00
+#10 4.613 Downloading multiprocessing_logging-0.3.4-py2.py3-none-any.whl (8.8 kB)
+#10 4.620 Downloading openai-2.54.0-py3-none-any.whl (1.7 MB)
+#10 4.638    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.7/1.7 MB 99.2 MB/s eta 0:00:00
+#10 4.647 Downloading pick-2.6.0-py3-none-any.whl (7.9 kB)
+#10 4.654 Downloading platformdirs-4.12.0-py3-none-any.whl (32 kB)
+#10 4.661 Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+#10 4.665    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 229.9/229.9 kB 76.3 MB/s eta 0:00:00
+#10 4.672 Downloading python_dotenv-1.2.3-py3-none-any.whl (22 kB)
+#10 4.679 Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (775 kB)
+#10 4.690    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 775.6/775.6 kB 91.3 MB/s eta 0:00:00
+#10 4.696 Downloading questionary-2.1.1-py3-none-any.whl (36 kB)
+#10 4.703 Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+#10 4.705    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 73.1/73.1 kB 370.8 MB/s eta 0:00:00
+#10 4.712 Downloading rich-15.0.0-py3-none-any.whl (310 kB)
+#10 4.717    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 310.7/310.7 kB 112.8 MB/s eta 0:00:00
+#10 4.723 Downloading tiktoken-0.14.0-cp311-cp311-manylinux_2_28_aarch64.whl (1.2 MB)
+#10 4.738    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 85.5 MB/s eta 0:00:00
+#10 4.745 Downloading tree_sitter-0.25.2-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (604 kB)
+#10 4.754    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 604.6/604.6 kB 97.2 MB/s eta 0:00:00
+#10 4.761 Downloading tree_sitter_bash-0.25.1-cp310-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (230 kB)
+#10 4.766    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 230.6/230.6 kB 102.4 MB/s eta 0:00:00
+#10 4.772 Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+#10 4.774    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 45.6/45.6 kB 23.9 MB/s eta 0:00:00
+#10 4.780 Downloading pillow-12.3.0-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl (6.3 MB)
+#10 4.860    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.3/6.3 MB 80.8 MB/s eta 0:00:00
+#10 4.867 Downloading tabulate-0.10.0-py3-none-any.whl (39 kB)
+#10 4.877 Downloading tomlkit-0.15.1-py3-none-any.whl (49 kB)
+#10 4.879    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 49.4/49.4 kB 29.8 MB/s eta 0:00:00
+#10 4.887 Downloading anyio-4.15.1-py3-none-any.whl (132 kB)
+#10 4.889    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 132.1/132.1 kB 96.0 MB/s eta 0:00:00
+#10 4.897 Downloading certifi-2026.7.22-py3-none-any.whl (136 kB)
+#10 4.899    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 137.0/137.0 kB 188.2 MB/s eta 0:00:00
+#10 4.908 Downloading charset_normalizer-3.5.1-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (251 kB)
+#10 4.912    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 251.2/251.2 kB 108.8 MB/s eta 0:00:00
+#10 4.918 Downloading distro-1.9.0-py3-none-any.whl (20 kB)
+#10 4.925 Downloading docstring_parser-0.18.0-py3-none-any.whl (22 kB)
+#10 4.935 Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+#10 4.936    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 73.5/73.5 kB 553.2 MB/s eta 0:00:00
+#10 4.942 Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+#10 4.947    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.8/78.8 kB 34.4 MB/s eta 0:00:00
+#10 4.952 Downloading httpx_sse-0.4.3-py3-none-any.whl (9.0 kB)
+#10 4.960 Downloading idna-3.20-py3-none-any.whl (69 kB)
+#10 4.961    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 69.6/69.6 kB 615.5 MB/s eta 0:00:00
+#10 4.967 Downloading jedi-0.20.0-py2.py3-none-any.whl (4.9 MB)
+#10 5.027    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.9/4.9 MB 84.9 MB/s eta 0:00:00
+#10 5.032 Downloading jiter-0.17.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (343 kB)
+#10 5.040    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 343.3/343.3 kB 63.9 MB/s eta 0:00:00
+#10 5.045 Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+#10 5.050    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 90.6/90.6 kB 35.4 MB/s eta 0:00:00
+#10 5.055 Downloading markdown_it_py-4.2.0-py3-none-any.whl (91 kB)
+#10 5.058    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 91.7/91.7 kB 679.9 MB/s eta 0:00:00
+#10 5.065 Downloading pexpect-4.9.0-py2.py3-none-any.whl (63 kB)
+#10 5.068    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 63.8/63.8 kB 36.3 MB/s eta 0:00:00
+#10 5.073 Downloading prompt_toolkit-3.0.53-py3-none-any.whl (392 kB)
+#10 5.082    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 392.3/392.3 kB 61.9 MB/s eta 0:00:00
+#10 5.087 Downloading pydantic-2.13.5-py3-none-any.whl (472 kB)
+#10 5.094    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 472.6/472.6 kB 105.4 MB/s eta 0:00:00
+#10 5.100 Downloading pydantic_core-2.46.5-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (1.9 MB)
+#10 5.122    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.9/1.9 MB 101.9 MB/s eta 0:00:00
+#10 5.127 Downloading pydantic_settings-2.15.0-py3-none-any.whl (69 kB)
+#10 5.132    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 69.4/69.4 kB 27.7 MB/s eta 0:00:00
+#10 5.137 Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+#10 5.152    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 99.3 MB/s eta 0:00:00
+#10 5.158 Downloading pyjwt-2.15.0-py3-none-any.whl (33 kB)
+#10 5.166 Downloading python_multipart-0.0.32-py3-none-any.whl (30 kB)
+#10 5.175 Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+#10 5.183 Downloading sse_starlette-3.4.11-py3-none-any.whl (17 kB)
+#10 5.190 Downloading starlette-1.7.0-py3-none-any.whl (78 kB)
+#10 5.192    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 79.0/79.0 kB 633.5 MB/s eta 0:00:00
+#10 5.199 Downloading tqdm-4.70.1-py3-none-any.whl (80 kB)
+#10 5.200    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 80.2/80.2 kB 667.3 MB/s eta 0:00:00
+#10 5.207 Downloading traitlets-5.16.1-py3-none-any.whl (86 kB)
+#10 5.210    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 86.2/86.2 kB 41.5 MB/s eta 0:00:00
+#10 5.216 Downloading typing_inspection-0.4.4-py3-none-any.whl (14 kB)
+#10 5.226 Downloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+#10 5.228    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 135.7/135.7 kB 88.1 MB/s eta 0:00:00
+#10 5.234 Downloading uvicorn-0.54.0-py3-none-any.whl (87 kB)
+#10 5.236    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 87.4/87.4 kB 619.6 MB/s eta 0:00:00
+#10 5.243 Downloading decorator-5.3.1-py3-none-any.whl (10 kB)
+#10 5.250 Downloading matplotlib_inline-0.2.2-py3-none-any.whl (9.5 kB)
+#10 5.257 Downloading regex-2026.9.10-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (796 kB)
+#10 5.267    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 796.4/796.4 kB 89.1 MB/s eta 0:00:00
+#10 5.272 Downloading sniffio-1.3.1-py3-none-any.whl (10 kB)
+#10 5.282 Downloading stack_data-0.6.3-py3-none-any.whl (24 kB)
+#10 5.288 Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+#10 5.298 Downloading asttokens-3.0.2-py3-none-any.whl (28 kB)
+#10 5.302 Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+#10 5.306    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 67.5/67.5 kB 25.1 MB/s eta 0:00:00
+#10 5.314 Downloading cryptography-50.0.1-cp311-abi3-manylinux_2_34_aarch64.whl (4.7 MB)
+#10 5.372    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 82.3 MB/s eta 0:00:00
+#10 5.380 Downloading executing-2.2.1-py2.py3-none-any.whl (28 kB)
+#10 5.385 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+#10 5.395 Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+#10 5.405 Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+#10 5.410 Downloading parso-0.8.7-py2.py3-none-any.whl (107 kB)
+#10 5.415    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 107.0/107.0 kB 41.6 MB/s eta 0:00:00
+#10 5.420 Downloading ptyprocess-0.7.0-py2.py3-none-any.whl (13 kB)
+#10 5.427 Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+#10 5.437 Downloading rpds_py-2026.6.3-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (373 kB)
+#10 5.442    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 373.8/373.8 kB 78.6 MB/s eta 0:00:00
+#10 5.448 Downloading wcwidth-0.9.1-cp310-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.whl (770 kB)
+#10 5.460    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 770.5/770.5 kB 79.7 MB/s eta 0:00:00
+#10 5.466 Downloading pure_eval-0.2.4-py3-none-any.whl (11 kB)
+#10 5.476 Downloading cffi-2.1.1-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.whl (218 kB)
+#10 5.479    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 218.7/218.7 kB 124.3 MB/s eta 0:00:00
+#10 5.485 Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+#10 5.487    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 48.2/48.2 kB 490.8 MB/s eta 0:00:00
+#10 5.539 Building wheels for collected packages: gptme
+#10 5.539   Building editable for gptme (pyproject.toml): started
+#10 5.673   Building editable for gptme (pyproject.toml): finished with status 'done'
+#10 5.673   Created wheel for gptme: filename=gptme-0.34.0-py3-none-any.whl size=16519 sha256=a2de38cf42f9a17747ac2baca431083e8c5bae380e940702b42f7af4dbcca4af
+#10 5.674   Stored in directory: /tmp/pip-ephem-wheel-cache-pndyopc7/wheels/57/0f/98/bb57b2b57b95807699b822a35c022f139d38a02c27922f27ce
+#10 5.675 Successfully built gptme
+#10 5.819 Installing collected packages: pure-eval, ptyprocess, multiprocessing-logging, wcwidth, urllib3, typing-extensions, tree-sitter-bash, tree-sitter, traitlets, tqdm, tomlkit, tabulate, sniffio, six, rpds-py, regex, pyyaml, python-multipart, python-dotenv, pyjwt, pygments, pycparser, platformdirs, pillow, pick, pexpect, parso, mdurl, json-repair, jiter, idna, httpx-sse, h11, executing, docstring-parser, distro, decorator, click, charset_normalizer, certifi, bashlex, attrs, asttokens, annotated-types, uvicorn, typing-inspection, stack_data, requests, referencing, python-dateutil, pydantic-core, prompt_toolkit, matplotlib-inline, markdown-it-py, jedi, httpcore, click-default-group, cffi, anyio, tiktoken, starlette, rich, questionary, pydantic, jsonschema-specifications, ipython, httpx, cryptography, sse-starlette, pydantic-settings, openai, jsonschema, anthropic, mcp, gptme
+#10 9.617 Successfully installed annotated-types-0.8.0 anthropic-0.120.2 anyio-4.15.1 asttokens-3.0.2 attrs-26.1.0 bashlex-0.18 certifi-2026.7.22 cffi-2.1.1 charset_normalizer-3.5.1 click-8.5.0 click-default-group-1.2.4 cryptography-50.0.1 decorator-5.3.1 distro-1.9.0 docstring-parser-0.18.0 executing-2.2.1 gptme-0.34.0 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 httpx-sse-0.4.3 idna-3.20 ipython-8.39.0 jedi-0.20.0 jiter-0.17.0 json-repair-0.61.7 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 markdown-it-py-4.2.0 matplotlib-inline-0.2.2 mcp-1.30.0 mdurl-0.1.2 multiprocessing-logging-0.3.4 openai-2.54.0 parso-0.8.7 pexpect-4.9.0 pick-2.6.0 pillow-12.3.0 platformdirs-4.12.0 prompt_toolkit-3.0.53 ptyprocess-0.7.0 pure-eval-0.2.4 pycparser-3.0 pydantic-2.13.5 pydantic-core-2.46.5 pydantic-settings-2.15.0 pygments-2.21.0 pyjwt-2.15.0 python-dateutil-2.9.0.post0 python-dotenv-1.2.3 python-multipart-0.0.32 pyyaml-6.0.3 questionary-2.1.1 referencing-0.37.0 regex-2026.9.10 requests-2.34.2 rich-15.0.0 rpds-py-2026.6.3 six-1.17.0 sniffio-1.3.1 sse-starlette-3.4.11 stack_data-0.6.3 starlette-1.7.0 tabulate-0.10.0 tiktoken-0.14.0 tomlkit-0.15.1 tqdm-4.70.1 traitlets-5.16.1 tree-sitter-0.25.2 tree-sitter-bash-0.25.1 typing-extensions-4.16.0 typing-inspection-0.4.4 urllib3-2.8.0 uvicorn-0.54.0 wcwidth-0.9.1
+#10 9.617 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#10 9.668 
+#10 9.668 [notice] A new release of pip is available: 24.0 -> 26.2.1
+#10 9.668 [notice] To update, run: pip install --upgrade pip
+#10 DONE 10.4s
+
+#11 exporting to image
+#11 exporting layers
+#11 exporting layers 0.6s done
+#11 writing image sha256:bf0ba2a16b56d5010865e216b50f7dfce045097211d6e35e8da2af6837617025 done
+#11 naming to docker.io/crucible/gptme-gptme:9e3ab7cf5418 done
+#11 DONE 0.6s

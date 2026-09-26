@@ -1,0 +1,38 @@
+#1 [internal] load .dockerignore
+#1 transferring context: 2B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from generic.Dockerfile
+#2 transferring dockerfile: 1.90kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.11-slim
+#3 DONE 0.0s
+
+#4 [1/6] FROM docker.io/library/python:3.11-slim
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 74B done
+#5 DONE 0.0s
+
+#6 [5/6] COPY docker/resolve_manifest.sh /opt/crucible/resolve_manifest.sh
+#6 CACHED
+
+#7 [2/6] RUN apt-get update && apt-get install -y --no-install-recommends         git ca-certificates build-essential     && rm -rf /var/lib/apt/lists/*
+#7 CACHED
+
+#8 [4/6] RUN git clone "https://github.com/langchain-ai/langgraph" . && git checkout "7daa3ab49d678a5da75edb08baa87db4a2be52c3"
+#8 CACHED
+
+#9 [3/6] WORKDIR /app
+#9 CACHED
+
+#10 [6/6] RUN sh /opt/crucible/resolve_manifest.sh
+#10 CACHED
+
+#11 exporting to image
+#11 exporting layers done
+#11 writing image sha256:2cdc688540d2cc4ebd3cf695498cb41a7719d7f1aa96a9a3b8098a9c6a93ce7f done
+#11 naming to docker.io/crucible/langchain-ai-langgraph:7daa3ab49d67 done
+#11 DONE 0.0s

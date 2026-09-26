@@ -1,0 +1,447 @@
+#1 [internal] load .dockerignore
+#1 transferring context: 2B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from generic.Dockerfile
+#2 transferring dockerfile: 1.90kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.11-slim
+#3 DONE 0.0s
+
+#4 [1/6] FROM docker.io/library/python:3.11-slim
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 74B done
+#5 DONE 0.0s
+
+#6 [2/6] RUN apt-get update && apt-get install -y --no-install-recommends         git ca-certificates build-essential     && rm -rf /var/lib/apt/lists/*
+#6 CACHED
+
+#7 [3/6] WORKDIR /app
+#7 CACHED
+
+#8 [4/6] RUN git clone "https://github.com/browser-use/browser-use" . && git checkout "4cbe921673b48a488f5415d9159249afd12a625b"
+#8 CACHED
+
+#9 [5/6] COPY docker/resolve_manifest.sh /opt/crucible/resolve_manifest.sh
+#9 DONE 0.0s
+
+#10 [6/6] RUN sh /opt/crucible/resolve_manifest.sh
+#0 0.109 crucible: resolving installable manifest in /app
+#10 0.109 crucible: found a package definition at the repository root
+#10 0.728 Obtaining file:///app
+#10 0.729   Installing build dependencies: started
+#10 1.435   Installing build dependencies: finished with status 'done'
+#10 1.435   Checking if build backend supports build_editable: started
+#10 1.457   Checking if build backend supports build_editable: finished with status 'done'
+#10 1.457   Getting requirements to build editable: started
+#10 1.501   Getting requirements to build editable: finished with status 'done'
+#10 1.502   Installing backend dependencies: started
+#10 1.770   Installing backend dependencies: finished with status 'done'
+#10 1.770   Preparing editable metadata (pyproject.toml): started
+#10 1.864   Preparing editable metadata (pyproject.toml): finished with status 'done'
+#10 2.161 Collecting aiohttp==3.14.3 (from browser-use==0.13.10)
+#10 2.209   Downloading aiohttp-3.14.3-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (8.3 kB)
+#10 2.236 Collecting anthropic==0.76.0 (from browser-use==0.13.10)
+#10 2.241   Downloading anthropic-0.76.0-py3-none-any.whl.metadata (28 kB)
+#10 2.261 Collecting anyio==4.12.1 (from browser-use==0.13.10)
+#10 2.267   Downloading anyio-4.12.1-py3-none-any.whl.metadata (4.3 kB)
+#10 2.277 Collecting browser-harness==0.1.13 (from browser-use==0.13.10)
+#10 2.284   Downloading browser_harness-0.1.13-py3-none-any.whl.metadata (4.1 kB)
+#10 2.297 Collecting browser-use-sdk==3.4.2 (from browser-use==0.13.10)
+#10 2.303   Downloading browser_use_sdk-3.4.2-py3-none-any.whl.metadata (1.0 kB)
+#10 2.315 Collecting bubus==1.5.6 (from browser-use==0.13.10)
+#10 2.320   Downloading bubus-1.5.6-py3-none-any.whl.metadata (37 kB)
+#10 2.348 Collecting cdp-use==1.4.5 (from browser-use==0.13.10)
+#10 2.355   Downloading cdp_use-1.4.5-py3-none-any.whl.metadata (9.5 kB)
+#10 2.369 Collecting click==8.3.3 (from browser-use==0.13.10)
+#10 2.377   Downloading click-8.3.3-py3-none-any.whl.metadata (2.6 kB)
+#10 2.389 Collecting cloudpickle==3.1.2 (from browser-use==0.13.10)
+#10 2.396   Downloading cloudpickle-3.1.2-py3-none-any.whl.metadata (7.1 kB)
+#10 2.423 Collecting google-api-core==2.29.0 (from browser-use==0.13.10)
+#10 2.428   Downloading google_api_core-2.29.0-py3-none-any.whl.metadata (3.3 kB)
+#10 2.482 Collecting google-api-python-client==2.188.0 (from browser-use==0.13.10)
+#10 2.492   Downloading google_api_python_client-2.188.0-py3-none-any.whl.metadata (7.0 kB)
+#10 2.504 Collecting google-auth-oauthlib==1.2.4 (from browser-use==0.13.10)
+#10 2.509   Downloading google_auth_oauthlib-1.2.4-py3-none-any.whl.metadata (3.1 kB)
+#10 2.545 Collecting google-auth==2.48.0 (from browser-use==0.13.10)
+#10 2.551   Downloading google_auth-2.48.0-py3-none-any.whl.metadata (6.2 kB)
+#10 2.573 Collecting google-genai==1.65.0 (from browser-use==0.13.10)
+#10 2.578   Downloading google_genai-1.65.0-py3-none-any.whl.metadata (51 kB)
+#10 2.581      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 52.0/52.0 kB 482.9 MB/s eta 0:00:00
+#10 2.601 Collecting groq==1.0.0 (from browser-use==0.13.10)
+#10 2.607   Downloading groq-1.0.0-py3-none-any.whl.metadata (16 kB)
+#10 2.627 Collecting httpx==0.28.1 (from browser-use==0.13.10)
+#10 2.633   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+#10 2.645 Collecting inquirerpy==0.3.4 (from browser-use==0.13.10)
+#10 2.652   Downloading InquirerPy-0.3.4-py3-none-any.whl.metadata (8.1 kB)
+#10 2.665 Collecting markdownify==1.2.2 (from browser-use==0.13.10)
+#10 2.673   Downloading markdownify-1.2.2-py3-none-any.whl.metadata (9.9 kB)
+#10 2.689 Collecting mcp==2.1.1 (from browser-use==0.13.10)
+#10 2.696   Downloading mcp-2.1.1-py3-none-any.whl.metadata (7.8 kB)
+#10 2.711 Collecting ollama==0.6.1 (from browser-use==0.13.10)
+#10 2.726   Downloading ollama-0.6.1-py3-none-any.whl.metadata (4.3 kB)
+#10 2.770 Collecting openai==2.26.0 (from browser-use==0.13.10)
+#10 2.779   Downloading openai-2.26.0-py3-none-any.whl.metadata (29 kB)
+#10 2.868 Collecting pillow==12.3.0 (from browser-use==0.13.10)
+#10 2.876   Downloading pillow-12.3.0-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl.metadata (9.1 kB)
+#10 2.945 Collecting posthog==7.7.0 (from browser-use==0.13.10)
+#10 2.952   Downloading posthog-7.7.0-py3-none-any.whl.metadata (6.4 kB)
+#10 2.991 Collecting psutil==7.2.2 (from browser-use==0.13.10)
+#10 2.997   Downloading psutil-7.2.2-cp36-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (22 kB)
+#10 3.013 Collecting pydantic-settings==2.15.0 (from browser-use==0.13.10)
+#10 3.018   Downloading pydantic_settings-2.15.0-py3-none-any.whl.metadata (3.9 kB)
+#10 3.079 Collecting pydantic==2.13.5 (from browser-use==0.13.10)
+#10 3.085   Downloading pydantic-2.13.5-py3-none-any.whl.metadata (110 kB)
+#10 3.092      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 110.2/110.2 kB 20.0 MB/s eta 0:00:00
+#10 3.106 Collecting pyotp==2.9.0 (from browser-use==0.13.10)
+#10 3.110   Downloading pyotp-2.9.0-py3-none-any.whl.metadata (9.8 kB)
+#10 3.141 Collecting pypdf==6.16.2 (from browser-use==0.13.10)
+#10 3.149   Downloading pypdf-6.16.2-py3-none-any.whl.metadata (7.5 kB)
+#10 3.158 Collecting python-docx==1.2.0 (from browser-use==0.13.10)
+#10 3.163   Downloading python_docx-1.2.0-py3-none-any.whl.metadata (2.0 kB)
+#10 3.175 Collecting python-dotenv==1.2.2 (from browser-use==0.13.10)
+#10 3.183   Downloading python_dotenv-1.2.2-py3-none-any.whl.metadata (27 kB)
+#10 3.254 Collecting reportlab==4.4.9 (from browser-use==0.13.10)
+#10 3.261   Downloading reportlab-4.4.9-py3-none-any.whl.metadata (1.7 kB)
+#10 3.280 Collecting requests==2.33.0 (from browser-use==0.13.10)
+#10 3.286   Downloading requests-2.33.0-py3-none-any.whl.metadata (5.1 kB)
+#10 3.318 Collecting rich==14.3.3 (from browser-use==0.13.10)
+#10 3.325   Downloading rich-14.3.3-py3-none-any.whl.metadata (18 kB)
+#10 3.337 Collecting screeninfo==0.8.1 (from browser-use==0.13.10)
+#10 3.343   Downloading screeninfo-0.8.1-py3-none-any.whl.metadata (2.9 kB)
+#10 3.357 Collecting typing-extensions==4.15.0 (from browser-use==0.13.10)
+#10 3.363   Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+#10 3.372 Collecting uuid7==0.1.0 (from browser-use==0.13.10)
+#10 3.378   Downloading uuid7-0.1.0-py2.py3-none-any.whl.metadata (3.6 kB)
+#10 3.433 Collecting aiohappyeyeballs>=2.5.0 (from aiohttp==3.14.3->browser-use==0.13.10)
+#10 3.441   Downloading aiohappyeyeballs-2.7.1-py3-none-any.whl.metadata (5.9 kB)
+#10 3.451 Collecting aiosignal>=1.4.0 (from aiohttp==3.14.3->browser-use==0.13.10)
+#10 3.457   Downloading aiosignal-1.4.0-py3-none-any.whl.metadata (3.7 kB)
+#10 3.471 Collecting attrs>=17.3.0 (from aiohttp==3.14.3->browser-use==0.13.10)
+#10 3.476   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+#10 3.517 Collecting frozenlist>=1.1.1 (from aiohttp==3.14.3->browser-use==0.13.10)
+#10 3.522   Downloading frozenlist-1.8.0-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (20 kB)
+#10 3.695 Collecting multidict<7.0,>=4.5 (from aiohttp==3.14.3->browser-use==0.13.10)
+#10 3.704   Downloading multidict-6.9.1-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (5.3 kB)
+#10 3.761 Collecting propcache>=0.2.0 (from aiohttp==3.14.3->browser-use==0.13.10)
+#10 3.768   Downloading propcache-0.5.4-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (25 kB)
+#10 4.010 Collecting yarl<2.0,>=1.17.0 (from aiohttp==3.14.3->browser-use==0.13.10)
+#10 4.018   Downloading yarl-1.25.1-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (111 kB)
+#10 4.019      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 111.6/111.6 kB 653.1 MB/s eta 0:00:00
+#10 4.040 Collecting distro<2,>=1.7.0 (from anthropic==0.76.0->browser-use==0.13.10)
+#10 4.047   Downloading distro-1.9.0-py3-none-any.whl.metadata (6.8 kB)
+#10 4.059 Collecting docstring-parser<1,>=0.15 (from anthropic==0.76.0->browser-use==0.13.10)
+#10 4.064   Downloading docstring_parser-0.18.0-py3-none-any.whl.metadata (3.5 kB)
+#10 4.147 Collecting jiter<1,>=0.4.0 (from anthropic==0.76.0->browser-use==0.13.10)
+#10 4.157   Downloading jiter-0.17.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (5.2 kB)
+#10 4.171 Collecting sniffio (from anthropic==0.76.0->browser-use==0.13.10)
+#10 4.186   Downloading sniffio-1.3.1-py3-none-any.whl.metadata (3.9 kB)
+#10 4.203 Collecting idna>=2.8 (from anyio==4.12.1->browser-use==0.13.10)
+#10 4.208   Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+#10 4.225 Collecting fetch-use==0.4.0 (from browser-harness==0.1.13->browser-use==0.13.10)
+#10 4.233   Downloading fetch_use-0.4.0-py3-none-any.whl.metadata (7.3 kB)
+#10 4.332 Collecting websockets==15.0.1 (from browser-harness==0.1.13->browser-use==0.13.10)
+#10 4.340   Downloading websockets-15.0.1-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (6.8 kB)
+#10 4.366 Collecting aiofiles>=24.1.0 (from bubus==1.5.6->browser-use==0.13.10)
+#10 4.371   Downloading aiofiles-25.1.0-py3-none-any.whl.metadata (6.3 kB)
+#10 4.385 Collecting portalocker>=2.7.0 (from bubus==1.5.6->browser-use==0.13.10)
+#10 4.391   Downloading portalocker-4.4.0-py3-none-any.whl.metadata (10 kB)
+#10 4.428 Collecting googleapis-common-protos<2.0.0,>=1.56.2 (from google-api-core==2.29.0->browser-use==0.13.10)
+#10 4.433   Downloading googleapis_common_protos-1.75.4-py3-none-any.whl.metadata (8.5 kB)
+#10 4.645 Collecting protobuf!=3.20.0,!=3.20.1,!=4.21.0,!=4.21.1,!=4.21.2,!=4.21.3,!=4.21.4,!=4.21.5,<7.0.0,>=3.19.5 (from google-api-core==2.29.0->browser-use==0.13.10)
+#10 4.651   Downloading protobuf-6.33.6-cp39-abi3-manylinux2014_aarch64.whl.metadata (593 bytes)
+#10 4.668 Collecting proto-plus<2.0.0,>=1.22.3 (from google-api-core==2.29.0->browser-use==0.13.10)
+#10 4.676   Downloading proto_plus-1.28.4-py3-none-any.whl.metadata (2.2 kB)
+#10 4.696 Collecting httplib2<1.0.0,>=0.19.0 (from google-api-python-client==2.188.0->browser-use==0.13.10)
+#10 4.703   Downloading httplib2-0.32.0-py3-none-any.whl.metadata (2.2 kB)
+#10 4.717 Collecting google-auth-httplib2<1.0.0,>=0.2.0 (from google-api-python-client==2.188.0->browser-use==0.13.10)
+#10 4.723   Downloading google_auth_httplib2-0.4.2-py3-none-any.whl.metadata (3.0 kB)
+#10 4.737 Collecting uritemplate<5,>=3.0.1 (from google-api-python-client==2.188.0->browser-use==0.13.10)
+#10 4.743   Downloading uritemplate-4.2.0-py3-none-any.whl.metadata (2.6 kB)
+#10 4.770 Collecting pyasn1-modules>=0.2.1 (from google-auth==2.48.0->browser-use==0.13.10)
+#10 4.777   Downloading pyasn1_modules-0.4.2-py3-none-any.whl.metadata (3.5 kB)
+#10 4.983 Collecting cryptography>=38.0.3 (from google-auth==2.48.0->browser-use==0.13.10)
+#10 4.989   Downloading cryptography-50.0.1-cp311-abi3-manylinux_2_34_aarch64.whl.metadata (4.3 kB)
+#10 5.007 Collecting rsa<5,>=3.1.4 (from google-auth==2.48.0->browser-use==0.13.10)
+#10 5.013   Downloading rsa-4.9.1-py3-none-any.whl.metadata (5.6 kB)
+#10 5.042 Collecting requests-oauthlib>=0.7.0 (from google-auth-oauthlib==1.2.4->browser-use==0.13.10)
+#10 5.048   Downloading requests_oauthlib-2.0.0-py2.py3-none-any.whl.metadata (11 kB)
+#10 5.094 Collecting tenacity<9.2.0,>=8.2.3 (from google-genai==1.65.0->browser-use==0.13.10)
+#10 5.102   Downloading tenacity-9.1.4-py3-none-any.whl.metadata (1.2 kB)
+#10 5.133 Collecting certifi (from httpx==0.28.1->browser-use==0.13.10)
+#10 5.141   Downloading certifi-2026.7.22-py3-none-any.whl.metadata (2.5 kB)
+#10 5.158 Collecting httpcore==1.* (from httpx==0.28.1->browser-use==0.13.10)
+#10 5.164   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+#10 5.179 Collecting pfzy<0.4.0,>=0.3.1 (from inquirerpy==0.3.4->browser-use==0.13.10)
+#10 5.186   Downloading pfzy-0.3.4-py3-none-any.whl.metadata (4.9 kB)
+#10 5.217 Collecting prompt-toolkit<4.0.0,>=3.0.1 (from inquirerpy==0.3.4->browser-use==0.13.10)
+#10 5.224   Downloading prompt_toolkit-3.0.53-py3-none-any.whl.metadata (6.4 kB)
+#10 5.243 Collecting beautifulsoup4<5,>=4.9 (from markdownify==1.2.2->browser-use==0.13.10)
+#10 5.248   Downloading beautifulsoup4-4.15.0-py3-none-any.whl.metadata (3.8 kB)
+#10 5.260 Collecting six<2,>=1.15 (from markdownify==1.2.2->browser-use==0.13.10)
+#10 5.267   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+#10 5.285 Collecting httpx2>=2.5.0 (from mcp==2.1.1->browser-use==0.13.10)
+#10 5.293   Downloading httpx2-2.13.1-py3-none-any.whl.metadata (9.8 kB)
+#10 5.321 Collecting jsonschema>=4.20.0 (from mcp==2.1.1->browser-use==0.13.10)
+#10 5.326   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+#10 5.339 Collecting mcp-types==2.1.1 (from mcp==2.1.1->browser-use==0.13.10)
+#10 5.346   Downloading mcp_types-2.1.1-py3-none-any.whl.metadata (1.9 kB)
+#10 5.366 Collecting opentelemetry-api>=1.28.0 (from mcp==2.1.1->browser-use==0.13.10)
+#10 5.377   Downloading opentelemetry_api-1.45.0-py3-none-any.whl.metadata (1.4 kB)
+#10 5.392 Collecting pyjwt>=2.10.1 (from pyjwt[crypto]>=2.10.1->mcp==2.1.1->browser-use==0.13.10)
+#10 5.397   Downloading pyjwt-2.15.0-py3-none-any.whl.metadata (3.5 kB)
+#10 5.410 Collecting python-multipart>=0.0.9 (from mcp==2.1.1->browser-use==0.13.10)
+#10 5.423   Downloading python_multipart-0.0.32-py3-none-any.whl.metadata (2.1 kB)
+#10 5.441 Collecting sse-starlette>=3.0.0 (from mcp==2.1.1->browser-use==0.13.10)
+#10 5.448   Downloading sse_starlette-3.4.11-py3-none-any.whl.metadata (15 kB)
+#10 5.482 Collecting starlette>=0.27 (from mcp==2.1.1->browser-use==0.13.10)
+#10 5.489   Downloading starlette-1.7.0-py3-none-any.whl.metadata (6.6 kB)
+#10 5.500 Collecting typing-inspection>=0.4.1 (from mcp==2.1.1->browser-use==0.13.10)
+#10 5.507   Downloading typing_inspection-0.4.4-py3-none-any.whl.metadata (2.6 kB)
+#10 5.541 Collecting uvicorn>=0.31.1 (from mcp==2.1.1->browser-use==0.13.10)
+#10 5.547   Downloading uvicorn-0.54.0-py3-none-any.whl.metadata (6.6 kB)
+#10 5.604 Collecting tqdm>4 (from openai==2.26.0->browser-use==0.13.10)
+#10 5.609   Downloading tqdm-4.70.1-py3-none-any.whl.metadata (57 kB)
+#10 5.612      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 57.4/57.4 kB 345.7 MB/s eta 0:00:00
+#10 5.728 Collecting python-dateutil>=2.2 (from posthog==7.7.0->browser-use==0.13.10)
+#10 5.734   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+#10 5.751 Collecting backoff>=1.10.0 (from posthog==7.7.0->browser-use==0.13.10)
+#10 5.756   Downloading backoff-2.2.1-py3-none-any.whl.metadata (14 kB)
+#10 5.788 Collecting annotated-types>=0.6.0 (from pydantic==2.13.5->browser-use==0.13.10)
+#10 5.795   Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+#10 6.621 Collecting pydantic-core==2.46.5 (from pydantic==2.13.5->browser-use==0.13.10)
+#10 6.629   Downloading pydantic_core-2.46.5-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (6.6 kB)
+#10 7.013 Collecting lxml>=3.1.0 (from python-docx==1.2.0->browser-use==0.13.10)
+#10 7.021   Downloading lxml-6.1.3-cp311-cp311-manylinux_2_26_aarch64.manylinux_2_28_aarch64.whl.metadata (3.3 kB)
+#10 7.217 Collecting charset-normalizer (from reportlab==4.4.9->browser-use==0.13.10)
+#10 7.223   Downloading charset_normalizer-3.5.1-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (45 kB)
+#10 7.225      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 45.9/45.9 kB 470.6 MB/s eta 0:00:00
+#10 7.276 Collecting urllib3<3,>=1.26 (from requests==2.33.0->browser-use==0.13.10)
+#10 7.283   Downloading urllib3-2.8.0-py3-none-any.whl.metadata (7.4 kB)
+#10 7.306 Collecting markdown-it-py>=2.2.0 (from rich==14.3.3->browser-use==0.13.10)
+#10 7.312   Downloading markdown_it_py-4.2.0-py3-none-any.whl.metadata (7.4 kB)
+#10 7.337 Collecting pygments<3.0.0,>=2.13.0 (from rich==14.3.3->browser-use==0.13.10)
+#10 7.342   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+#10 7.367 Collecting h11>=0.16 (from httpcore==1.*->httpx==0.28.1->browser-use==0.13.10)
+#10 7.373   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+#10 7.422 Collecting soupsieve>=1.6.1 (from beautifulsoup4<5,>=4.9->markdownify==1.2.2->browser-use==0.13.10)
+#10 7.428   Downloading soupsieve-2.10-py3-none-any.whl.metadata (4.4 kB)
+#10 7.574 Collecting cffi>=2.0.0 (from cryptography>=38.0.3->google-auth==2.48.0->browser-use==0.13.10)
+#10 7.581   Downloading cffi-2.1.1-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.whl.metadata (2.5 kB)
+#10 7.656 Collecting pyparsing<4,>=3.1 (from httplib2<1.0.0,>=0.19.0->google-api-python-client==2.188.0->browser-use==0.13.10)
+#10 7.661   Downloading pyparsing-3.3.3-py3-none-any.whl.metadata (5.9 kB)
+#10 7.685 Collecting httpcore2==2.13.1 (from httpx2>=2.5.0->mcp==2.1.1->browser-use==0.13.10)
+#10 7.693   Downloading httpcore2-2.13.1-py3-none-any.whl.metadata (26 kB)
+#10 7.706 Collecting truststore>=0.10 (from httpx2>=2.5.0->mcp==2.1.1->browser-use==0.13.10)
+#10 7.713   Downloading truststore-0.10.4-py3-none-any.whl.metadata (4.4 kB)
+#10 7.747 Collecting jsonschema-specifications>=2023.03.6 (from jsonschema>=4.20.0->mcp==2.1.1->browser-use==0.13.10)
+#10 7.752   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+#10 7.778 Collecting referencing>=0.28.4 (from jsonschema>=4.20.0->mcp==2.1.1->browser-use==0.13.10)
+#10 7.784   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+#10 8.018 Collecting rpds-py>=0.25.0 (from jsonschema>=4.20.0->mcp==2.1.1->browser-use==0.13.10)
+#10 8.028   Downloading rpds_py-2026.6.3-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (4.1 kB)
+#10 8.053 Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich==14.3.3->browser-use==0.13.10)
+#10 8.060   Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+#10 8.116 Collecting wcwidth>=0.1.4 (from prompt-toolkit<4.0.0,>=3.0.1->inquirerpy==0.3.4->browser-use==0.13.10)
+#10 8.123   Downloading wcwidth-0.9.1-cp310-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.whl.metadata (23 kB)
+#10 8.166 Collecting pyasn1<0.7.0,>=0.6.1 (from pyasn1-modules>=0.2.1->google-auth==2.48.0->browser-use==0.13.10)
+#10 8.175   Downloading pyasn1-0.6.4-py3-none-any.whl.metadata (8.4 kB)
+#10 8.225 Collecting oauthlib>=3.0.0 (from requests-oauthlib>=0.7.0->google-auth-oauthlib==1.2.4->browser-use==0.13.10)
+#10 8.231   Downloading oauthlib-3.3.1-py3-none-any.whl.metadata (7.9 kB)
+#10 8.486 Collecting pycparser (from cffi>=2.0.0->cryptography>=38.0.3->google-auth==2.48.0->browser-use==0.13.10)
+#10 8.491   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+#10 8.585 Downloading aiohttp-3.14.3-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (1.8 MB)
+#10 8.613    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 67.1 MB/s eta 0:00:00
+#10 8.622 Downloading anthropic-0.76.0-py3-none-any.whl (390 kB)
+#10 8.624    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 390.3/390.3 kB 236.5 MB/s eta 0:00:00
+#10 8.632 Downloading anyio-4.12.1-py3-none-any.whl (113 kB)
+#10 8.633    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 113.6/113.6 kB 327.7 MB/s eta 0:00:00
+#10 8.638 Downloading browser_harness-0.1.13-py3-none-any.whl (121 kB)
+#10 8.641    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 121.1/121.1 kB 575.6 MB/s eta 0:00:00
+#10 8.648 Downloading browser_use_sdk-3.4.2-py3-none-any.whl (57 kB)
+#10 8.649    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 57.2/57.2 kB 590.0 MB/s eta 0:00:00
+#10 8.657 Downloading bubus-1.5.6-py3-none-any.whl (52 kB)
+#10 8.660    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 52.1/52.1 kB 25.9 MB/s eta 0:00:00
+#10 8.665 Downloading cdp_use-1.4.5-py3-none-any.whl (350 kB)
+#10 8.673    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 350.5/350.5 kB 67.0 MB/s eta 0:00:00
+#10 8.678 Downloading click-8.3.3-py3-none-any.whl (110 kB)
+#10 8.683    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 110.5/110.5 kB 47.6 MB/s eta 0:00:00
+#10 8.690 Downloading cloudpickle-3.1.2-py3-none-any.whl (22 kB)
+#10 8.695 Downloading google_api_core-2.29.0-py3-none-any.whl (173 kB)
+#10 8.699    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 173.9/173.9 kB 172.3 MB/s eta 0:00:00
+#10 8.706 Downloading google_api_python_client-2.188.0-py3-none-any.whl (14.9 MB)
+#10 8.888    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 14.9/14.9 MB 79.4 MB/s eta 0:00:00
+#10 8.895 Downloading google_auth-2.48.0-py3-none-any.whl (236 kB)
+#10 8.898    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 236.5/236.5 kB 132.8 MB/s eta 0:00:00
+#10 8.906 Downloading google_auth_oauthlib-1.2.4-py3-none-any.whl (19 kB)
+#10 8.913 Downloading google_genai-1.65.0-py3-none-any.whl (724 kB)
+#10 8.921    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 724.4/724.4 kB 110.1 MB/s eta 0:00:00
+#10 8.927 Downloading groq-1.0.0-py3-none-any.whl (138 kB)
+#10 8.929    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 138.3/138.3 kB 277.0 MB/s eta 0:00:00
+#10 8.936 Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+#10 8.936    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 73.5/73.5 kB 655.7 MB/s eta 0:00:00
+#10 8.941 Downloading InquirerPy-0.3.4-py3-none-any.whl (67 kB)
+#10 8.944    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 67.7/67.7 kB 462.1 MB/s eta 0:00:00
+#10 8.951 Downloading markdownify-1.2.2-py3-none-any.whl (15 kB)
+#10 8.958 Downloading mcp-2.1.1-py3-none-any.whl (357 kB)
+#10 8.964    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 357.9/357.9 kB 78.2 MB/s eta 0:00:00
+#10 8.970 Downloading ollama-0.6.1-py3-none-any.whl (14 kB)
+#10 8.978 Downloading openai-2.26.0-py3-none-any.whl (1.1 MB)
+#10 8.991    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.1/1.1 MB 112.3 MB/s eta 0:00:00
+#10 8.997 Downloading pillow-12.3.0-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl (6.3 MB)
+#10 9.085    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.3/6.3 MB 72.3 MB/s eta 0:00:00
+#10 9.092 Downloading posthog-7.7.0-py3-none-any.whl (185 kB)
+#10 9.094    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 185.4/185.4 kB 88.4 MB/s eta 0:00:00
+#10 9.099 Downloading psutil-7.2.2-cp36-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (156 kB)
+#10 9.105    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 157.0/157.0 kB 45.1 MB/s eta 0:00:00
+#10 9.112 Downloading pydantic-2.13.5-py3-none-any.whl (472 kB)
+#10 9.118    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 472.6/472.6 kB 81.0 MB/s eta 0:00:00
+#10 9.125 Downloading pydantic_settings-2.15.0-py3-none-any.whl (69 kB)
+#10 9.126    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 69.4/69.4 kB 576.6 MB/s eta 0:00:00
+#10 9.133 Downloading pyotp-2.9.0-py3-none-any.whl (13 kB)
+#10 9.141 Downloading pypdf-6.16.2-py3-none-any.whl (385 kB)
+#10 9.148    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 385.1/385.1 kB 66.6 MB/s eta 0:00:00
+#10 9.152 Downloading python_docx-1.2.0-py3-none-any.whl (252 kB)
+#10 9.159    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 253.0/253.0 kB 56.7 MB/s eta 0:00:00
+#10 9.165 Downloading python_dotenv-1.2.2-py3-none-any.whl (22 kB)
+#10 9.170 Downloading reportlab-4.4.9-py3-none-any.whl (2.0 MB)
+#10 9.194    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.0/2.0 MB 89.7 MB/s eta 0:00:00
+#10 9.200 Downloading requests-2.33.0-py3-none-any.whl (65 kB)
+#10 9.203    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 65.0/65.0 kB 602.2 MB/s eta 0:00:00
+#10 9.209 Downloading rich-14.3.3-py3-none-any.whl (310 kB)
+#10 9.218    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 310.5/310.5 kB 42.5 MB/s eta 0:00:00
+#10 9.223 Downloading screeninfo-0.8.1-py3-none-any.whl (12 kB)
+#10 9.230 Downloading typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+#10 9.232    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 44.6/44.6 kB 561.2 MB/s eta 0:00:00
+#10 9.237 Downloading uuid7-0.1.0-py2.py3-none-any.whl (7.5 kB)
+#10 9.244 Downloading fetch_use-0.4.0-py3-none-any.whl (9.5 kB)
+#10 9.252 Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+#10 9.255    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.8/78.8 kB 641.9 MB/s eta 0:00:00
+#10 9.260 Downloading mcp_types-2.1.1-py3-none-any.whl (69 kB)
+#10 9.263    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 69.7/69.7 kB 593.9 MB/s eta 0:00:00
+#10 9.273 Downloading pydantic_core-2.46.5-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (1.9 MB)
+#10 9.297    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.9/1.9 MB 89.7 MB/s eta 0:00:00
+#10 9.306 Downloading websockets-15.0.1-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (182 kB)
+#10 9.310    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 182.9/182.9 kB 59.7 MB/s eta 0:00:00
+#10 9.316 Downloading aiofiles-25.1.0-py3-none-any.whl (14 kB)
+#10 9.326 Downloading aiohappyeyeballs-2.7.1-py3-none-any.whl (15 kB)
+#10 9.333 Downloading aiosignal-1.4.0-py3-none-any.whl (7.5 kB)
+#10 9.340 Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+#10 9.346 Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+#10 9.347    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 67.5/67.5 kB 570.0 MB/s eta 0:00:00
+#10 9.353 Downloading backoff-2.2.1-py3-none-any.whl (15 kB)
+#10 9.362 Downloading beautifulsoup4-4.15.0-py3-none-any.whl (109 kB)
+#10 9.364    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 109.9/109.9 kB 66.3 MB/s eta 0:00:00
+#10 9.370 Downloading certifi-2026.7.22-py3-none-any.whl (136 kB)
+#10 9.375    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 137.0/137.0 kB 60.3 MB/s eta 0:00:00
+#10 9.381 Downloading charset_normalizer-3.5.1-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (251 kB)
+#10 9.385    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 251.2/251.2 kB 68.0 MB/s eta 0:00:00
+#10 9.392 Downloading cryptography-50.0.1-cp311-abi3-manylinux_2_34_aarch64.whl (4.7 MB)
+#10 9.450    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 82.3 MB/s eta 0:00:00
+#10 9.456 Downloading distro-1.9.0-py3-none-any.whl (20 kB)
+#10 9.464 Downloading docstring_parser-0.18.0-py3-none-any.whl (22 kB)
+#10 9.474 Downloading frozenlist-1.8.0-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (233 kB)
+#10 9.478    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 233.2/233.2 kB 53.4 MB/s eta 0:00:00
+#10 9.485 Downloading google_auth_httplib2-0.4.2-py3-none-any.whl (9.5 kB)
+#10 9.492 Downloading googleapis_common_protos-1.75.4-py3-none-any.whl (307 kB)
+#10 9.496    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 307.7/307.7 kB 109.7 MB/s eta 0:00:00
+#10 9.503 Downloading httplib2-0.32.0-py3-none-any.whl (93 kB)
+#10 9.506    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 93.1/93.1 kB 52.5 MB/s eta 0:00:00
+#10 9.511 Downloading httpx2-2.13.1-py3-none-any.whl (95 kB)
+#10 9.513    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 95.6/95.6 kB 707.4 MB/s eta 0:00:00
+#10 9.522 Downloading httpcore2-2.13.1-py3-none-any.whl (83 kB)
+#10 9.524    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 83.4/83.4 kB 62.8 MB/s eta 0:00:00
+#10 9.532 Downloading idna-3.20-py3-none-any.whl (69 kB)
+#10 9.533    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 69.6/69.6 kB 613.6 MB/s eta 0:00:00
+#10 9.538 Downloading jiter-0.17.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (343 kB)
+#10 9.545    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 343.3/343.3 kB 70.5 MB/s eta 0:00:00
+#10 9.552 Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+#10 9.555    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 90.6/90.6 kB 710.4 MB/s eta 0:00:00
+#10 9.561 Downloading lxml-6.1.3-cp311-cp311-manylinux_2_26_aarch64.manylinux_2_28_aarch64.whl (5.0 MB)
+#10 9.621    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.0/5.0 MB 87.2 MB/s eta 0:00:00
+#10 9.628 Downloading markdown_it_py-4.2.0-py3-none-any.whl (91 kB)
+#10 9.629    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 91.7/91.7 kB 255.1 MB/s eta 0:00:00
+#10 9.636 Downloading multidict-6.9.1-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (315 kB)
+#10 9.641    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 315.5/315.5 kB 78.2 MB/s eta 0:00:00
+#10 9.647 Downloading opentelemetry_api-1.45.0-py3-none-any.whl (60 kB)
+#10 9.650    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 60.0/60.0 kB 570.0 MB/s eta 0:00:00
+#10 9.657 Downloading pfzy-0.3.4-py3-none-any.whl (8.5 kB)
+#10 9.662 Downloading portalocker-4.4.0-py3-none-any.whl (129 kB)
+#10 9.665    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 129.6/129.6 kB 726.8 MB/s eta 0:00:00
+#10 9.670 Downloading prompt_toolkit-3.0.53-py3-none-any.whl (392 kB)
+#10 9.677    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 392.3/392.3 kB 101.9 MB/s eta 0:00:00
+#10 9.683 Downloading propcache-0.5.4-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (238 kB)
+#10 9.687    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 238.7/238.7 kB 187.0 MB/s eta 0:00:00
+#10 9.692 Downloading proto_plus-1.28.4-py3-none-any.whl (50 kB)
+#10 9.694    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 50.8/50.8 kB 597.2 MB/s eta 0:00:00
+#10 9.701 Downloading protobuf-6.33.6-cp39-abi3-manylinux2014_aarch64.whl (324 kB)
+#10 9.704    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 324.6/324.6 kB 181.0 MB/s eta 0:00:00
+#10 9.709 Downloading pyasn1_modules-0.4.2-py3-none-any.whl (181 kB)
+#10 9.715    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 181.3/181.3 kB 52.9 MB/s eta 0:00:00
+#10 9.720 Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+#10 9.742    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 62.9 MB/s eta 0:00:00
+#10 9.747 Downloading pyjwt-2.15.0-py3-none-any.whl (33 kB)
+#10 9.756 Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+#10 9.759    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 229.9/229.9 kB 159.9 MB/s eta 0:00:00
+#10 9.766 Downloading python_multipart-0.0.32-py3-none-any.whl (30 kB)
+#10 9.774 Downloading requests_oauthlib-2.0.0-py2.py3-none-any.whl (24 kB)
+#10 9.781 Downloading rsa-4.9.1-py3-none-any.whl (34 kB)
+#10 9.789 Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+#10 9.796 Downloading sse_starlette-3.4.11-py3-none-any.whl (17 kB)
+#10 9.803 Downloading starlette-1.7.0-py3-none-any.whl (78 kB)
+#10 9.804    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 79.0/79.0 kB 688.3 MB/s eta 0:00:00
+#10 9.812 Downloading tenacity-9.1.4-py3-none-any.whl (28 kB)
+#10 9.820 Downloading tqdm-4.70.1-py3-none-any.whl (80 kB)
+#10 9.820    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 80.2/80.2 kB 527.3 MB/s eta 0:00:00
+#10 9.827 Downloading typing_inspection-0.4.4-py3-none-any.whl (14 kB)
+#10 9.833 Downloading uritemplate-4.2.0-py3-none-any.whl (11 kB)
+#10 9.841 Downloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+#10 9.846    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 135.7/135.7 kB 56.5 MB/s eta 0:00:00
+#10 9.852 Downloading uvicorn-0.54.0-py3-none-any.whl (87 kB)
+#10 9.854    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 87.4/87.4 kB 538.5 MB/s eta 0:00:00
+#10 9.863 Downloading yarl-1.25.1-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (116 kB)
+#10 9.865    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 116.4/116.4 kB 584.7 MB/s eta 0:00:00
+#10 9.872 Downloading sniffio-1.3.1-py3-none-any.whl (10 kB)
+#10 9.879 Downloading cffi-2.1.1-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.whl (218 kB)
+#10 9.884    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 218.7/218.7 kB 55.0 MB/s eta 0:00:00
+#10 9.891 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+#10 9.898 Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+#10 9.905 Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+#10 9.912 Downloading oauthlib-3.3.1-py3-none-any.whl (160 kB)
+#10 9.915    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 160.1/160.1 kB 68.6 MB/s eta 0:00:00
+#10 9.922 Downloading pyasn1-0.6.4-py3-none-any.whl (84 kB)
+#10 9.924    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 84.4/84.4 kB 52.3 MB/s eta 0:00:00
+#10 9.930 Downloading pyparsing-3.3.3-py3-none-any.whl (126 kB)
+#10 9.933    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 126.4/126.4 kB 693.1 MB/s eta 0:00:00
+#10 9.939 Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+#10 9.947 Downloading rpds_py-2026.6.3-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (373 kB)
+#10 9.953    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 373.8/373.8 kB 67.4 MB/s eta 0:00:00
+#10 9.959 Downloading soupsieve-2.10-py3-none-any.whl (38 kB)
+#10 9.967 Downloading truststore-0.10.4-py3-none-any.whl (18 kB)
+#10 9.976 Downloading wcwidth-0.9.1-cp310-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.whl (770 kB)
+#10 9.986    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 770.5/770.5 kB 88.4 MB/s eta 0:00:00
+#10 9.991 Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+#10 9.993    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 48.2/48.2 kB 572.9 MB/s eta 0:00:00
+#10 10.05 Building wheels for collected packages: browser-use
+#10 10.05   Building editable for browser-use (pyproject.toml): started
+#10 10.07   Building editable for browser-use (pyproject.toml): finished with status 'done'
+#10 10.07   Created wheel for browser-use: filename=browser_use-0.13.10-py3-none-any.whl size=8192 sha256=71a5a65da416ba1b62999f14446628b1199c95910f4a360583740435afa79640
+#10 10.07   Stored in directory: /tmp/pip-ephem-wheel-cache-bweq0_yz/wheels/57/0f/98/bb57b2b57b95807699b822a35c022f139d38a02c27922f27ce
+#10 10.07 Successfully built browser-use
+#10 10.24 Installing collected packages: websockets, wcwidth, uuid7, urllib3, uritemplate, typing-extensions, truststore, tqdm, tenacity, soupsieve, sniffio, six, screeninfo, rpds-py, python-multipart, python-dotenv, pypdf, pyparsing, pyotp, pyjwt, pygments, pycparser, pyasn1, psutil, protobuf, propcache, portalocker, pillow, pfzy, oauthlib, multidict, mdurl, lxml, jiter, idna, h11, frozenlist, fetch-use, docstring-parser, distro, cloudpickle, click, charset-normalizer, certifi, backoff, attrs, annotated-types, aiohappyeyeballs, aiofiles, yarl, uvicorn, typing-inspection, rsa, requests, reportlab, referencing, python-docx, python-dateutil, pydantic-core, pyasn1-modules, proto-plus, prompt-toolkit, opentelemetry-api, markdown-it-py, httplib2, httpcore2, httpcore, googleapis-common-protos, cffi, beautifulsoup4, anyio, aiosignal, starlette, rich, requests-oauthlib, pydantic, posthog, markdownify, jsonschema-specifications, inquirerpy, httpx2, httpx, cryptography, aiohttp, sse-starlette, pydantic-settings, openai, ollama, mcp-types, jsonschema, groq, google-auth, cdp-use, bubus, browser-use-sdk, anthropic, mcp, google-auth-oauthlib, google-auth-httplib2, google-api-core, browser-harness, google-genai, google-api-python-client, browser-use
+#10 14.19 Successfully installed aiofiles-25.1.0 aiohappyeyeballs-2.7.1 aiohttp-3.14.3 aiosignal-1.4.0 annotated-types-0.8.0 anthropic-0.76.0 anyio-4.12.1 attrs-26.1.0 backoff-2.2.1 beautifulsoup4-4.15.0 browser-harness-0.1.13 browser-use-0.13.10 browser-use-sdk-3.4.2 bubus-1.5.6 cdp-use-1.4.5 certifi-2026.7.22 cffi-2.1.1 charset-normalizer-3.5.1 click-8.3.3 cloudpickle-3.1.2 cryptography-50.0.1 distro-1.9.0 docstring-parser-0.18.0 fetch-use-0.4.0 frozenlist-1.8.0 google-api-core-2.29.0 google-api-python-client-2.188.0 google-auth-2.48.0 google-auth-httplib2-0.4.2 google-auth-oauthlib-1.2.4 google-genai-1.65.0 googleapis-common-protos-1.75.4 groq-1.0.0 h11-0.16.0 httpcore-1.0.9 httpcore2-2.13.1 httplib2-0.32.0 httpx-0.28.1 httpx2-2.13.1 idna-3.20 inquirerpy-0.3.4 jiter-0.17.0 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 lxml-6.1.3 markdown-it-py-4.2.0 markdownify-1.2.2 mcp-2.1.1 mcp-types-2.1.1 mdurl-0.1.2 multidict-6.9.1 oauthlib-3.3.1 ollama-0.6.1 openai-2.26.0 opentelemetry-api-1.45.0 pfzy-0.3.4 pillow-12.3.0 portalocker-4.4.0 posthog-7.7.0 prompt-toolkit-3.0.53 propcache-0.5.4 proto-plus-1.28.4 protobuf-6.33.6 psutil-7.2.2 pyasn1-0.6.4 pyasn1-modules-0.4.2 pycparser-3.0 pydantic-2.13.5 pydantic-core-2.46.5 pydantic-settings-2.15.0 pygments-2.21.0 pyjwt-2.15.0 pyotp-2.9.0 pyparsing-3.3.3 pypdf-6.16.2 python-dateutil-2.9.0.post0 python-docx-1.2.0 python-dotenv-1.2.2 python-multipart-0.0.32 referencing-0.37.0 reportlab-4.4.9 requests-2.33.0 requests-oauthlib-2.0.0 rich-14.3.3 rpds-py-2026.6.3 rsa-4.9.1 screeninfo-0.8.1 six-1.17.0 sniffio-1.3.1 soupsieve-2.10 sse-starlette-3.4.11 starlette-1.7.0 tenacity-9.1.4 tqdm-4.70.1 truststore-0.10.4 typing-extensions-4.15.0 typing-inspection-0.4.4 uritemplate-4.2.0 urllib3-2.8.0 uuid7-0.1.0 uvicorn-0.54.0 wcwidth-0.9.1 websockets-15.0.1 yarl-1.25.1
+#10 14.19 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#10 14.25 
+#10 14.25 [notice] A new release of pip is available: 24.0 -> 26.2.1
+#10 14.25 [notice] To update, run: pip install --upgrade pip
+#10 DONE 15.3s
+
+#11 exporting to image
+#11 exporting layers
+#11 exporting layers 0.6s done
+#11 writing image sha256:b2cda63525e6eab33501017c16b1da23a5a498418b969c8fbdb65e0427254c26 done
+#11 naming to docker.io/crucible/browser-use-browser-use:4cbe921673b4 done
+#11 DONE 0.6s
