@@ -78,3 +78,55 @@ def test_unknown_failure_class_appears_in_rendered_table(store: Store) -> None:
     assert "unknown" in v.by_failure
     md = render_markdown(v)
     assert "| unknown |" in md
+
+
+def test_superseded_failed_build_then_success_counts_as_one_build(store: Store) -> None:
+    store.record("candidates", slug="test", source="github",
+                 repo_url="https://example.com", commit_sha="a" * 40)
+    build1_id = store.record("builds", candidate="test", status="failed",
+                             failure_class="dependency_conflict")
+    build2_id = store.record("builds", candidate="test", status="built",
+                             image_digest="sha256:1234")
+    store.supersede("builds", build1_id, build2_id, "Retry succeeded")
+    v = viability(store)
+    assert v.built == 1
+    assert "dependency_conflict" not in v.by_failure
+
+
+def test_superseded_boot_excluded_from_count(store: Store) -> None:
+    store.record("candidates", slug="test", source="github",
+                 repo_url="https://example.com", commit_sha="a" * 40)
+    store.record("builds", candidate="test", status="built",
+                 image_digest="sha256:1234")
+    boot1_id = store.record("boots", build="sha256:1234", status="failed",
+                            failure_class="boot_crash")
+    boot2_id = store.record("boots", build="sha256:1234", status="booted")
+    store.supersede("boots", boot1_id, boot2_id, "Retry succeeded")
+    v = viability(store)
+    assert v.booted == 1
+    assert "boot_crash" not in v.by_failure
+
+
+def test_superseded_old_id_in_builds_does_not_suppress_boots(store: Store) -> None:
+    store.record("candidates", slug="test", source="github",
+                 repo_url="https://example.com", commit_sha="a" * 40)
+    # First build gets id=1
+    build1_id = store.record("builds", candidate="test", status="failed",
+                             failure_class="dependency_conflict")
+    # Second build gets id=2, first is superseded
+    build2_id = store.record("builds", candidate="test", status="built",
+                             image_digest="sha256:1234")
+    store.supersede("builds", build1_id, build2_id, "Retry succeeded")
+    # Boot with id=1 (same as old build id but in boots table)
+    store.record("boots", build="sha256:1234", status="booted")
+    v = viability(store)
+    assert v.booted == 1
+    assert v.built == 1
+
+
+def test_normal_counts_unchanged_with_no_supersedes(store: Store) -> None:
+    seed(store, harvested=10, built=6, booted=4)
+    v = viability(store)
+    assert (v.harvested, v.built, v.booted) == (10, 6, 4)
+    assert v.by_failure["dependency_conflict"] == 4
+    assert v.by_failure["boot_crash"] == 2

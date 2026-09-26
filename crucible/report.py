@@ -29,11 +29,27 @@ def viability(store: Store) -> Viability:
     Returns a Viability dataclass with counts of harvested, built, and booted
     agents, along with a distribution of failure classes across failed builds
     and boot attempts.
+
+    Superseded rows are excluded from all counts, since they represent
+    corrections to prior measurements rather than independent facts about
+    the world.
     """
-    builds = store.rows("builds")
-    boots = store.rows("boots")
+    # Build sets of superseded IDs per table
+    superseded: dict[str, set[int]] = {"builds": set(), "boots": set()}
+    for row in store.rows("supersedes"):
+        tbl = row["tbl"]
+        old_id = row["old_id"]
+        if tbl in superseded:
+            superseded[tbl].add(old_id)
+
+    # Query all rows and filter out superseded ones
+    builds = [r for r in store.rows("builds") if r["id"] not in superseded["builds"]]
+    boots = [r for r in store.rows("boots") if r["id"] not in superseded["boots"]]
+
+    # Tally failures from non-superseded rows
     failures = Counter(
         str(r["failure_class"]) for r in (*builds, *boots) if r["failure_class"])
+
     return Viability(
         harvested=len(store.rows("candidates")),
         built=sum(1 for r in builds if r["status"] == "built"),
@@ -78,7 +94,8 @@ def render_markdown(v: Viability) -> str:
         "Failure classification is substring-based and therefore approximate. "
         "The unknown bucket collects unmatched failures rather than guessing at "
         "a nearest class. Counts in specific buckets may therefore be slightly "
-        "over- or under-stated.",
+        "over- or under-stated. Superseded results are excluded from all counts; "
+        "the raw dataset may contain more rows than counted here.",
         "",
         f"Generated {v.generated_at} from the record store. Every count "
         "above is a query; none is asserted.",
