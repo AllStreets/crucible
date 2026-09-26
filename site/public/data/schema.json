@@ -19,6 +19,16 @@
     "slug",
     "source"
   ],
+  "entrypoints": [
+    "at",
+    "authored_by",
+    "command",
+    "env_required",
+    "id",
+    "notes",
+    "slug",
+    "workspace"
+  ],
   "env_checks": [
     "at",
     "base_url",
@@ -29,6 +39,31 @@
     "id",
     "model",
     "status"
+  ],
+  "pairs": [
+    "at",
+    "blocked_reason",
+    "id",
+    "model",
+    "outcome",
+    "sandbox_run_id",
+    "scenario",
+    "slug_a",
+    "slug_b",
+    "status",
+    "transcript_ref"
+  ],
+  "solos": [
+    "at",
+    "base_url",
+    "duration_ms",
+    "entrypoint",
+    "evidence_ref",
+    "failure_class",
+    "id",
+    "model",
+    "outcome",
+    "slug"
   ],
   "unresolved": []
 }

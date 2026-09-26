@@ -19,12 +19,32 @@ export interface EnvCheck {
   model: string | null; base_url: string | null; at: string;
 }
 export interface Unresolved { id: number; seed_url: string; reason: string; at: string }
+export interface EntrypointRow {
+  id: number; slug: string; command: string[]; env_required: string[];
+  workspace: string; notes: string; authored_by: string; at: string;
+}
+export interface SoloRow {
+  id: number; slug: string; entrypoint: number;
+  outcome: "acted" | "ran_no_effect" | "failed";
+  failure_class: string | null; evidence_ref: string | null;
+  model: string | null; base_url: string | null; duration_ms: number | null; at: string;
+}
+export interface PairRow {
+  id: number; slug_a: string; slug_b: string; scenario: string;
+  sandbox_run_id: string | null;
+  status: "queued" | "running" | "done" | "lost" | "blocked" | "artifact";
+  outcome: string | null; blocked_reason: string | null;
+  transcript_ref: string | null; model: string | null; at: string;
+}
 
 export interface Dataset {
   candidates: Candidate[];
   builds: Build[];
   env_checks: EnvCheck[];
   unresolved: Unresolved[];
+  entrypoints: EntrypointRow[];
+  solos: SoloRow[];
+  pairs: PairRow[];
 }
 
 export interface Manifest {
@@ -117,6 +137,59 @@ export interface AgentRow {
   imageDigest: string | null;
   checkPassed: boolean;
   checkDurationMs: number | null;
+}
+
+/** The stage each agent actually reached, which is what the vessel draws.
+ *
+ *  0 harvested, 1 built, 2 environment checked, 3 invocable (solo acted),
+ *  4 entered the arena. An agent never rises above the stage its rows support. */
+export interface StageRow {
+  slug: string;
+  stage: 0 | 1 | 2 | 3 | 4;
+  label: string;
+  failure: string | null;
+}
+
+const STAGE_LABELS = [
+  "harvested only",
+  "built",
+  "environment checked",
+  "invocable, solo acted",
+  "entered the arena",
+] as const;
+
+export function stageRows(d: Dataset): StageRow[] {
+  const arena = new Set<string>();
+  for (const p of d.pairs) {
+    if (p.status === "done" || p.status === "artifact") {
+      arena.add(p.slug_a); arena.add(p.slug_b);
+    }
+  }
+  const acted = new Set(
+    d.solos.filter((s) => s.outcome === "acted").map((s) => s.slug));
+  const checked = new Set(
+    d.env_checks.filter((e) => e.status === "passed").map((e) => e.build));
+
+  return d.candidates.map((c) => {
+    const build = d.builds.find((b) => b.candidate === c.slug);
+    let stage: StageRow["stage"] = 0;
+    if (build?.status === "built") stage = 1;
+    if (build?.image_digest && checked.has(build.image_digest)) stage = 2;
+    if (acted.has(c.slug)) stage = 3;
+    if (arena.has(c.slug)) stage = 4;
+    return {
+      slug: c.slug,
+      stage,
+      label: STAGE_LABELS[stage],
+      failure: build?.failure_class ?? null,
+    };
+  });
+}
+
+/** Agents that build and install cleanly and still cannot be invoked.
+ *  The count of these is a finding: a framework is not an agent. */
+export function builtButNotInvocable(d: Dataset): StageRow[] {
+  return stageRows(d).filter((r) => r.stage === 2);
 }
 
 export function agentRows(d: Dataset): AgentRow[] {

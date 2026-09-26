@@ -1,51 +1,61 @@
-/* Two rooms, not a theme pair.
+/* CRUCIBLE
  *
- * Specimen is where results are read: cold laboratory white, hairline grids,
- * figure numbering, a journal voice. Detector is where the instrument is
- * watched: dark, dense, live. A page belongs to one room permanently. Moving
- * between them should feel like stepping from a library into a lab, and the
- * fact that the contrast has a reason behind it is what a template cannot
- * reproduce.
+ * A crucible is a vessel that holds a reaction hot enough to destroy most
+ * things put into it, and what survives is the result. The palette is thermal
+ * on purpose: the ground is cold furnace-black, and heat appears only where
+ * something is actually happening. Colour here is not decoration, it is state.
  *
- * Both rooms share one reagent accent, because they are the same building. */
+ * Deliberately not the cyan and violet that every dark developer site reaches
+ * for, and deliberately not this author's other projects either, which use
+ * exactly that pair. A thermal ramp reads as instrumentation rather than as
+ * neon.
+ */
 
 :root {
-  /* Specimen */
-  --specimen-ground:    #FBFBF9;
-  --specimen-panel:     #FFFFFF;
-  --specimen-ink:       #14161A;
-  --specimen-ink-soft:  #55606E;
-  --specimen-rule:      #D8DCE2;
-  --specimen-grid:      #EAEDF1;
+  /* Ground. Warm-biased black, not blue-black: the neutral is chosen. */
+  --ground:        #07080B;
+  --ground-raised: #0C0E13;
+  --panel:         #11141B;
+  --panel-hi:      #171B24;
+  --rule:          #1E232E;
+  --rule-bright:   #2B323F;
+  --grid:          #10131A;
 
-  /* Detector */
-  --detector-ground:    #0A0C10;
-  --detector-panel:     #12161C;
-  --detector-ink:       #E6EAF0;
-  --detector-ink-soft:  #8A95A5;
-  --detector-rule:      #222933;
-  --detector-grid:      #171C24;
+  --ink:           #E8EAF0;
+  --ink-soft:      #8A93A6;
+  --ink-faint:     #5A6373;
 
-  /* Shared reagent and signals. Semantic colour is separate from the accent. */
-  --reagent:            #1F7A5A;
-  --reagent-bright:     #2EE39B;
-  --signal-warn:        #B57A12;
-  --signal-stop:        #B03A30;
+  /* The thermal ramp. Cold to white-hot, used for stage and severity. */
+  --t0:  #2B3242;   /* inert, never reached */
+  --t1:  #3E6E8E;   /* cold: harvested */
+  --t2:  #2E9C8E;   /* verified: built and checked */
+  --t3:  #C8922A;   /* active: invocable */
+  --t4:  #E4632A;   /* reacting: in the arena */
+  --t5:  #FF8A3D;   /* white hot: a confirmed finding */
 
-  --font-display: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --accent:        #E4632A;
+  --accent-cool:   #2E9C8E;
+  --signal-warn:   #C8922A;
+  --signal-stop:   #C6453B;
+  --signal-artifact: #7B5CA8;
+
+  --glow-accent: 0 0 24px rgba(228, 99, 42, 0.22);
+  --glow-cool:   0 0 20px rgba(46, 156, 142, 0.20);
+
+  --font-display: "Chakra Petch", "Eurostile", "Helvetica Neue", sans-serif;
   --font-body:    "Public Sans", "Helvetica Neue", Arial, sans-serif;
   --font-mono:    "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
-  /* A type scale, kept to, rather than ad hoc sizes. */
   --t-micro: 0.6875rem;
   --t-small: 0.8125rem;
-  --t-body:  1rem;
-  --t-lead:  1.1875rem;
-  --t-h3:    1.375rem;
-  --t-h2:    1.875rem;
-  --t-h1:    2.75rem;
-  --t-figure: 4.5rem;
+  --t-body:  0.9375rem;
+  --t-lead:  1.125rem;
+  --t-h3:    1.25rem;
+  --t-h2:    1.75rem;
+  --t-h1:    2.875rem;
+  --t-figure: 5.5rem;
 
-  --measure: 65ch;
-  --rule-hair: 1px;
+  --measure: 68ch;
+  --hair: 1px;
+  --radius: 3px;
 }

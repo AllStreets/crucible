@@ -4,7 +4,7 @@
 
 ## Abstract
 
-We attempt to build 10 open-source AI agent repositories into containers at pinned commits and to start each resulting image in a network-denied sandbox. 7 build successfully and 7 pass a container environment check, a rate of 70.0 percent. We report the distribution of failure causes and, for each, whether the cause is a property of the agent or a limit of the harness. We do not measure whether any agent runs.
+We attempt to build 10 open-source AI agent repositories into containers at pinned commits and to start each resulting image in a network-denied sandbox. 6 build successfully and 6 pass a container environment check, a rate of 60.0 percent. We report the distribution of failure causes and, for each, whether the cause is a property of the agent or a limit of the harness. We do not measure whether any agent runs.
 
 ## Method
 
@@ -20,9 +20,9 @@ Records span 2026-09-26 to 2026-09-26. Build recipes used: 1. A recipe digest is
 |---|---|
 | Repositories harvested | 10 |
 | Seed URLs unresolved | 0 |
-| Built | 7 |
-| Build failed | 3 |
-| Environment check passed | 7 |
+| Built | 6 |
+| Build failed | 4 |
+| Environment check passed | 6 |
 | Environment check failed | 0 |
 
 Failure counts are tallies of recorded rows and are not a partition of the repositories harvested. A repository that fails to build contributes a build row and no check row, so the tables below neither sum to the harvested count nor are bounded by it.
@@ -32,13 +32,13 @@ Failure counts are tallies of recorded rows and are not a partition of the repos
 | Cause | Count | Attributable to |
 |---|---|---|
 | Written in a language this recipe does not build | 2 | this harness |
-| The manifest found is a workspace root, not an installable package | 1 | this harness |
+| The manifest found is a workspace root, not an installable package | 2 | this harness |
 
 ### Environment check stage
 
 No environment check failures recorded.
 
-Probe durations range from 211 to 270 milliseconds.
+Probe durations range from 208 to 267 milliseconds.
 
 ## Threats to validity
 

@@ -4,7 +4,7 @@ import { loadManifest } from "../lib/dataset";
 const SECTIONS = [
   { href: "/findings", label: "Findings" },
   { href: "/papers", label: "Papers" },
-  { href: "/methodology", label: "Methodology" },
+  { href: "/methodology", label: "Method" },
   { href: "/threat-model", label: "Threat model" },
   { href: "/data", label: "Data" },
   { href: "/log", label: "Log" },
@@ -12,61 +12,44 @@ const SECTIONS = [
 ];
 
 export function Masthead() {
-  const manifest = loadManifest();
-  const generated = manifest.generated_at.slice(0, 10);
-
+  const m = loadManifest();
   return (
     <header className="masthead">
-      <Link href="/" className="wordmark">CRUCIBLE</Link>
-      <nav>
-        {SECTIONS.map((s) => (
-          <Link key={s.href} href={s.href}>{s.label}</Link>
-        ))}
-      </nav>
-      <span className="label stamp">Dataset {generated}</span>
-
+      <div className="inner sheet">
+        <Link href="/" className="wordmark">
+          <span className="glyph" aria-hidden="true" />
+          CRUCIBLE
+        </Link>
+        <nav>
+          {SECTIONS.map((s) => <Link key={s.href} href={s.href}>{s.label}</Link>)}
+        </nav>
+        <span className="stamp label">
+          <span className="pill ok live">dataset</span>
+          {m.generated_at.slice(0, 10)}
+        </span>
+      </div>
       <style>{`
-        .masthead {
-          display: flex;
-          align-items: baseline;
-          gap: 2rem;
-          padding: 1.4rem clamp(1.25rem, 5vw, 3rem) 1rem;
-          max-width: 1060px;
-          margin: 0 auto;
-          border-bottom: var(--rule-hair) solid var(--rule);
-          position: relative;
-          z-index: 2;
-          background: var(--ground);
-        }
-        .wordmark {
-          font-family: var(--font-display);
-          font-size: var(--t-lead);
-          font-weight: 600;
-          letter-spacing: 0.14em;
-          text-decoration: none;
-          white-space: nowrap;
-        }
-        .masthead nav {
-          display: flex;
-          gap: 1.5rem;
-          flex-wrap: wrap;
-          margin-right: auto;
-        }
-        .masthead nav a {
-          font-size: var(--t-small);
-          letter-spacing: 0.02em;
-          text-decoration: none;
-          color: var(--ink-soft);
-          padding-bottom: 2px;
-          border-bottom: var(--rule-hair) solid transparent;
-        }
-        .masthead nav a:hover {
-          color: var(--ink);
-          border-bottom-color: var(--accent);
-        }
-        .stamp { white-space: nowrap; }
-        @media (max-width: 720px) {
-          .masthead { flex-wrap: wrap; gap: 0.75rem 1.25rem; }
+        .masthead { position: sticky; top: 0; z-index: 20;
+          background: color-mix(in srgb, var(--ground) 88%, transparent);
+          backdrop-filter: blur(14px);
+          border-bottom: var(--hair) solid var(--rule); }
+        .masthead .inner { display: flex; align-items: center; gap: 2rem;
+          padding-top: 0.85rem; padding-bottom: 0.85rem; }
+        .wordmark { display: flex; align-items: center; gap: 0.6rem;
+          font-family: var(--font-display); font-size: 1rem; font-weight: 600;
+          letter-spacing: 0.24em; text-decoration: none; white-space: nowrap; }
+        .glyph { width: 9px; height: 9px; background: var(--accent);
+          box-shadow: var(--glow-accent);
+          clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+        .masthead nav { display: flex; gap: 1.35rem; flex-wrap: wrap; margin-right: auto; }
+        .masthead nav a { font-size: var(--t-small); color: var(--ink-soft);
+          text-decoration: none; padding-bottom: 3px;
+          border-bottom: var(--hair) solid transparent; transition: color 160ms; }
+        .masthead nav a:hover { color: var(--ink); border-bottom-color: var(--accent); }
+        .stamp { display: flex; align-items: center; gap: 0.5rem; white-space: nowrap; }
+        @media (max-width: 900px) {
+          .masthead { position: static; }
+          .masthead .inner { flex-wrap: wrap; gap: 0.7rem 1.2rem; }
           .stamp { width: 100%; }
         }
       `}</style>

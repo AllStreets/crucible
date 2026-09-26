@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { agentRows, failuresByClass, viability, type Dataset } from "../lib/dataset";
+import { agentRows, builtButNotInvocable, failuresByClass, stageRows, viability, type Dataset } from "../lib/dataset";
 
 const sample: Dataset = {
   candidates: [
@@ -16,6 +16,9 @@ const sample: Dataset = {
     { id: 1, build: "sha256:aa", status: "passed", failure_class: null, duration_ms: 247, model: null, base_url: null, at: "" },
   ],
   unresolved: [],
+  entrypoints: [],
+  solos: [],
+  pairs: [],
 };
 
 test("viability is computed from rows, never asserted", () => {
@@ -50,4 +53,20 @@ test("env checks join through the image digest, not the build id", () => {
   expect(a.checkDurationMs).toBe(247);
   // A build that produced no image can have no check.
   expect(rows.find((r) => r.slug === "b")!.checkPassed).toBe(false);
+});
+
+
+test("an agent never rises above the stage its rows support", () => {
+  // The vessel draws stage as height, so a wrong stage is a visual claim that
+  // an agent got further than the record says it did.
+  const rows = stageRows(sample);
+  const a = rows.find((r) => r.slug === "a")!;
+  expect(a.stage).toBe(2); // built and checked, no solo row
+  expect(rows.find((r) => r.slug === "b")!.stage).toBe(0); // failed to build
+});
+
+test("built but not invocable is its own count", () => {
+  // Four of ten agents build cleanly and still cannot be invoked. A framework
+  // is not an agent, and counting it as one overstates what exists.
+  expect(builtButNotInvocable(sample).map((r) => r.slug)).toEqual(["a"]);
 });
