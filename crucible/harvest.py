@@ -53,7 +53,18 @@ async def default_runner(*argv: str, timeout_s: int | None = None) -> tuple[int,
 
 
 def slug_for(repo_url: str) -> str:
-    name = repo_url.rstrip("/").rsplit("/", 1)[-1]
+    """Derive slug from the last two path segments (owner/repository).
+
+    Handles edge cases gracefully: URLs with only one path segment fall back
+    to that segment, and trailing .git suffixes are removed before transformation.
+    """
+    path = repo_url.rstrip("/").rsplit("/", 2)
+    # Extract the last two segments if they exist, otherwise use what we have
+    if len(path) >= 2:
+        segments = path[-2:]
+    else:
+        segments = path[-1:]
+    name = "/".join(segments)
     if name.endswith(".git"):
         name = name[:-4]
     return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
@@ -67,9 +78,14 @@ async def resolve_head(repo_url: str, *, run: Runner) -> str | None:
     """The commit SHA at HEAD, or None if the repository cannot be reached.
 
     Returns rather than raises: one dead repository must not lose the rest of
-    the batch, and an unreachable repository is itself an observation.
+    the batch, and an unreachable repository is itself an observation. Catches
+    exceptions from the runner to prevent a single systemic failure from losing
+    the entire batch.
     """
-    code, out = await run("git", "ls-remote", repo_url, "HEAD")
+    try:
+        code, out = await run("git", "ls-remote", repo_url, "HEAD")
+    except Exception:
+        return None
     if code != 0:
         return None
     first = out.split("\t", 1)[0].strip()

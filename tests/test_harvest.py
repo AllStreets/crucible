@@ -40,7 +40,7 @@ async def test_harvest_records_what_it_resolved_and_skips_what_it_could_not(stor
     got = await harvest(["https://github.com/x/good", "https://github.com/x/bad"],
                         store=store, run=run)
 
-    assert [c.slug for c in got] == ["good"]
+    assert [c.slug for c in got] == ["x-good"]
     assert len(store.rows("candidates")) == 1
     assert store.rows("candidates")[0]["commit_sha"] == "a" * 40
 
@@ -51,9 +51,18 @@ async def test_harvest_never_writes_a_candidate_without_a_pinned_sha(store) -> N
     assert store.rows("candidates") == []
 
 
-def test_slug_is_derived_from_the_repo_name() -> None:
-    assert slug_for("https://github.com/Aider-AI/aider") == "aider"
-    assert slug_for("https://github.com/x/My_Agent.git") == "my-agent"
+def test_slug_is_derived_from_owner_and_repo() -> None:
+    assert slug_for("https://github.com/Aider-AI/aider") == "aider-ai-aider"
+    assert slug_for("https://github.com/x/My_Agent.git") == "x-my-agent"
+
+
+def test_different_owners_with_same_repo_name_produce_different_slugs() -> None:
+    """Slug collisions between different agents must be prevented."""
+    slug1 = slug_for("https://github.com/foo/aider")
+    slug2 = slug_for("https://github.com/bar/aider")
+    assert slug1 == "foo-aider"
+    assert slug2 == "bar-aider"
+    assert slug1 != slug2
 
 
 async def test_default_runner_timeout_kills_child_process() -> None:
@@ -70,3 +79,34 @@ async def test_default_runner_without_timeout_works() -> None:
     code, out = await default_runner("echo", "hello")
     assert code == 0
     assert "hello" in out
+
+
+async def test_runner_exception_does_not_escape_resolve_head() -> None:
+    """A runner that raises an exception causes resolve_head to return None
+    rather than propagate, so one failing candidate does not lose the batch."""
+    async def raising_runner(*argv: str, **kw) -> tuple[int, str]:
+        raise OSError("simulated runner failure")
+    result = await resolve_head("https://github.com/x/example", run=raising_runner)
+    assert result is None
+
+
+async def test_harvest_with_runner_exception_records_good_candidates(store) -> None:
+    """When one URL's runner raises an exception, harvest still records the good ones."""
+    call_count = 0
+    async def selective_raising_runner(*argv: str, **kw) -> tuple[int, str]:
+        nonlocal call_count
+        call_count += 1
+        if "good" in " ".join(argv):
+            return (0, "b" * 40 + "\trefs/heads/main\n")
+        elif "bad" in " ".join(argv):
+            raise OSError("connection failed")
+        return (1, "unmatched")
+
+    got = await harvest(
+        ["https://github.com/x/good", "https://github.com/x/bad"],
+        store=store,
+        run=selective_raising_runner
+    )
+    assert [c.slug for c in got] == ["x-good"]
+    assert len(store.rows("candidates")) == 1
+    assert store.rows("candidates")[0]["commit_sha"] == "b" * 40
