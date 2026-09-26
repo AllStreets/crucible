@@ -1,0 +1,18 @@
+Warning: Input is not a terminal (fd=0).
+
+Aider v0.86.3.dev53+g5dc9490bb
+Model: openai/qwen2.5-coder:7b with whole edit format
+Git repo: none
+Repo-map: disabled
+
+crucible_solo.txt
+
+```
+CRUCIBLE_SOLO_OK
+
+```
+
+Tokens: 632 sent, 18 received.
+
+crucible_solo.txt
+Applied edit to crucible_solo.txt

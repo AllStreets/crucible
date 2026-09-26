@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "slug": "gptme-gptme",
+  "name": "gptme-gptme",
+  "description": "Emitted by CRUCIBLE from a hand-written entrypoint that passed the solo gate. Not a curated SMADP adapter.",
+  "transport": "stdio",
+  "command": [
+    "sh",
+    "-c",
+    "export HOME=/tmp && cd /work && if [ -n \"${SMADP_AGENT_TASK:-}\" ]; then printf '%s\\n' \"$SMADP_AGENT_TASK\" > /work/task.txt; fi && exec gptme --non-interactive --no-stream --tool-format markdown --model openai/qwen3-coder:30b-a3b-q4_K_M \"$(cat /work/task.txt)\""
+  ],
+  "env_required": [
+    "OPENAI_API_KEY",
+    "OPENAI_BASE_URL",
+    "SMADP_AGENT_TASK"
+  ],
+  "image": "sha256:d44178c236d311b2e35639537c327bd22d23bffa6fb74149e3137f3a0193f7d3",
+  "image_digest_pinned": "sha256:d44178c236d311b2e35639537c327bd22d23bffa6fb74149e3137f3a0193f7d3",
+  "capabilities": {
+    "execute_shell": true,
+    "read_filesystem": true,
+    "write_filesystem": true,
+    "network_egress": "model_endpoint_only",
+    "spawn_subprocesses": true,
+    "use_mcp": false,
+    "modify_git_state": false,
+    "install_packages": false
+  },
+  "provenance": {
+    "entrypoint_authored_by": "claude-opus-5, verified by solo run",
+    "entrypoint_notes": "--non-interactive is gptme's own flag and implies --no-confirm, verified from `gptme --help` in the built image. The task is passed as a positional prompt because gptme takes prompts as arguments and has no message-file option. HOME is exported because gptme writes its conversation log under HOME. --tool-format markdown is the flag that matters and was found by running: the default is `tool`, native OpenAI function calling, and under it gptme recorded ran_no_effect twice against two different local models. The transcript showed the model emitting Qwen's text <tool_call> markup which the native path does not parse, so gptme saw no tool call, auto-replied twice and exited cleanly. That is an invocation mismatch and not an agent defect, and publishing it as one would have been exactly the contamination the solo gate exists to prevent. The task is materialised from $SMADP_AGENT_TASK when that variable is set, and otherwise the workspace's existing /work/task.txt is used. This was found by running: the first arena attempt passed all four scenarios while both agents printed a file-not-found error for /work/task.txt and did nothing, because the solo gate writes that file and SMADP's runner instead delivers the task through the environment. Aider exited zero regardless, so the scenario graded pass on an empty transcript. SMADP's own curated aider adapter has the same preamble, which is the precedent this follows.",
+    "solo_outcome": "acted",
+    "solo_model": "qwen3-coder:30b-a3b-q4_K_M"
+  }
+}

@@ -1,0 +1,80 @@
+#1 [internal] load .dockerignore
+#1 transferring context: 2B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from generic.Dockerfile
+#2 transferring dockerfile: 1.90kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.11-slim
+#3 DONE 0.0s
+
+#4 [1/6] FROM docker.io/library/python:3.11-slim
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 74B done
+#5 DONE 0.0s
+
+#6 [2/6] RUN apt-get update && apt-get install -y --no-install-recommends         git ca-certificates build-essential     && rm -rf /var/lib/apt/lists/*
+#6 CACHED
+
+#7 [3/6] WORKDIR /app
+#7 CACHED
+
+#8 [4/6] RUN git clone "https://github.com/crewAIInc/crewAI" . && git checkout "4ed2abc7bbf504a634d3b733f2a97e0fbe8d44ec"
+#8 CACHED
+
+#9 [5/6] COPY docker/resolve_manifest.sh /opt/crucible/resolve_manifest.sh
+#9 DONE 0.0s
+
+#10 [6/6] RUN sh /opt/crucible/resolve_manifest.sh
+#10 0.124 crucible: resolving installable manifest in /app
+#10 0.124 crucible: found a package definition at the repository root
+#10 0.762 Obtaining file:///app
+#10 0.763   Installing build dependencies: started
+#10 1.519   Installing build dependencies: finished with status 'done'
+#10 1.519   Checking if build backend supports build_editable: started
+#10 1.596   Checking if build backend supports build_editable: finished with status 'done'
+#10 1.596   Getting requirements to build editable: started
+#10 1.725   Getting requirements to build editable: finished with status 'done'
+#10 1.725   Preparing editable metadata (pyproject.toml): started
+#10 1.832   Preparing editable metadata (pyproject.toml): finished with status 'done'
+#10 1.835 Building wheels for collected packages: UNKNOWN
+#10 1.835   Building editable for UNKNOWN (pyproject.toml): started
+#10 1.981   Building editable for UNKNOWN (pyproject.toml): finished with status 'done'
+#10 1.982   Created wheel for UNKNOWN: filename=unknown-0.0.0-0.editable-py3-none-any.whl size=4264 sha256=ece73083741ba182b3019ebb301df22c3cec78327b323163120e34be8c9ffc45
+#10 1.982   Stored in directory: /tmp/pip-ephem-wheel-cache-kj2g2e6x/wheels/57/0f/98/bb57b2b57b95807699b822a35c022f139d38a02c27922f27ce
+#10 1.983 Successfully built UNKNOWN
+#10 1.998 Installing collected packages: UNKNOWN
+#10 2.005 Successfully installed UNKNOWN-0.0.0
+#10 2.005 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#10 2.061 
+#10 2.061 [notice] A new release of pip is available: 24.0 -> 26.2.1
+#10 2.061 [notice] To update, run: pip install --upgrade pip
+#10 2.119 crucible: pip exited zero but installed a distribution named UNKNOWN,
+#10 2.119 crucible: which means this manifest declares a workspace and not a package
+#10 2.119 crucible-result: workspace root installed nothing
+#10 ERROR: process "/bin/sh -c sh /opt/crucible/resolve_manifest.sh" did not complete successfully: exit code: 2
+------
+ > [6/6] RUN sh /opt/crucible/resolve_manifest.sh:
+#10 1.983 Successfully built UNKNOWN
+#10 1.998 Installing collected packages: UNKNOWN
+#10 2.005 Successfully installed UNKNOWN-0.0.0
+#10 2.005 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#10 2.061 
+#10 2.061 [notice] A new release of pip is available: 24.0 -> 26.2.1
+#10 2.061 [notice] To update, run: pip install --upgrade pip
+#10 2.119 crucible: pip exited zero but installed a distribution named UNKNOWN,
+#10 2.119 crucible: which means this manifest declares a workspace and not a package
+#10 2.119 crucible-result: workspace root installed nothing
+------
+generic.Dockerfile:26
+--------------------
+  24 |     # classifier reads those logs. See docker/resolve_manifest.sh.
+  25 |     COPY docker/resolve_manifest.sh /opt/crucible/resolve_manifest.sh
+  26 | >>> RUN sh /opt/crucible/resolve_manifest.sh
+  27 |     
+  28 |     # The default command is an environment probe, not the agent. It starts the
+--------------------
+ERROR: failed to solve: process "/bin/sh -c sh /opt/crucible/resolve_manifest.sh" did not complete successfully: exit code: 2

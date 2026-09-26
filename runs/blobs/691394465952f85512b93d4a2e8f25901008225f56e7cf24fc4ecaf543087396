@@ -1,0 +1,569 @@
+#1 [internal] load .dockerignore
+#1 transferring context: 2B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from generic.Dockerfile
+#2 transferring dockerfile: 1.90kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.11-slim
+#3 DONE 0.0s
+
+#4 [1/6] FROM docker.io/library/python:3.11-slim
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 7.68kB done
+#5 DONE 0.0s
+
+#6 [3/6] WORKDIR /app
+#6 CACHED
+
+#7 [2/6] RUN apt-get update && apt-get install -y --no-install-recommends         git ca-certificates build-essential     && rm -rf /var/lib/apt/lists/*
+#7 CACHED
+
+#8 [4/6] RUN git clone "https://github.com/Aider-AI/aider" . && git checkout "5dc9490bb35f9729ef2c95d00a19ccd30c26339c"
+#8 CACHED
+
+#9 [5/6] COPY docker/resolve_manifest.sh /opt/crucible/resolve_manifest.sh
+#9 DONE 0.0s
+
+#10 [6/6] RUN sh /opt/crucible/resolve_manifest.sh
+#0 0.108 crucible: resolving installable manifest in /app
+#10 0.108 crucible: found a package definition at the repository root
+#10 0.654 Obtaining file:///app
+#10 0.655   Installing build dependencies: started
+#10 2.400   Installing build dependencies: finished with status 'done'
+#10 2.401   Checking if build backend supports build_editable: started
+#10 2.463   Checking if build backend supports build_editable: finished with status 'done'
+#10 2.463   Getting requirements to build editable: started
+#10 2.794   Getting requirements to build editable: finished with status 'done'
+#10 2.795   Preparing editable metadata (pyproject.toml): started
+#10 2.933   Preparing editable metadata (pyproject.toml): finished with status 'done'
+#10 3.027 Collecting aiohappyeyeballs==2.6.1 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 3.056   Downloading aiohappyeyeballs-2.6.1-py3-none-any.whl.metadata (5.9 kB)
+#10 3.291 Collecting aiohttp==3.13.3 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 3.334   Downloading aiohttp-3.13.3-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (8.1 kB)
+#10 3.344 Collecting aiosignal==1.4.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 3.351   Downloading aiosignal-1.4.0-py3-none-any.whl.metadata (3.7 kB)
+#10 3.372 Collecting annotated-doc==0.0.4 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 3.377   Downloading annotated_doc-0.0.4-py3-none-any.whl.metadata (6.6 kB)
+#10 3.389 Collecting annotated-types==0.7.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 3.397   Downloading annotated_types-0.7.0-py3-none-any.whl.metadata (15 kB)
+#10 3.414 Collecting anyio==4.12.1 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 3.418   Downloading anyio-4.12.1-py3-none-any.whl.metadata (4.3 kB)
+#10 3.434 Collecting asgiref==3.11.1 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 3.440   Downloading asgiref-3.11.1-py3-none-any.whl.metadata (9.3 kB)
+#10 3.454 Collecting attrs==25.4.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 3.462   Downloading attrs-25.4.0-py3-none-any.whl.metadata (10 kB)
+#10 3.472 Collecting backoff==2.2.1 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 3.479   Downloading backoff-2.2.1-py3-none-any.whl.metadata (14 kB)
+#10 3.493 Collecting beautifulsoup4==4.14.3 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 3.498   Downloading beautifulsoup4-4.14.3-py3-none-any.whl.metadata (3.8 kB)
+#10 3.511 Collecting certifi==2026.2.25 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 3.518   Downloading certifi-2026.2.25-py3-none-any.whl.metadata (2.5 kB)
+#10 3.564 Collecting cffi==2.0.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 3.573   Downloading cffi-2.0.0-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.whl.metadata (2.6 kB)
+#10 3.623 Collecting charset-normalizer==3.4.6 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 3.857   Downloading charset_normalizer-3.4.6-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (40 kB)
+#10 3.862      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 40.6/40.6 kB 26.2 MB/s eta 0:00:00
+#10 3.923 Collecting click==8.3.1 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 3.930   Downloading click-8.3.1-py3-none-any.whl.metadata (2.6 kB)
+#10 3.944 Collecting configargparse==1.7.5 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 3.949   Downloading configargparse-1.7.5-py3-none-any.whl.metadata (23 kB)
+#10 3.963 Collecting diff-match-patch==20241021 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 3.969   Downloading diff_match_patch-20241021-py3-none-any.whl.metadata (5.5 kB)
+#10 3.993 Collecting diskcache==5.6.3 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 4.000   Downloading diskcache-5.6.3-py3-none-any.whl.metadata (20 kB)
+#10 4.011 Collecting distro==1.9.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 4.018   Downloading distro-1.9.0-py3-none-any.whl.metadata (6.8 kB)
+#10 4.057 Collecting fastapi==0.135.1 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 4.066   Downloading fastapi-0.135.1-py3-none-any.whl.metadata (30 kB)
+#10 4.084 Collecting fastuuid==0.14.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 4.092   Downloading fastuuid-0.14.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (1.1 kB)
+#10 4.108 Collecting filelock==3.25.2 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 4.115   Downloading filelock-3.25.2-py3-none-any.whl.metadata (2.0 kB)
+#10 4.129 Collecting flake8==7.3.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 4.136   Downloading flake8-7.3.0-py2.py3-none-any.whl.metadata (3.8 kB)
+#10 4.165 Collecting frozenlist==1.8.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 4.171   Downloading frozenlist-1.8.0-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (20 kB)
+#10 4.410 Collecting fsspec==2026.2.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 4.418   Downloading fsspec-2026.2.0-py3-none-any.whl.metadata (10 kB)
+#10 4.440 Collecting gitdb==4.0.12 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 4.446   Downloading gitdb-4.0.12-py3-none-any.whl.metadata (1.2 kB)
+#10 4.472 Collecting gitpython==3.1.46 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 4.479   Downloading gitpython-3.1.46-py3-none-any.whl.metadata (13 kB)
+#10 4.492 Collecting grep-ast==0.9.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 4.499   Downloading grep_ast-0.9.0-py3-none-any.whl.metadata (2.8 kB)
+#10 4.509 Collecting h11==0.16.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 4.515   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+#10 4.543 Collecting hf-xet==1.4.2 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 4.551   Downloading hf_xet-1.4.2-cp37-abi3-manylinux_2_28_aarch64.whl.metadata (4.9 kB)
+#10 4.564 Collecting httpcore==1.0.9 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 4.568   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+#10 4.590 Collecting httpx==0.28.1 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 4.598   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+#10 4.632 Collecting huggingface-hub==1.7.1 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 4.840   Downloading huggingface_hub-1.7.1-py3-none-any.whl.metadata (13 kB)
+#10 4.868 Collecting idna==3.11 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 4.876   Downloading idna-3.11-py3-none-any.whl.metadata (8.4 kB)
+#10 4.911 Collecting importlib-metadata==7.2.1 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 4.917   Downloading importlib_metadata-7.2.1-py3-none-any.whl.metadata (4.6 kB)
+#10 4.939 Collecting importlib-resources==6.5.2 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 4.948   Downloading importlib_resources-6.5.2-py3-none-any.whl.metadata (3.9 kB)
+#10 4.960 Collecting jinja2==3.1.6 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 4.966   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+#10 5.034 Collecting jiter==0.13.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 5.041   Downloading jiter-0.13.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (5.2 kB)
+#10 5.053 Collecting json5==0.13.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 5.060   Downloading json5-0.13.0-py3-none-any.whl.metadata (36 kB)
+#10 5.079 Collecting jsonschema==4.26.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 5.086   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+#10 5.098 Collecting jsonschema-specifications==2025.9.1 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 5.102   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+#10 5.212 Collecting litellm==1.82.3 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 5.219   Downloading litellm-1.82.3-py3-none-any.whl.metadata (30 kB)
+#10 5.376 Collecting markdown-it-py==4.0.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 5.382   Downloading markdown_it_py-4.0.0-py3-none-any.whl.metadata (7.3 kB)
+#10 5.421 Collecting markupsafe==3.0.3 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 5.428   Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (2.7 kB)
+#10 5.438 Collecting mccabe==0.7.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 5.445   Downloading mccabe-0.7.0-py2.py3-none-any.whl.metadata (5.0 kB)
+#10 5.455 Collecting mdurl==0.1.2 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 5.462   Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+#10 5.475 Collecting mixpanel==5.0.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 5.483   Downloading mixpanel-5.0.0-py3-none-any.whl.metadata (3.3 kB)
+#10 5.493 Collecting mslex==1.3.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 5.501   Downloading mslex-1.3.0-py3-none-any.whl.metadata (4.2 kB)
+#10 5.643 Collecting multidict==6.7.1 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 5.649   Downloading multidict-6.7.1-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (5.3 kB)
+#10 5.666 Collecting networkx==3.4.2 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 5.670   Downloading networkx-3.4.2-py3-none-any.whl.metadata (6.3 kB)
+#10 5.711 Collecting openai==2.28.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 5.891   Downloading openai-2.28.0-py3-none-any.whl.metadata (29 kB)
+#10 6.056 Collecting orjson==3.11.7 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 6.063   Downloading orjson-3.11.7-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (41 kB)
+#10 6.064      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 42.0/42.0 kB 425.9 MB/s eta 0:00:00
+#10 6.076 Collecting oslex==0.1.3 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 6.083   Downloading oslex-0.1.3-py3-none-any.whl.metadata (1.7 kB)
+#10 6.097 Collecting packaging==26.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 6.102   Downloading packaging-26.0-py3-none-any.whl.metadata (3.3 kB)
+#10 6.111 Collecting pathspec==1.0.4 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 6.117   Downloading pathspec-1.0.4-py3-none-any.whl.metadata (13 kB)
+#10 6.130 Collecting pexpect==4.9.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 6.134   Downloading pexpect-4.9.0-py2.py3-none-any.whl.metadata (2.5 kB)
+#10 6.210 Collecting pillow==12.1.1 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 6.217   Downloading pillow-12.1.1-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl.metadata (8.8 kB)
+#10 6.249 Collecting posthog==7.9.12 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 6.256   Downloading posthog-7.9.12-py3-none-any.whl.metadata (6.5 kB)
+#10 6.274 Collecting prompt-toolkit==3.0.52 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 6.413   Downloading prompt_toolkit-3.0.52-py3-none-any.whl.metadata (6.4 kB)
+#10 6.461 Collecting propcache==0.4.1 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 6.469   Downloading propcache-0.4.1-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (13 kB)
+#10 6.510 Collecting psutil==7.2.2 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 6.515   Downloading psutil-7.2.2-cp36-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (22 kB)
+#10 6.525 Collecting ptyprocess==0.7.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 6.530   Downloading ptyprocess-0.7.0-py2.py3-none-any.whl.metadata (1.3 kB)
+#10 6.544 Collecting pycodestyle==2.14.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 6.548   Downloading pycodestyle-2.14.0-py2.py3-none-any.whl.metadata (4.5 kB)
+#10 6.559 Collecting pycparser==3.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 6.566   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+#10 6.664 Collecting pydantic==2.12.5 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 6.673   Downloading pydantic-2.12.5-py3-none-any.whl.metadata (90 kB)
+#10 6.674      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 90.6/90.6 kB 587.4 MB/s eta 0:00:00
+#10 7.005 Collecting pydantic-core==2.41.5 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 7.012   Downloading pydantic_core-2.41.5-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (7.3 kB)
+#10 7.027 Collecting pydub==0.25.1 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 7.033   Downloading pydub-0.25.1-py2.py3-none-any.whl.metadata (1.4 kB)
+#10 7.045 Collecting pyflakes==3.4.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 7.050   Downloading pyflakes-3.4.0-py2.py3-none-any.whl.metadata (3.5 kB)
+#10 7.063 Collecting pygments==2.19.2 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 7.068   Downloading pygments-2.19.2-py3-none-any.whl.metadata (2.5 kB)
+#10 7.080 Collecting pypandoc==1.17 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 7.087   Downloading pypandoc-1.17-py3-none-any.whl.metadata (18 kB)
+#10 7.097 Collecting pyperclip==1.11.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 7.102   Downloading pyperclip-1.11.0-py3-none-any.whl.metadata (2.4 kB)
+#10 7.114 Collecting python-dateutil==2.9.0.post0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 7.119   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+#10 7.133 Collecting python-dotenv==1.2.2 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 7.141   Downloading python_dotenv-1.2.2-py3-none-any.whl.metadata (27 kB)
+#10 7.161 Collecting pyyaml==6.0.3 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 7.168   Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (2.4 kB)
+#10 7.183 Collecting referencing==0.37.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 7.187   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+#10 7.341 Collecting regex==2026.2.28 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 7.469   Downloading regex-2026.2.28-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (40 kB)
+#10 7.471      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 40.4/40.4 kB 221.1 MB/s eta 0:00:00
+#10 7.497 Collecting requests==2.32.5 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 7.505   Downloading requests-2.32.5-py3-none-any.whl.metadata (4.9 kB)
+#10 7.534 Collecting rich==14.3.3 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 7.541   Downloading rich-14.3.3-py3-none-any.whl.metadata (18 kB)
+#10 7.722 Collecting rpds-py==0.30.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 7.728   Downloading rpds_py-0.30.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (4.1 kB)
+#10 7.740 Collecting shellingham==1.5.4 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 7.747   Downloading shellingham-1.5.4-py2.py3-none-any.whl.metadata (3.5 kB)
+#10 7.764 Collecting shtab==1.8.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 7.769   Downloading shtab-1.8.0-py3-none-any.whl.metadata (7.3 kB)
+#10 7.782 Collecting six==1.17.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 7.986   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+#10 8.006 Collecting smmap==5.0.3 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 8.014   Downloading smmap-5.0.3-py3-none-any.whl.metadata (4.6 kB)
+#10 8.032 Collecting sniffio==1.3.1 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 8.038   Downloading sniffio-1.3.1-py3-none-any.whl.metadata (3.9 kB)
+#10 8.049 Collecting socksio==1.0.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 8.055   Downloading socksio-1.0.0-py3-none-any.whl.metadata (6.1 kB)
+#10 8.075 Collecting sounddevice==0.5.5 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 8.082   Downloading sounddevice-0.5.5-py3-none-any.whl.metadata (1.4 kB)
+#10 8.096 Collecting soundfile==0.13.1 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 8.102   Downloading soundfile-0.13.1-py2.py3-none-manylinux_2_28_aarch64.whl.metadata (16 kB)
+#10 8.120 Collecting soupsieve==2.8.3 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 8.126   Downloading soupsieve-2.8.3-py3-none-any.whl.metadata (4.6 kB)
+#10 8.150 Collecting starlette==0.52.1 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 8.156   Downloading starlette-0.52.1-py3-none-any.whl.metadata (6.3 kB)
+#10 8.176 Collecting tiktoken==0.12.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 8.182   Downloading tiktoken-0.12.0-cp311-cp311-manylinux_2_28_aarch64.whl.metadata (6.7 kB)
+#10 8.244 Collecting tokenizers==0.22.2 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 8.250   Downloading tokenizers-0.22.2-cp39-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (7.3 kB)
+#10 8.274 Collecting tqdm==4.67.3 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 8.281   Downloading tqdm-4.67.3-py3-none-any.whl.metadata (57 kB)
+#10 8.283      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 57.7/57.7 kB 28.0 MB/s eta 0:00:00
+#10 8.295 Collecting tree-sitter-c-sharp==0.23.1 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 8.302   Downloading tree_sitter_c_sharp-0.23.1-cp310-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (2.7 kB)
+#10 8.316 Collecting tree-sitter-embedded-template==0.25.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 8.323   Downloading tree_sitter_embedded_template-0.25.0-cp310-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (2.3 kB)
+#10 8.342 Collecting tree-sitter-language-pack==0.13.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 8.349   Downloading tree_sitter_language_pack-0.13.0-cp310-abi3-manylinux2014_aarch64.whl.metadata (19 kB)
+#10 8.362 Collecting tree-sitter-yaml==0.7.2 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 8.506   Downloading tree_sitter_yaml-0.7.2-cp310-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (1.8 kB)
+#10 8.529 Collecting typer==0.24.1 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 8.536   Downloading typer-0.24.1-py3-none-any.whl.metadata (16 kB)
+#10 8.558 Collecting typing-extensions==4.15.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 8.565   Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+#10 8.573 Collecting typing-inspection==0.4.2 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 8.579   Downloading typing_inspection-0.4.2-py3-none-any.whl.metadata (2.6 kB)
+#10 8.601 Collecting urllib3==2.6.3 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 8.606   Downloading urllib3-2.6.3-py3-none-any.whl.metadata (6.9 kB)
+#10 8.645 Collecting watchfiles==1.1.1 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 8.653   Downloading watchfiles-1.1.1-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (4.9 kB)
+#10 8.664 Collecting wcwidth==0.6.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 8.671   Downloading wcwidth-0.6.0-py3-none-any.whl.metadata (30 kB)
+#10 8.778 Collecting yarl==1.23.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 8.786   Downloading yarl-1.23.0-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (79 kB)
+#10 8.788      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 79.6/79.6 kB 477.3 MB/s eta 0:00:00
+#10 8.803 Collecting zipp==3.23.0 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 8.808   Downloading zipp-3.23.0-py3-none-any.whl.metadata (3.6 kB)
+#10 8.838 Collecting tree-sitter==0.25.2 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 9.040   Downloading tree_sitter-0.25.2-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (10.0 kB)
+#10 9.256 Collecting numpy<2.5,>=2.3 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 9.263   Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl.metadata (6.6 kB)
+#10 9.326 Collecting scipy<1.18,>=1.16.1 (from aider-chat==0.86.3.dev53+g5dc9490bb)
+#10 9.332   Downloading scipy-1.17.1-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl.metadata (62 kB)
+#10 9.334      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.1/62.1 kB 517.5 MB/s eta 0:00:00
+#10 9.869 Downloading aiohappyeyeballs-2.6.1-py3-none-any.whl (15 kB)
+#10 9.879 Downloading aiohttp-3.13.3-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (1.7 MB)
+#10 10.16    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.7/1.7 MB 6.3 MB/s eta 0:00:00
+#10 10.16 Downloading aiosignal-1.4.0-py3-none-any.whl (7.5 kB)
+#10 10.17 Downloading annotated_doc-0.0.4-py3-none-any.whl (5.3 kB)
+#10 10.18 Downloading annotated_types-0.7.0-py3-none-any.whl (13 kB)
+#10 10.19 Downloading anyio-4.12.1-py3-none-any.whl (113 kB)
+#10 10.19    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 113.6/113.6 kB 42.4 MB/s eta 0:00:00
+#10 10.20 Downloading asgiref-3.11.1-py3-none-any.whl (24 kB)
+#10 10.21 Downloading attrs-25.4.0-py3-none-any.whl (67 kB)
+#10 10.21    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 67.6/67.6 kB 218.1 MB/s eta 0:00:00
+#10 10.22 Downloading backoff-2.2.1-py3-none-any.whl (15 kB)
+#10 10.23 Downloading beautifulsoup4-4.14.3-py3-none-any.whl (107 kB)
+#10 10.23    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 107.7/107.7 kB 229.3 MB/s eta 0:00:00
+#10 10.24 Downloading certifi-2026.2.25-py3-none-any.whl (153 kB)
+#10 10.25    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 153.7/153.7 kB 127.5 MB/s eta 0:00:00
+#10 10.25 Downloading cffi-2.0.0-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.whl (216 kB)
+#10 10.26    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 216.5/216.5 kB 70.5 MB/s eta 0:00:00
+#10 10.27 Downloading charset_normalizer-3.4.6-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (197 kB)
+#10 10.27    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 197.2/197.2 kB 323.2 MB/s eta 0:00:00
+#10 10.28 Downloading click-8.3.1-py3-none-any.whl (108 kB)
+#10 10.28    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 108.3/108.3 kB 296.1 MB/s eta 0:00:00
+#10 10.29 Downloading configargparse-1.7.5-py3-none-any.whl (27 kB)
+#10 10.30 Downloading diff_match_patch-20241021-py3-none-any.whl (43 kB)
+#10 10.30    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 43.3/43.3 kB 316.7 MB/s eta 0:00:00
+#10 10.31 Downloading diskcache-5.6.3-py3-none-any.whl (45 kB)
+#10 10.31    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 45.5/45.5 kB 261.4 MB/s eta 0:00:00
+#10 10.32 Downloading distro-1.9.0-py3-none-any.whl (20 kB)
+#10 10.32 Downloading fastapi-0.135.1-py3-none-any.whl (116 kB)
+#10 10.33    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 117.0/117.0 kB 54.3 MB/s eta 0:00:00
+#10 10.33 Downloading fastuuid-0.14.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (278 kB)
+#10 10.34    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 279.0/279.0 kB 112.3 MB/s eta 0:00:00
+#10 10.34 Downloading filelock-3.25.2-py3-none-any.whl (26 kB)
+#10 10.35 Downloading flake8-7.3.0-py2.py3-none-any.whl (57 kB)
+#10 10.36    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 57.9/57.9 kB 34.9 MB/s eta 0:00:00
+#10 10.37 Downloading frozenlist-1.8.0-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (233 kB)
+#10 10.37    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 233.2/233.2 kB 87.0 MB/s eta 0:00:00
+#10 10.38 Downloading fsspec-2026.2.0-py3-none-any.whl (202 kB)
+#10 10.39    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 202.5/202.5 kB 62.0 MB/s eta 0:00:00
+#10 10.39 Downloading gitdb-4.0.12-py3-none-any.whl (62 kB)
+#10 10.39    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.8/62.8 kB 349.3 MB/s eta 0:00:00
+#10 10.40 Downloading gitpython-3.1.46-py3-none-any.whl (208 kB)
+#10 10.41    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 208.6/208.6 kB 384.8 MB/s eta 0:00:00
+#10 10.41 Downloading grep_ast-0.9.0-py3-none-any.whl (13 kB)
+#10 10.42 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+#10 10.43 Downloading hf_xet-1.4.2-cp37-abi3-manylinux_2_28_aarch64.whl (4.0 MB)
+#10 10.49    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.0/4.0 MB 66.4 MB/s eta 0:00:00
+#10 10.61 Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+#10 10.61    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.8/78.8 kB 168.5 MB/s eta 0:00:00
+#10 10.62 Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+#10 10.63    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 73.5/73.5 kB 198.5 MB/s eta 0:00:00
+#10 10.63 Downloading huggingface_hub-1.7.1-py3-none-any.whl (616 kB)
+#10 10.64    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 616.3/616.3 kB 78.0 MB/s eta 0:00:00
+#10 10.65 Downloading idna-3.11-py3-none-any.whl (71 kB)
+#10 10.65    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 71.0/71.0 kB 180.5 MB/s eta 0:00:00
+#10 10.66 Downloading importlib_metadata-7.2.1-py3-none-any.whl (25 kB)
+#10 10.67 Downloading importlib_resources-6.5.2-py3-none-any.whl (37 kB)
+#10 10.68 Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+#10 10.68    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 134.9/134.9 kB 47.9 MB/s eta 0:00:00
+#10 10.69 Downloading jiter-0.13.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (354 kB)
+#10 10.70    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 354.8/354.8 kB 66.1 MB/s eta 0:00:00
+#10 10.71 Downloading json5-0.13.0-py3-none-any.whl (36 kB)
+#10 10.71 Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+#10 10.72    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 90.6/90.6 kB 292.4 MB/s eta 0:00:00
+#10 10.72 Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+#10 10.74 Downloading litellm-1.82.3-py3-none-any.whl (15.6 MB)
+#10 10.95    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 15.6/15.6 MB 73.6 MB/s eta 0:00:00
+#10 10.95 Downloading markdown_it_py-4.0.0-py3-none-any.whl (87 kB)
+#10 10.96    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 87.3/87.3 kB 184.1 MB/s eta 0:00:00
+#10 11.13 Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (24 kB)
+#10 11.14 Downloading mccabe-0.7.0-py2.py3-none-any.whl (7.3 kB)
+#10 11.15 Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+#10 11.16 Downloading mixpanel-5.0.0-py3-none-any.whl (23 kB)
+#10 11.17 Downloading mslex-1.3.0-py3-none-any.whl (7.8 kB)
+#10 11.18 Downloading multidict-6.7.1-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (246 kB)
+#10 11.18    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 246.4/246.4 kB 167.9 MB/s eta 0:00:00
+#10 11.19 Downloading networkx-3.4.2-py3-none-any.whl (1.7 MB)
+#10 11.21    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.7/1.7 MB 95.7 MB/s eta 0:00:00
+#10 11.22 Downloading openai-2.28.0-py3-none-any.whl (1.1 MB)
+#10 11.23    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.1/1.1 MB 94.4 MB/s eta 0:00:00
+#10 11.24 Downloading orjson-3.11.7-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (128 kB)
+#10 11.25    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 128.4/128.4 kB 40.6 MB/s eta 0:00:00
+#10 11.25 Downloading oslex-0.1.3-py3-none-any.whl (3.5 kB)
+#10 11.26 Downloading packaging-26.0-py3-none-any.whl (74 kB)
+#10 11.27    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 74.4/74.4 kB 198.3 MB/s eta 0:00:00
+#10 11.27 Downloading pathspec-1.0.4-py3-none-any.whl (55 kB)
+#10 11.28    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 55.2/55.2 kB 270.8 MB/s eta 0:00:00
+#10 11.28 Downloading pexpect-4.9.0-py2.py3-none-any.whl (63 kB)
+#10 11.29    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 63.8/63.8 kB 291.5 MB/s eta 0:00:00
+#10 11.29 Downloading pillow-12.1.1-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl (6.3 MB)
+#10 11.38    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.3/6.3 MB 78.0 MB/s eta 0:00:00
+#10 11.39 Downloading posthog-7.9.12-py3-none-any.whl (202 kB)
+#10 11.40    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 202.5/202.5 kB 36.5 MB/s eta 0:00:00
+#10 11.41 Downloading prompt_toolkit-3.0.52-py3-none-any.whl (391 kB)
+#10 11.41    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 391.4/391.4 kB 90.0 MB/s eta 0:00:00
+#10 11.42 Downloading propcache-0.4.1-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (214 kB)
+#10 11.42    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 214.9/214.9 kB 75.0 MB/s eta 0:00:00
+#10 11.43 Downloading psutil-7.2.2-cp36-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (156 kB)
+#10 11.44    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 157.0/157.0 kB 61.9 MB/s eta 0:00:00
+#10 11.44 Downloading ptyprocess-0.7.0-py2.py3-none-any.whl (13 kB)
+#10 11.45 Downloading pycodestyle-2.14.0-py2.py3-none-any.whl (31 kB)
+#10 11.46 Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+#10 11.46    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 48.2/48.2 kB 333.6 MB/s eta 0:00:00
+#10 11.47 Downloading pydantic-2.12.5-py3-none-any.whl (463 kB)
+#10 11.47    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 463.6/463.6 kB 93.8 MB/s eta 0:00:00
+#10 11.48 Downloading pydantic_core-2.41.5-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (1.9 MB)
+#10 11.50    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.9/1.9 MB 109.2 MB/s eta 0:00:00
+#10 11.51 Downloading pydub-0.25.1-py2.py3-none-any.whl (32 kB)
+#10 11.66 Downloading pyflakes-3.4.0-py2.py3-none-any.whl (63 kB)
+#10 11.66    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 63.6/63.6 kB 136.2 MB/s eta 0:00:00
+#10 11.67 Downloading pygments-2.19.2-py3-none-any.whl (1.2 MB)
+#10 11.69    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 98.6 MB/s eta 0:00:00
+#10 11.69 Downloading pypandoc-1.17-py3-none-any.whl (23 kB)
+#10 11.70 Downloading pyperclip-1.11.0-py3-none-any.whl (11 kB)
+#10 11.71 Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+#10 11.71    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 229.9/229.9 kB 148.5 MB/s eta 0:00:00
+#10 11.72 Downloading python_dotenv-1.2.2-py3-none-any.whl (22 kB)
+#10 11.73 Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (775 kB)
+#10 11.74    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 775.6/775.6 kB 96.4 MB/s eta 0:00:00
+#10 11.75 Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+#10 11.76 Downloading regex-2026.2.28-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (791 kB)
+#10 11.77    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 791.9/791.9 kB 100.0 MB/s eta 0:00:00
+#10 11.78 Downloading requests-2.32.5-py3-none-any.whl (64 kB)
+#10 11.78    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 64.7/64.7 kB 264.6 MB/s eta 0:00:00
+#10 11.79 Downloading rich-14.3.3-py3-none-any.whl (310 kB)
+#10 11.79    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 310.5/310.5 kB 107.2 MB/s eta 0:00:00
+#10 11.80 Downloading rpds_py-0.30.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (389 kB)
+#10 11.81    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 389.9/389.9 kB 60.7 MB/s eta 0:00:00
+#10 11.81 Downloading shellingham-1.5.4-py2.py3-none-any.whl (9.8 kB)
+#10 11.82 Downloading shtab-1.8.0-py3-none-any.whl (14 kB)
+#10 11.83 Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+#10 11.84 Downloading smmap-5.0.3-py3-none-any.whl (24 kB)
+#10 11.85 Downloading sniffio-1.3.1-py3-none-any.whl (10 kB)
+#10 11.86 Downloading socksio-1.0.0-py3-none-any.whl (12 kB)
+#10 11.87 Downloading sounddevice-0.5.5-py3-none-any.whl (32 kB)
+#10 11.88 Downloading soundfile-0.13.1-py2.py3-none-manylinux_2_28_aarch64.whl (1.2 MB)
+#10 11.90    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 90.0 MB/s eta 0:00:00
+#10 11.90 Downloading soupsieve-2.8.3-py3-none-any.whl (37 kB)
+#10 11.91 Downloading starlette-0.52.1-py3-none-any.whl (74 kB)
+#10 11.91    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 74.3/74.3 kB 290.4 MB/s eta 0:00:00
+#10 11.93 Downloading tiktoken-0.12.0-cp311-cp311-manylinux_2_28_aarch64.whl (1.1 MB)
+#10 11.94    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.1/1.1 MB 98.7 MB/s eta 0:00:00
+#10 11.95 Downloading tokenizers-0.22.2-cp39-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (3.3 MB)
+#10 12.18    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.3/3.3 MB 14.3 MB/s eta 0:00:00
+#10 12.19 Downloading tqdm-4.67.3-py3-none-any.whl (78 kB)
+#10 12.20    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.4/78.4 kB 73.6 MB/s eta 0:00:00
+#10 12.20 Downloading tree_sitter-0.25.2-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (604 kB)
+#10 12.23    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 604.6/604.6 kB 33.6 MB/s eta 0:00:00
+#10 12.24 Downloading tree_sitter_c_sharp-0.23.1-cp310-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (359 kB)
+#10 12.24    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 359.4/359.4 kB 65.8 MB/s eta 0:00:00
+#10 12.25 Downloading tree_sitter_embedded_template-0.25.0-cp310-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (19 kB)
+#10 12.27 Downloading tree_sitter_language_pack-0.13.0-cp310-abi3-manylinux2014_aarch64.whl (20.1 MB)
+#10 12.49    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 20.1/20.1 MB 90.4 MB/s eta 0:00:00
+#10 12.50 Downloading tree_sitter_yaml-0.7.2-cp310-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (92 kB)
+#10 12.51    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 92.4/92.4 kB 197.5 MB/s eta 0:00:00
+#10 12.52 Downloading typer-0.24.1-py3-none-any.whl (56 kB)
+#10 12.52    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 56.1/56.1 kB 26.6 MB/s eta 0:00:00
+#10 12.53 Downloading typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+#10 12.53    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 44.6/44.6 kB 209.7 MB/s eta 0:00:00
+#10 12.54 Downloading typing_inspection-0.4.2-py3-none-any.whl (14 kB)
+#10 12.55 Downloading urllib3-2.6.3-py3-none-any.whl (131 kB)
+#10 12.55    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 131.6/131.6 kB 278.5 MB/s eta 0:00:00
+#10 12.56 Downloading watchfiles-1.1.1-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (448 kB)
+#10 12.57    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 448.8/448.8 kB 101.9 MB/s eta 0:00:00
+#10 12.71 Downloading wcwidth-0.6.0-py3-none-any.whl (94 kB)
+#10 12.71    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 94.2/94.2 kB 133.4 MB/s eta 0:00:00
+#10 12.72 Downloading yarl-1.23.0-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (100 kB)
+#10 12.72    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100.6/100.6 kB 207.1 MB/s eta 0:00:00
+#10 12.73 Downloading zipp-3.23.0-py3-none-any.whl (10 kB)
+#10 12.74 Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl (16.0 MB)
+#10 12.93    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.0/16.0 MB 84.2 MB/s eta 0:00:00
+#10 12.93 Downloading scipy-1.17.1-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl (33.1 MB)
+#10 13.52    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 33.1/33.1 MB 86.9 MB/s eta 0:00:00
+#10 13.65 Building wheels for collected packages: aider-chat
+#10 13.65   Building editable for aider-chat (pyproject.toml): started
+#10 13.84   Building editable for aider-chat (pyproject.toml): finished with status 'done'
+#10 13.84   Created wheel for aider-chat: filename=aider_chat-0.86.3.dev53+g5dc9490bb-0.editable-py3-none-any.whl size=14811 sha256=17a9e00b483dd64db50176f005ba8cc83486c7f42340f1d40f3aab6dcbad6f24
+#10 13.84   Stored in directory: /tmp/pip-ephem-wheel-cache-gvmr_kqy/wheels/57/0f/98/bb57b2b57b95807699b822a35c022f139d38a02c27922f27ce
+#10 13.84 Successfully built aider-chat
+#10 14.07 Installing collected packages: pyperclip, pydub, ptyprocess, zipp, wcwidth, urllib3, typing-extensions, tree-sitter-yaml, tree-sitter-embedded-template, tree-sitter-c-sharp, tree-sitter, tqdm, soupsieve, socksio, sniffio, smmap, six, shtab, shellingham, rpds-py, regex, pyyaml, python-dotenv, pypandoc, pygments, pyflakes, pycparser, pycodestyle, psutil, propcache, pillow, pexpect, pathspec, packaging, orjson, numpy, networkx, multidict, mslex, mdurl, mccabe, markupsafe, json5, jiter, importlib-resources, idna, hf-xet, h11, fsspec, frozenlist, filelock, fastuuid, distro, diskcache, diff-match-patch, configargparse, click, charset-normalizer, certifi, backoff, attrs, asgiref, annotated-types, annotated-doc, aiohappyeyeballs, yarl, typing-inspection, tree-sitter-language-pack, scipy, requests, referencing, python-dateutil, pydantic-core, prompt-toolkit, oslex, markdown-it-py, jinja2, importlib-metadata, httpcore, gitdb, flake8, cffi, beautifulsoup4, anyio, aiosignal, watchfiles, tiktoken, starlette, soundfile, sounddevice, rich, pydantic, posthog, jsonschema-specifications, httpx, grep-ast, gitpython, aiohttp, typer, openai, mixpanel, jsonschema, fastapi, huggingface-hub, tokenizers, litellm, aider-chat
+#10 20.74 Successfully installed aider-chat-0.86.3.dev53+g5dc9490bb aiohappyeyeballs-2.6.1 aiohttp-3.13.3 aiosignal-1.4.0 annotated-doc-0.0.4 annotated-types-0.7.0 anyio-4.12.1 asgiref-3.11.1 attrs-25.4.0 backoff-2.2.1 beautifulsoup4-4.14.3 certifi-2026.2.25 cffi-2.0.0 charset-normalizer-3.4.6 click-8.3.1 configargparse-1.7.5 diff-match-patch-20241021 diskcache-5.6.3 distro-1.9.0 fastapi-0.135.1 fastuuid-0.14.0 filelock-3.25.2 flake8-7.3.0 frozenlist-1.8.0 fsspec-2026.2.0 gitdb-4.0.12 gitpython-3.1.46 grep-ast-0.9.0 h11-0.16.0 hf-xet-1.4.2 httpcore-1.0.9 httpx-0.28.1 huggingface-hub-1.7.1 idna-3.11 importlib-metadata-7.2.1 importlib-resources-6.5.2 jinja2-3.1.6 jiter-0.13.0 json5-0.13.0 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 litellm-1.82.3 markdown-it-py-4.0.0 markupsafe-3.0.3 mccabe-0.7.0 mdurl-0.1.2 mixpanel-5.0.0 mslex-1.3.0 multidict-6.7.1 networkx-3.4.2 numpy-2.4.6 openai-2.28.0 orjson-3.11.7 oslex-0.1.3 packaging-26.0 pathspec-1.0.4 pexpect-4.9.0 pillow-12.1.1 posthog-7.9.12 prompt-toolkit-3.0.52 propcache-0.4.1 psutil-7.2.2 ptyprocess-0.7.0 pycodestyle-2.14.0 pycparser-3.0 pydantic-2.12.5 pydantic-core-2.41.5 pydub-0.25.1 pyflakes-3.4.0 pygments-2.19.2 pypandoc-1.17 pyperclip-1.11.0 python-dateutil-2.9.0.post0 python-dotenv-1.2.2 pyyaml-6.0.3 referencing-0.37.0 regex-2026.2.28 requests-2.32.5 rich-14.3.3 rpds-py-0.30.0 scipy-1.17.1 shellingham-1.5.4 shtab-1.8.0 six-1.17.0 smmap-5.0.3 sniffio-1.3.1 socksio-1.0.0 sounddevice-0.5.5 soundfile-0.13.1 soupsieve-2.8.3 starlette-0.52.1 tiktoken-0.12.0 tokenizers-0.22.2 tqdm-4.67.3 tree-sitter-0.25.2 tree-sitter-c-sharp-0.23.1 tree-sitter-embedded-template-0.25.0 tree-sitter-language-pack-0.13.0 tree-sitter-yaml-0.7.2 typer-0.24.1 typing-extensions-4.15.0 typing-inspection-0.4.2 urllib3-2.6.3 watchfiles-1.1.1 wcwidth-0.6.0 yarl-1.23.0 zipp-3.23.0
+#10 20.74 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#10 20.79 
+#10 20.79 [notice] A new release of pip is available: 24.0 -> 26.2.1
+#10 20.79 [notice] To update, run: pip install --upgrade pip
+#10 21.97 crucible: also installing requirements.txt beside the package
+#10 22.12 Ignoring tree-sitter: markers 'python_version < "3.10"' don't match your environment
+#10 22.12 Ignoring numpy: markers 'python_version < "3.11"' don't match your environment
+#10 22.12 Ignoring scipy: markers 'python_version < "3.11"' don't match your environment
+#10 22.12 Ignoring audioop-lts: markers 'python_version >= "3.13"' don't match your environment
+#10 22.12 Requirement already satisfied: aiohappyeyeballs==2.6.1 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 3)) (2.6.1)
+#10 22.12 Requirement already satisfied: aiohttp==3.13.3 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 7)) (3.13.3)
+#10 22.12 Requirement already satisfied: aiosignal==1.4.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 11)) (1.4.0)
+#10 22.12 Requirement already satisfied: annotated-doc==0.0.4 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 15)) (0.0.4)
+#10 22.12 Requirement already satisfied: annotated-types==0.7.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 20)) (0.7.0)
+#10 22.12 Requirement already satisfied: anyio==4.12.1 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 24)) (4.12.1)
+#10 22.13 Requirement already satisfied: asgiref==3.11.1 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 31)) (3.11.1)
+#10 22.13 Requirement already satisfied: attrs==25.4.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 35)) (25.4.0)
+#10 22.13 Requirement already satisfied: backoff==2.2.1 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 41)) (2.2.1)
+#10 22.13 Requirement already satisfied: beautifulsoup4==4.14.3 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 46)) (4.14.3)
+#10 22.13 Requirement already satisfied: certifi==2026.2.25 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 50)) (2026.2.25)
+#10 22.13 Requirement already satisfied: cffi==2.0.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 56)) (2.0.0)
+#10 22.13 Requirement already satisfied: charset-normalizer==3.4.6 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 61)) (3.4.6)
+#10 22.13 Requirement already satisfied: click==8.3.1 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 65)) (8.3.1)
+#10 22.13 Requirement already satisfied: configargparse==1.7.5 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 70)) (1.7.5)
+#10 22.13 Requirement already satisfied: diff-match-patch==20241021 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 74)) (20241021)
+#10 22.13 Requirement already satisfied: diskcache==5.6.3 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 78)) (5.6.3)
+#10 22.13 Requirement already satisfied: distro==1.9.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 82)) (1.9.0)
+#10 22.13 Requirement already satisfied: fastapi==0.135.1 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 87)) (0.135.1)
+#10 22.13 Requirement already satisfied: fastuuid==0.14.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 91)) (0.14.0)
+#10 22.13 Requirement already satisfied: filelock==3.25.2 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 95)) (3.25.2)
+#10 22.13 Requirement already satisfied: flake8==7.3.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 99)) (7.3.0)
+#10 22.13 Requirement already satisfied: frozenlist==1.8.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 103)) (1.8.0)
+#10 22.13 Requirement already satisfied: fsspec==2026.2.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 108)) (2026.2.0)
+#10 22.13 Requirement already satisfied: gitdb==4.0.12 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 112)) (4.0.12)
+#10 22.13 Requirement already satisfied: gitpython==3.1.46 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 116)) (3.1.46)
+#10 22.13 Requirement already satisfied: grep-ast==0.9.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 120)) (0.9.0)
+#10 22.13 Requirement already satisfied: h11==0.16.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 124)) (0.16.0)
+#10 22.13 Requirement already satisfied: hf-xet==1.4.2 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 128)) (1.4.2)
+#10 22.13 Requirement already satisfied: httpcore==1.0.9 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 132)) (1.0.9)
+#10 22.14 Requirement already satisfied: httpx==0.28.1 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 136)) (0.28.1)
+#10 22.14 Requirement already satisfied: huggingface-hub==1.7.1 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 143)) (1.7.1)
+#10 22.14 Requirement already satisfied: idna==3.11 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 147)) (3.11)
+#10 22.14 Requirement already satisfied: importlib-metadata==7.2.1 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 154)) (7.2.1)
+#10 22.14 Requirement already satisfied: importlib-resources==6.5.2 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 159)) (6.5.2)
+#10 22.14 Requirement already satisfied: jinja2==3.1.6 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 163)) (3.1.6)
+#10 22.14 Requirement already satisfied: jiter==0.13.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 167)) (0.13.0)
+#10 22.14 Requirement already satisfied: json5==0.13.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 171)) (0.13.0)
+#10 22.14 Requirement already satisfied: jsonschema==4.26.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 175)) (4.26.0)
+#10 22.14 Requirement already satisfied: jsonschema-specifications==2025.9.1 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 180)) (2025.9.1)
+#10 22.14 Requirement already satisfied: litellm==1.82.3 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 184)) (1.82.3)
+#10 22.14 Requirement already satisfied: markdown-it-py==4.0.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 188)) (4.0.0)
+#10 22.14 Requirement already satisfied: markupsafe==3.0.3 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 192)) (3.0.3)
+#10 22.14 Requirement already satisfied: mccabe==0.7.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 196)) (0.7.0)
+#10 22.14 Requirement already satisfied: mdurl==0.1.2 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 200)) (0.1.2)
+#10 22.14 Requirement already satisfied: mixpanel==5.0.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 204)) (5.0.0)
+#10 22.14 Requirement already satisfied: mslex==1.3.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 208)) (1.3.0)
+#10 22.14 Requirement already satisfied: multidict==6.7.1 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 212)) (6.7.1)
+#10 22.14 Requirement already satisfied: networkx==3.4.2 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 217)) (3.4.2)
+#10 22.14 Requirement already satisfied: openai==2.28.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 226)) (2.28.0)
+#10 22.14 Requirement already satisfied: orjson==3.11.7 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 230)) (3.11.7)
+#10 22.14 Requirement already satisfied: oslex==0.1.3 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 234)) (0.1.3)
+#10 22.14 Requirement already satisfied: packaging==26.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 238)) (26.0)
+#10 22.14 Requirement already satisfied: pathspec==1.0.4 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 243)) (1.0.4)
+#10 22.14 Requirement already satisfied: pexpect==4.9.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 248)) (4.9.0)
+#10 22.15 Requirement already satisfied: pillow==12.1.1 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 252)) (12.1.1)
+#10 22.15 Requirement already satisfied: posthog==7.9.12 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 256)) (7.9.12)
+#10 22.15 Requirement already satisfied: prompt-toolkit==3.0.52 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 260)) (3.0.52)
+#10 22.15 Requirement already satisfied: propcache==0.4.1 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 264)) (0.4.1)
+#10 22.15 Requirement already satisfied: psutil==7.2.2 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 269)) (7.2.2)
+#10 22.15 Requirement already satisfied: ptyprocess==0.7.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 273)) (0.7.0)
+#10 22.15 Requirement already satisfied: pycodestyle==2.14.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 277)) (2.14.0)
+#10 22.15 Requirement already satisfied: pycparser==3.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 281)) (3.0)
+#10 22.15 Requirement already satisfied: pydantic==2.12.5 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 285)) (2.12.5)
+#10 22.15 Requirement already satisfied: pydantic-core==2.41.5 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 292)) (2.41.5)
+#10 22.15 Requirement already satisfied: pydub==0.25.1 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 296)) (0.25.1)
+#10 22.15 Requirement already satisfied: pyflakes==3.4.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 300)) (3.4.0)
+#10 22.15 Requirement already satisfied: pygments==2.19.2 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 304)) (2.19.2)
+#10 22.15 Requirement already satisfied: pypandoc==1.17 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 308)) (1.17)
+#10 22.15 Requirement already satisfied: pyperclip==1.11.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 312)) (1.11.0)
+#10 22.15 Requirement already satisfied: python-dateutil==2.9.0.post0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 316)) (2.9.0.post0)
+#10 22.15 Requirement already satisfied: python-dotenv==1.2.2 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 320)) (1.2.2)
+#10 22.15 Requirement already satisfied: pyyaml==6.0.3 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 324)) (6.0.3)
+#10 22.15 Requirement already satisfied: referencing==0.37.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 329)) (0.37.0)
+#10 22.15 Requirement already satisfied: regex==2026.2.28 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 334)) (2026.2.28)
+#10 22.15 Requirement already satisfied: requests==2.32.5 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 338)) (2.32.5)
+#10 22.15 Requirement already satisfied: rich==14.3.3 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 344)) (14.3.3)
+#10 22.15 Requirement already satisfied: rpds-py==0.30.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 349)) (0.30.0)
+#10 22.15 Requirement already satisfied: shellingham==1.5.4 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 357)) (1.5.4)
+#10 22.15 Requirement already satisfied: shtab==1.8.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 361)) (1.8.0)
+#10 22.15 Requirement already satisfied: six==1.17.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 365)) (1.17.0)
+#10 22.16 Requirement already satisfied: smmap==5.0.3 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 370)) (5.0.3)
+#10 22.16 Requirement already satisfied: sniffio==1.3.1 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 374)) (1.3.1)
+#10 22.16 Requirement already satisfied: socksio==1.0.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 378)) (1.0.0)
+#10 22.16 Requirement already satisfied: sounddevice==0.5.5 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 382)) (0.5.5)
+#10 22.16 Requirement already satisfied: soundfile==0.13.1 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 386)) (0.13.1)
+#10 22.16 Requirement already satisfied: soupsieve==2.8.3 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 390)) (2.8.3)
+#10 22.16 Requirement already satisfied: starlette==0.52.1 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 394)) (0.52.1)
+#10 22.16 Requirement already satisfied: tiktoken==0.12.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 398)) (0.12.0)
+#10 22.16 Requirement already satisfied: tokenizers==0.22.2 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 402)) (0.22.2)
+#10 22.16 Requirement already satisfied: tqdm==4.67.3 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 406)) (4.67.3)
+#10 22.16 Requirement already satisfied: tree-sitter-c-sharp==0.23.1 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 414)) (0.23.1)
+#10 22.16 Requirement already satisfied: tree-sitter-embedded-template==0.25.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 418)) (0.25.0)
+#10 22.16 Requirement already satisfied: tree-sitter-language-pack==0.13.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 422)) (0.13.0)
+#10 22.16 Requirement already satisfied: tree-sitter-yaml==0.7.2 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 426)) (0.7.2)
+#10 22.16 Requirement already satisfied: typer==0.24.1 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 430)) (0.24.1)
+#10 22.16 Requirement already satisfied: typing-extensions==4.15.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 434)) (4.15.0)
+#10 22.16 Requirement already satisfied: typing-inspection==0.4.2 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 449)) (0.4.2)
+#10 22.16 Requirement already satisfied: urllib3==2.6.3 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 454)) (2.6.3)
+#10 22.16 Requirement already satisfied: watchfiles==1.1.1 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 458)) (1.1.1)
+#10 22.16 Requirement already satisfied: wcwidth==0.6.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 462)) (0.6.0)
+#10 22.16 Requirement already satisfied: yarl==1.23.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 466)) (1.23.0)
+#10 22.16 Requirement already satisfied: zipp==3.23.0 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 470)) (3.23.0)
+#10 22.16 Requirement already satisfied: tree-sitter==0.25.2 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 476)) (0.25.2)
+#10 22.17 Requirement already satisfied: numpy<2.5,>=2.3 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 479)) (2.4.6)
+#10 22.17 Requirement already satisfied: scipy<1.18,>=1.16.1 in /usr/local/lib/python3.11/site-packages (from -r ./requirements.txt (line 487)) (1.17.1)
+#10 22.69 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#10 22.75 
+#10 22.75 [notice] A new release of pip is available: 24.0 -> 26.2.1
+#10 22.75 [notice] To update, run: pip install --upgrade pip
+#10 DONE 22.8s
+
+#11 exporting to image
+#11 exporting layers
+#11 exporting layers 1.2s done
+#11 writing image sha256:9eb27feff78e10a5f72cde8f4187483dccf2a8f6cb7e777b07df2a8c6b4ed045 done
+#11 naming to docker.io/crucible/aider-ai-aider:5dc9490bb35f done
+#11 DONE 1.2s

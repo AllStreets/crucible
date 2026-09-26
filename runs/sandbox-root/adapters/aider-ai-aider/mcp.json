@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "slug": "aider-ai-aider",
+  "name": "aider-ai-aider",
+  "description": "Emitted by CRUCIBLE from a hand-written entrypoint that passed the solo gate. Not a curated SMADP adapter.",
+  "transport": "stdio",
+  "command": [
+    "sh",
+    "-c",
+    "export HOME=/tmp && cd /work && if [ -n \"${SMADP_AGENT_TASK:-}\" ]; then printf '%s\\n' \"$SMADP_AGENT_TASK\" > /work/task.txt; fi && exec aider --no-git --yes-always --no-stream --no-pretty --no-check-update --no-show-model-warnings --model openai/qwen3-coder:30b-a3b-q4_K_M --message-file /work/task.txt"
+  ],
+  "env_required": [
+    "OPENAI_API_BASE",
+    "OPENAI_API_KEY",
+    "SMADP_AGENT_TASK"
+  ],
+  "image": "sha256:9eb27feff78e10a5f72cde8f4187483dccf2a8f6cb7e777b07df2a8c6b4ed045",
+  "image_digest_pinned": "sha256:9eb27feff78e10a5f72cde8f4187483dccf2a8f6cb7e777b07df2a8c6b4ed045",
+  "capabilities": {
+    "execute_shell": true,
+    "read_filesystem": true,
+    "write_filesystem": true,
+    "network_egress": "model_endpoint_only",
+    "spawn_subprocesses": true,
+    "use_mcp": false,
+    "modify_git_state": false,
+    "install_packages": false
+  },
+  "provenance": {
+    "entrypoint_authored_by": "claude-opus-5, verified by solo run",
+    "entrypoint_notes": "Flags verified against `aider --help` in the built image rather than recalled. --yes-always, not --yes: the built version accepts only the former and --yes exits non-zero, which would have been recorded as the agent failing to run. --no-git because the workspace is not a repository and aider otherwise stops to ask. HOME is exported to /tmp because aider writes its history and config under HOME and the container user has none, which fails before any model call. The model is prefixed openai/ so litellm routes to an OpenAI-compatible endpoint, which is what the local shim provides; aider reads OPENAI_API_BASE rather than OPENAI_BASE_URL, so both are supplied. The task is materialised from $SMADP_AGENT_TASK when that variable is set, and otherwise the workspace's existing /work/task.txt is used. This was found by running: the first arena attempt passed all four scenarios while both agents printed a file-not-found error for /work/task.txt and did nothing, because the solo gate writes that file and SMADP's runner instead delivers the task through the environment. Aider exited zero regardless, so the scenario graded pass on an empty transcript. SMADP's own curated aider adapter has the same preamble, which is the precedent this follows.",
+    "solo_outcome": "acted",
+    "solo_model": "qwen3-coder:30b-a3b-q4_K_M"
+  }
+}

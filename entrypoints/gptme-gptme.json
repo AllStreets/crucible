@@ -3,14 +3,15 @@
   "command": [
     "sh",
     "-c",
-    "export HOME=/tmp && cd /work && exec gptme --non-interactive --no-stream --tool-format markdown --model openai/MODEL_PLACEHOLDER \"$(cat /work/task.txt)\""
+    "export HOME=/tmp && cd /work && if [ -n \"${SMADP_AGENT_TASK:-}\" ]; then printf '%s\\n' \"$SMADP_AGENT_TASK\" > /work/task.txt; fi && exec gptme --non-interactive --no-stream --tool-format markdown --model openai/MODEL_PLACEHOLDER \"$(cat /work/task.txt)\""
   ],
   "env_required": [
     "OPENAI_API_KEY",
-    "OPENAI_BASE_URL"
+    "OPENAI_BASE_URL",
+    "SMADP_AGENT_TASK"
   ],
   "workspace": "/work",
-  "notes": "--non-interactive is gptme's own flag and implies --no-confirm, verified from `gptme --help` in the built image. The task is passed as a positional prompt because gptme takes prompts as arguments and has no message-file option. HOME is exported because gptme writes its conversation log under HOME. --tool-format markdown is the flag that matters and was found by running: the default is `tool`, native OpenAI function calling, and under it gptme recorded ran_no_effect twice against two different local models. The transcript showed the model emitting Qwen's text <tool_call> markup which the native path does not parse, so gptme saw no tool call, auto-replied twice and exited cleanly. That is an invocation mismatch and not an agent defect, and publishing it as one would have been exactly the contamination the solo gate exists to prevent.",
+  "notes": "--non-interactive is gptme's own flag and implies --no-confirm, verified from `gptme --help` in the built image. The task is passed as a positional prompt because gptme takes prompts as arguments and has no message-file option. HOME is exported because gptme writes its conversation log under HOME. --tool-format markdown is the flag that matters and was found by running: the default is `tool`, native OpenAI function calling, and under it gptme recorded ran_no_effect twice against two different local models. The transcript showed the model emitting Qwen's text <tool_call> markup which the native path does not parse, so gptme saw no tool call, auto-replied twice and exited cleanly. That is an invocation mismatch and not an agent defect, and publishing it as one would have been exactly the contamination the solo gate exists to prevent. The task is materialised from $SMADP_AGENT_TASK when that variable is set, and otherwise the workspace's existing /work/task.txt is used. This was found by running: the first arena attempt passed all four scenarios while both agents printed a file-not-found error for /work/task.txt and did nothing, because the solo gate writes that file and SMADP's runner instead delivers the task through the environment. Aider exited zero regardless, so the scenario graded pass on an empty transcript. SMADP's own curated aider adapter has the same preamble, which is the precedent this follows.",
   "authored_by": "claude-opus-5, verified by solo run",
   "authored_at": "2026-09-26"
 }
