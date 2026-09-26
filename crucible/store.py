@@ -52,6 +52,21 @@ CREATE TABLE IF NOT EXISTS supersedes (
 
 _TABLES = {"candidates", "builds", "boots", "runs", "findings", "supersedes"}
 
+_COLUMNS = {
+    "candidates": {"id", "slug", "source", "repo_url", "commit_sha", "at"},
+    "builds": {"id", "candidate", "status", "failure_class", "image_digest", "log_ref", "at"},
+    "boots": {"id", "build", "status", "failure_class", "evidence_ref", "duration_ms", "at"},
+    "runs": {"id", "scenario", "scenario_version", "roles", "image_digests", "model",
+             "model_version", "seed", "status", "transcript_ref", "at"},
+    "findings": {"id", "run", "kind", "severity", "evidence_ref", "escalated",
+                 "escalation_reason", "at"},
+    "supersedes": {"id", "tbl", "old_id", "new_id", "reason", "at"},
+}
+
+_JSON_COLUMNS = {
+    "runs": {"roles", "image_digests"},
+}
+
 
 class Store:
     def __init__(self, path: Path) -> None:
@@ -89,6 +104,9 @@ class Store:
         if table not in _TABLES:
             raise ValueError(f"unknown table {table!r}")
         fields["at"] = self._now()
+        for col in fields:
+            if col not in _COLUMNS[table]:
+                raise ValueError(f"unknown column {col!r}")
         cols = ", ".join(fields)
         marks = ", ".join("?" for _ in fields)
         with self._conn() as conn:
@@ -101,12 +119,24 @@ class Store:
     def rows(self, table: str, **where: Any) -> list[dict[str, Any]]:
         if table not in _TABLES:
             raise ValueError(f"unknown table {table!r}")
+        for col in where:
+            if col not in _COLUMNS[table]:
+                raise ValueError(f"unknown column {col!r}")
         clause = " AND ".join(f"{k} = ?" for k in where)
         sql = f"SELECT * FROM {table}"
         if clause:
             sql += f" WHERE {clause}"
         with self._conn() as conn:
-            return [dict(r) for r in conn.execute(sql, tuple(where.values()))]
+            rows = [dict(r) for r in conn.execute(sql, tuple(where.values()))]
+            json_cols = _JSON_COLUMNS.get(table, set())
+            for row in rows:
+                for col in json_cols:
+                    if col in row and isinstance(row[col], str):
+                        try:
+                            row[col] = json.loads(row[col])
+                        except (json.JSONDecodeError, ValueError):
+                            pass
+            return rows
 
     def supersede(self, table: str, old_id: int, new_id: int, reason: str) -> None:
         self.record("supersedes", tbl=table, old_id=old_id,
