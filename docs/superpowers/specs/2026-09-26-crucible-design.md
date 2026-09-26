@@ -18,7 +18,8 @@ what happens when they interact. SMADP published the estimate of that matrix. CR
 publishes the measurement.
 
 An admin submits research criteria. The system clones real agents from GitHub and Hugging
-Face, builds them into containers, verifies they actually boot, runs them against each other
+Face, builds them into containers, checks that those containers start in a clean sandbox,
+runs them against each other
 inside a sandbox under adversarial scenarios, grades the transcripts deterministically where
 it can and with a model only where it must, and publishes both a machine-readable dataset and
 a human-readable research paper in which every number traces to a run record.
@@ -38,7 +39,8 @@ is the first result:
 That question is unanswered in public, it is cheap to answer honestly, and answering it
 produces the working adapter fleet every later experiment depends on. **A build that fails is
 a recorded observation, not a blocked task.** This principle governs the whole system: an
-agent that will not boot is data about the ecosystem, and the dataset says so.
+agent whose container will not even start is data about the ecosystem, and the dataset says
+so.
 
 ## 3. Non-goals
 
@@ -56,7 +58,7 @@ agent that will not boot is data about the ecosystem, and the dataset says so.
      |
   harvest    clone candidate agents from GitHub and Hugging Face; pin the commit SHA
      |
-  forge      build a container; VERIFY IT BOOTS; record the failure verbatim if it does not
+  forge      build a container; CHECK IT STARTS; record the failure verbatim if it does not
      |
   arena      smadp.sandbox executes a pair or chain under a scenario; transcripts recorded
      |
@@ -125,22 +127,47 @@ publishing whether the answer is yes or no.
 Immutable, content-addressed, append-only. Nothing is ever updated in place; a correction is a
 new record that supersedes an old one, and both remain.
 
+This is what `crucible/store.py` creates, as merged, rather than an intention:
+
 ```
-  candidates    slug, source(github|hf), repo_url, commit_sha, discovered_at
-  builds        candidate, image_digest, status(built|failed), failure_class, log_ref, at
-  boots         build, status(booted|timeout|crashed), evidence_ref, at
-  scenarios     slug, version, criterion, fixture_ref
-  runs          pair_or_chain, scenario, image_digests[], model, model_version, seed,
-                started_at, ended_at, status
-  events        run, seq, role, type, payload_ref            (the transcript)
-  tripwires     run, event_seq, kind, detail
-  properties    run, criterion, passed, evidence_event_seq
-  verdicts      run, severity, rationale_ref, escalated(bool), escalation_reason
-  supersedes    new_record, old_record, reason, at
+  candidates    slug, source(github|hf), repo_url, commit_sha, at
+  builds        candidate, commit_sha, status(built|failed), failure_class,
+                image_digest, log_ref, at
+  env_checks    build, status(passed|failed), failure_class, evidence_ref,
+                duration_ms, model, base_url, at
+  unresolved    seed_url, reason, at
+  supersedes    tbl, old_id, new_id, reason, at
 ```
+
+Three things in that table are worth stating plainly.
+
+**`env_checks` is not a boot table.** The stage starts the built image with egress denied and
+runs the probe the Dockerfile installs: the interpreter starts, prints a line and exits. That
+is all it measures. It does not invoke the agent, because the candidates share no entrypoint
+and, with no network and no credentials, an invocation would measure the harness rather than
+the agent. Verifying that an agent itself runs is Phase 2 work and needs per-agent entrypoint
+knowledge; until then no row, figure or sentence calls this a boot.
+
+**A candidate's identity is `(slug, commit_sha)`.** The same repository at the same commit is
+the same candidate however many times it is harvested, so a re-harvest at an unchanged HEAD
+writes no new row and no superseding row. Counts are over distinct identities, not rows.
+
+**`unresolved` records a seed URL that no longer resolves.** Without it the denominator
+silently shrinks from the number of URLs seeded to whatever resolved on the day.
 
 `failure_class` on a failed build is the first paper's dataset. A build that fails is a row,
 not a gap.
+
+### Phase 2 placeholders
+
+`runs` and `findings` exist in the schema and are unused in Phase 1, as is the `_JSON_COLUMNS`
+encoding for `runs`. They are placeholders for the arena and assay stages, kept so the tables
+are created once rather than migrated in later.
+
+These tables are described by earlier drafts of this section and **do not exist yet**:
+`scenarios`, `events`, `tripwires`, `properties`, `verdicts`. They belong to the arena and
+assay stages and will be added with the code that writes them, since a table nothing writes
+to is a claim the dataset cannot support.
 
 ## 9. Auditability, which is a requirement rather than a feature
 
@@ -218,8 +245,8 @@ published artifacts, so it cannot show a number that was not published.
 
 Three subsystems, strictly sequential because each consumes what the previous produces.
 
-- **Phase 1, the engine and the first dataset.** Intake, harvest, forge with boot
-  verification, arena, assay. Ships a published JSON dataset and answers the viability
+- **Phase 1, the engine and the first dataset.** Intake, harvest, forge with a container
+  environment check, arena, assay. Ships a published JSON dataset and answers the viability
   question. This phase gets its own implementation plan.
 - **Phase 2, press.** Paper generation with numeric verification.
 - **Phase 3, site.** The 13 pages, the explorer, the navigation agent.

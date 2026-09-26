@@ -1,4 +1,4 @@
-"""Harvest, build, boot, report.
+"""Harvest, build, check the container, report.
 
 Every stage swallows its own failures into rows and continues, because the
 value of a batch of fifty is lost if the seventh dead repository takes the
@@ -7,7 +7,7 @@ condition that would make every remaining result wrong.
 """
 from __future__ import annotations
 
-from crucible.forge import build, verify_boot
+from crucible.forge import build, verify_environment
 from crucible.harvest import Runner, default_runner, harvest
 from crucible.model_shim import ShimConfig
 from crucible.report import Viability, viability
@@ -22,5 +22,5 @@ async def run_pipeline(urls: list[str], *, store: Store,
         result = await build(cand, store=store, run=run)
         if not result.ok or result.image_digest is None:
             continue
-        await verify_boot(result.image_digest, store=store, run=run, shim=shim)
+        await verify_environment(result.image_digest, store=store, run=run, shim=shim)
     return viability(store)

@@ -17,8 +17,8 @@ class FailureClass(StrEnum):
     NO_BUILD_RECIPE = "no_build_recipe"
     DEPENDENCY_CONFLICT = "dependency_conflict"
     BUILD_FAILED = "build_failed"
-    BOOT_TIMEOUT = "boot_timeout"
-    BOOT_CRASH = "boot_crash"
+    ENV_CHECK_TIMEOUT = "env_check_timeout"
+    ENV_CHECK_FAILED = "env_check_failed"
     NEEDS_CREDENTIALS = "needs_credentials"
     UNKNOWN = "unknown"
 
@@ -30,8 +30,10 @@ class FailureClass(StrEnum):
             FailureClass.NO_BUILD_RECIPE: "No usable build recipe",
             FailureClass.DEPENDENCY_CONFLICT: "Dependencies could not be resolved",
             FailureClass.BUILD_FAILED: "Build failed",
-            FailureClass.BOOT_TIMEOUT: "Container did not become ready in time",
-            FailureClass.BOOT_CRASH: "Container exited during startup",
+            FailureClass.ENV_CHECK_TIMEOUT:
+                "Container environment probe did not finish in time",
+            FailureClass.ENV_CHECK_FAILED:
+                "Container environment probe exited non-zero",
             FailureClass.NEEDS_CREDENTIALS: "Requires credentials we do not supply",
             FailureClass.UNKNOWN: "Unclassified failure",
         }[self]

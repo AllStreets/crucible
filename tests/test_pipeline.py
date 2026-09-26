@@ -31,13 +31,13 @@ async def test_one_candidate_failing_does_not_stop_the_others(store) -> None:
         "ls-remote https://github.com/x/dead": (128, "fatal: not found"),
         "docker build": (0, "Successfully built"),
         "image inspect": (0, "sha256:" + "b" * 64),
-        "docker run": (0, "ready"),
+        "docker run": (0, "crucible environment probe ok"),
     })
     v = await run_pipeline(["https://github.com/x/good",
                             "https://github.com/x/dead"],
                            store=store, run=run, shim=SHIM)
     assert v.harvested == 1
-    assert v.booted == 1
+    assert v.env_ok == 1
 
 
 async def test_a_build_failure_still_produces_a_row_and_continues(store) -> None:
@@ -50,7 +50,7 @@ async def test_a_build_failure_still_produces_a_row_and_continues(store) -> None
     assert v.by_failure["dependency_conflict"] == 1
 
 
-async def test_boot_is_attempted_only_for_candidates_that_built(store) -> None:
+async def test_the_env_check_is_attempted_only_for_candidates_that_built(store) -> None:
     calls: list[str] = []
 
     async def run(*argv: str, **kw):
@@ -67,10 +67,9 @@ async def test_boot_is_attempted_only_for_candidates_that_built(store) -> None:
 
 
 async def test_the_shim_reaches_the_container_through_the_pipeline(store) -> None:
-    """The defect this task exists to fix: run_pipeline accepted a shim but
-    never forwarded it. Every candidate that boots must see the model
-    endpoint, or a real agent boot will fail for lack of an endpoint and be
-    misrecorded as a plain BOOT_CRASH."""
+    """The defect Task 8 existed to fix: run_pipeline accepted a shim but never
+    forwarded it. Every container the check starts must see the model endpoint,
+    since that env is the variable a later phase varies and the row pins it."""
     captured: list[list[str]] = []
 
     async def run(*argv: str, **kw) -> tuple[int, str]:
@@ -83,7 +82,7 @@ async def test_the_shim_reaches_the_container_through_the_pipeline(store) -> Non
             return (0, "sha256:" + "b" * 64)
         if "docker run" in joined:
             captured.append(list(argv))
-            return (0, "ready")
+            return (0, "crucible environment probe ok")
         return (1, "unmatched command")
 
     await run_pipeline(["https://github.com/x/good"], store=store, run=run, shim=SHIM)

@@ -1,10 +1,20 @@
-"""Build a candidate, then find out whether it actually runs.
+"""Build a candidate, then check the container it produced.
 
-Building is the easy half and the misleading one. A container that builds and
-exits on startup is not a usable agent, and counting it as a success would
-overstate ecosystem viability, which is the exact number this project exists to
-report honestly. So boot verification is a separate recorded stage with its own
-failure classes, and "built" never implies "works".
+Building is the easy half and the misleading one, so the build and the check
+that follows it are separate recorded stages with their own failure classes, and
+"built" never implies "works".
+
+The check is an environment probe and nothing more. It starts the built image
+with egress denied and runs the image's default command, which is the probe the
+Dockerfile installs: start the interpreter, print one line, exit. That proves the
+image runs in a clean sandbox. It does not prove the agent runs, and it does not
+invoke the agent. The agents in the seed list share no entrypoint, and with no
+network and no credentials an invocation would measure this harness rather than
+the agent. Calling the probe a boot would make the passing count a restatement of
+the built count under a name claiming more than was measured, which is the one
+thing this project cannot afford to publish. So the stage, the rows, the failure
+classes and the report all say environment check. Whether an agent actually runs
+is a separate and harder measurement, and it is not reported here.
 
 Every outcome writes a row and stores its evidence, including successes. A
 success with no stored evidence cannot be audited later, and an unauditable
@@ -31,7 +41,7 @@ class BuildResult:
 
 
 @dataclass(frozen=True)
-class BootResult:
+class EnvCheckResult:
     ok: bool
     failure: FailureClass
     duration_ms: int
@@ -82,29 +92,33 @@ async def build(c: Candidate, *, store: Store,
     return BuildResult(True, digest, FailureClass.NONE, log_ref)
 
 
-async def verify_boot(image_digest: str, *, store: Store,
-                      run: Runner = default_runner,
-                      timeout_s: int = 60,
-                      shim: ShimConfig | None = None) -> BootResult:
-    """Start the container with egress denied and see whether it survives.
+async def verify_environment(image_digest: str, *, store: Store,
+                             run: Runner = default_runner,
+                             timeout_s: int = 60,
+                             shim: ShimConfig | None = None) -> EnvCheckResult:
+    """Run the built image's environment probe with egress denied.
 
-    Network is off: a boot that only succeeds because it reached the internet is
-    not a boot we can reproduce, and this stage is about the container, not
-    connectivity.
+    What this measures: the image starts in a clean sandbox and its default
+    command, the probe the Dockerfile installs, runs to completion. What it does
+    not measure: whether the agent runs. The probe does not start the agent. A
+    row from this stage must never be read or reported as a boot.
 
-    When `shim` is given, its environment is passed into the container with one
-    `-e KEY=VALUE` pair per entry, ahead of the image digest. This is the first
-    moment the container executes, so an agent that starts up and immediately
-    tries to reach a model needs the endpoint set right here; otherwise a boot
-    that fails only for lack of a model endpoint would be recorded as a false
-    BOOT_CRASH. Network is still denied in this phase, so the endpoint is not
-    actually reachable yet; wiring the env now is what lets a later phase attach
-    a real network alias without touching this function again.
+    Network is off. A result that only holds because the container reached the
+    internet is not reproducible, and this stage is about the image rather than
+    about connectivity.
+
+    When `shim` is given, its environment is passed in with one `-e KEY=VALUE`
+    pair per entry, ahead of the image digest. The probe itself does not need a
+    model endpoint, but the env is what a later phase will vary when it does
+    invoke the agent, so the row pins the model and base URL it ran under: the
+    same image checked under a different endpoint is a different measurement.
     """
     env_args: list[str] = []
     if shim is not None:
         for key, value in shim_env(shim, []).items():
             env_args.extend(["-e", f"{key}={value}"])
+    model = shim.model if shim is not None else None
+    base_url = shim.base_url if shim is not None else None
 
     started = time.monotonic()
     try:
@@ -115,20 +129,23 @@ async def verify_boot(image_digest: str, *, store: Store,
             image_digest, timeout_s=timeout_s)
     except (TimeoutError, asyncio.TimeoutError):
         ms = int((time.monotonic() - started) * 1000)
-        ref = store.blob(b"boot timed out with no output")
-        store.record("boots", build=image_digest, status="failed",
-                     failure_class=str(FailureClass.BOOT_TIMEOUT),
-                     evidence_ref=ref, duration_ms=ms)
-        return BootResult(False, FailureClass.BOOT_TIMEOUT, ms, ref)
+        ref = store.blob(b"environment check timed out with no output")
+        store.record("env_checks", build=image_digest, status="failed",
+                     failure_class=str(FailureClass.ENV_CHECK_TIMEOUT),
+                     evidence_ref=ref, duration_ms=ms,
+                     model=model, base_url=base_url)
+        return EnvCheckResult(False, FailureClass.ENV_CHECK_TIMEOUT, ms, ref)
 
     ms = int((time.monotonic() - started) * 1000)
     ref = store.blob(out.encode())
     if code != 0:
-        store.record("boots", build=image_digest, status="failed",
-                     failure_class=str(FailureClass.BOOT_CRASH),
-                     evidence_ref=ref, duration_ms=ms)
-        return BootResult(False, FailureClass.BOOT_CRASH, ms, ref)
+        store.record("env_checks", build=image_digest, status="failed",
+                     failure_class=str(FailureClass.ENV_CHECK_FAILED),
+                     evidence_ref=ref, duration_ms=ms,
+                     model=model, base_url=base_url)
+        return EnvCheckResult(False, FailureClass.ENV_CHECK_FAILED, ms, ref)
 
-    store.record("boots", build=image_digest, status="booted",
-                 failure_class=None, evidence_ref=ref, duration_ms=ms)
-    return BootResult(True, FailureClass.NONE, ms, ref)
+    store.record("env_checks", build=image_digest, status="passed",
+                 failure_class=None, evidence_ref=ref, duration_ms=ms,
+                 model=model, base_url=base_url)
+    return EnvCheckResult(True, FailureClass.NONE, ms, ref)

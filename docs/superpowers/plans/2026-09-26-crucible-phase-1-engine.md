@@ -10,6 +10,22 @@
 
 **Spec:** `docs/superpowers/specs/2026-09-26-crucible-design.md`
 
+> **Amendment, 2026-09-26, at merge.** This plan is the record of what was planned and is left
+> as written. Two things in it were changed on the way in, and the spec and code are
+> authoritative where they differ:
+>
+> 1. **The boot stage is a container environment check.** `verify_boot` shipped as
+>    `verify_environment`, the `boots` table as `env_checks` with statuses `passed|failed`, and
+>    `BOOT_TIMEOUT`/`BOOT_CRASH` as `ENV_CHECK_TIMEOUT`/`ENV_CHECK_FAILED`. The probe the
+>    generic Dockerfile installs starts the image's interpreter and exits; it does not invoke
+>    the agent, which the candidates give no common way to do under egress denial without
+>    credentials. So the stage is named for what it measures. Verifying that an agent runs is
+>    Phase 2 work. Wherever this plan says boot, read "the container environment check", and do
+>    not read any figure it describes as evidence that an agent ran.
+> 2. **A candidate's identity is `(slug, commit_sha)`**, and every published count is a count
+>    of distinct identities rather than of rows, so a second run of the same seed list cannot
+>    double a figure.
+
 ## Global Constraints
 
 - **A failure is a row, never an exception past the boundary.** Every stage records `status` and `failure_class` and continues to the next candidate. A crash that loses the other candidates' results is a defect.

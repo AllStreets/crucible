@@ -15,7 +15,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="crucible")
     sub = parser.add_subparsers(dest="cmd", required=True)
 
-    run_cmd = sub.add_parser("run", help="harvest, build and boot-verify a seed list")
+    run_cmd = sub.add_parser("run", help="harvest, build and environment-check a seed list")
     run_cmd.add_argument("seeds", type=Path)
     run_cmd.add_argument("--db", type=Path, default=Path("data/crucible.db"))
     run_cmd.add_argument("--model", default="qwen2.5-coder:7b")

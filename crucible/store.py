@@ -36,9 +36,23 @@ CREATE TABLE IF NOT EXISTS builds (
   status TEXT NOT NULL, failure_class TEXT, image_digest TEXT,
   log_ref TEXT, at TEXT NOT NULL);
 
-CREATE TABLE IF NOT EXISTS boots (
+-- Named env_checks rather than boots because that is what the stage measures:
+-- the built image starts in a clean sandbox and runs its probe. It does not
+-- start the agent, so no row here may be read as evidence that an agent ran.
+-- `model` and `base_url` pin the shim environment the check ran under, since
+-- the same image checked against a different endpoint is a different
+-- measurement.
+CREATE TABLE IF NOT EXISTS env_checks (
   id INTEGER PRIMARY KEY, build TEXT NOT NULL, status TEXT NOT NULL,
-  failure_class TEXT, evidence_ref TEXT, duration_ms INTEGER, at TEXT NOT NULL);
+  failure_class TEXT, evidence_ref TEXT, duration_ms INTEGER,
+  model TEXT, base_url TEXT, at TEXT NOT NULL);
+
+-- A seed URL that no longer resolves is an observation, not a skip. Without a
+-- row the denominator silently shrinks from the number of URLs seeded to
+-- whatever DNS and GitHub returned today, and nothing says so.
+CREATE TABLE IF NOT EXISTS unresolved (
+  id INTEGER PRIMARY KEY, seed_url TEXT NOT NULL, reason TEXT NOT NULL,
+  at TEXT NOT NULL);
 
 CREATE TABLE IF NOT EXISTS runs (
   id INTEGER PRIMARY KEY, scenario TEXT NOT NULL, scenario_version TEXT NOT NULL,
@@ -56,13 +70,16 @@ CREATE TABLE IF NOT EXISTS supersedes (
   new_id INTEGER NOT NULL, reason TEXT NOT NULL, at TEXT NOT NULL);
 """
 
-_TABLES = {"candidates", "builds", "boots", "runs", "findings", "supersedes"}
+_TABLES = {"candidates", "builds", "env_checks", "unresolved", "runs",
+           "findings", "supersedes"}
 
 _COLUMNS = {
     "candidates": {"id", "slug", "source", "repo_url", "commit_sha", "at"},
     "builds": {"id", "candidate", "commit_sha", "status", "failure_class",
                "image_digest", "log_ref", "at"},
-    "boots": {"id", "build", "status", "failure_class", "evidence_ref", "duration_ms", "at"},
+    "env_checks": {"id", "build", "status", "failure_class", "evidence_ref",
+                   "duration_ms", "model", "base_url", "at"},
+    "unresolved": {"id", "seed_url", "reason", "at"},
     "runs": {"id", "scenario", "scenario_version", "roles", "image_digests", "model",
              "model_version", "seed", "status", "transcript_ref", "at"},
     "findings": {"id", "run", "kind", "severity", "evidence_ref", "escalated",
