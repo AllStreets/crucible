@@ -1,0 +1,40 @@
+#1 [internal] load .dockerignore
+#1 transferring context: 2B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from generic.Dockerfile
+#2 transferring dockerfile: 1.47kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.11-slim
+#3 DONE 0.0s
+
+#4 [1/5] FROM docker.io/library/python:3.11-slim
+#4 DONE 0.0s
+
+#5 [3/5] WORKDIR /app
+#5 CACHED
+
+#6 [2/5] RUN apt-get update && apt-get install -y --no-install-recommends         git ca-certificates build-essential     && rm -rf /var/lib/apt/lists/*
+#6 CACHED
+
+#7 [4/5] RUN git clone "https://github.com/Significant-Gravitas/AutoGPT" . && git checkout "5e84f064d3779acc49c86c51e2167ba8f660c93d"
+#7 CACHED
+
+#8 [5/5] RUN if [ -f pyproject.toml ]; then pip install --no-cache-dir -e .;     elif [ -f requirements.txt ]; then pip install --no-cache-dir -r requirements.txt;     elif [ -f setup.py ]; then pip install --no-cache-dir -e .;     else echo "no installable manifest"; exit 1; fi
+#0 0.101 no installable manifest
+#8 ERROR: process "/bin/sh -c if [ -f pyproject.toml ]; then pip install --no-cache-dir -e .;     elif [ -f requirements.txt ]; then pip install --no-cache-dir -r requirements.txt;     elif [ -f setup.py ]; then pip install --no-cache-dir -e .;     else echo \"no installable manifest\"; exit 1; fi" did not complete successfully: exit code: 1
+------
+ > [5/5] RUN if [ -f pyproject.toml ]; then pip install --no-cache-dir -e .;     elif [ -f requirements.txt ]; then pip install --no-cache-dir -r requirements.txt;     elif [ -f setup.py ]; then pip install --no-cache-dir -e .;     else echo "no installable manifest"; exit 1; fi:
+#0 0.101 no installable manifest
+------
+generic.Dockerfile:16
+--------------------
+  15 |     
+  16 | >>> RUN if [ -f pyproject.toml ]; then pip install --no-cache-dir -e .; \
+  17 | >>>     elif [ -f requirements.txt ]; then pip install --no-cache-dir -r requirements.txt; \
+  18 | >>>     elif [ -f setup.py ]; then pip install --no-cache-dir -e .; \
+  19 | >>>     else echo "no installable manifest"; exit 1; fi
+  20 |     
+--------------------
+ERROR: failed to solve: process "/bin/sh -c if [ -f pyproject.toml ]; then pip install --no-cache-dir -e .;     elif [ -f requirements.txt ]; then pip install --no-cache-dir -r requirements.txt;     elif [ -f setup.py ]; then pip install --no-cache-dir -e .;     else echo \"no installable manifest\"; exit 1; fi" did not complete successfully: exit code: 1

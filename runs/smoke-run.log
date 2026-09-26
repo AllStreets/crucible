@@ -1,0 +1,31 @@
+# Agent viability
+
+**3 of 5 candidate agents built into a container whose environment starts in a clean sandbox (60.0%).**
+
+What that measures, exactly: the repository was cloned at a pinned commit, its dependencies installed, and the resulting image started with egress denied and ran its environment probe to completion. What it does not measure: whether the agent itself runs. The probe does not invoke the agent. The repositories measured here share no entrypoint, and with no network and no credentials an invocation would measure this harness rather than the agent, so no figure above or below is evidence that an agent ran.
+
+- Agents harvested, one per repository: 5
+- Seed URLs that could not be resolved, so never pinned: 0
+- Agents built successfully: 3
+- Agents that passed the container environment check: 3
+
+## Recorded failures, by stage
+
+These are tallies of recorded failure rows, not a partition of the candidates above. A candidate that fails to build contributes one build row and no check row; one that builds and then fails the check contributes a row to each stage; one that passes contributes neither. So the two tables below neither sum to the harvested count nor are bounded by it.
+
+### Build stage
+
+| Failure | Count |
+|---|---|
+| no_installable_manifest | 2 |
+
+### Container environment check stage
+
+None recorded.
+
+## Limitations
+
+Failure classification is substring-based and therefore approximate. The unknown bucket collects unmatched failures rather than guessing at a nearest class. Counts in specific buckets may therefore be slightly over- or under-stated. The unknown bucket also holds two failures of this harness rather than of an agent, since filing either under a build class would blame the agent for it: a build that exceeded the 30 minute timeout, which heavy agents will hit and which will therefore not be rare, and the docker command failing to run at all. Both store the exception text as evidence, so they are separable from genuinely unmatched failures by reading the rows. Superseded results are excluded from all counts; the raw dataset may contain more rows than counted here. Counts are over the whole store rather than over a single run, so a store built from more than one seed list reports their union, and the unresolved count is of distinct URLs that failed to resolve at some point rather than of one list's misses. Adding it to the harvested count therefore approximates how many URLs were seeded; it does not measure it.
+
+Generated 2026-09-26T17:54:14.853635+00:00 from the record store. Every count above is a query; none is asserted.
+

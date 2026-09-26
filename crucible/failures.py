@@ -21,6 +21,7 @@ from enum import StrEnum
 class FailureClass(StrEnum):
     NONE = "none"
     CLONE_FAILED = "clone_failed"
+    NO_INSTALLABLE_MANIFEST = "no_installable_manifest"
     NO_BUILD_RECIPE = "no_build_recipe"
     DEPENDENCY_CONFLICT = "dependency_conflict"
     BUILD_FAILED = "build_failed"
@@ -34,6 +35,8 @@ class FailureClass(StrEnum):
         return {
             FailureClass.NONE: "No failure",
             FailureClass.CLONE_FAILED: "Repository could not be cloned",
+            FailureClass.NO_INSTALLABLE_MANIFEST:
+                "No installable manifest at the repository root",
             FailureClass.NO_BUILD_RECIPE: "No usable build recipe",
             FailureClass.DEPENDENCY_CONFLICT: "Dependencies could not be resolved",
             FailureClass.BUILD_FAILED: "Build failed",
@@ -104,10 +107,17 @@ _BUILD_PATTERNS: tuple[tuple[str, FailureClass, tuple[str, ...]], ...] = (
     # Guarded: apt, curl and pip print this too when egress drops mid-install.
     ("could not resolve host", FailureClass.CLONE_FAILED, _GIT_TRANSPORT_FAILURE),
     ("fatal: reference is not a tree", FailureClass.CLONE_FAILED, ()),
-    # No usable build recipe. The first needle is the exact sentinel our own
-    # Dockerfile echoes when a repository has no installable manifest; the rest
-    # are docker's wording for a Dockerfile that could not be read at all.
-    ("no installable manifest", FailureClass.NO_BUILD_RECIPE, ()),
+    # Two conditions that were one class until the first live run separated
+    # them. The sentinel our own Dockerfile echoes means the clone succeeded and
+    # the recipe ran, and only the root had nothing pip could install: the case
+    # of a monorepo whose package sits one directory down, where the agent is
+    # fine and our recipe is too shallow. Docker failing to read a Dockerfile at
+    # all is the opposite situation. Filing both as "no build recipe" told a
+    # reader of the summary table that we had no way to build these, when for
+    # every monorepo in the first run the truthful statement was that we had not
+    # looked in the right directory. Different cause, different fix, so a
+    # distribution that merges them misdirects the work it exists to direct.
+    ("no installable manifest", FailureClass.NO_INSTALLABLE_MANIFEST, ()),
     ("failed to read dockerfile", FailureClass.NO_BUILD_RECIPE, ()),
     ("cannot locate specified dockerfile", FailureClass.NO_BUILD_RECIPE, ()),
     # Generic build failure last. "failed to solve" is BuildKit's wrapper around

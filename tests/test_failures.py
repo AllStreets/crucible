@@ -53,6 +53,26 @@ ERROR: failed to solve: process "/bin/sh -c ..." did not complete \
 successfully: exit code: 1
 """
 
+# Verbatim from the first run against a live Docker daemon, 2026-09-26:
+# Significant-Gravitas/AutoGPT at 5e84f064d3. Trimmed to the decisive lines.
+MONOREPO_ROOT_LOG = """\
+#7 200.5 HEAD is now at 5e84f064d3 fix(frontend/marketplace): make public expert \
+profiles readable by search engines (SECRT-2749) (#14902)
+#7 DONE 200.8s
+
+#8 [5/5] RUN if [ -f pyproject.toml ]; then pip install --no-cache-dir -e .; \
+elif [ -f requirements.txt ]; then pip install --no-cache-dir -r requirements.txt; \
+elif [ -f setup.py ]; then pip install --no-cache-dir -e .; \
+else echo "no installable manifest"; exit 1; fi
+#8 0.289 no installable manifest
+#8 ERROR: process "/bin/sh -c ..." did not complete successfully: exit code: 1
+------
+generic.Dockerfile:16
+--------------------
+ERROR: failed to solve: process "/bin/sh -c ..." did not complete \
+successfully: exit code: 1
+"""
+
 MISSING_DOCKERFILE_LOG = (
     "ERROR: failed to solve: failed to read dockerfile: open "
     "/var/lib/docker/tmp/buildkit-mount2751/docker/generic.Dockerfile: "
@@ -79,7 +99,7 @@ def test_classifies_the_common_real_world_failures() -> None:
         (DEPENDENCY_LOG, 1, FailureClass.DEPENDENCY_CONFLICT),
         (CLONE_FAILURE_LOG, 1, FailureClass.CLONE_FAILED),
         (MISSING_DOCKERFILE_LOG, 1, FailureClass.NO_BUILD_RECIPE),
-        (NO_RECIPE_LOG, 1, FailureClass.NO_BUILD_RECIPE),
+        (NO_RECIPE_LOG, 1, FailureClass.NO_INSTALLABLE_MANIFEST),
         (COMPILE_FAILURE_LOG, 1, FailureClass.BUILD_FAILED),
     ]
     for log, code, expected in cases:
@@ -97,12 +117,30 @@ def test_a_dependency_failure_is_not_filed_as_a_missing_build_recipe() -> None:
 
 
 def test_a_missing_recipe_is_still_a_missing_recipe() -> None:
-    """Both halves must hold: the sentinel our own Dockerfile echoes, and a
-    Dockerfile docker could not read at all. Both logs also contain
-    "failed to solve", so this pins the ordering as well as the needles."""
+    """Both halves must hold, and they are now different classes. Both logs
+    also contain "failed to solve", so this pins the ordering as well as the
+    needles."""
     assert "failed to solve" in NO_RECIPE_LOG
-    assert classify_build_log(NO_RECIPE_LOG, 1) is FailureClass.NO_BUILD_RECIPE
+    assert classify_build_log(NO_RECIPE_LOG, 1) is FailureClass.NO_INSTALLABLE_MANIFEST
     assert classify_build_log(MISSING_DOCKERFILE_LOG, 1) is FailureClass.NO_BUILD_RECIPE
+
+
+def test_a_monorepo_root_is_not_reported_as_having_no_build_recipe() -> None:
+    """Verbatim from the first live run: AutoGPT and OpenHands both cloned
+    cleanly, ran four of five build steps, and failed only because neither
+    keeps an installable manifest at the repository root. Reporting that as
+    "no usable build recipe" tells a reader we have no way to build these
+    agents. The truthful statement is that our recipe looked only at the root
+    and their package sits one directory down, which is our gap and not the
+    agent's. The two imply different work, so the distribution must not merge
+    them."""
+    assert classify_build_log(MONOREPO_ROOT_LOG, 1) is (
+        FailureClass.NO_INSTALLABLE_MANIFEST
+    )
+    assert classify_build_log(MONOREPO_ROOT_LOG, 1) is not FailureClass.NO_BUILD_RECIPE
+    # The clone reached a real commit, so this is demonstrably not a clone or
+    # recipe problem: four of five steps ran.
+    assert "HEAD is now at 5e84f064d3" in MONOREPO_ROOT_LOG
 
 
 def test_the_word_repository_alone_is_not_a_clone_failure() -> None:
