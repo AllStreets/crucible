@@ -187,3 +187,60 @@ def test_the_failure_tables_are_labelled_per_stage_not_as_a_partition(store: Sto
     v = viability(store)
     assert v.build_failures == {"dependency_conflict": 4}
     assert v.env_failures == {"env_check_failed": 2}
+
+
+def test_the_headline_counts_agents_and_a_repository_is_one_agent(store: Store) -> None:
+    """The sentence says "N of M candidate agents", so M must be repositories.
+    One repository harvested at two HEADs is one agent and two candidate
+    commits, and counting it twice in that sentence overstates the denominator."""
+    for sha, digest in (("a" * 40, "sha256:aa"), ("b" * 40, "sha256:bb")):
+        store.record("candidates", slug="one-repo", source="github",
+                     repo_url="https://github.com/x/one", commit_sha=sha)
+        store.record("builds", candidate="one-repo", commit_sha=sha,
+                     status="built", image_digest=digest)
+        store.record("env_checks", build=digest, status="passed")
+
+    v = viability(store)
+    assert (v.agents, v.built_agents, v.env_ok_agents) == (1, 1, 1)
+    assert (v.harvested, v.built, v.env_ok) == (2, 2, 2)
+
+    md = render_markdown(v)
+    assert "1 of 1 candidate agents" in md
+    assert "100.0%" in md
+    # The difference is shown, not hidden.
+    assert "At commit granularity" in md
+    assert "Candidate commits harvested: 2" in md
+
+
+def test_commit_granularity_is_not_printed_when_it_matches(store: Store) -> None:
+    seed(store, harvested=4, built=3, checked=2)
+    md = render_markdown(viability(store))
+    assert "At commit granularity" not in md
+
+
+def test_a_rebuild_with_a_new_digest_cannot_push_the_headline_over_100(store: Store) -> None:
+    """env_ok was keyed on image digest while built was keyed on the candidate
+    commit, so one candidate rebuilt to a second digest counted twice against a
+    built of one, and the percentage exceeded 100."""
+    store.record("candidates", slug="one", source="github", repo_url="u",
+                 commit_sha="a" * 40)
+    store.record("builds", candidate="one", commit_sha="a" * 40,
+                 status="built", image_digest="sha256:first")
+    store.record("builds", candidate="one", commit_sha="a" * 40,
+                 status="built", image_digest="sha256:second")
+    store.record("env_checks", build="sha256:first", status="passed")
+    store.record("env_checks", build="sha256:second", status="passed")
+
+    v = viability(store)
+    assert (v.harvested, v.built, v.env_ok) == (1, 1, 1)
+    assert v.env_ok <= v.built <= v.harvested
+    assert "100.0%" in render_markdown(v)
+
+
+def test_limitations_disclose_what_else_the_unknown_bucket_holds(store: Store) -> None:
+    """It is documented as holding unmatched failures, and it also holds two
+    known harness outcomes: a build over the timeout, and docker not running."""
+    seed(store, harvested=4, built=3, checked=2)
+    md = render_markdown(viability(store))
+    assert "30 minute" in md
+    assert "docker command failing to run" in md

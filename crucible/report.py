@@ -22,11 +22,27 @@ from crucible.store import Store
 
 @dataclass(frozen=True)
 class Viability:
-    """Counts of distinct agents, plus tallies of recorded failure rows.
+    """Counts at two granularities, plus tallies of recorded failure rows.
 
-    `env_ok` is the number of candidates whose built image passed the
-    environment check. It is not a count of agents that ran, and it is named so
-    that it cannot be read as one.
+    The headline says "N of M candidate agents", and an agent is a repository.
+    `agents`, `built_agents` and `env_ok_agents` count distinct repositories,
+    which is what those words mean and what the headline uses.
+
+    `harvested`, `built` and `env_ok` count distinct candidate commits, the
+    `(slug, commit_sha)` pairs. A repository harvested at two HEADs is one agent
+    and two candidate commits, so these are the right denominator for anything
+    about the code that was actually built, and the wrong one for a sentence
+    about agents. Both are reported, and the report shows the difference rather
+    than hiding it.
+
+    All three stages are keyed the same way, deliberately. `env_ok` resolves
+    each passing check back through its build's image digest to the candidate
+    commit that produced it. Keyed on the digest instead, a rebuild that
+    produced a second digest counted twice against a `built` that counted once,
+    and the headline percentage could exceed 100.
+
+    `env_ok` and `env_ok_agents` are not counts of agents that ran. The check
+    starts the image and runs a probe; it does not invoke the agent.
 
     `by_failure` is the pooled tally across both stages, for the dataset.
     `build_failures` and `env_failures` are the same rows split by the stage
@@ -37,6 +53,9 @@ class Viability:
     harvested: int
     built: int
     env_ok: int
+    agents: int = 0
+    built_agents: int = 0
+    env_ok_agents: int = 0
     by_failure: dict[str, int] = field(default_factory=dict)
     build_failures: dict[str, int] = field(default_factory=dict)
     env_failures: dict[str, int] = field(default_factory=dict)
@@ -47,11 +66,15 @@ class Viability:
 def viability(store: Store) -> Viability:
     """Compute viability statistics from the store.
 
-    Every count is a count of distinct agents, not of attempts. Two rows for
-    the same identity are the same agent measured twice: a candidate is
-    identified by `(slug, commit_sha)`, a build by that same pair, and an
-    environment check by the image digest it ran. Counting rows instead would
-    let a second run of the same seed list double every published figure.
+    Every count is a count of distinct things, not of attempts. Two rows for
+    the same identity are the same thing measured twice, so a second run of the
+    same seed list cannot double a figure.
+
+    Two granularities, because the report needs both: the repository (an agent)
+    and the `(slug, commit_sha)` pair (a candidate commit). Every stage is keyed
+    identically at each granularity, which is why a passing environment check is
+    resolved back through its build's image digest rather than counted as a
+    digest: mixing the two let `env_ok` exceed `built` after a rebuild.
 
     Superseded rows are excluded from all counts, candidates included, since
     they represent corrections to prior measurements rather than independent
@@ -78,12 +101,25 @@ def viability(store: Store) -> Viability:
     harvested = {(r["slug"], r["commit_sha"]) for r in candidates}
     built = {(r["candidate"], r["commit_sha"])
              for r in builds if r["status"] == "built"}
-    passed = {r["build"] for r in checks if r["status"] == "passed"}
+
+    # A passing check names an image digest. Resolve it back to the candidate
+    # commit that produced that image, so every stage is keyed the same way. A
+    # digest with no surviving build row is not counted: it cannot be attributed
+    # to an agent, and counting it under a different key is how env_ok came to be
+    # able to exceed built.
+    of_digest = {r["image_digest"]: (r["candidate"], r["commit_sha"])
+                 for r in builds
+                 if r["status"] == "built" and r["image_digest"]}
+    passed = {of_digest[r["build"]] for r in checks
+              if r["status"] == "passed" and r["build"] in of_digest}
 
     return Viability(
         harvested=len(harvested),
         built=len(built),
         env_ok=len(passed),
+        agents=len({slug for slug, _ in harvested}),
+        built_agents=len({slug for slug, _ in built}),
+        env_ok_agents=len({slug for slug, _ in passed}),
         by_failure=dict(build_failures + env_failures),
         build_failures=dict(build_failures),
         env_failures=dict(env_failures),
@@ -113,7 +149,7 @@ def render_markdown(v: Viability) -> str:
     failed" will read it as a partition of the candidates, which it is not and
     can exceed.
     """
-    if v.harvested == 0:
+    if v.agents == 0:
         lines = ["# Agent viability", "", "No candidates have been harvested yet."]
         if v.unresolved:
             lines += [
@@ -124,12 +160,12 @@ def render_markdown(v: Viability) -> str:
             ]
         return "\n".join(lines) + "\n"
 
-    pct = 100.0 * v.env_ok / v.harvested
+    pct = 100.0 * v.env_ok_agents / v.agents
     lines = [
         "# Agent viability",
         "",
-        f"**{v.env_ok} of {v.harvested} candidate agents built into a container "
-        f"whose environment starts in a clean sandbox ({pct:.1f}%).**",
+        f"**{v.env_ok_agents} of {v.agents} candidate agents built into a "
+        f"container whose environment starts in a clean sandbox ({pct:.1f}%).**",
         "",
         "What that measures, exactly: the repository was cloned at a pinned "
         "commit, its dependencies installed, and the resulting image started "
@@ -140,12 +176,25 @@ def render_markdown(v: Viability) -> str:
         "harness rather than the agent, so no figure above or below is evidence "
         "that an agent ran.",
         "",
-        f"- Harvested as pinned candidates: {v.harvested}",
+        f"- Agents harvested, one per repository: {v.agents}",
         f"- Seed URLs that could not be resolved, so never pinned: "
         f"{v.unresolved}",
-        f"- Built successfully: {v.built}",
-        f"- Passed the container environment check: {v.env_ok}",
+        f"- Agents built successfully: {v.built_agents}",
+        f"- Agents that passed the container environment check: {v.env_ok_agents}",
         "",
+    ]
+    if (v.harvested, v.built, v.env_ok) != (v.agents, v.built_agents, v.env_ok_agents):
+        lines += [
+            "At commit granularity, which differs from the figures above because "
+            "a repository harvested at more than one HEAD is one agent and "
+            "several candidate commits:",
+            "",
+            f"- Candidate commits harvested: {v.harvested}",
+            f"- Candidate commits built successfully: {v.built}",
+            f"- Candidate commits that passed the environment check: {v.env_ok}",
+            "",
+        ]
+    lines += [
         "## Recorded failures, by stage",
         "",
         "These are tallies of recorded failure rows, not a partition of the "
@@ -164,7 +213,14 @@ def render_markdown(v: Viability) -> str:
         "Failure classification is substring-based and therefore approximate. "
         "The unknown bucket collects unmatched failures rather than guessing at "
         "a nearest class. Counts in specific buckets may therefore be slightly "
-        "over- or under-stated. Superseded results are excluded from all counts; "
+        "over- or under-stated. The unknown bucket also holds two failures of "
+        "this harness rather than of an agent, since filing either under a build "
+        "class would blame the agent for it: a build that exceeded the 30 minute "
+        "timeout, which heavy agents will hit and which will therefore not be "
+        "rare, and the docker command failing to run at all. Both store the "
+        "exception text as evidence, so they are separable from genuinely "
+        "unmatched failures by reading the rows. "
+        "Superseded results are excluded from all counts; "
         "the raw dataset may contain more rows than counted here. Counts are "
         "over the whole store rather than over a single run, so a store built "
         "from more than one seed list reports their union, and the unresolved "
