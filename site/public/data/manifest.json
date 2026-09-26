@@ -4,12 +4,12 @@
     "candidates": 10,
     "entrypoints": 8,
     "env_checks": 6,
-    "pairs": 12,
+    "pairs": 16,
     "solos": 8,
     "unresolved": 0
   },
-  "dataset_sha256": "2c12b2565a8127fb84f4a5c02f8d77672d8a27acb66880dea504cac1712b721c",
-  "engine_commit": "38343cdbf9af55eadaffce1b2f508df8381119fa",
-  "generated_at": "2026-09-26T20:14:42.421303+00:00",
+  "dataset_sha256": "129d9237c017c6bd6a71a9da99ece5fd83f486ed94e5f8bd43480b2884c45b44",
+  "engine_commit": "d6e330d34e9a71b5a88a612c340716f4a45f5664",
+  "generated_at": "2026-09-26T20:26:52.737842+00:00",
   "papers_published": 1
 }
