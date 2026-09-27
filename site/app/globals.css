@@ -226,3 +226,12 @@ section.block .deck { color: var(--ink-soft); max-width: 58ch; margin-bottom: 1.
 
 /* Identifiers never wrap on their own; a digest is wider than a phone. */
 code { overflow-wrap: anywhere; }
+/* A phone has no command key: the palette stays reachable by tap through the
+   wordmark's neighbour, but the shortcut hint is noise there. */
+@media (max-width: 720px) {
+  .masthead .cmdk .kbd { display: none; }
+  .masthead .cmdk::after { content: "search"; }
+  .masthead .cmdk span:first-child { display: none; }
+  .masthead .inner { gap: 0.5rem 1rem; }
+  .masthead nav a { font-size: var(--t-micro); }
+}
