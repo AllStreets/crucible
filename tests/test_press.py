@@ -88,3 +88,17 @@ def test_limitations_are_generated_rather_than_composed(tmp_path) -> None:
     doc = generate(_store(tmp_path, built=5, failed=2))
     assert "Sample size is 7 repositories" in doc
     assert "No agent was invoked" in doc
+
+
+def test_the_verifier_does_not_expire_with_the_calendar(tmp_path) -> None:
+    """Date numerals come from the record's own span. A hardcoded structural
+    set once held the day the code was written, and every paper generated the
+    next day was rejected for stating its own date."""
+    from datetime import datetime, timezone
+    store = _store(tmp_path)
+    doc = generate(store)  # today's date, whatever it is
+    assert "Records span" in doc
+    facts = gather_facts(store)
+    # And a span on an arbitrary other day verifies too.
+    other = Facts(**{**facts.__dict__, "first_at": "2031-12-05", "last_at": "2031-12-31"})
+    assert verify(render(other), other) == []

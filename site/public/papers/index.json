@@ -2,7 +2,7 @@
   {
     "abstract": "We attempt to build 10 open-source AI agent repositories into containers at pinned commits and to start each resulting image in a network-denied sandbox. 6 build successfully and 6 pass a container environment check, a rate of 60.0 percent. We report the distribution of failure causes and, for each, whether the cause is a property of the agent or a limit of the harness. We do not measure whether any agent runs.",
     "filename": "container-viability.md",
-    "generated_at": "2026-09-27T14:58:30.186100+00:00",
+    "generated_at": "2026-09-27T15:01:10.319038+00:00",
     "sha256": "50abec0f5bc9ac5343cea31410ad2c8a31ce312d0d0be356b854161d0892ba03",
     "slug": "container-viability",
     "title": "Container viability of open-source AI agents",

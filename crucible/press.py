@@ -87,6 +87,15 @@ class Facts:
         if self.durations_ms:
             out.add(str(min(self.durations_ms)))
             out.add(str(max(self.durations_ms)))
+        # The date components of the record's own span. These were once a
+        # hardcoded structural set containing the day the code was written,
+        # and the verifier rejected every paper generated the following day.
+        # A verifier with a calendar in it is a verifier that expires.
+        for stamp in (self.first_at, self.last_at):
+            for part in stamp.replace("T", "-").replace(":", "-").split("-"):
+                if part.isdigit():
+                    out.add(part)
+                    out.add(part.lstrip("0") or "0")
         return out
 
 
@@ -133,7 +142,9 @@ def gather_facts(store: Store) -> Facts:
 # a Python version named in prose as a fact about the world rather than a
 # measurement. Each is listed explicitly, because a general rule here would be
 # a hole in the verification.
-_STRUCTURAL = {"2026", "09", "26", "3", "11", "12", "256", "1", "2", "4"}
+# Numerals that name a fixed fact about the world rather than a measurement: a
+# Python version, a hash width. Never a date, which belongs to the record.
+_STRUCTURAL = {"3", "11", "12", "256", "1", "2", "4"}
 
 
 def verify(document: str, facts: Facts) -> list[str]:
