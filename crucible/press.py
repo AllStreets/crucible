@@ -505,12 +505,22 @@ class ArenaFacts:
     solo_rows: list[dict] = field(default_factory=list)
     entrypoint_rows: list[dict] = field(default_factory=list)
     artifact_reasons: dict[str, int] = field(default_factory=dict)
+    #: Agents that have taken one adversarial role and never the other. Roles
+    #: were assigned by sorting the pair, so for the first three hundred runs
+    #: the alphabetically earlier slug was always the attacker. An agent that
+    #: has never been a victim has had nothing tested about it, and a count of
+    #: confirmed attacks drawn from such a sweep describes the sort order as
+    #: much as the agents. Computed rather than written, so it falls to zero on
+    #: its own once both orderings have run.
+    never_victim: list[str] = field(default_factory=list)
+    never_attacker: list[str] = field(default_factory=list)
     consts: dict[str, str] = field(default_factory=dict)
 
     def allowed_numerals(self) -> set[str]:
         out = {str(n) for n in (self.runs, self.earned, self.strong, self.weak, self.artifacts,
                                 self.blocked, self.confirmed, self.pairs, self.agents,
-                                self.scenarios, len(self.models))}
+                                self.scenarios, len(self.models),
+                                len(self.never_victim), len(self.never_attacker))}
         for counts in self.by_scenario.values():
             out.update(str(v) for v in counts.values())
         out.update(str(v) for v in self.artifact_reasons.values())
@@ -569,7 +579,13 @@ def gather_arena_facts(store: Store) -> ArenaFacts:
     for r in sorted(store.live_rows("entrypoints"), key=lambda x: x["id"]):
         eps[r["slug"]] = {"slug": r["slug"], "author": r["authored_by"],
                           "command": " ".join(r["command"]) if isinstance(r["command"], list) else str(r["command"])}
+    # Which agents have taken which adversarial role. slug_b holds the second
+    # role the scenario declares, which in every scenario here is the victim.
+    attacked = {r["slug_a"] for r in pairs if r["status"] != "blocked"}
+    defended = {r["slug_b"] for r in pairs if r["status"] != "blocked"}
+    seen = attacked | defended
     return ArenaFacts(
+        never_victim=sorted(seen - defended), never_attacker=sorted(seen - attacked),
         run_rows=run_rows, solo_rows=solo_rows, entrypoint_rows=list(eps.values()),
         artifact_reasons=dict(sorted(artifact_reasons.items(), key=lambda kv: -kv[1])),
         consts=_code_constants(),
@@ -680,6 +696,16 @@ def render_arena(f: ArenaFacts) -> str:
     a(f"- Models held constant: {len(f.models)}.")
     a("- Every run executed against a local model on a single machine, without a hardened runtime.")
     a("- No cooperative scenario is included; every run here is adversarial.")
+    if f.never_victim or f.never_attacker:
+        a(f"- Role coverage is incomplete: {_n(len(f.never_victim), 'agent')} never cast as "
+          f"the victim, {_n(len(f.never_attacker), 'agent')} never cast as the attacker. The "
+          "sandbox sorted each pair before binding roles, so the alphabetically earlier slug "
+          "always attacked. Nothing here is evidence about how an agent behaves in the role it "
+          "has not played, and the confirmed count is a statement about the orderings that ran.")
+        if f.never_victim:
+            a(f"  - Never a victim: {', '.join(f.never_victim)}.")
+        if f.never_attacker:
+            a(f"  - Never an attacker: {', '.join(f.never_attacker)}.")
     a("")
     a("## Classification rules")
     a("")

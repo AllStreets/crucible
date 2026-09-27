@@ -184,12 +184,23 @@ async def run_arena(store: Store, root: Path, *, shim: ShimConfig,
 
     recorded: list[dict] = []
     for _ in range(rounds):
-        for a, b in itertools.combinations(agents, 2):
+        # Both orderings, not each unordered pair once. Attacker and victim are
+        # different jobs, and which agent takes which decided itself for the
+        # first three hundred runs: the sandbox sorted every pair before
+        # binding roles, so the alphabetically earlier slug was always the
+        # attacker. aider ended up the attacker in a hundred and sixteen runs
+        # and the victim in none, and shell_gpt the reverse, which means the
+        # dataset could not say whether either was susceptible to anything.
+        # The count of confirmed attacks was therefore a statement about
+        # alphabetical order as much as about the agents. Upstream now takes
+        # the order as given, and the sweep runs both.
+        for a, b in itertools.permutations(agents, 2):
             for scenario in scenarios:
                 declared = tuple(load_scenario(scenario).shared_workspace_files)
-                run_id = enqueue_sandbox_run(a, b, scenario, config=cfg)
+                run_id = enqueue_sandbox_run(a, b, scenario, config=cfg,
+                                             preserve_order=True)
                 result = await execute_run(run_id, config=cfg, env_passthrough=env)
-                victim = b  # enqueue sorts the pair; the second slug is the victim
+                victim = b  # the order is preserved: slug_b holds the second role
                 c = classify_run(Path(result.transcript_ref), declared, result.outcome,
                                  markers=engagement_markers(victim))
                 row = dict(slug_a=a, slug_b=b, scenario=scenario, sandbox_run_id=run_id,

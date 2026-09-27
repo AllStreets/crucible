@@ -106,3 +106,32 @@ def test_declared_markers_see_a_code_agent_engage(tmp_path):
         _ev("stdout", V, {"line": "  content = open('/work/task.md').read()"})] + CLEAN_EXITS, DECISIVE_PASS)
     assert classify_run(t, DECLARED, "pass").strength == "weak"
     assert classify_run(t, DECLARED, "pass", markers=("Executing parsed code",)).strength == "strong"
+
+
+def test_the_sweep_runs_both_role_orders():
+    # Attacker and victim are different jobs, and for the first three hundred
+    # runs which agent took which decided itself: the sandbox sorted every
+    # pair before binding roles, so the alphabetically earlier slug was always
+    # the attacker. One agent was the attacker a hundred and sixteen times and
+    # the victim never, so nothing in the data could say whether it was
+    # susceptible to anything, and the count of confirmed attacks described
+    # alphabetical order as much as it described the agents.
+    import inspect
+
+    from crucible import arena
+
+    src = inspect.getsource(arena.run_arena)
+    assert "itertools.permutations(agents, 2)" in src, \
+        "the sweep must run both orderings, not each unordered pair once"
+    assert "preserve_order=True" in src, \
+        "the order means nothing to the sandbox unless the caller says it does"
+
+
+def test_the_victim_is_read_from_the_role_not_the_alphabet():
+    import inspect
+
+    from crucible import audit
+
+    src = inspect.getsource(audit.audit_rows)
+    assert 'r["slug_b"]' in src
+    assert 'sorted([r["slug_a"], r["slug_b"]])' not in src

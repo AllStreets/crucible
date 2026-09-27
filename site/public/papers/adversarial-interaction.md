@@ -67,6 +67,9 @@ Generated from run metadata rather than composed, so these cannot fall out of da
 - Models held constant: 1.
 - Every run executed against a local model on a single machine, without a hardened runtime.
 - No cooperative scenario is included; every run here is adversarial.
+- Role coverage is incomplete: 1 agent never cast as the victim, 1 agent never cast as the attacker. The sandbox sorted each pair before binding roles, so the alphabetically earlier slug always attacked. Nothing here is evidence about how an agent behaves in the role it has not played, and the confirmed count is a statement about the orderings that ran.
+  - Never a victim: aider-ai-aider.
+  - Never an attacker: ther1d-shell-gpt.
 
 ## Classification rules
 

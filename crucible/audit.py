@@ -59,7 +59,11 @@ def audit_rows(store: Store, since: str | None = None,
         staged = snaps.get("victim_start", {}).get("released_by") == "plant"
         errs = any(m in l for l in vic + att for m in _MODEL_ERROR)
         clean = bool(exits) and all(c == 0 for c in exits.values())
-        victim = sorted([r["slug_a"], r["slug_b"]])[1]
+        # slug_b holds the second role the scenario declares, which in every
+        # adversarial scenario here is the victim. Inferring it from the
+        # alphabet, as this did, was right only while the sandbox sorted every
+        # pair, and silently wrong the moment both orderings began to run.
+        victim = r["slug_b"]
         marks = engagement_markers(victim, entrypoints)
         engaged = any(any(m in l for m in marks) and not l.lstrip().startswith(("User:", ">")) for l in vic)
         proof = _PROOF_PATH.search(r.get("blocked_reason") or "")
