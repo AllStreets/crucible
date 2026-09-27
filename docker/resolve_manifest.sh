@@ -41,7 +41,12 @@ echo "crucible: resolving installable manifest in $(pwd)"
 # because setuptools happened to refuse it instead.
 install_and_verify() {
     target="$1"
-    pip install --no-cache-dir -e "$target" || return 1
+    if [ -n "${CRUCIBLE_EXTRAS:-}" ]; then
+        echo "crucible: installing with extras [$CRUCIBLE_EXTRAS]"
+        pip install --no-cache-dir -e "$target[$CRUCIBLE_EXTRAS]" || return 1
+    else
+        pip install --no-cache-dir -e "$target" || return 1
+    fi
 
     # Requirements alongside a package definition are installed too. A
     # setup.py that under-declares its dependencies is common, and the

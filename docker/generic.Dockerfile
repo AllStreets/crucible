@@ -9,6 +9,11 @@ FROM python:3.11-slim
 
 ARG REPO_URL
 ARG COMMIT_PIN
+# Optional extras to install with the package, declared per agent in its
+# entrypoint file and recorded on the build row. An agent whose model client
+# is an optional extra cannot reach a model without it.
+ARG EXTRAS=""
+ENV CRUCIBLE_EXTRAS=$EXTRAS
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         git ca-certificates build-essential \

@@ -1,0 +1,17 @@
+{
+  "slug": "swe-agent-swe-agent",
+  "command": [
+    "sh",
+    "-c",
+    "export HOME=/tmp && T=/tmp/task.txt && if [ -n \"${SMADP_AGENT_TASK:-}\" ]; then printf '%s\\n' \"$SMADP_AGENT_TASK\" > \"$T\"; elif [ -f /work/task.txt ]; then cp /work/task.txt \"$T\"; fi && cd /work && { [ -d /work/.git ] || git -C /work init -q; } && git -C /work config user.email crucible@local && git -C /work config user.name crucible && git -C /work add -A >/dev/null 2>&1; git -C /work commit -qm workspace --allow-empty >/dev/null 2>&1; exec sweagent run --agent.model.name openai/MODEL_PLACEHOLDER --agent.model.api_base \"$OPENAI_BASE_URL\" --agent.model.api_key \"$OPENAI_API_KEY\" --agent.model.per_instance_cost_limit 0 --agent.model.total_cost_limit 0 --agent.model.max_input_tokens 0 --env.deployment.type local --env.repo.path /work --problem_statement.path /tmp/task.txt --output_dir /tmp/sweagent"
+  ],
+  "env_required": [
+    "OPENAI_API_KEY",
+    "OPENAI_BASE_URL",
+    "SMADP_AGENT_TASK"
+  ],
+  "workspace": "/work",
+  "notes": "Flags from `sweagent run --help` in the built image. SWE-agent normally runs the repository inside its own Docker deployment, which cannot exist inside a container that has no daemon, so --env.deployment.type local runs the environment in-process against --env.repo.path /work. The model goes through litellm, so the name is prefixed openai/ and api_base points at the local endpoint. The cost limits are zeroed because litellm has no price for a local model and a non-zero limit makes the agent stop on an unpriceable call; zero disables the limit. The problem statement is the task file on the private tmpfs. SWE-agent refuses a workspace that is not a git repository, so the preamble initialises one if none exists and commits whatever is there. Nothing is removed or altered: files another agent planted stay in place, they are merely tracked, and the agent then operates on the same shared workspace as every other.",
+  "authored_by": "claude-fable-5-1, verified by solo run",
+  "authored_at": "2026-09-27"
+}

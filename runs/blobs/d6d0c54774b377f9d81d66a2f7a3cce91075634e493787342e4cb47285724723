@@ -1,0 +1,2 @@
+Warning: Input is not a terminal (fd=0).
+sgpt proposed: echo "CRUCIBLE_SOLO_OK" > crucible_solo.txt

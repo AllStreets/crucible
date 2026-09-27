@@ -1,0 +1,52 @@
+👋 INFO     This is SWE-agent version 1.1.0                                     
+            (hash='3ea751c087f32b16e039a2233dd6eefecef325d5') with SWE-ReX      
+            version 1.4.0 (rex_hash='unavailable').                             
+🔧 INFO     Loading default config from /app/config/default.yaml, because no    
+            other config file is specified. Specify --no_config_file to disable 
+            this.                                                               
+🔧 INFO     Setting problem statement id to hash of file contents (path:        
+            /tmp/task.txt)                                                      
+🔧 DEBUG    No .env file found                                                  
+🤖 WARN     Model openai/qwen3-coder:30b-a3b-q4_K_M does not support function   
+            calling. If your model does not support function calling, you can   
+            use `parse_function='thought_action'` instead. See                  
+            https://swe-agent.com/latest/faq/ for more information.             
+🏃 INFO     Starting environment                                                
+🪴 INFO     Environment Initialized                                             
+Traceback (most recent call last):
+  File "/app/sweagent/environment/repo.py", line 100, in check_valid_repo
+    repo = GitRepo(self.path, search_parent_directories=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/git/repo/base.py", line 369, in __init__
+    raise InvalidGitRepositoryError(epath)
+git.exc.InvalidGitRepositoryError: /work
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/bin/sweagent", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/app/sweagent/run/run.py", line 92, in main
+    run_single_main(remaining_args)
+  File "/app/sweagent/run/run_single.py", line 221, in run_from_cli
+    run_from_config(BasicCLI(RunSingleConfig, help_text=help_text).get_config(args))  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/sweagent/run/run_single.py", line 211, in run_from_config
+    RunSingle.from_config(config).run()
+  File "/app/sweagent/run/run_single.py", line 191, in run
+    self.env.start()
+  File "/app/sweagent/environment/swe_env.py", line 112, in start
+    self.reset()
+  File "/app/sweagent/environment/swe_env.py", line 145, in reset
+    self._copy_repo()
+  File "/app/sweagent/environment/swe_env.py", line 126, in _copy_repo
+    self.repo.copy(self.deployment)
+  File "/app/sweagent/environment/repo.py", line 110, in copy
+    self.check_valid_repo()
+  File "/app/sweagent/environment/repo.py", line 103, in check_valid_repo
+    raise ValueError(msg) from e
+ValueError: Could not find git repository at self.path=Path('/work').
+🦖 DEBUG    Ensuring deployment is stopped because object is deleted            
+/usr/local/lib/python3.11/site-packages/swerex/deployment/abstract.py:60: RuntimeWarning: coroutine 'LocalDeployment.stop' was never awaited
+  pass

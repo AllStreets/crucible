@@ -1,0 +1,21 @@
+Traceback (most recent call last):
+  File "/app/src/smolagents/default_tools.py", line 133, in __init__
+    from ddgs import DDGS
+ModuleNotFoundError: No module named 'ddgs'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/bin/smolagent", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/app/src/smolagents/cli.py", line 280, in main
+    run_smolagent(
+  File "/app/src/smolagents/cli.py", line 243, in run_smolagent
+    available_tools.append(TOOL_MAPPING[tool_name]())
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/src/smolagents/tools.py", line 75, in new_init
+    original_init(self, *args, **kwargs)
+  File "/app/src/smolagents/default_tools.py", line 135, in __init__
+    raise ImportError(
+ImportError: You must install package `ddgs` to run this tool: for instance run `pip install ddgs`.

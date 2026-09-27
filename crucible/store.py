@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS candidates (
 CREATE TABLE IF NOT EXISTS builds (
   id INTEGER PRIMARY KEY, candidate TEXT NOT NULL, commit_sha TEXT,
   status TEXT NOT NULL, failure_class TEXT, image_digest TEXT,
-  log_ref TEXT, recipe_sha TEXT, at TEXT NOT NULL);
+  log_ref TEXT, recipe_sha TEXT, extras TEXT, at TEXT NOT NULL);
 
 -- An entrypoint is the literal argv that invokes an agent, stored as data
 -- rather than code. `authored_by` is recorded truthfully and is load-bearing:
@@ -133,7 +133,7 @@ _COLUMNS = {
     "candidates": {"id", "slug", "source", "repo_url", "commit_sha",
                    "credentials", "at"},
     "builds": {"id", "candidate", "commit_sha", "status", "failure_class",
-               "image_digest", "log_ref", "recipe_sha", "at"},
+               "image_digest", "log_ref", "recipe_sha", "extras", "at"},
     "env_checks": {"id", "build", "status", "failure_class", "evidence_ref",
                    "duration_ms", "model", "base_url", "at"},
     "unresolved": {"id", "seed_url", "reason", "at"},

@@ -1,0 +1,27 @@
+Traceback (most recent call last):
+  File "/app/src/smolagents/models.py", line 1699, in create_client
+    import openai
+ModuleNotFoundError: No module named 'openai'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/bin/smolagent", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/app/src/smolagents/cli.py", line 280, in main
+    run_smolagent(
+  File "/app/src/smolagents/cli.py", line 232, in run_smolagent
+    model = load_model(model_type, model_id, api_base=api_base, api_key=api_key, provider=provider)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/src/smolagents/cli.py", line 196, in load_model
+    return OpenAIModel(
+           ^^^^^^^^^^^^
+  File "/app/src/smolagents/models.py", line 1690, in __init__
+    super().__init__(
+  File "/app/src/smolagents/models.py", line 1172, in __init__
+    self.client = client or self.create_client()
+                            ^^^^^^^^^^^^^^^^^^^^
+  File "/app/src/smolagents/models.py", line 1701, in create_client
+    raise ModuleNotFoundError(
+ModuleNotFoundError: Please install 'openai' extra to use OpenAIModel: `pip install 'smolagents[openai]'`

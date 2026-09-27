@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import asyncio
 import hashlib
+import json
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -110,16 +111,36 @@ def _record_raised(c: Candidate, store: Store, stage: str,
     return BuildResult(False, None, FailureClass.UNKNOWN, ref)
 
 
+def declared_extras(slug: str, root: Path = Path("entrypoints")) -> str:
+    """Extras an agent's entrypoint file declares for its build, comma-joined.
+
+    Declared beside the invocation because the person who wrote the entrypoint
+    is the one who found the agent could not reach a model without them, and
+    recorded on the build row because an image built with extras is a
+    different image.
+    """
+    path = root / f"{slug}.json"
+    if not path.exists():
+        return ""
+    try:
+        data = json.loads(path.read_text())
+    except (OSError, ValueError):
+        return ""
+    return ",".join(str(x) for x in data.get("build_extras", []) or [])
+
+
 async def build(c: Candidate, *, store: Store,
                 run: Runner = default_runner,
                 timeout_s: int = BUILD_TIMEOUT_S) -> BuildResult:
     tag = _tag(c)
     recipe = recipe_sha()
+    extras = declared_extras(c.slug)
     try:
         code, log = await run(
             "docker", "build", "-t", tag,
             "--build-arg", f"REPO_URL={c.repo_url}",
             "--build-arg", f"COMMIT_PIN={c.commit_sha}",
+            "--build-arg", f"EXTRAS={extras}",
             "-f", RECIPE_PATH, ".", timeout_s=timeout_s)
     except Exception as exc:
         return _record_raised(c, store, "docker build", exc, recipe=recipe)
@@ -158,7 +179,7 @@ async def build(c: Candidate, *, store: Store,
 
     store.record("builds", candidate=c.slug, commit_sha=c.commit_sha,
                  status="built", image_digest=digest, log_ref=log_ref,
-                 recipe_sha=recipe)
+                 recipe_sha=recipe, extras=extras or None)
     return BuildResult(True, digest, FailureClass.NONE, log_ref)
 
 

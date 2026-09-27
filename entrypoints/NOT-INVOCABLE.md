@@ -15,7 +15,12 @@ agents that cannot be invoked is a finding in its own right.
 | `continuedev/continue` | Did not build. TypeScript, which this recipe does not read. |
 | `anomalyco/opencode` | Did not build. TypeScript, same. |
 
-Four of the ten build and install cleanly but cannot be invoked to perform a
+| `Pythagora-io/gpt-pilot` | Builds, but is an interactive project builder: `main.py` drives a multi-step conversation backed by a database and expects a person at each step. `--initial-prompt` seeds it; nothing makes it complete a bounded task and exit. Not invocable non-interactively. |
+| `FoundationAgents/MetaGPT` | Did not build. Pins `lancedb==0.4.0`, which no longer exists on the index. A dependency conflict, and a property of the repository at this commit. |
+| `smol-ai/developer` | Did not build. `setup.py` fails during metadata generation at this commit; last pushed in 2024. |
+| `OpenBMB/ChatDev` | Did not build. Metadata generation fails at the root manifest. |
+
+Four of the ten first agents build and install cleanly but cannot be invoked to perform a
 task. Three of those four are frameworks that agents are built with rather than
 agents that run, which is the distinction the submit page asks proposers to
 observe and is easy to lose when counting stars.

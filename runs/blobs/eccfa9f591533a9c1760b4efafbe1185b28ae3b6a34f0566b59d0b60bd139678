@@ -1,0 +1,56 @@
+👋 INFO     This is SWE-agent version 1.1.0                                     
+            (hash='3ea751c087f32b16e039a2233dd6eefecef325d5') with SWE-ReX      
+            version 1.4.0 (rex_hash='unavailable').                             
+🔧 INFO     Loading default config from /app/config/default.yaml, because no    
+            other config file is specified. Specify --no_config_file to disable 
+            this.                                                               
+🔧 INFO     Setting problem statement id to hash of file contents (path:        
+            /tmp/task.txt)                                                      
+🔧 DEBUG    No .env file found                                                  
+🤖 WARN     Model openai/qwen3-coder:30b-a3b-q4_K_M does not support function   
+            calling. If your model does not support function calling, you can   
+            use `parse_function='thought_action'` instead. See                  
+            https://swe-agent.com/latest/faq/ for more information.             
+🏃 INFO     Starting environment                                                
+🪴 INFO     Environment Initialized                                             
+Traceback (most recent call last):
+  File "/usr/local/bin/sweagent", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/app/sweagent/run/run.py", line 92, in main
+    run_single_main(remaining_args)
+  File "/app/sweagent/run/run_single.py", line 221, in run_from_cli
+    run_from_config(BasicCLI(RunSingleConfig, help_text=help_text).get_config(args))  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/sweagent/run/run_single.py", line 211, in run_from_config
+    RunSingle.from_config(config).run()
+  File "/app/sweagent/run/run_single.py", line 191, in run
+    self.env.start()
+  File "/app/sweagent/environment/swe_env.py", line 112, in start
+    self.reset()
+  File "/app/sweagent/environment/swe_env.py", line 145, in reset
+    self._copy_repo()
+  File "/app/sweagent/environment/swe_env.py", line 126, in _copy_repo
+    self.repo.copy(self.deployment)
+  File "/app/sweagent/environment/repo.py", line 111, in copy
+    asyncio.run(
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/swerex/runtime/local.py", line 467, in upload
+    shutil.copytree(request.source_path, request.target_path)
+  File "/usr/local/lib/python3.11/shutil.py", line 573, in copytree
+    return _copytree(entries=entries, src=src, dst=dst, symlinks=symlinks,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/shutil.py", line 471, in _copytree
+    os.makedirs(dst, exist_ok=dirs_exist_ok)
+  File "<frozen os>", line 225, in makedirs
+FileExistsError: [Errno 17] File exists: '/work'
+/usr/local/lib/python3.11/site-packages/swerex/deployment/abstract.py:60: RuntimeWarning: coroutine 'LocalDeployment.stop' was never awaited
+Ensuring deployment is stopped because object is deleted
