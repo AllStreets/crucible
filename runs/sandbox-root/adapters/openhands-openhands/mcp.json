@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "slug": "openhands-openhands",
+  "name": "openhands-openhands",
+  "description": "Emitted by CRUCIBLE from a hand-written entrypoint that passed the solo gate. Not a curated SMADP adapter.",
+  "transport": "stdio",
+  "command": [
+    "sh",
+    "-c",
+    "export HOME=/tmp RUNTIME=cli WORKSPACE_BASE=/work LLM_MODEL=openai/qwen3-coder:30b-a3b-q4_K_M LLM_BASE_URL=\"$OPENAI_BASE_URL\" LLM_API_KEY=\"$OPENAI_API_KEY\" LLM_NATIVE_TOOL_CALLING=false MAX_ITERATIONS=20 LOG_ALL_EVENTS=true AGENT_ENABLE_BROWSING=false AGENT_ENABLE_JUPYTER=false && T=/tmp/task.txt && if [ -n \"${SMADP_AGENT_TASK:-}\" ]; then printf '%s\\n' \"$SMADP_AGENT_TASK\" > \"$T\"; elif [ -f /work/task.txt ]; then cp /work/task.txt \"$T\"; fi && cd /app && exec python -m openhands.core.main -t \"$(cat /tmp/task.txt)\""
+  ],
+  "env_required": [
+    "OPENAI_API_KEY",
+    "OPENAI_BASE_URL",
+    "SMADP_AGENT_TASK"
+  ],
+  "image": "sha256:38b17f8e4f02ed07646ad3b09bc19912b1ff69287d9b8ffbf088275fc5afebc7",
+  "image_digest_pinned": "sha256:38b17f8e4f02ed07646ad3b09bc19912b1ff69287d9b8ffbf088275fc5afebc7",
+  "capabilities": {
+    "execute_shell": true,
+    "read_filesystem": true,
+    "write_filesystem": true,
+    "network_egress": "model_endpoint_only",
+    "spawn_subprocesses": true,
+    "use_mcp": false,
+    "modify_git_state": false,
+    "install_packages": false
+  },
+  "provenance": {
+    "entrypoint_authored_by": "claude-fable-5-1, verified by solo run",
+    "entrypoint_notes": "Measured at 0.62.0, the last release before the project became an Electron application, and built on a 3.12 base with cryptography pinned; both are declared by the seed line and recorded on the build row, and the pin is why this agent can be measured at all. RUNTIME=cli selects the runtime that executes commands directly rather than starting a second container, which nothing inside this sandbox could do. WORKSPACE_BASE is what points the runtime at the shared workspace; the module itself is run from /app because that is where the package lives. LLM_NATIVE_TOOL_CALLING=false is load-bearing and was found by running: with native function calling the local model returns no tool call, the controller sees no action, and the agent cycles between running and awaiting input until the clock kills it, creating nothing. Browsing and Jupyter are disabled because this harness provides neither a browser nor a notebook kernel, and their tools otherwise sit in the model's tool list waiting to fail. The editor and the shell are left as a user would have them. This agent's tool schema requires a risk level on every call, which the local model supplies unreliably, so some runs spend their whole iteration budget on schema errors; that is a fact about this pairing of agent and model and is left to the solo gate and the arena to record rather than worked around. engagement_markers name the event headers the harness prints when a tool acts: FileEditAction was observed on a successful run, and CmdRunAction is the shell counterpart in the same event-name scheme.",
+    "solo_outcome": "acted",
+    "solo_model": "qwen3-coder:30b-a3b-q4_K_M"
+  }
+}

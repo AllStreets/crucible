@@ -12,6 +12,12 @@ export interface Build {
   status: "built" | "failed"; failure_class: string | null;
   image_digest: string | null; log_ref: string | null;
   recipe_sha: string | null; at: string;
+  /** Build variables the seed declared, recorded per row. A row built on a
+   *  different base, or with a dependency version forced after the agent's own
+   *  resolution, is a different measurement from one built on the defaults,
+   *  and null means the row predates the variable rather than that it opted
+   *  out of it. */
+  extras?: string | null; base_image?: string | null; pins?: string | null;
 }
 export interface EnvCheck {
   id: number; build: string; status: "passed" | "failed";
@@ -332,6 +338,8 @@ export function pairSummaries(d: Dataset): PairSummary[] {
 }
 
 export interface AgentDetail {
+  /** Every build attempt for this agent, oldest first. */
+  builds: Build[];
   candidate: Candidate; build: Build | undefined; check: EnvCheck | undefined;
   stage: StageRow; entrypoints: EntrypointRow[]; solos: SoloRow[]; pairs: PairRow[];
 }
@@ -339,10 +347,15 @@ export interface AgentDetail {
 export function agentDetail(d: Dataset, slug: string): AgentDetail | null {
   const candidate = d.candidates.find((c) => c.slug === slug);
   if (!candidate) return null;
-  const build = d.builds.find((b) => b.candidate === slug);
+  // The latest build, not the first. Agents get rebuilt: on a newer base, with
+  // a dependency forced, after a full disk was cleared. Taking whichever row
+  // came back first showed a superseded attempt as the current state of the
+  // agent, which on this page is the one thing a reader is here to see.
+  const builds = d.builds.filter((b) => b.candidate === slug).sort((a, b) => a.id - b.id);
+  const build = builds[builds.length - 1];
   const check = build?.image_digest ? d.env_checks.find((e) => e.build === build.image_digest) : undefined;
   return {
-    candidate, build, check,
+    candidate, build, builds, check,
     stage: stageRows(d).find((r) => r.slug === slug)!,
     entrypoints: d.entrypoints.filter((e) => e.slug === slug),
     solos: d.solos.filter((s) => s.slug === slug).sort((a, b) => a.id - b.id),

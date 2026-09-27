@@ -15,6 +15,8 @@ export default async function AgentPage({ params }: { params: Promise<{ slug: st
   const d = agentDetail(loadDataset(), slug);
   if (!d) return null;
   const b = d.build, c = d.check;
+  // The recipe's own default. Anything else was asked for by a seed line.
+  const DEFAULT_BASE = "python:3.11-slim";
   return (
     <div className="sheet page stack">
       <div>
@@ -35,6 +37,10 @@ export default async function AgentPage({ params }: { params: Promise<{ slug: st
             {b?.image_digest && <><dt>image</dt><dd><code>{b.image_digest}</code></dd></>}
             {b?.recipe_sha && <><dt>recipe</dt><dd><code>{b.recipe_sha}</code></dd></>}
             {b?.log_ref && <><dt>build log</dt><dd><code>{b.log_ref}</code></dd></>}
+            {b?.base_image && b.base_image !== DEFAULT_BASE && <><dt>base image</dt><dd><code>{b.base_image}</code> <span className="note">not the recipe default, declared by the seed because this agent requires a newer interpreter than the recipe provides</span></dd></>}
+            {b?.extras && <><dt>extras</dt><dd><code>{b.extras}</code> <span className="note">installed with the package, declared beside the invocation</span></dd></>}
+            {b?.pins && <><dt>versions forced</dt><dd><code>{b.pins}</code> <span className="note">installed after this agent resolved its own dependencies, because the release it chose cannot execute on the machine that built it. This row is not comparable with one built without the override, which is why it is recorded here.</span></dd></>}
+            {d.builds.length > 1 && <><dt>earlier attempts</dt><dd>{d.builds.slice(0, -1).map((x) => <span key={x.id} className="attempt"><code>{x.status}</code>{x.failure_class ? <span className="note"> {FAILURE_LABELS[x.failure_class] ?? x.failure_class}</span> : null}</span>)}<span className="note">Kept because a build that failed and a build that later succeeded are two observations, and the reason each row exists is the record.</span></dd></>}
           </dl>
         </section>
         <section className="panel">
