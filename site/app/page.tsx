@@ -184,7 +184,7 @@ export default function Record() {
       </div>
 
       <style>{`
-        .faint { color: var(--ink-faint); font-size: var(--t-micro); }
+        .faint { color: var(--ink-faint); font-size: var(--t-small); }
         .small { font-size: var(--t-micro); }
         .figure.small { font-size: 2.4rem; line-height: 1; }
         .counter { margin-top: 2.5rem; padding: 1.4rem 0; border-top: var(--hair) solid var(--rule); border-bottom: var(--hair) solid var(--rule); font-family: var(--font-display); font-style: italic; font-size: var(--t-lead); max-width: none; color: var(--ink-soft); }

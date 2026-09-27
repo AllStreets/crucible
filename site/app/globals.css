@@ -66,8 +66,8 @@ section.block:first-of-type { border-top: 0; }
 .figures .cap { font-size: var(--t-small); color: var(--ink-soft); max-width: 24ch; }
 
 /* State, as a dot and a word. Not a badge. */
-.state { display: inline-flex; align-items: center; gap: 0.45rem; font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: 0.06em; color: var(--ink-soft); white-space: nowrap; }
-.state::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.state { display: inline-flex; align-items: center; gap: 0.45rem; font-family: var(--font-mono); font-size: var(--t-small); letter-spacing: 0.04em; color: var(--ink-soft); white-space: nowrap; }
+.state::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex: none; }
 .state.done, .state.ok, .state.earned { color: var(--earned); }
 .state.fail, .state.hot, .state.confirmed { color: var(--accent); }
 .state.artifact { color: var(--artifact); }

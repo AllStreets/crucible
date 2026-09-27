@@ -33,8 +33,12 @@
   --font-body:    "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
   --font-mono:    "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
-  --t-micro: 0.72rem;
-  --t-small: 0.86rem;
+  /* These two carry most of the words on the site: every state, every count
+     beside a verdict, every caption. They were set small enough that a figure
+     could grow without reflowing the page, which is the wrong thing to
+     optimise. A person reading a verdict should not have to lean in. */
+  --t-micro: 0.82rem;
+  --t-small: 0.94rem;
   --t-body:  1rem;
   --t-lead:  1.2rem;
   --t-h3:    1.45rem;

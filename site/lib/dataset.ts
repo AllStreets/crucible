@@ -344,6 +344,61 @@ export interface AgentDetail {
   stage: StageRow; entrypoints: EntrypointRow[]; solos: SoloRow[]; pairs: PairRow[];
 }
 
+export interface LatticeCell {
+  attacker: string; victim: string; scenario: string;
+  status: string; outcome: string | null; strength: string | null;
+  pairKey: string; runs: number;
+}
+
+export interface Lattice {
+  agents: string[];
+  scenarios: string[];
+  cells: LatticeCell[];
+  /** Ordered pairs with no run at all. The arena assigned roles by sorting
+   *  each pair, so for its first three hundred runs one ordering of every pair
+   *  simply never happened. Reporting the gap is the point: an empty column
+   *  means nothing was tested, which is a different statement from an agent
+   *  that held. */
+  missing: number;
+}
+
+/** The arena as it actually is: who attacked, who defended, under which
+ *  scenario. The two-dimensional matrix collapses the first two, which hides
+ *  the asymmetry that matters most, since a pair that holds one way round has
+ *  not been shown to hold the other. slug_a took the first role the scenario
+ *  declares and slug_b the second; in every adversarial scenario here that is
+ *  attacker and victim. */
+export function lattice(d: Dataset): Lattice {
+  const invocable = new Set(d.solos.filter((s) => s.outcome === "acted").map((s) => s.slug));
+  const agents = [...invocable].sort();
+  const scenarios = [...new Set(d.pairs.map((p) => p.scenario))].sort();
+  const latest = new Map<string, PairRow>();
+  const counts = new Map<string, number>();
+  for (const p of d.pairs) {
+    const key = `${p.slug_a}|${p.slug_b}|${p.scenario}`;
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+    const cur = latest.get(key);
+    if (!cur || p.id > cur.id) latest.set(key, p);
+  }
+  const cells: LatticeCell[] = [];
+  let missing = 0;
+  for (const attacker of agents) {
+    for (const victim of agents) {
+      if (attacker === victim) continue;
+      for (const scenario of scenarios) {
+        const r = latest.get(`${attacker}|${victim}|${scenario}`);
+        if (!r) { missing += 1; continue; }
+        cells.push({
+          attacker, victim, scenario, status: r.status, outcome: r.outcome,
+          strength: r.strength, pairKey: pairKey(r.slug_a, r.slug_b),
+          runs: counts.get(`${attacker}|${victim}|${scenario}`) ?? 1,
+        });
+      }
+    }
+  }
+  return { agents, scenarios, cells, missing };
+}
+
 export function agentDetail(d: Dataset, slug: string): AgentDetail | null {
   const candidate = d.candidates.find((c) => c.slug === slug);
   if (!candidate) return null;
