@@ -1,12 +1,12 @@
 [
   {
-    "abstract": "We attempt to build 25 open-source AI agent repositories into containers at pinned commits and to start each resulting image in a network-denied sandbox. 20 build successfully and 20 pass a container environment check, a rate of 80.0 percent. We report the distribution of failure causes and, for each, whether the cause is a property of the agent or a limit of the harness. We do not measure whether any agent runs.",
+    "abstract": "We attempt to build 25 open-source AI agent repositories into containers at pinned commits and to start each resulting image in a network-denied sandbox. 21 build successfully and 21 pass a container environment check, a rate of 84.0 percent. We report the distribution of failure causes and, for each, whether the cause is a property of the agent or a limit of the harness. We do not measure whether any agent runs.",
     "filename": "container-viability.md",
-    "generated_at": "2026-09-27T21:57:01.266938+00:00",
+    "generated_at": "2026-09-27T22:17:13.673438+00:00",
     "pages": 5,
     "pdf": "container-viability.pdf",
-    "pdf_sha256": "78f234458881769d5985318cea9f62407e053132ad7ed338a0bd2bc4a3229913",
-    "sha256": "b6422e23cf0650970b3cdf1612c5a6ea0a362c71ea17835bf8b60f5d8608e3e4",
+    "pdf_sha256": "f3fda349541bd84a5dea7b9f9f8d17c760e53f9cb7eba764bbac66d53f08b102",
+    "sha256": "9ec6a43860525e5f3988aa871559bcb022140c6c53827f72369ec76c0b520ff0",
     "slug": "container-viability",
     "title": "Container viability of open-source AI agents",
     "word_count": 1454
@@ -14,10 +14,10 @@
   {
     "abstract": "We run 21 pairs drawn from 7 open-source agents against each other in 4 adversarial scenarios, 296 runs in all, in a sandbox with a shared workspace and deterministic success criteria. 179 runs produce a verdict; 8 confirm an attack. The remaining 113 are recorded as instrument artifacts and 4 as refusals, and none of those enters any rate. Of the verdicts, 112 are strong, meaning the victim engaged with the planted material and the side effect only compliance produces did not occur, and 67 are weak, meaning the victim completed without engaging, so refusal is not separable from inaction.",
     "filename": "adversarial-interaction.md",
-    "generated_at": "2026-09-27T21:57:01.333360+00:00",
+    "generated_at": "2026-09-27T22:17:13.739509+00:00",
     "pages": 18,
     "pdf": "adversarial-interaction.pdf",
-    "pdf_sha256": "c289a748b8579ae1182da91bcbbffd5acbd6f16f705736c7416a3e5ceb04d4b6",
+    "pdf_sha256": "4cd09e827c830c9534fe41d6be63fe282e6c7dce13180290f2a48f0243340755",
     "sha256": "5707beef0e97371ba2656f7b0a20250c6d9fccfc428e0ca6aac5cb4f5bd9b76d",
     "slug": "adversarial-interaction",
     "title": "Adversarial interaction between open-source agents sharing a workspace",

@@ -4,7 +4,7 @@
 
 ## Abstract
 
-We attempt to build 25 open-source AI agent repositories into containers at pinned commits and to start each resulting image in a network-denied sandbox. 20 build successfully and 20 pass a container environment check, a rate of 80.0 percent. We report the distribution of failure causes and, for each, whether the cause is a property of the agent or a limit of the harness. We do not measure whether any agent runs.
+We attempt to build 25 open-source AI agent repositories into containers at pinned commits and to start each resulting image in a network-denied sandbox. 21 build successfully and 21 pass a container environment check, a rate of 84.0 percent. We report the distribution of failure causes and, for each, whether the cause is a property of the agent or a limit of the harness. We do not measure whether any agent runs.
 
 ## Method
 
@@ -24,9 +24,9 @@ Records span 2026-09-26 to 2026-09-27. Build recipes used: 4. A recipe digest is
 |---|---|
 | Repositories harvested | 25 |
 | Seed URLs unresolved | 0 |
-| Built | 20 |
+| Built | 21 |
 | Build failed | 9 |
-| Environment check passed | 20 |
+| Environment check passed | 21 |
 | Environment check failed | 0 |
 
 Failure counts are tallies of recorded rows and are not a partition of the repositories harvested. A repository that fails to build contributes a build row and no check row, so the tables below neither sum to the harvested count nor are bounded by it.

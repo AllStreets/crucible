@@ -405,6 +405,20 @@
       "pins": "cryptography==45.0.7",
       "recipe_sha": "sha256:c2a78044df1b1f9ae755b53105f17e87d99c590ec737459465f7f2f348952f3c",
       "status": "built"
+    },
+    {
+      "at": "2026-09-27T22:11:08.285783+00:00",
+      "base_image": "python:3.12-slim",
+      "candidate": "foundationagents-openmanus",
+      "commit_sha": "3309bf4e416fb1c74b008f3e86494439a31bad53",
+      "extras": null,
+      "failure_class": null,
+      "id": 32,
+      "image_digest": "sha256:69b7f7d05669f848617ae8e960095834fb2d9a8826111727315d6899c81ff41b",
+      "log_ref": "7a9bb9efcfb948c7a3f23bfcae6b25e82efc17b65b20be64f97903ee2a7eafc8",
+      "pins": "cryptography==45.0.7",
+      "recipe_sha": "sha256:c2a78044df1b1f9ae755b53105f17e87d99c590ec737459465f7f2f348952f3c",
+      "status": "built"
     }
   ],
   "candidates": [
@@ -1370,6 +1384,17 @@
       "evidence_ref": "666a1e2f4db005fa18406663b08dbb90e989e76484abc085bde1f44b0a178624",
       "failure_class": null,
       "id": 20,
+      "model": "qwen2.5-coder:7b",
+      "status": "passed"
+    },
+    {
+      "at": "2026-09-27T22:11:08.642054+00:00",
+      "base_url": "http://localhost:11434/v1",
+      "build": "sha256:69b7f7d05669f848617ae8e960095834fb2d9a8826111727315d6899c81ff41b",
+      "duration_ms": 355,
+      "evidence_ref": "666a1e2f4db005fa18406663b08dbb90e989e76484abc085bde1f44b0a178624",
+      "failure_class": null,
+      "id": 21,
       "model": "qwen2.5-coder:7b",
       "status": "passed"
     }
