@@ -4,12 +4,17 @@
     "candidates": 10,
     "entrypoints": 10,
     "env_checks": 6,
-    "pairs": 24,
+    "pairs": 28,
     "solos": 10,
     "unresolved": 0
   },
-  "dataset_sha256": "424f40daadb0e980e2423f57f01d832c9d55ed688a345b9adaf08040a3b59727",
-  "engine_commit": "98001d0738a6ea6a1dde6f7cb737cfc3f4e83175",
-  "generated_at": "2026-09-27T15:06:56.790900+00:00",
-  "papers_published": 1
+  "dataset_sha256": "caf10337d271d40dd3d881c4ce3124ffda97e290163704d8a6896e8c5f5741fb",
+  "engine_commit": "353fc96b76cda1f73c89502e33151dd94ec93b32",
+  "generated_at": "2026-09-27T15:27:24.630688+00:00",
+  "papers_published": 2,
+  "research": {
+    "cadence_hours": null,
+    "last_pass": "2026-09-27T15:27:24.626547+00:00",
+    "passes": 1
+  }
 }
