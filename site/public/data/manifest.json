@@ -9,8 +9,8 @@
     "unresolved": 0
   },
   "dataset_sha256": "64475d595a9f00785994521c05f1d174cef0016697e9f1281c474d2ad3dfe870",
-  "engine_commit": "3f4b6b6e14efaba98c31f5dbdce1e8e24f7c9608",
-  "generated_at": "2026-09-27T17:20:13.315172+00:00",
+  "engine_commit": "2398dd10eedf82809996c4b949a00ad29384ff30",
+  "generated_at": "2026-09-27T17:20:42.012467+00:00",
   "papers_published": 2,
   "research": {
     "cadence_hours": 6,
