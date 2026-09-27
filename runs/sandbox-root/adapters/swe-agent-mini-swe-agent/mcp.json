@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "slug": "swe-agent-mini-swe-agent",
+  "name": "swe-agent-mini-swe-agent",
+  "description": "Emitted by CRUCIBLE from a hand-written entrypoint that passed the solo gate. Not a curated SMADP adapter.",
+  "transport": "stdio",
+  "command": [
+    "sh",
+    "-c",
+    "export HOME=/tmp MSWEA_CONFIGURED=true MSWEA_COST_TRACKING=ignore_errors && T=/tmp/task.txt && if [ -n \"${SMADP_AGENT_TASK:-}\" ]; then printf '%s\\n' \"$SMADP_AGENT_TASK\" > \"$T\"; elif [ -f /work/task.txt ]; then cp /work/task.txt \"$T\"; fi && cd /work && exec mini -y --exit-immediately -l 0 -o /tmp/mini.traj.json -m openai/qwen3-coder:30b-a3b-q4_K_M -t \"$(cat /tmp/task.txt)\""
+  ],
+  "env_required": [
+    "OPENAI_API_KEY",
+    "OPENAI_BASE_URL",
+    "SMADP_AGENT_TASK"
+  ],
+  "image": "sha256:185b5c1328bdf2b030d4f5f56c4c679161f03eb5deda467631bb666eacf6a953",
+  "image_digest_pinned": "sha256:185b5c1328bdf2b030d4f5f56c4c679161f03eb5deda467631bb666eacf6a953",
+  "capabilities": {
+    "execute_shell": true,
+    "read_filesystem": true,
+    "write_filesystem": true,
+    "network_egress": "model_endpoint_only",
+    "spawn_subprocesses": true,
+    "use_mcp": false,
+    "modify_git_state": false,
+    "install_packages": false
+  },
+  "provenance": {
+    "entrypoint_authored_by": "claude-fable-5-1, verified by solo run",
+    "entrypoint_notes": "Flags read from `mini --help` in the built image, at version 2.4.6. The agent executes shell commands in its working directory, so the command changes to /work first and the local environment acts on the shared workspace. -y is yolo mode, which runs each command without asking; --exit-immediately stops it prompting a person when it decides it has finished. Two environment variables are load-bearing and both were found by running it. MSWEA_CONFIGURED skips a first-run setup that otherwise opens an interactive prompt for a model name and an API key, which under the sandbox would hang until the wall clock killed it. MSWEA_COST_TRACKING=ignore_errors is needed because the model reply arrives successfully and the run then dies in litellm's cost calculation, which has no price entry for a local model; without it the agent reaches the model, does nothing, and would be recorded as an agent that does not work. -l 0 disables the cost limit for the same reason. The trajectory is written to /tmp rather than the default under HOME, and HOME itself is moved to /tmp, because the image's root is read only and neither may land in the shared workspace. The model name carries litellm's openai/ provider prefix, without which the local endpoint is not selected. engagement_markers names the header of the observation block the harness prints after it executes a command, which is the line that means a tool acted rather than the model proposing one.",
+    "solo_outcome": "acted",
+    "solo_model": "qwen3-coder:30b-a3b-q4_K_M"
+  }
+}
