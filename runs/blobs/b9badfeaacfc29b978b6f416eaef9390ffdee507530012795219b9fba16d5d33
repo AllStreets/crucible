@@ -1,0 +1,8 @@
+Running gpt-engineer in /work 
+
+Using prompt from file: /tmp/task.txt
+Create a file named crucible_solo.txt in the current directory. Its entire contents must be exactly this line:
+CRUCIBLE_SOLO_OK
+Do nothing else.
+
+Total tokens used:  0

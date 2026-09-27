@@ -1,0 +1,5 @@
+Usage: gpte [OPTIONS] [project_path]
+Try 'gpte -h' for help.
+╭─ Error ──────────────────────────────────────────────────────────────────────╮
+│ No such option: --no-execution (Possible options: --no_execution)            │
+╰──────────────────────────────────────────────────────────────────────────────╯

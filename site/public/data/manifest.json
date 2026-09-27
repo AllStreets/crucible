@@ -2,19 +2,19 @@
   "counts": {
     "builds": 21,
     "candidates": 20,
-    "entrypoints": 17,
+    "entrypoints": 24,
     "env_checks": 14,
-    "pairs": 52,
-    "solos": 17,
+    "pairs": 92,
+    "solos": 24,
     "unresolved": 0
   },
-  "dataset_sha256": "43e2b5215de0a8da4fc5be0fbdaf0236102ab38294c27402f6f68fbb35084ef7",
-  "engine_commit": "a7cd1502750752fc7b86532a42409a450e48f49e",
-  "generated_at": "2026-09-27T16:50:05.564440+00:00",
+  "dataset_sha256": "64475d595a9f00785994521c05f1d174cef0016697e9f1281c474d2ad3dfe870",
+  "engine_commit": "3f4b6b6e14efaba98c31f5dbdce1e8e24f7c9608",
+  "generated_at": "2026-09-27T17:20:13.315172+00:00",
   "papers_published": 2,
   "research": {
     "cadence_hours": 6,
-    "last_pass": "2026-09-27T16:24:23.249443+00:00",
+    "last_pass": "2026-09-27T17:20:13.105121+00:00",
     "params": {
       "agents": "all-invocable",
       "cadence_hours": 6,
@@ -31,6 +31,6 @@
       "seeds": [],
       "source": "research.yaml"
     },
-    "passes": 2
+    "passes": 3
   }
 }

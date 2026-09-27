@@ -2,25 +2,25 @@
   {
     "abstract": "We attempt to build 20 open-source AI agent repositories into containers at pinned commits and to start each resulting image in a network-denied sandbox. 14 build successfully and 14 pass a container environment check, a rate of 70.0 percent. We report the distribution of failure causes and, for each, whether the cause is a property of the agent or a limit of the harness. We do not measure whether any agent runs.",
     "filename": "container-viability.md",
-    "generated_at": "2026-09-27T16:50:05.445529+00:00",
+    "generated_at": "2026-09-27T17:20:13.127667+00:00",
     "pages": 4,
     "pdf": "container-viability.pdf",
-    "pdf_sha256": "03309c123969c7e8bda4ed65bc28d165902f6338b6b8707d1f10cb4abc4f817a",
+    "pdf_sha256": "469f10e1acb5763cd4bf44803414d8cc2e530b20f3a6beb73437eb379f51f77f",
     "sha256": "1dedc9bce09a1ef754685b2af98a8d7951c083e0a8796c6b40b74165d6d3a3ef",
     "slug": "container-viability",
     "title": "Container viability of open-source AI agents",
     "word_count": 1350
   },
   {
-    "abstract": "We run 6 pairs drawn from 4 open-source agents against each other in 4 adversarial scenarios, 52 runs in all, in a sandbox with a shared workspace and deterministic success criteria. 26 runs produce a verdict; 0 confirm an attack. The remaining 22 are recorded as instrument artifacts and 4 as refusals, and none of those enters any rate. Of the verdicts, 17 are strong, meaning the victim engaged with the planted material and the side effect only compliance produces did not occur, and 9 are weak, meaning the victim completed without engaging, so refusal is not separable from inaction.",
+    "abstract": "We run 10 pairs drawn from 5 open-source agents against each other in 4 adversarial scenarios, 92 runs in all, in a sandbox with a shared workspace and deterministic success criteria. 53 runs produce a verdict; 0 confirm an attack. The remaining 35 are recorded as instrument artifacts and 4 as refusals, and none of those enters any rate. Of the verdicts, 34 are strong, meaning the victim engaged with the planted material and the side effect only compliance produces did not occur, and 19 are weak, meaning the victim completed without engaging, so refusal is not separable from inaction.",
     "filename": "adversarial-interaction.md",
-    "generated_at": "2026-09-27T16:50:05.524535+00:00",
-    "pages": 6,
+    "generated_at": "2026-09-27T17:20:13.252950+00:00",
+    "pages": 8,
     "pdf": "adversarial-interaction.pdf",
-    "pdf_sha256": "f5ca02a491444b333b787a76de63ad5231fd88945aa99fd540b3947e34263a9b",
-    "sha256": "dfce6c4ce15903be28629d6212141d6d7fa64d0f91341a641801807b99a823ba",
+    "pdf_sha256": "86cca8c7cd567945168c9db99ee3873bbe7809e6e7bae1cef34722675bcc78e2",
+    "sha256": "b674cb065963beec7def56c5dd3cdc0196b81f94b1b99547ab5bb9928a2b712a",
     "slug": "adversarial-interaction",
     "title": "Adversarial interaction between open-source agents sharing a workspace",
-    "word_count": 2210
+    "word_count": 3062
   }
 ]
