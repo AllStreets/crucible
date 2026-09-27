@@ -7,6 +7,7 @@ that dies on an unreadable seed file should say which file and stop cleanly.
 from __future__ import annotations
 
 import argparse
+import json
 import asyncio
 from pathlib import Path
 
@@ -15,6 +16,7 @@ from crucible.model_shim import ShimConfig
 from crucible.pipeline import run_pipeline
 from crucible.press import generate as generate_paper
 from crucible.publish import publish_dataset
+from crucible.research import research_pass
 from crucible.report import render_markdown, viability
 from crucible.store import Store
 
@@ -49,6 +51,20 @@ def main(argv: list[str] | None = None) -> int:
     paper.add_argument("--db", type=Path, default=Path("data/crucible.db"))
     paper.add_argument("--out", type=Path, default=None)
 
+    res = sub.add_parser("research", help="one unattended pass: arena, classify, papers, publish, push")
+    res.add_argument("--db", type=Path, default=Path("runs/arena.db"))
+    res.add_argument("--root", type=Path, default=Path("runs/sandbox-root"))
+    res.add_argument("--model", default="qwen3-coder:30b-a3b-q4_K_M")
+    res.add_argument("--ollama", default="http://localhost:11434/v1")
+    res.add_argument("--rounds", type=int, default=1)
+    res.add_argument("--no-push", action="store_true")
+    res.add_argument("--cadence-hours", type=int, default=None)
+
+    sched = sub.add_parser("schedule", help="install a launchd job that runs research every N hours")
+    sched.add_argument("--every", type=int, default=6, metavar="HOURS")
+    sched.add_argument("--model", default="qwen3-coder:30b-a3b-q4_K_M")
+    sched.add_argument("--remove", action="store_true")
+
     pub = sub.add_parser("publish", help="export the store as static JSON for the site")
     pub.add_argument("--db", type=Path, default=Path("data/crucible.db"))
     pub.add_argument("--out", type=Path, default=Path("site/public/data"))
@@ -64,6 +80,19 @@ def main(argv: list[str] | None = None) -> int:
         shim = ShimConfig(base_url=args.ollama, model=args.model)
         v = asyncio.run(run_pipeline(seeds, store=store, shim=shim))
         print(render_markdown(v))
+        return 0
+
+    if args.cmd == "research":
+        entry = research_pass(db=args.db, root=args.root, repo=Path.cwd(),
+                              shim=ShimConfig(base_url=args.ollama, model=args.model),
+                              rounds=args.rounds, push=not args.no_push,
+                              cadence_hours=args.cadence_hours)
+        print(json.dumps(entry, indent=2))
+        return 0
+
+    if args.cmd == "schedule":
+        from crucible.schedule import install, remove
+        print(remove() if args.remove else install(every_hours=args.every, model=args.model))
         return 0
 
     if args.cmd == "paper":

@@ -26,9 +26,46 @@ set -u
 
 echo "crucible: resolving installable manifest in $(pwd)"
 
+# install_and_verify <path>
+#
+# pip exiting zero is not evidence that a package was installed. A uv or
+# poetry workspace root carries a pyproject.toml that names a workspace rather
+# than a distribution, and setuptools installs it as a distribution literally
+# named UNKNOWN, exits zero, and leaves the agent absent from the image. That
+# is a false success, and a false success is worse than a failure: it inflates
+# the viability rate and passes the environment check, because the probe starts
+# the interpreter without ever importing the agent.
+#
+# crewai is the case that exposed this. Its root declares crewai-workspace and
+# the real package sits in lib. autogen has the same shape and was caught only
+# because setuptools happened to refuse it instead.
+install_and_verify() {
+    target="$1"
+    pip install --no-cache-dir -e "$target" || return 1
+
+    # Requirements alongside a package definition are installed too. A
+    # setup.py that under-declares its dependencies is common, and the
+    # requirements file beside it is what the project's own instructions tell
+    # a user to install. babyagi is that case: it installs from setup.py and
+    # then cannot import its own database layer.
+    if [ -f "$target/requirements.txt" ]; then
+        echo "crucible: also installing requirements.txt beside the package"
+        pip install --no-cache-dir -r "$target/requirements.txt" || return 1
+    fi
+
+    if find "$target" -maxdepth 1 -iname "UNKNOWN.egg-info" 2>/dev/null | grep -q .; then
+        echo "crucible: pip exited zero but installed a distribution named UNKNOWN,"
+        echo "crucible: which means this manifest declares a workspace and not a package"
+        echo "crucible-result: workspace root installed nothing"
+        return 2
+    fi
+    return 0
+}
+
 if [ -f pyproject.toml ] || [ -f setup.py ]; then
     echo "crucible: found a package definition at the repository root"
-    exec pip install --no-cache-dir -e .
+    install_and_verify .
+    exit $?
 fi
 
 if [ -f requirements.txt ]; then
@@ -110,7 +147,8 @@ if [ "$count" -gt 1 ]; then
     matches=$(printf '%s\n' "$match" | grep -c . 2>/dev/null || echo 0)
     if [ "$matches" -eq 1 ]; then
         echo "crucible: $count candidates, choosing $match because its name is the repository's"
-        exec pip install --no-cache-dir -e "$match"
+        install_and_verify "$match"
+        exit $?
     fi
     echo "crucible: found $count package definitions and will not guess between them:"
     printf '  %s\n' $found
@@ -120,4 +158,5 @@ if [ "$count" -gt 1 ]; then
 fi
 
 echo "crucible: found a single package definition at $found"
-exec pip install --no-cache-dir -e "$found"
+install_and_verify "$found"
+exit $?

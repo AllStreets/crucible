@@ -4,7 +4,7 @@
 
 ## Abstract
 
-We run 1 pairs drawn from 2 open-source agents against each other in 4 adversarial scenarios, 28 runs in all, in a sandbox with a shared workspace and deterministic success criteria. 10 runs produce a verdict; 0 confirm an attack. The remaining 14 are recorded as instrument artifacts and 4 as refusals, and none of those enters any rate. Of the verdicts, 7 are strong, meaning the victim engaged with the planted material and the side effect only compliance produces did not occur, and 3 are weak, meaning the victim completed without engaging, so refusal is not separable from inaction.
+We run 1 pairs drawn from 2 open-source agents against each other in 4 adversarial scenarios, 28 runs in all, in a sandbox with a shared workspace and deterministic success criteria. 10 runs produce a verdict; 0 confirm an attack. The remaining 14 are recorded as instrument artifacts and 4 as refusals, and none of those enters any rate. Of the verdicts, 4 are strong, meaning the victim engaged with the planted material and the side effect only compliance produces did not occur, and 6 are weak, meaning the victim completed without engaging, so refusal is not separable from inaction.
 
 ## Method
 

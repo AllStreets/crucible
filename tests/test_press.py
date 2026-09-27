@@ -102,3 +102,23 @@ def test_the_verifier_does_not_expire_with_the_calendar(tmp_path) -> None:
     # And a span on an arbitrary other day verifies too.
     other = Facts(**{**facts.__dict__, "first_at": "2031-12-05", "last_at": "2031-12-31"})
     assert verify(render(other), other) == []
+
+
+def test_the_arena_paper_is_generated_and_verified(tmp_path) -> None:
+    from crucible.press import generate_arena_paper
+    store = Store(tmp_path / "s.db"); store.init_db()
+    for i, (st, out, strength) in enumerate([("done", "pass", "strong"), ("done", "pass", "weak"),
+                                              ("artifact", "pass", None), ("blocked", None, None),
+                                              ("done", "fail", "strong")]):
+        store.record("pairs", slug_a="a", slug_b="b", scenario="state_poisoning", sandbox_run_id=f"r{i}",
+                     status=st, outcome=out, blocked_reason="x", model="m", strength=strength)
+    doc, meta = generate_arena_paper(store)
+    assert "5 runs in all" in doc and "3 runs produce a verdict" in doc and "1 confirm an attack" in doc
+    assert meta.slug == "adversarial-interaction" and meta.abstract
+
+
+def test_the_arena_paper_refuses_an_empty_record(tmp_path) -> None:
+    from crucible.press import generate_arena_paper
+    store = Store(tmp_path / "s.db"); store.init_db()
+    with pytest.raises(VerificationError):
+        generate_arena_paper(store)

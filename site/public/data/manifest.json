@@ -8,13 +8,9 @@
     "solos": 10,
     "unresolved": 0
   },
-  "dataset_sha256": "caf10337d271d40dd3d881c4ce3124ffda97e290163704d8a6896e8c5f5741fb",
-  "engine_commit": "353fc96b76cda1f73c89502e33151dd94ec93b32",
-  "generated_at": "2026-09-27T15:27:24.630688+00:00",
+  "dataset_sha256": "b2ad8cd2ab975a8fac02894c211c78bf70f047e14c3fe35f74169776cacba732",
+  "engine_commit": "cfc7215167d5ce7067beafa99e4cc2c3c1a56b23",
+  "generated_at": "2026-09-27T15:28:52.486747+00:00",
   "papers_published": 2,
-  "research": {
-    "cadence_hours": null,
-    "last_pass": "2026-09-27T15:27:24.626547+00:00",
-    "passes": 1
-  }
+  "research": {}
 }

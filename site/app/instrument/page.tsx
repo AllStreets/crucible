@@ -28,7 +28,7 @@ export default function Instrument() {
   return (
     <div className="sheet page stack">
       <div><p className="label">Instrument</p><h1>What is queued, blocked, artifact, earned</h1>
-        <p className="lede">The state of the record itself. There is no scheduler: runs are launched by a person and the site reads what they left behind, so this page is a heartbeat of the dataset rather than of a process.</p></div>
+        <p className="lede">The state of the record itself, as of the last unattended research pass. The pass runs the arena, classifies every run from its own evidence, regenerates the papers, and republishes; this site rebuilds from what it published.</p></div>
       <Telemetry items={[
         { label: "Candidates", value: t.candidates ?? 0 },
         { label: "Builds", value: t.builds ?? 0 },
@@ -53,11 +53,15 @@ export default function Instrument() {
             <dt>engine commit</dt><dd><code>{m.engine_commit.slice(0, 12)}</code></dd>
             <dt>last record</dt><dd><code>{s.lastAt.slice(0, 19).replace("T", " ")}</code></dd>
           </dl></section>
-        <section className="panel"><div className="panel-head"><span className="title">Not running</span></div>
-          <div className="panel-body note stack" style={{ gap: "0.6rem" }}>
-            <p>No scheduler, no queue worker, no cloud runner. A run happens when a person starts one against a local model and a local daemon.</p>
-            <p>That is stated here so the counts above are read as a record of what was done, not as a rate at which things happen.</p>
-          </div></section>
+        <section className="panel"><div className="panel-head"><span className="title">Research schedule</span>
+            {m.research.last_pass ? <span className="pill ok live">running unattended</span> : <span className="pill inert">no pass yet</span>}</div>
+          <dl className="kv panel-body">
+            <dt>last pass</dt><dd><code>{m.research.last_pass ? m.research.last_pass.slice(0, 19).replace("T", " ") : "none recorded"}</code></dd>
+            <dt>cadence</dt><dd>{m.research.cadence_hours ? <code>every {m.research.cadence_hours} hours while the machine is on</code> : <span className="note">not scheduled; passes are started by hand</span>}</dd>
+            <dt>passes</dt><dd><code>{m.research.passes ?? 0}</code></dd>
+            <dt>what a pass does</dt><dd>every invocable pair against every adversarial scenario, each run classified from its transcript and property report by fixed rules, papers regenerated and verified, dataset republished, committed and pushed. A pass that changes nothing commits nothing.</dd>
+            <dt>what it never does</dt><dd>choose which agents count, write an entrypoint, or call a run a verdict by any rule not in the classifier.</dd>
+          </dl></section>
       </div>
     </div>
   );

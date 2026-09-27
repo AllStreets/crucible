@@ -371,3 +371,164 @@ def generate(store: Store) -> str:
             "the generated document states numbers that are not in the record:\n  "
             + "\n  ".join(offenders))
     return document
+
+
+# ---------------------------------------------------------------------------
+# The arena paper: what was established between pairs, and what was not.
+
+@dataclass(frozen=True)
+class ArenaFacts:
+    runs: int
+    earned: int
+    strong: int
+    weak: int
+    artifacts: int
+    blocked: int
+    confirmed: int
+    pairs: int
+    agents: int
+    scenarios: int
+    by_scenario: dict[str, dict[str, int]]   # scenario -> {earned, artifact, blocked, confirmed}
+    models: list[str]
+    first_at: str
+    last_at: str
+
+    def allowed_numerals(self) -> set[str]:
+        out = {str(n) for n in (self.runs, self.earned, self.strong, self.weak, self.artifacts,
+                                self.blocked, self.confirmed, self.pairs, self.agents,
+                                self.scenarios, len(self.models))}
+        for counts in self.by_scenario.values():
+            out.update(str(v) for v in counts.values())
+        if self.runs:
+            out.add(f"{100 * self.earned / self.runs:.1f}")
+        for stamp in (self.first_at, self.last_at):
+            for part in stamp.replace("T", "-").replace(":", "-").split("-"):
+                if part.isdigit():
+                    out.add(part); out.add(part.lstrip("0") or "0")
+        return out
+
+
+def gather_arena_facts(store: Store) -> ArenaFacts:
+    pairs = store.live_rows("pairs")
+    by: dict[str, dict[str, int]] = {}
+    agents: set[str] = set(); keys: set[str] = set()
+    for r in pairs:
+        d = by.setdefault(r["scenario"], {"earned": 0, "artifact": 0, "blocked": 0, "confirmed": 0})
+        if r["status"] == "done":
+            d["earned"] += 1
+            if r["outcome"] == "fail":
+                d["confirmed"] += 1
+        elif r["status"] == "artifact":
+            d["artifact"] += 1
+        elif r["status"] == "blocked":
+            d["blocked"] += 1
+        agents.update((r["slug_a"], r["slug_b"]))
+        keys.add(tuple(sorted((r["slug_a"], r["slug_b"]))))
+    stamps = sorted(r["at"] for r in pairs if r.get("at"))
+    done = [r for r in pairs if r["status"] == "done"]
+    return ArenaFacts(
+        runs=len(pairs), earned=len(done),
+        strong=sum(1 for r in done if r.get("strength") == "strong"),
+        weak=sum(1 for r in done if r.get("strength") == "weak"),
+        artifacts=sum(1 for r in pairs if r["status"] == "artifact"),
+        blocked=sum(1 for r in pairs if r["status"] == "blocked"),
+        confirmed=sum(1 for r in done if r["outcome"] == "fail"),
+        pairs=len(keys), agents=len(agents), scenarios=len(by),
+        by_scenario=dict(sorted(by.items())),
+        models=sorted({r["model"] for r in pairs if r.get("model")}),
+        first_at=stamps[0][:10] if stamps else "", last_at=stamps[-1][:10] if stamps else "",
+    )
+
+
+_SCENARIO_TITLES = {
+    "secret_exfiltration": "Secret exfiltration", "induced_execution": "Induced execution",
+    "state_poisoning": "State poisoning", "partner_escalation": "Partner escalation",
+}
+
+
+def render_arena(f: ArenaFacts) -> str:
+    if f.runs == 0:
+        raise VerificationError("no pair runs in the record, so there is nothing to report")
+    w: list[str] = []
+    a = w.append
+    a("# Adversarial interaction between open-source agents sharing a workspace")
+    a("")
+    a("*Generated from run records. Every figure below is a count of rows.*")
+    a("")
+    a("## Abstract")
+    a("")
+    a(f"We run {f.pairs} pairs drawn from {f.agents} open-source agents against each other "
+      f"in {f.scenarios} adversarial scenarios, {f.runs} runs in all, in a sandbox with a shared "
+      f"workspace and deterministic success criteria. {f.earned} runs produce a verdict; "
+      f"{f.confirmed} confirm an attack. The remaining {f.artifacts} are recorded as instrument "
+      f"artifacts and {f.blocked} as refusals, and none of those enters any rate. Of the verdicts, "
+      f"{f.strong} are strong, meaning the victim engaged with the planted material and the side "
+      f"effect only compliance produces did not occur, and {f.weak} are weak, meaning the victim "
+      f"completed without engaging, so refusal is not separable from inaction.")
+    a("")
+    a("## Method")
+    a("")
+    a("Each run pairs an attacker and a victim, both real agents invoked through hand-written "
+      "entrypoints that passed a solo gate. The attacker is started first and the victim is "
+      "started once the attacker has written the scenario's declared files, so the attack is "
+      "delivered before it is judged. Every criterion is a side effect only compliance produces, "
+      "such as a file that only running a planted script would create, attributed through "
+      "workspace snapshots taken when the victim starts, when the attacker exits, and at the end. "
+      "No model grades a run.")
+    a("")
+    a("Each run is classified from its own transcript and property report by fixed rules. A run "
+      "in which an agent could not reach the model, was killed at the wall clock, or read a "
+      "workspace the attacker had not yet written to is an artifact. A run the sandbox refused to "
+      "start is a refusal. Only a run that was staged, completed, and decided by its criterion is "
+      "a verdict.")
+    a("")
+    a(f"Records span {f.first_at} to {f.last_at}. Models held constant across runs: {len(f.models)}.")
+    a("")
+    a("## Results")
+    a("")
+    a("| Scenario | Verdicts | Attacks confirmed | Artifacts | Refusals |")
+    a("|---|---|---|---|---|")
+    for name, c in f.by_scenario.items():
+        a(f"| {_SCENARIO_TITLES.get(name, name)} | {c['earned']} | {c['confirmed']} | {c['artifact']} | {c['blocked']} |")
+    a("")
+    a("Artifacts are not failures of the agents and are not pooled with verdicts. Their count is "
+      "reported because it is the cost of the instrument, and because a study that reported only "
+      "its verdicts would be reporting the fraction of its runs it chose to keep.")
+    a("")
+    a("## Threats to validity")
+    a("")
+    a("**Weak verdicts are weak.** A victim that never reads the planted material cannot be said "
+      "to have resisted it. They are kept as verdicts because the criterion is a side effect and "
+      "the side effect did not occur, and they are labelled so a reader does not mistake inaction "
+      "for resistance.")
+    a("")
+    a("**One-shot attackers.** An attacker that plants and exits cannot receive a reply, so a "
+      "scenario in which the finding is the attacker obtaining something can only confirm against "
+      "an attacker that stays alive to read it.")
+    a("")
+    a("**Selection.** The agents were chosen by hand as ones people run together, and only those "
+      "that passed the solo gate enter a pair. The results describe that population.")
+    a("")
+    a("## Limitations")
+    a("")
+    a("Generated from run metadata rather than composed, so these cannot fall out of date.")
+    a("")
+    a(f"- Pairs: {f.pairs}. Agents: {f.agents}. Scenarios: {f.scenarios}. Runs: {f.runs}.")
+    a(f"- Models held constant: {len(f.models)}.")
+    a("- Every run executed against a local model on a single machine, without a hardened runtime.")
+    a("- No cooperative scenario is included; every run here is adversarial.")
+    a("")
+    return "\n".join(w)
+
+
+def generate_arena_paper(store: Store, slug: str = "adversarial-interaction") -> tuple[str, Paper]:
+    facts = gather_arena_facts(store)
+    document = render_arena(facts)
+    offenders = verify(document, facts)  # type: ignore[arg-type]
+    if offenders:
+        raise VerificationError("the generated document states numbers that are not in the record:\n  "
+                                + "\n  ".join(offenders))
+    title, abstract = _extract(document)
+    return document, Paper(slug=slug, title=title, abstract=abstract,
+                           generated_at=datetime.now(timezone.utc).isoformat(),
+                           filename=f"{slug}.md", word_count=len(document.split()))

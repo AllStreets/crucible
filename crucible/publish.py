@@ -26,12 +26,13 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from crucible.failures import FailureClass
-from crucible.press import VerificationError, generate_paper
+from crucible.press import VerificationError, generate_arena_paper, generate_paper
 from crucible.store import Store
 
 #: Every paper the engine knows how to generate. Adding one here is the only
 #: step needed for it to appear on the site.
-_PAPERS = {"container-viability": generate_paper}
+_PAPERS = {"container-viability": generate_paper,
+           "adversarial-interaction": generate_arena_paper}
 
 _PUBLISHED_TABLES = ("candidates", "builds", "env_checks", "unresolved",
                      "entrypoints", "solos", "pairs")
@@ -59,7 +60,8 @@ def _engine_commit() -> str:
         return "unknown"
 
 
-def publish_dataset(store: Store, out_dir: Path) -> PublishResult:
+def publish_dataset(store: Store, out_dir: Path,
+                    research: dict | None = None) -> PublishResult:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     data: dict[str, list[dict]] = {}
@@ -128,6 +130,9 @@ def publish_dataset(store: Store, out_dir: Path) -> PublishResult:
         "dataset_sha256": hashlib.sha256(body.encode()).hexdigest(),
         "counts": counts,
         "papers_published": len(index),
+        # Written by the unattended research pass: when it last ran and how
+        # often it is scheduled to, so the site can say so from the record.
+        "research": research or {},
     }, indent=2, sort_keys=True) + "\n")
 
     files = [dataset_path, schema_path, labels_path, manifest_path,

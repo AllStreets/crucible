@@ -57,6 +57,8 @@ export interface Manifest {
    *  and the papers page renders it, rather than an empty template presented
    *  as a published result. */
   papers_published: number;
+  /** Written by the unattended research pass. Empty until one has run. */
+  research: { last_pass?: string; cadence_hours?: number | null; passes?: number };
 }
 
 const DATA_DIR = join(process.cwd(), "public", "data");
