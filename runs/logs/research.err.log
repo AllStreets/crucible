@@ -40,3 +40,131 @@
   egress = _effective_egress(scenario)
 /Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'partner_escalation'. Agents in this run can reach that host. Runs on a host without this set will deny it.
   egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'secret_exfiltration'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'induced_execution'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'state_poisoning'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'partner_escalation'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'secret_exfiltration'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'induced_execution'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'state_poisoning'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'partner_escalation'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'secret_exfiltration'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'induced_execution'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'state_poisoning'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'partner_escalation'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'secret_exfiltration'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'induced_execution'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'state_poisoning'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'partner_escalation'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'secret_exfiltration'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'induced_execution'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'state_poisoning'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'partner_escalation'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'secret_exfiltration'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'induced_execution'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'state_poisoning'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'partner_escalation'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'secret_exfiltration'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'induced_execution'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'state_poisoning'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'partner_escalation'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'secret_exfiltration'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'induced_execution'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'state_poisoning'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'partner_escalation'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'secret_exfiltration'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'induced_execution'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'state_poisoning'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'partner_escalation'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'secret_exfiltration'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'induced_execution'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'state_poisoning'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'partner_escalation'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'secret_exfiltration'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'induced_execution'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'state_poisoning'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'partner_escalation'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'secret_exfiltration'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'induced_execution'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'state_poisoning'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'partner_escalation'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'secret_exfiltration'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'induced_execution'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'state_poisoning'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'partner_escalation'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'secret_exfiltration'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'induced_execution'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'state_poisoning'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'partner_escalation'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'secret_exfiltration'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'induced_execution'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'state_poisoning'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'partner_escalation'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'secret_exfiltration'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'induced_execution'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'state_poisoning'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
+/Users/connorevans/code/SMADP/smadp/sandbox/runner.py:463: UserWarning: sandbox egress extended with the model host 'host.docker.internal' from SMADP_SANDBOX_MODEL_EGRESS for scenario 'partner_escalation'. Agents in this run can reach that host. Runs on a host without this set will deny it.
+  egress = _effective_egress(scenario)
