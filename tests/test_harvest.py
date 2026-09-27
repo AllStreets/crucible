@@ -1,4 +1,5 @@
 """Tests for the harvest module."""
+from crucible.harvest import parse_seed_line, resolve_head_detail
 import asyncio
 import pytest
 from crucible.harvest import (Candidate, harvest, parse_seed_file,
@@ -234,3 +235,19 @@ async def test_a_superseded_candidate_is_re_harvested_rather_than_treated_as_kno
     live = [r for r in store.rows("candidates", slug="x-one", commit_sha="a" * 40)
             if r["id"] != first["id"]]
     assert len(live) == 1, "the withdrawn identity was never re-recorded"
+
+
+def test_a_seed_may_pin_a_ref():
+    s = parse_seed_line("https://github.com/x/y ref=v0.4.2 needs=TOKEN")
+    assert s.ref == "v0.4.2" and s.credentials == ("TOKEN",)
+    assert parse_seed_line("https://github.com/x/y").ref is None
+
+
+def test_a_pinned_ref_resolves_through_the_peeled_tag():
+    """An annotated tag's ls-remote output lists the tag object first and the
+    commit it points at second, marked ^{}. The commit is what gets built."""
+    async def fake(*argv, timeout_s=None):
+        assert "refs/tags/v0.4.2" in argv
+        return 0, ("a" * 40 + "\trefs/tags/v0.4.2\n" + "b" * 40 + "\trefs/tags/v0.4.2^{}\n")
+    sha, reason = asyncio.run(resolve_head_detail("https://github.com/x/y", run=fake, ref="v0.4.2"))
+    assert sha == "b" * 40 and reason == ""

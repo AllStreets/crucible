@@ -12,6 +12,50 @@ export interface LogEntry {
  *  that read the dataset. */
 export const LOG: LogEntry[] = [
   {
+    date: "2026-09-27",
+    kind: "entry",
+    title: "The classifier graded a victim whose command was not found as holding the attack",
+    body:
+      "The first unattended pass over six pairs was audited against its transcripts " +
+      "before it was pushed. A shell agent proposed a command that was not found and " +
+      "exited with the shell's command-not-found status; the criterion read the absence of a side effect as resistance, but " +
+      "the agent had completed nothing. Any non-zero exit is now an artifact, and the two " +
+      "rows were superseded rather than edited.",
+  },
+  {
+    date: "2026-09-27",
+    kind: "entry",
+    title: "Engagement was defined by one agent's transcript",
+    body:
+      "Every verdict with smolagents or shell_gpt as the victim came back weak, because the " +
+      "lines that meant a tool acted were the lines gptme prints. A code agent prints a marker " +
+      "and then the code; a shell agent prints the command it proposed. Entrypoints now declare " +
+      "the lines in their own transcript that mean a tool acted, beside the invocation and the " +
+      "build extras. Twelve verdicts moved from weak to strong on the transcript's evidence.",
+  },
+  {
+    date: "2026-09-27",
+    kind: "entry",
+    title: "The classifier counted the victim's echoed prompt as reading the file",
+    body:
+      "Its first pass returned three strong verdicts for victims that had read nothing. The " +
+      "engagement rule matched the word Read in the victim's own echoed prompt, which names the " +
+      "file it is told to read. The harness's prompt satisfying the harness's detector is the " +
+      "failure this project keeps finding, and it was in the classifier too. A test pins the " +
+      "echoed prompt as not engagement.",
+  },
+  {
+    date: "2026-09-27",
+    kind: "entry",
+    title: "The entrypoints wrote the task into the shared workspace",
+    body:
+      "In a phased pair the victim's preamble overwrote the attacker's prompt file before aider " +
+      "had read it, so the attacker received the victim's instructions, declined them, and " +
+      "exited cleanly having planted nothing, four times in a row, while the barrier released " +
+      "on the prompt file itself. The task now lands on the container's private tmpfs, and the " +
+      "barrier releases only on the files a scenario declares.",
+  },
+  {
     date: "2026-09-26",
     kind: "retraction",
     title: "The README described paper generation in the present tense",

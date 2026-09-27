@@ -155,7 +155,9 @@ tbody tr:hover td { background: rgba(255,255,255,0.015); }
 .stamp { font-family: var(--font-mono); font-size: var(--t-micro); color: var(--ink-faint); letter-spacing: 0.06em; }
 @media (max-width: 900px) { .masthead { position: static; } .masthead .inner { flex-wrap: wrap; gap: 0.6rem 1.2rem; } }
 
-.page { padding: 3rem 0 1rem; }
+/* Top and bottom only: the shorthand zeroed the sheet's side gutters, which
+   auto margins hid on a desktop and a phone showed at once. */
+.page { padding-top: 3rem; padding-bottom: 1rem; }
 .page > h1 { margin: 0.5rem 0 1rem; max-width: 20ch; }
 .lede { color: var(--ink-soft); font-size: var(--t-lead); max-width: 56ch; margin-bottom: 1.5rem; }
 .note { font-size: var(--t-small); color: var(--ink-soft); }
@@ -210,3 +212,17 @@ section.block .deck { color: var(--ink-soft); max-width: 58ch; margin-bottom: 1.
 .closing h2 { font-size: var(--t-h1); font-style: italic; max-width: 16ch; }
 /* An identifier in a headline is an identifier: mono, smaller, quieter. */
 .page > h1 code { font-family: var(--font-mono); font-size: 0.62em; font-weight: 400; letter-spacing: -0.01em; }
+
+/* A flex or grid child will not shrink below its content, so a wide table
+   inside one widens the document instead of scrolling in its container. */
+.stack > *, .paper-grid > *, .spec > .v, .grid-2 > *, .grid-3 > * { min-width: 0; }
+.scroll-x { max-width: 100%; }
+@media (max-width: 720px) {
+  .figures { grid-template-columns: 1fr 1fr; }
+  .figures > div { border-right: 0; margin-right: 0; padding-right: 1rem; }
+  .hero .inner { padding-top: 3rem; }
+  .masthead nav { gap: 1rem; }
+}
+
+/* Identifiers never wrap on their own; a digest is wider than a phone. */
+code { overflow-wrap: anywhere; }

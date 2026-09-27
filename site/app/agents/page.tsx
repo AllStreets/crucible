@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { agentRows, loadDataset, stageRows } from "../../lib/dataset";
 import { FAILURE_LABELS } from "../../lib/failures";
+import { Journey } from "../../components/viz/Journey";
 
 export const metadata = { title: "Agents | Crucible" };
 
@@ -12,6 +13,7 @@ export default function Agents() {
     <div className="sheet page stack">
       <div><p className="label">Agents</p><h1>One page per agent, every row it touched</h1>
         <p className="lede">Sorted by how far each got. Click through to see the build, the environment check, every solo attempt including the ones that did nothing, and every pair it entered.</p></div>
+      <figure className="fig"><Journey rows={stageRows(data)} /><figcaption><b>Figure 1</b><span>One row per agent, one cell per stage, lit as far as the agent got. The population reads at a glance, and a new agent is a new row.</span></figcaption></figure>
       <div className="panel scroll-x">
         <table>
           <thead><tr><th>Agent</th><th>Stage reached</th><th>Build</th><th>Repository</th></tr></thead>

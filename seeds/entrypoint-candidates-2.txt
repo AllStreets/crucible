@@ -1,0 +1,8 @@
+# A second round of command-line agents. mentat, considered, no longer exists.
+# open-interpreter is pinned to its last Python release: the project was
+# rewritten in Rust at HEAD, and the agent people ran for two years is the
+# Python one. gpt-engineer is archived; an archived agent is still an agent at
+# the commit it was last run at, and its viability is a fact worth recording.
+https://github.com/OpenInterpreter/open-interpreter ref=v0.4.2
+https://github.com/AntonOsika/gpt-engineer
+https://github.com/simonw/llm

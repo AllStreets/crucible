@@ -48,6 +48,11 @@ class Seed:
 
     url: str
     credentials: tuple[str, ...] = field(default=())
+    #: A tag or branch to pin instead of HEAD. An agent that was rewritten in
+    #: another language, or that broke at HEAD, is still a real agent at the
+    #: commit people ran it at, and measuring it there is a choice the seed
+    #: list records rather than one the harvester makes.
+    ref: str | None = None
 
 
 def parse_seed_line(line: str) -> Seed | None:
@@ -71,12 +76,16 @@ def parse_seed_line(line: str) -> Seed | None:
     parts = stripped.split()
     url = parts[0]
     declared: list[str] = []
+    ref: str | None = None
     for part in parts[1:]:
+        if part.startswith("ref="):
+            ref = part[len("ref="):].strip() or None
+            continue
         if part.startswith("needs="):
             declared.extend(
                 name.strip().upper()
                 for name in part[len("needs="):].split(",") if name.strip())
-    return Seed(url=url, credentials=tuple(declared))
+    return Seed(url=url, credentials=tuple(declared), ref=ref)
 
 
 def parse_seed_file(text: str) -> list[Seed]:
@@ -130,15 +139,20 @@ def source_for(repo_url: str) -> str:
     return "huggingface" if "huggingface.co" in repo_url else "github"
 
 
-async def resolve_head_detail(repo_url: str, *, run: Runner) -> tuple[str | None, str]:
-    """The commit SHA at HEAD, or None and the reason it could not be read.
+async def resolve_head_detail(repo_url: str, *, run: Runner,
+                              ref: str | None = None) -> tuple[str | None, str]:
+    """The commit SHA at HEAD, or at `ref`, or None and the reason it could not be read.
 
     Returns rather than raises: one dead repository must not lose the rest of
     the batch, and an unreachable repository is itself an observation, which is
     why the reason comes back rather than being discarded.
     """
+    # A tag resolves through its peeled entry (refs/tags/x^{}) when the tag is
+    # annotated, which points at the commit rather than the tag object; the
+    # last matching line wins because ls-remote prints the peeled line second.
+    want = ["HEAD"] if ref is None else [f"refs/tags/{ref}", f"refs/heads/{ref}", ref]
     try:
-        code, out = await run("git", "ls-remote", repo_url, "HEAD",
+        code, out = await run("git", "ls-remote", repo_url, *want,
                               timeout_s=LS_REMOTE_TIMEOUT_S)
     except (TimeoutError, asyncio.TimeoutError):
         return None, f"git ls-remote timed out after {LS_REMOTE_TIMEOUT_S}s"
@@ -147,10 +161,16 @@ async def resolve_head_detail(repo_url: str, *, run: Runner) -> tuple[str | None
     if code != 0:
         detail = out.strip().splitlines()[0][:300] if out.strip() else "no output"
         return None, f"git ls-remote exited {code}: {detail}"
-    first = out.split("\t", 1)[0].strip()
-    if not _SHA.match(first):
-        return None, "git ls-remote returned no commit sha for HEAD"
-    return first, ""
+    lines = [l for l in out.splitlines() if l.strip()]
+    if ref is not None:
+        peeled = [l for l in lines if l.rstrip().endswith("^{}")]
+        chosen = (peeled or lines)[-1] if lines else ""
+    else:
+        chosen = lines[0] if lines else ""
+    sha = chosen.split("\t", 1)[0].strip()
+    if not _SHA.match(sha):
+        return None, f"git ls-remote returned no commit sha for {ref or 'HEAD'}"
+    return sha, ""
 
 
 async def resolve_head(repo_url: str, *, run: Runner) -> str | None:
@@ -191,7 +211,7 @@ async def harvest(seeds: Sequence[str | Seed], *, store: Store,
     seen: set[tuple[str, str]] = set()
     for seed in seeds:
         item = seed if isinstance(seed, Seed) else Seed(url=seed)
-        sha, reason = await resolve_head_detail(item.url, run=run)
+        sha, reason = await resolve_head_detail(item.url, run=run, ref=item.ref)
         if sha is None:
             _record_unresolved(store, item.url, reason)
             continue
