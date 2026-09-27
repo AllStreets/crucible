@@ -9,6 +9,7 @@
     "id",
     "image_digest",
     "log_ref",
+    "pins",
     "recipe_sha",
     "status"
   ],
