@@ -5,3 +5,6 @@ __pycache__/
 .env*
 !.env.example
 data/runs/
+
+# Solo-gate workdirs are scratch: the store holds the evidence blobs.
+runs/solo*/

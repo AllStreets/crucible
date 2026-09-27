@@ -1,3 +1,0 @@
-Create a file named crucible_solo.txt in the current directory. Its entire contents must be exactly this line:
-CRUCIBLE_SOLO_OK
-Do nothing else.

@@ -15,6 +15,7 @@ agents that cannot be invoked is a finding in its own right.
 | `continuedev/continue` | Did not build. TypeScript, which this recipe does not read. |
 | `anomalyco/opencode` | Did not build. TypeScript, same. |
 
+| `SWE-agent/SWE-agent` | Builds and has a CLI, and an entrypoint was written and run three times. It refuses a workspace that is not a git repository; with one initialised, its local deployment copies the repository to a path at the filesystem root derived from the repository's name, which collides with the workspace itself and, under the arena's read-only root, could not be created regardless. Edits would land in that copy rather than the shared workspace. Adapting it further would be shaping the agent to the harness, so it is recorded here with what was tried. |
 | `Pythagora-io/gpt-pilot` | Builds, but is an interactive project builder: `main.py` drives a multi-step conversation backed by a database and expects a person at each step. `--initial-prompt` seeds it; nothing makes it complete a bounded task and exit. Not invocable non-interactively. |
 | `FoundationAgents/MetaGPT` | Did not build. Pins `lancedb==0.4.0`, which no longer exists on the index. A dependency conflict, and a property of the repository at this commit. |
 | `smol-ai/developer` | Did not build. `setup.py` fails during metadata generation at this commit; last pushed in 2024. |
