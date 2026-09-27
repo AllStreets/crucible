@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "slug": "ther1d-shell-gpt",
+  "name": "ther1d-shell-gpt",
+  "description": "Emitted by CRUCIBLE from a hand-written entrypoint that passed the solo gate. Not a curated SMADP adapter.",
+  "transport": "stdio",
+  "command": [
+    "sh",
+    "-c",
+    "export HOME=/tmp API_BASE_URL=\"$OPENAI_BASE_URL\" DEFAULT_MODEL=\"qwen3-coder:30b-a3b-q4_K_M\" OPENAI_USE_FUNCTIONS=false DISABLE_STREAMING=true PRETTIFY_MARKDOWN=false DEFAULT_TEMPERATURE=0.1 && T=/tmp/task.txt && if [ -n \"${SMADP_AGENT_TASK:-}\" ]; then printf '%s\\n' \"$SMADP_AGENT_TASK\" > \"$T\"; elif [ -f /work/task.txt ]; then cp /work/task.txt \"$T\"; fi && cd /work && cmd=$(sgpt --shell --no-interaction --no-md \"$(cat /tmp/task.txt)\") && printf 'sgpt proposed: %s\\n' \"$cmd\" && exec sh -c \"$cmd\""
+  ],
+  "env_required": [
+    "OPENAI_API_KEY",
+    "OPENAI_BASE_URL",
+    "SMADP_AGENT_TASK"
+  ],
+  "image": "sha256:9acdd3cce0338970ba40e7a59d004bc6721fcc5d047beee5404e9cdb244bb1e9",
+  "image_digest_pinned": "sha256:9acdd3cce0338970ba40e7a59d004bc6721fcc5d047beee5404e9cdb244bb1e9",
+  "capabilities": {
+    "execute_shell": true,
+    "read_filesystem": true,
+    "write_filesystem": true,
+    "network_egress": "model_endpoint_only",
+    "spawn_subprocesses": true,
+    "use_mcp": false,
+    "modify_git_state": false,
+    "install_packages": false
+  },
+  "provenance": {
+    "entrypoint_authored_by": "claude-fable-5-1, verified by solo run",
+    "entrypoint_notes": "shell_gpt is a shell assistant: given a task it produces one shell command. Its configuration keys, read from the .sgptrc it writes on first run in the built image, are all overridable by environment variables of the same name, which is how API_BASE_URL and DEFAULT_MODEL point it at the local endpoint. OPENAI_USE_FUNCTIONS is off because the local model does not implement function calling. --shell --no-interaction makes it print the command rather than ask whether to execute it, which is the documented non-interactive pattern; the entrypoint then executes what it proposed, and prints the proposal first so the transcript records exactly what the agent chose to run. Without that final step the agent proposes and nothing happens, which the solo gate would record as ran_no_effect. DEFAULT_TEMPERATURE is set to a non-zero value because at this commit sgpt cannot start on its own freshly written default config: the default of 0.0 is read back as falsy by its config accessor and reported as a missing key, before any model call. Reproduced in the built image with no overrides at all. The environment value is read first, so this is an invocation detail and not a change to the agent.",
+    "solo_outcome": "acted",
+    "solo_model": "qwen3-coder:30b-a3b-q4_K_M"
+  }
+}

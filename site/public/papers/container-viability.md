@@ -4,7 +4,7 @@
 
 ## Abstract
 
-We attempt to build 10 open-source AI agent repositories into containers at pinned commits and to start each resulting image in a network-denied sandbox. 6 build successfully and 6 pass a container environment check, a rate of 60.0 percent. We report the distribution of failure causes and, for each, whether the cause is a property of the agent or a limit of the harness. We do not measure whether any agent runs.
+We attempt to build 17 open-source AI agent repositories into containers at pinned commits and to start each resulting image in a network-denied sandbox. 11 build successfully and 11 pass a container environment check, a rate of 64.7 percent. We report the distribution of failure causes and, for each, whether the cause is a property of the agent or a limit of the harness. We do not measure whether any agent runs.
 
 ## Method
 
@@ -16,17 +16,17 @@ A build that exits successfully is checked for having installed a distribution: 
 
 The probe does not invoke the agent. The container command overrides whatever entrypoint the agent defines, so a passing check establishes that the environment works and nothing more. The repositories studied share no common entrypoint, and with no network and no credentials an invocation would measure the harness rather than the agent.
 
-Records span 2026-09-26 to 2026-09-26. Build recipes used: 1. A recipe digest is pinned on every build row, since the recipe determines which agents are buildable and rows produced under different recipes are different measurements.
+Records span 2026-09-26 to 2026-09-27. Build recipes used: 2. A recipe digest is pinned on every build row, since the recipe determines which agents are buildable and rows produced under different recipes are different measurements.
 
 ## Results
 
 | Stage | Count |
 |---|---|
-| Repositories harvested | 10 |
+| Repositories harvested | 17 |
 | Seed URLs unresolved | 0 |
-| Built | 6 |
-| Build failed | 4 |
-| Environment check passed | 6 |
+| Built | 11 |
+| Build failed | 7 |
+| Environment check passed | 11 |
 | Environment check failed | 0 |
 
 Failure counts are tallies of recorded rows and are not a partition of the repositories harvested. A repository that fails to build contributes a build row and no check row, so the tables below neither sum to the harvested count nor are bounded by it.
@@ -37,6 +37,8 @@ Failure counts are tallies of recorded rows and are not a partition of the repos
 |---|---|---|
 | Written in a language this recipe does not build | 2 | this harness |
 | The manifest found is a workspace root, not an installable package | 2 | this harness |
+| Build failed | 2 | the repository |
+| Dependencies could not be resolved | 1 | the repository |
 
 ### Environment check stage
 
@@ -56,9 +58,9 @@ Probe durations range from 208 to 267 milliseconds.
 
 Generated from run metadata rather than composed, so these cannot fall out of date with the results above.
 
-- Sample size is 10 repositories.
+- Sample size is 17 repositories.
 - Models held constant across checks: 1.
-- Build recipes in the record: 1. A rate computed across more than one recipe is not a single measurement.
+- Build recipes in the record: 2. A rate computed across more than one recipe is not a single measurement.
 - No agent was invoked, so nothing here is evidence of agent behaviour.
 - No pair of agents was run, so nothing here concerns interaction.
 
@@ -94,6 +96,13 @@ Failure classes are assigned by matching the build log against a fixed, ordered 
 | langchain-ai-langgraph | langchain-ai/langgraph | 7daa3ab49d67 | built |  | passed | 208 |
 | yoheinakajima-babyagi | yoheinakajima/babyagi | fa8930ebe72a | built |  | passed | 255 |
 | browser-use-browser-use | browser-use/browser-use | 4cbe921673b4 | built |  | passed | 267 |
+| ther1d-shell-gpt | TheR1D/shell_gpt | a082bd5327ce | built |  | passed | 209 |
+| huggingface-smolagents | huggingface/smolagents | 227ef5e49ddd | built |  | passed | 212 |
+| foundationagents-metagpt | FoundationAgents/MetaGPT | 11cdf466d042 | failed | dependency_conflict | not reached |  |
+| swe-agent-swe-agent | SWE-agent/SWE-agent | 3ea751c087f3 | built |  | passed | 221 |
+| smol-ai-developer | smol-ai/developer | a6747d1a6ccd | failed | build_failed | not reached |  |
+| openbmb-chatdev | OpenBMB/ChatDev | 4fb2db0ea903 | failed | build_failed | not reached |  |
+| pythagora-io-gpt-pilot | Pythagora-io/gpt-pilot | 9b763fdaf002 | built |  | passed | 213 |
 
 ## Reproduction
 

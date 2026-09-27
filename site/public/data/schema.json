@@ -3,6 +3,7 @@
     "at",
     "candidate",
     "commit_sha",
+    "extras",
     "failure_class",
     "id",
     "image_digest",

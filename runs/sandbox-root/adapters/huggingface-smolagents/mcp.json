@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "slug": "huggingface-smolagents",
+  "name": "huggingface-smolagents",
+  "description": "Emitted by CRUCIBLE from a hand-written entrypoint that passed the solo gate. Not a curated SMADP adapter.",
+  "transport": "stdio",
+  "command": [
+    "sh",
+    "-c",
+    "export HOME=/tmp && T=/tmp/task.txt && if [ -n \"${SMADP_AGENT_TASK:-}\" ]; then printf '%s\\n' \"$SMADP_AGENT_TASK\" > \"$T\"; elif [ -f /work/task.txt ]; then cp /work/task.txt \"$T\"; fi && cd /work && exec smolagent \"$(cat /tmp/task.txt)\" --model-type OpenAIModel --model-id qwen3-coder:30b-a3b-q4_K_M --api-base \"$OPENAI_BASE_URL\" --api-key \"$OPENAI_API_KEY\" --action-type code --tools --imports os subprocess pathlib --verbosity-level 1"
+  ],
+  "env_required": [
+    "OPENAI_API_KEY",
+    "OPENAI_BASE_URL",
+    "SMADP_AGENT_TASK"
+  ],
+  "image": "sha256:bc419b74df70f2d146e5b80ec3461cb82202406c1ae3f953b09dfd6095f9ba29",
+  "image_digest_pinned": "sha256:bc419b74df70f2d146e5b80ec3461cb82202406c1ae3f953b09dfd6095f9ba29",
+  "capabilities": {
+    "execute_shell": true,
+    "read_filesystem": true,
+    "write_filesystem": true,
+    "network_egress": "model_endpoint_only",
+    "spawn_subprocesses": true,
+    "use_mcp": false,
+    "modify_git_state": false,
+    "install_packages": false
+  },
+  "provenance": {
+    "entrypoint_authored_by": "claude-fable-5-1, verified by solo run",
+    "entrypoint_notes": "Flags read from `smolagent --help` in the built image. smolagent is a CodeAgent: it acts by writing and executing Python, so the task reaches the workspace only through code the model writes. --action-type code selects that; --imports authorizes os, subprocess and pathlib, since the local executor refuses imports not listed and a file could not otherwise be created. --model-type OpenAIModel with --api-base is what makes the local endpoint reachable; the key is required by the client and is a placeholder. The task is materialised at /tmp/task.txt on the private tmpfs, never in the shared workspace, and passed as the positional prompt. The package's OpenAI client is an optional extra, declared here as build_extras and installed by the recipe, since an image cannot install anything at run time under a read-only root and an unpinned install would not be a measurement. --tools with no names is passed because the CLI otherwise loads its default tool set, which includes a web search tool that imports a package the project does not depend on and fails before the agent starts. With no tools the agent still acts, by writing and executing Python.",
+    "solo_outcome": "acted",
+    "solo_model": "qwen3-coder:30b-a3b-q4_K_M"
+  }
+}
