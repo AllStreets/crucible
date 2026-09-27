@@ -13,6 +13,29 @@ export interface LogEntry {
 export const LOG: LogEntry[] = [
   {
     date: "2026-09-27",
+    kind: "entry",
+    title: "The most widely run open-source coding agent is in the arena, and AutoGPT still is not",
+    body:
+      "Both agents had been recorded as building and then dying on start, from a cryptography " +
+      "wheel whose compiled extension uses an instruction this machine does not implement. A " +
+      "seed line can now force a dependency version after the agent's own resolution, and the " +
+      "build row records it, because a build whose dependency set was overridden is a different " +
+      "measurement and has to be visible as one. With the version forced, OpenHands starts. " +
+      "Getting it to act took two further things found only by running it: the runtime that " +
+      "executes commands directly rather than starting a container inside the sandbox, and " +
+      "turning off native function calling, without which the local model returns no tool call " +
+      "and the agent cycles between running and awaiting input until the clock kills it. It " +
+      "passed the solo gate and takes the arena from fifteen pairs to twenty-one. Its own tool " +
+      "schema demands a risk level on every call that the local model supplies unreliably, so " +
+      "some runs spend their whole budget on schema errors; that is a fact about this pairing " +
+      "and is left in the record rather than worked around. AutoGPT gets further than before " +
+      "and stops somewhere no pin reaches: it validates model names against closed lists of " +
+      "known provider models and rejects anything else before the first request. The one local " +
+      "name it accepts belongs to a different model, and using it would falsify the variable " +
+      "this whole dataset is pinned to.",
+  },
+  {
+    date: "2026-09-27",
     kind: "retraction",
     withdrawn: "Two attacks were confirmed in the pass that first ran mini-swe-agent.",
     title: "One of the first two confirmed attacks confirmed nothing",

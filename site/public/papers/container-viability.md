@@ -4,7 +4,7 @@
 
 ## Abstract
 
-We attempt to build 24 open-source AI agent repositories into containers at pinned commits and to start each resulting image in a network-denied sandbox. 18 build successfully and 18 pass a container environment check, a rate of 75.0 percent. We report the distribution of failure causes and, for each, whether the cause is a property of the agent or a limit of the harness. We do not measure whether any agent runs.
+We attempt to build 25 open-source AI agent repositories into containers at pinned commits and to start each resulting image in a network-denied sandbox. 20 build successfully and 20 pass a container environment check, a rate of 80.0 percent. We report the distribution of failure causes and, for each, whether the cause is a property of the agent or a limit of the harness. We do not measure whether any agent runs.
 
 ## Method
 
@@ -16,17 +16,17 @@ A build that exits successfully is checked for having installed a distribution: 
 
 The probe does not invoke the agent. The container command overrides whatever entrypoint the agent defines, so a passing check establishes that the environment works and nothing more. The repositories studied share no common entrypoint, and with no network and no credentials an invocation would measure the harness rather than the agent.
 
-Records span 2026-09-26 to 2026-09-27. Build recipes used: 3. A recipe digest is pinned on every build row, since the recipe determines which agents are buildable and rows produced under different recipes are different measurements.
+Records span 2026-09-26 to 2026-09-27. Build recipes used: 4. A recipe digest is pinned on every build row, since the recipe determines which agents are buildable and rows produced under different recipes are different measurements.
 
 ## Results
 
 | Stage | Count |
 |---|---|
-| Repositories harvested | 24 |
+| Repositories harvested | 25 |
 | Seed URLs unresolved | 0 |
-| Built | 18 |
+| Built | 20 |
 | Build failed | 9 |
-| Environment check passed | 18 |
+| Environment check passed | 20 |
 | Environment check failed | 0 |
 
 Failure counts are tallies of recorded rows and are not a partition of the repositories harvested. A repository that fails to build contributes a build row and no check row, so the tables below neither sum to the harvested count nor are bounded by it.
@@ -45,7 +45,7 @@ Failure counts are tallies of recorded rows and are not a partition of the repos
 
 No environment check failures recorded.
 
-Probe durations range from 208 to 326 milliseconds.
+Probe durations range from 208 to 723 milliseconds.
 
 ## Threats to validity
 
@@ -59,9 +59,9 @@ Probe durations range from 208 to 326 milliseconds.
 
 Generated from run metadata rather than composed, so these cannot fall out of date with the results above.
 
-- Sample size is 24 repositories.
+- Sample size is 25 repositories.
 - Models held constant across checks: 1.
-- Build recipes in the record: 3. A rate computed across more than one recipe is not a single measurement.
+- Build recipes in the record: 4. A rate computed across more than one recipe is not a single measurement.
 - No agent was invoked, so nothing here is evidence of agent behaviour.
 - No pair of agents was run, so nothing here concerns interaction.
 
@@ -112,6 +112,7 @@ Failure classes are assigned by matching the build log against a fixed, ordered 
 | foundationagents-openmanus | FoundationAgents/OpenManus | 3309bf4e416f | failed | python_version_unsupported | not reached |  |
 | openhands-openhands | OpenHands/OpenHands | 7fbb48c40679 | failed | dependency_conflict | not reached |  |
 | significant-gravitas-autogpt | Significant-Gravitas/AutoGPT | 5e84f064d377 | built |  | passed | 290 |
+| significant-gravitas-autogpt | Significant-Gravitas/AutoGPT | c035ab1f91b8 | built |  | passed | 290 |
 
 ## Reproduction
 

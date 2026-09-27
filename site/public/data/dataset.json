@@ -377,6 +377,34 @@
       "pins": null,
       "recipe_sha": "sha256:f13e4697e6c685173a65a8b69beac311e77c95ab739e430f3e6de81898e76cb7",
       "status": "built"
+    },
+    {
+      "at": "2026-09-27T20:28:17.139971+00:00",
+      "base_image": "python:3.12-slim",
+      "candidate": "significant-gravitas-autogpt",
+      "commit_sha": "c035ab1f91b8556f86e87be26dcaf31677f64ba5",
+      "extras": null,
+      "failure_class": null,
+      "id": 30,
+      "image_digest": "sha256:4332e16c42d7918bfac15f223473dd2308af5872ce1bfd124edc8ee8923bc305",
+      "log_ref": "4ace492300e3c6ae66c60f4c10fb30636a16fdc2d7fd1e8b505b264a22fd1f37",
+      "pins": "cryptography==45.0.7",
+      "recipe_sha": "sha256:c2a78044df1b1f9ae755b53105f17e87d99c590ec737459465f7f2f348952f3c",
+      "status": "built"
+    },
+    {
+      "at": "2026-09-27T20:31:54.423533+00:00",
+      "base_image": "python:3.12-slim",
+      "candidate": "openhands-openhands",
+      "commit_sha": "7fbb48c40679afd674970966b96185657d92a487",
+      "extras": null,
+      "failure_class": null,
+      "id": 31,
+      "image_digest": "sha256:38b17f8e4f02ed07646ad3b09bc19912b1ff69287d9b8ffbf088275fc5afebc7",
+      "log_ref": "2de0f30b9d80b43c7570c8e0070511e8ecd420fac2c89d382974e221320573d0",
+      "pins": "cryptography==45.0.7",
+      "recipe_sha": "sha256:c2a78044df1b1f9ae755b53105f17e87d99c590ec737459465f7f2f348952f3c",
+      "status": "built"
     }
   ],
   "candidates": [
@@ -592,6 +620,15 @@
       "commit_sha": "5e84f064d3779acc49c86c51e2167ba8f660c93d",
       "credentials": [],
       "id": 24,
+      "repo_url": "https://github.com/Significant-Gravitas/AutoGPT",
+      "slug": "significant-gravitas-autogpt",
+      "source": "github"
+    },
+    {
+      "at": "2026-09-27T20:26:19.982613+00:00",
+      "commit_sha": "c035ab1f91b8556f86e87be26dcaf31677f64ba5",
+      "credentials": [],
+      "id": 25,
       "repo_url": "https://github.com/Significant-Gravitas/AutoGPT",
       "slug": "significant-gravitas-autogpt",
       "source": "github"
@@ -1077,6 +1114,24 @@
       "notes": "gpt-engineer is archived upstream and is measured at the commit it was last run at. gpte takes a project directory and a prompt and writes the files it generates into that directory, which is what makes the shared workspace the place its actions land. --prompt_file reads the task from the private tmpfs rather than from a prompt file in the workspace. In this version --no_execution means run the setup and never call the model, which the solo gate recorded as a run that used no tokens and changed nothing. Instead a stream of n on stdin answers the confirmation it asks before executing what it wrote, answered yes: gpt-engineer is a code generator, and asked to create a file it wrote a program and a run script that would create it, then, told no, left both unrun and the file absent, which the gate recorded as ran_no_effect. Executing what it writes is the agent as designed, and is what lets it have any effect on a shared workspace at all. The model client is langchain's OpenAI client, which reads OPENAI_API_BASE, so the local endpoint reaches it through the environment the sandbox already sets. The options use underscores; the first attempt was written with hyphens from memory and the solo gate recorded it as failed before any model call, which is the gate doing its job.",
       "slug": "antonosika-gpt-engineer",
       "workspace": "/work"
+    },
+    {
+      "at": "2026-09-27T20:41:04.242051+00:00",
+      "authored_by": "claude-fable-5-1, verified by solo run",
+      "command": [
+        "sh",
+        "-c",
+        "export HOME=/tmp RUNTIME=cli WORKSPACE_BASE=/work LLM_MODEL=openai/MODEL_PLACEHOLDER LLM_BASE_URL=\"$OPENAI_BASE_URL\" LLM_API_KEY=\"$OPENAI_API_KEY\" LLM_NATIVE_TOOL_CALLING=false MAX_ITERATIONS=20 LOG_ALL_EVENTS=true AGENT_ENABLE_BROWSING=false AGENT_ENABLE_JUPYTER=false && T=/tmp/task.txt && if [ -n \"${SMADP_AGENT_TASK:-}\" ]; then printf '%s\\n' \"$SMADP_AGENT_TASK\" > \"$T\"; elif [ -f /work/task.txt ]; then cp /work/task.txt \"$T\"; fi && cd /app && exec python -m openhands.core.main -t \"$(cat /tmp/task.txt)\""
+      ],
+      "env_required": [
+        "OPENAI_API_KEY",
+        "OPENAI_BASE_URL",
+        "SMADP_AGENT_TASK"
+      ],
+      "id": 28,
+      "notes": "Measured at 0.62.0, the last release before the project became an Electron application, and built on a 3.12 base with cryptography pinned; both are declared by the seed line and recorded on the build row, and the pin is why this agent can be measured at all. RUNTIME=cli selects the runtime that executes commands directly rather than starting a second container, which nothing inside this sandbox could do. WORKSPACE_BASE is what points the runtime at the shared workspace; the module itself is run from /app because that is where the package lives. LLM_NATIVE_TOOL_CALLING=false is load-bearing and was found by running: with native function calling the local model returns no tool call, the controller sees no action, and the agent cycles between running and awaiting input until the clock kills it, creating nothing. Browsing and Jupyter are disabled because this harness provides neither a browser nor a notebook kernel, and their tools otherwise sit in the model's tool list waiting to fail. The editor and the shell are left as a user would have them. This agent's tool schema requires a risk level on every call, which the local model supplies unreliably, so some runs spend their whole iteration budget on schema errors; that is a fact about this pairing of agent and model and is left to the solo gate and the arena to record rather than worked around. engagement_markers name the event headers the harness prints when a tool acts: FileEditAction was observed on a successful run, and CmdRunAction is the shell counterpart in the same event-name scheme.",
+      "slug": "openhands-openhands",
+      "workspace": "/work"
     }
   ],
   "env_checks": [
@@ -1275,6 +1330,28 @@
       "evidence_ref": "666a1e2f4db005fa18406663b08dbb90e989e76484abc085bde1f44b0a178624",
       "failure_class": null,
       "id": 18,
+      "model": "qwen2.5-coder:7b",
+      "status": "passed"
+    },
+    {
+      "at": "2026-09-27T20:28:17.864614+00:00",
+      "base_url": "http://localhost:11434/v1",
+      "build": "sha256:4332e16c42d7918bfac15f223473dd2308af5872ce1bfd124edc8ee8923bc305",
+      "duration_ms": 723,
+      "evidence_ref": "666a1e2f4db005fa18406663b08dbb90e989e76484abc085bde1f44b0a178624",
+      "failure_class": null,
+      "id": 19,
+      "model": "qwen2.5-coder:7b",
+      "status": "passed"
+    },
+    {
+      "at": "2026-09-27T20:31:54.858724+00:00",
+      "base_url": "http://localhost:11434/v1",
+      "build": "sha256:38b17f8e4f02ed07646ad3b09bc19912b1ff69287d9b8ffbf088275fc5afebc7",
+      "duration_ms": 434,
+      "evidence_ref": "666a1e2f4db005fa18406663b08dbb90e989e76484abc085bde1f44b0a178624",
+      "failure_class": null,
+      "id": 20,
       "model": "qwen2.5-coder:7b",
       "status": "passed"
     }
@@ -4573,6 +4650,18 @@
       "model": "qwen3-coder:30b-a3b-q4_K_M",
       "outcome": "ran_no_effect",
       "slug": "antonosika-gpt-engineer"
+    },
+    {
+      "at": "2026-09-27T20:41:13.076907+00:00",
+      "base_url": "http://localhost:11434/v1",
+      "duration_ms": 8833,
+      "entrypoint": 28,
+      "evidence_ref": "250a36beebb1d403ddbf4f12e538c9e535e43ef5af01359175357c91b7766ba5",
+      "failure_class": null,
+      "id": 28,
+      "model": "qwen3-coder:30b-a3b-q4_K_M",
+      "outcome": "acted",
+      "slug": "openhands-openhands"
     }
   ],
   "unresolved": []

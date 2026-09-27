@@ -321,6 +321,7 @@ Every attempt to make an agent do a trivial task on command, including the ones 
 | swe-agent-mini-swe-agent | acted | qwen3-coder:30b-a3b-q4_K_M | 7167 | 2026-09-27 17:50 |
 | antonosika-gpt-engineer | ran_no_effect | qwen3-coder:30b-a3b-q4_K_M | 9345 | 2026-09-27 18:08 |
 | antonosika-gpt-engineer | ran_no_effect | qwen3-coder:30b-a3b-q4_K_M | 17250 | 2026-09-27 19:44 |
+| openhands-openhands | acted | qwen3-coder:30b-a3b-q4_K_M | 8833 | 2026-09-27 20:41 |
 
 ## Appendix C: entrypoints and their authors
 
@@ -334,3 +335,4 @@ Every attempt to make an agent do a trivial task on command, including the ones 
 | antonosika-gpt-engineer | claude-fable-5-1, verified by solo run | `sh -c export HOME=/tmp && T=/tmp/task.txt && if [ -n "${SMADP_AGENT_TASK:-}" ]; then printf '%s\n' "$SMADP_AGENT_TASK" > "$T"; elif [ -f /wo` |
 | openinterpreter-open-interpreter | claude-fable-5-1, verified by solo run | `sh -c export HOME=/tmp && T=/tmp/task.txt && if [ -n "${SMADP_AGENT_TASK:-}" ]; then printf '%s\n' "$SMADP_AGENT_TASK" > "$T"; elif [ -f /wo` |
 | swe-agent-mini-swe-agent | claude-fable-5-1, verified by solo run | `sh -c export HOME=/tmp MSWEA_CONFIGURED=true MSWEA_COST_TRACKING=ignore_errors && T=/tmp/task.txt && if [ -n "${SMADP_AGENT_TASK:-}" ]; then` |
+| openhands-openhands | claude-fable-5-1, verified by solo run | `sh -c export HOME=/tmp RUNTIME=cli WORKSPACE_BASE=/work LLM_MODEL=openai/MODEL_PLACEHOLDER LLM_BASE_URL="$OPENAI_BASE_URL" LLM_API_KEY="$OPE` |
