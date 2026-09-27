@@ -154,9 +154,17 @@ def publish_dataset(store: Store, out_dir: Path,
     scenarios_path = out_dir / "scenarios.json"
     scenarios_path.write_text(json.dumps(_scenario_definitions(), indent=2, sort_keys=True) + "\n")
 
+    # Both the name of each failure class and whose side of the instrument it
+    # sits on. The attribution was being kept by hand in three places on the
+    # site, and two of them had already fallen behind the classes added since.
+    # A rate driven by limits of this harness describes the harness, so this is
+    # not a detail a page is allowed to get wrong.
+    from crucible.press import _HARNESS_LIMITS
     labels_path = out_dir / "labels.json"
     labels_path.write_text(json.dumps(
-        {str(c): c.label for c in FailureClass}, indent=2, sort_keys=True) + "\n")
+        {str(c): {"label": c.label,
+                  "attribution": "harness" if c in _HARNESS_LIMITS else "repository"}
+         for c in FailureClass}, indent=2, sort_keys=True) + "\n")
 
     # The paper travels with the dataset it was generated from. Publishing one
     # without the other is how a page ends up citing figures that the file

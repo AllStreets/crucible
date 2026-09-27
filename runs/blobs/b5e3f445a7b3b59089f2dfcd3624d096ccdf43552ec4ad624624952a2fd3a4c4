@@ -1,0 +1,94 @@
+#1 [internal] load .dockerignore
+#1 transferring context: 2B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from node.Dockerfile
+#2 transferring dockerfile: 2.75kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:22-slim
+#3 ...
+
+#4 [auth] library/node:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:22-slim
+#3 DONE 0.7s
+
+#5 [1/7] FROM docker.io/library/node:22-slim@sha256:43ac6c60b8f89723f746e8a92ce91abd5017e627ce1ddfe4238355d3a30b772c
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 8.76kB done
+#6 DONE 0.0s
+
+#7 [3/7] WORKDIR /app
+#7 CACHED
+
+#8 [2/7] RUN apt-get update && apt-get install -y --no-install-recommends         git ca-certificates python3 make g++     && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [4/7] RUN git clone "https://github.com/QwenLM/qwen-code" . && git checkout "3f5ae3ffeb7264f236038eef91256a3310361d3c"
+#9 CACHED
+
+#10 [5/7] COPY docker/resolve_node.sh /opt/crucible/resolve_node.sh
+#10 DONE 0.0s
+
+#11 [6/7] RUN sh /opt/crucible/resolve_node.sh
+#11 0.145 crucible: resolving a node package in /app
+#11 0.145 crucible: lockfile says the package manager is pnpm
+#11 0.801 ! Corepack is about to download https://registry.npmjs.org/pnpm/-/pnpm-11.24.0.tgz
+#11 1.460 Scope: all 27 workspace projects
+#11 1.555 ? Verifying lockfile against supply-chain policies (1988 entries)...
+#11 1.590 Lockfile is up to date, resolution step is skipped
+#11 1.731 Packages: +1927
+#11 1.731 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#11 1.906 
+#11 1.906    ╭──────────────────────────────────────────────╮
+#11 1.906    │                                              │
+#11 1.906    │     Update available! 11.24.0 → 12.6.0.      │
+#11 1.906    │     Changelog: https://pnpm.io/v/12.6.0      │
+#11 1.906    │   To update, run: corepack use pnpm@12.6.0   │
+#11 1.906    │                                              │
+#11 1.906    ╰──────────────────────────────────────────────╯
+#11 1.906 
+#11 1.980 Progress: resolved 0, reused 0, downloaded 1, added 0
+#11 1.998 Packages are copied from the content-addressable store to the virtual store.
+#11 1.998   Content-addressable store is at: /root/.local/share/pnpm/store/v11
+#11 1.998   Virtual store is at:             node_modules/.pnpm
+#11 2.982 Progress: resolved 0, reused 0, downloaded 315, added 78
+#11 3.989 Progress: resolved 0, reused 0, downloaded 540, added 185
+#11 5.010 Progress: resolved 0, reused 0, downloaded 795, added 321
+#11 6.009 Progress: resolved 0, reused 0, downloaded 1014, added 425
+#11 8.422 Progress: resolved 0, reused 0, downloaded 1088, added 436
+#11 9.461 Progress: resolved 0, reused 0, downloaded 1262, added 449
+#11 10.46 Progress: resolved 0, reused 0, downloaded 1492, added 500
+#11 11.79 Progress: resolved 0, reused 0, downloaded 1549, added 548
+#11 17.15 crucible: pnpm was killed while installing, which on this host means
+#11 17.15 crucible: the machine ran out of memory, commonly while a native
+#11 17.15 crucible: module was being compiled from source
+#11 17.15 crucible-result: build host out of memory
+#11 17.15 Killed
+#11 ERROR: process "/bin/sh -c sh /opt/crucible/resolve_node.sh" did not complete successfully: exit code: 3
+------
+ > [6/7] RUN sh /opt/crucible/resolve_node.sh:
+#11 6.009 Progress: resolved 0, reused 0, downloaded 1014, added 425
+#11 8.422 Progress: resolved 0, reused 0, downloaded 1088, added 436
+#11 9.461 Progress: resolved 0, reused 0, downloaded 1262, added 449
+#11 10.46 Progress: resolved 0, reused 0, downloaded 1492, added 500
+#11 11.79 Progress: resolved 0, reused 0, downloaded 1549, added 548
+#11 17.15 crucible: pnpm was killed while installing, which on this host means
+#11 17.15 crucible: the machine ran out of memory, commonly while a native
+#11 17.15 crucible: module was being compiled from source
+#11 17.15 crucible-result: build host out of memory
+#11 17.15 Killed
+------
+node.Dockerfile:40
+--------------------
+  38 |     # docker/resolve_node.sh and the longer note in docker/resolve_manifest.sh.
+  39 |     COPY docker/resolve_node.sh /opt/crucible/resolve_node.sh
+  40 | >>> RUN sh /opt/crucible/resolve_node.sh
+  41 |     
+  42 |     RUN if [ -n "$PINS" ]; then \
+--------------------
+ERROR: failed to solve: process "/bin/sh -c sh /opt/crucible/resolve_node.sh" did not complete successfully: exit code: 3

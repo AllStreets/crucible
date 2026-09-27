@@ -419,6 +419,20 @@
       "pins": "cryptography==45.0.7",
       "recipe_sha": "sha256:c2a78044df1b1f9ae755b53105f17e87d99c590ec737459465f7f2f348952f3c",
       "status": "built"
+    },
+    {
+      "at": "2026-09-27T22:55:51.296081+00:00",
+      "base_image": "node:22-slim",
+      "candidate": "qwenlm-qwen-code",
+      "commit_sha": "3f5ae3ffeb7264f236038eef91256a3310361d3c",
+      "extras": null,
+      "failure_class": "host_out_of_memory",
+      "id": 35,
+      "image_digest": null,
+      "log_ref": "b5e3f445a7b3b59089f2dfcd3624d096ccdf43552ec4ad624624952a2fd3a4c4",
+      "pins": null,
+      "recipe_sha": "sha256:5973f6d1e6577392c6e3dfa6cfd8ce399a97d64debc726821ea830b6c0130ea2",
+      "status": "failed"
     }
   ],
   "candidates": [
@@ -645,6 +659,15 @@
       "id": 25,
       "repo_url": "https://github.com/Significant-Gravitas/AutoGPT",
       "slug": "significant-gravitas-autogpt",
+      "source": "github"
+    },
+    {
+      "at": "2026-09-27T22:42:01.599139+00:00",
+      "commit_sha": "3f5ae3ffeb7264f236038eef91256a3310361d3c",
+      "credentials": [],
+      "id": 26,
+      "repo_url": "https://github.com/QwenLM/qwen-code",
+      "slug": "qwenlm-qwen-code",
       "source": "github"
     }
   ],

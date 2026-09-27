@@ -47,6 +47,9 @@ class Candidate:
     #: Versions to force after the agent's own resolution, from the seed's
     #: `pin=` declarations. Empty for almost every agent.
     pins: tuple[str, ...] = ()
+    #: Which build recipe this candidate needs. "python" is the default and
+    #: the only one there was for the first three hundred builds.
+    lang: str = "python"
 
 
 @dataclass(frozen=True)
@@ -71,13 +74,27 @@ class Seed:
     #: overridden is a different measurement and a reader has to see that it
     #: happened.
     pins: tuple[str, ...] = field(default=())
+    #: The language this agent is written in, as `lang=node`. Declared rather
+    #: than sniffed: a repository that ships both a package.json and a
+    #: pyproject.toml is common, and a recipe chosen by guessing would decide
+    #: which half of such a project the dataset is about without recording
+    #: that a choice was made.
+    lang: str = "python"
 
 
 DEFAULT_BASE_IMAGE = "python:3.11-slim"
+#: What each recipe falls back to when a seed declares no version. Recorded on
+#: the build row either way: a row that reported the Python default while a
+#: Node recipe built it was the first thing this table fixed.
+DEFAULT_BASE_IMAGES = {"python": DEFAULT_BASE_IMAGE, "node": "node:22-slim"}
 
 
-def base_image_for(python: str | None) -> str | None:
-    """The base image a `python=` declaration resolves to, or None for default.
+def default_base_for(lang: str) -> str:
+    return DEFAULT_BASE_IMAGES.get(lang, DEFAULT_BASE_IMAGE)
+
+
+def base_image_for(python: str | None, lang: str = "python") -> str | None:
+    """The base image a declaration resolves to, or None for the recipe default.
 
     One place translates the version a seed asks for into an image tag, so the
     seed list stays a statement about the agent ("this needs 3.12") rather than
@@ -85,6 +102,8 @@ def base_image_for(python: str | None) -> str | None:
     """
     if python is None:
         return None
+    if lang == "node":
+        return f"node:{python}-slim"
     return f"python:{python}-slim"
 
 
@@ -112,7 +131,11 @@ def parse_seed_line(line: str) -> Seed | None:
     ref: str | None = None
     python: str | None = None
     pins: list[str] = []
+    lang = "python"
     for part in parts[1:]:
+        if part.startswith("lang="):
+            lang = part[len("lang="):].strip() or "python"
+            continue
         if part.startswith("pin="):
             spec = part[len("pin="):].strip()
             if spec:
@@ -127,7 +150,7 @@ def parse_seed_line(line: str) -> Seed | None:
                 name.strip().upper()
                 for name in part[len("needs="):].split(",") if name.strip())
     return Seed(url=url, credentials=tuple(declared), ref=ref, python=python,
-                pins=tuple(pins))
+                pins=tuple(pins), lang=lang)
 
 
 def parse_seed_file(text: str) -> list[Seed]:
@@ -260,8 +283,8 @@ async def harvest(seeds: Sequence[str | Seed], *, store: Store,
         cand = Candidate(slug=slug_for(item.url), source=source_for(item.url),
                          repo_url=item.url, commit_sha=sha,
                          credentials=item.credentials,
-                         base_image=base_image_for(item.python),
-                         pins=item.pins)
+                         base_image=base_image_for(item.python, item.lang),
+                         pins=item.pins, lang=item.lang)
         identity = (cand.slug, cand.commit_sha)
         if identity in seen:
             continue

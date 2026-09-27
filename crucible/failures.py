@@ -30,6 +30,7 @@ class FailureClass(StrEnum):
     NO_BUILD_RECIPE = "no_build_recipe"
     DEPENDENCY_CONFLICT = "dependency_conflict"
     HOST_OUT_OF_DISK = "host_out_of_disk"
+    HOST_OUT_OF_MEMORY = "host_out_of_memory"
     BUILD_FAILED = "build_failed"
     ENV_CHECK_TIMEOUT = "env_check_timeout"
     ENV_CHECK_FAILED = "env_check_failed"
@@ -55,6 +56,8 @@ class FailureClass(StrEnum):
             FailureClass.DEPENDENCY_CONFLICT: "Dependencies could not be resolved",
             FailureClass.HOST_OUT_OF_DISK:
                 "The machine running the build ran out of disk",
+            FailureClass.HOST_OUT_OF_MEMORY:
+                "The machine running the build ran out of memory",
             FailureClass.BUILD_FAILED: "Build failed",
             FailureClass.ENV_CHECK_TIMEOUT:
                 "Container environment probe did not finish in time",
@@ -119,6 +122,7 @@ _BUILD_PATTERNS: tuple[tuple[str, FailureClass, tuple[str, ...]], ...] = (
     # for a full filesystem, and a repository cannot cause either by being
     # badly packaged, so no guard is needed.
     ("no space left on device", FailureClass.HOST_OUT_OF_DISK, ()),
+    ("crucible-result: build host out of memory", FailureClass.HOST_OUT_OF_MEMORY, ()),
     ("you don't have enough free space", FailureClass.HOST_OUT_OF_DISK, ()),
     # Dependency resolution, as pip, uv and poetry actually word it.
     ("could not find a version that satisfies", FailureClass.DEPENDENCY_CONFLICT, ()),
@@ -175,6 +179,12 @@ _BUILD_PATTERNS: tuple[tuple[str, FailureClass, tuple[str, ...]], ...] = (
     # distribution UNKNOWN instead of refusing. Filed under the same class
     # because it is the same fact about the repository and needs the same fix.
     ("crucible-result: workspace root installed nothing",
+     FailureClass.WORKSPACE_ROOT_NOT_INSTALLABLE, ()),
+    # A Node package that installs and exposes no command. The sibling of the
+    # workspace root that installs nothing: the install succeeds, and there is
+    # still no agent anyone could invoke. Filed as a property of the
+    # repository, because a library is a library in any language.
+    ("crucible-result: node package has no bin",
      FailureClass.WORKSPACE_ROOT_NOT_INSTALLABLE, ()),
     ("crucible-result: unsupported project language",
      FailureClass.UNSUPPORTED_LANGUAGE, ()),

@@ -71,7 +71,12 @@ def test_publish_emits_failure_labels_so_the_site_never_retypes_them(tmp_path) -
 
     labels = json.loads((out / "labels.json").read_text())
     for cls in FailureClass:
-        assert labels[str(cls)] == cls.label
+        # Each entry carries the attribution as well as the name. The site kept
+        # that set by hand in three places and two had already fallen behind the
+        # classes added since; a rate driven by limits of this harness describes
+        # the harness, so it is not a fact a page may quietly get wrong.
+        assert labels[str(cls)]["label"] == cls.label
+        assert labels[str(cls)]["attribution"] in {"harness", "repository"}
 
 
 def test_the_manifest_separates_research_running_from_research_having_run(tmp_path):

@@ -296,3 +296,15 @@ def test_the_recipe_installs_declared_extras() -> None:
     assert 'pip install --no-cache-dir -e "$target[$CRUCIBLE_EXTRAS]"' in script
     dockerfile = Path("docker/generic.Dockerfile").read_text()
     assert 'ARG EXTRAS=""' in dockerfile and "ENV CRUCIBLE_EXTRAS=$EXTRAS" in dockerfile
+
+
+def test_a_build_row_records_the_base_its_own_recipe_uses():
+    # The first Node build recorded a Python base image, because the default
+    # was a single constant while the recipe that ran had its own. A row that
+    # names the wrong base is worse than one that names none: it invites
+    # pooling with rows it is not comparable to.
+    from crucible.harvest import default_base_for
+
+    assert default_base_for("node") == "node:22-slim"
+    assert default_base_for("python") == "python:3.11-slim"
+    assert default_base_for("fortran") == "python:3.11-slim"

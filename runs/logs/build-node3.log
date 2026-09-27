@@ -1,0 +1,43 @@
+# Agent viability
+
+**17 of 25 candidate agents built into a container whose environment starts in a clean sandbox (68.0%).**
+
+What that measures, exactly: the repository was cloned at a pinned commit, its dependencies installed, and the resulting image started with egress denied and ran its environment probe to completion. What it does not measure: whether the agent itself runs. The probe does not invoke the agent. The repositories measured here share no entrypoint, and with no network and no credentials an invocation would measure this harness rather than the agent, so no figure above or below is evidence that an agent ran.
+
+- Agents harvested, one per repository: 25
+- Seed URLs that could not be resolved, so never pinned: 0
+- Agents built successfully: 17
+- Agents that passed the container environment check: 17
+
+At commit granularity, which differs from the figures above because a repository harvested at more than one HEAD is one agent and several candidate commits:
+
+- Candidate commits harvested: 26
+- Candidate commits built successfully: 18
+- Candidate commits that passed the environment check: 18
+
+## Recorded failures, by stage
+
+These are tallies of recorded failure rows, not a partition of the candidates above. A candidate that fails to build contributes one build row and no check row; one that builds and then fails the check contributes a row to each stage; one that passes contributes neither. So the two tables below neither sum to the harvested count nor are bounded by it.
+
+### Build stage
+
+| Failure | Count |
+|---|---|
+| build_failed | 3 |
+| dependency_conflict | 2 |
+| unsupported_language | 2 |
+| workspace_root_not_installable | 2 |
+| host_out_of_disk | 1 |
+| host_out_of_memory | 1 |
+| python_version_unsupported | 1 |
+
+### Container environment check stage
+
+None recorded.
+
+## Limitations
+
+Failure classification is substring-based and therefore approximate. The unknown bucket collects unmatched failures rather than guessing at a nearest class. Counts in specific buckets may therefore be slightly over- or under-stated. The unknown bucket also holds two failures of this harness rather than of an agent, since filing either under a build class would blame the agent for it: a build that exceeded the 30 minute timeout, which heavy agents will hit and which will therefore not be rare, and the docker command failing to run at all. Both store the exception text as evidence, so they are separable from genuinely unmatched failures by reading the rows. Superseded results are excluded from all counts; the raw dataset may contain more rows than counted here. Counts are over the whole store rather than over a single run, so a store built from more than one seed list reports their union, and the unresolved count is of distinct URLs that failed to resolve at some point rather than of one list's misses. Adding it to the harvested count therefore approximates how many URLs were seeded; it does not measure it.
+
+Generated 2026-09-27T22:55:51.297969+00:00 from the record store. Every count above is a query; none is asserted.
+

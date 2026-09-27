@@ -1,17 +1,66 @@
 {
-  "ambiguous_manifest": "Several installable subprojects, none of them obviously the agent",
-  "build_failed": "Build failed",
-  "clone_failed": "Repository could not be cloned",
-  "dependency_conflict": "Dependencies could not be resolved",
-  "env_check_failed": "Container environment probe exited non-zero",
-  "env_check_timeout": "Container environment probe did not finish in time",
-  "host_out_of_disk": "The machine running the build ran out of disk",
-  "needs_credentials": "Requires credentials we do not supply",
-  "no_build_recipe": "No usable build recipe",
-  "no_installable_manifest": "No installable manifest at the repository root",
-  "none": "No failure",
-  "python_version_unsupported": "Requires a Python version the base image does not provide",
-  "unknown": "Unclassified failure",
-  "unsupported_language": "Written in a language this recipe does not build",
-  "workspace_root_not_installable": "The manifest found is a workspace root, not an installable package"
+  "ambiguous_manifest": {
+    "attribution": "harness",
+    "label": "Several installable subprojects, none of them obviously the agent"
+  },
+  "build_failed": {
+    "attribution": "repository",
+    "label": "Build failed"
+  },
+  "clone_failed": {
+    "attribution": "repository",
+    "label": "Repository could not be cloned"
+  },
+  "dependency_conflict": {
+    "attribution": "repository",
+    "label": "Dependencies could not be resolved"
+  },
+  "env_check_failed": {
+    "attribution": "repository",
+    "label": "Container environment probe exited non-zero"
+  },
+  "env_check_timeout": {
+    "attribution": "repository",
+    "label": "Container environment probe did not finish in time"
+  },
+  "host_out_of_disk": {
+    "attribution": "harness",
+    "label": "The machine running the build ran out of disk"
+  },
+  "host_out_of_memory": {
+    "attribution": "harness",
+    "label": "The machine running the build ran out of memory"
+  },
+  "needs_credentials": {
+    "attribution": "repository",
+    "label": "Requires credentials we do not supply"
+  },
+  "no_build_recipe": {
+    "attribution": "harness",
+    "label": "No usable build recipe"
+  },
+  "no_installable_manifest": {
+    "attribution": "repository",
+    "label": "No installable manifest at the repository root"
+  },
+  "none": {
+    "attribution": "repository",
+    "label": "No failure"
+  },
+  "python_version_unsupported": {
+    "attribution": "harness",
+    "label": "Requires a Python version the base image does not provide"
+  },
+  "unknown": {
+    "attribution": "harness",
+    "label": "Unclassified failure"
+  },
+  "unsupported_language": {
+    "attribution": "harness",
+    "label": "Written in a language this recipe does not build"
+  },
+  "workspace_root_not_installable": {
+    "attribution": "harness",
+    "label": "The manifest found is a workspace root, not an installable package"
+  }
 }

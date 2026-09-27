@@ -294,3 +294,29 @@ def test_a_seed_can_force_a_dependency_version_and_it_is_recorded():
 
     plain = parse_seed_line("https://github.com/o/r")
     assert plain is not None and plain.pins == ()
+
+
+def test_a_seed_declares_the_language_its_recipe_needs():
+    # Two of the most widely run coding agents in the seed list were recorded
+    # as written in a language this project does not build, which was a fact
+    # about the harness rather than about them. The recipe is chosen by the
+    # seed rather than sniffed, because a repository shipping both a
+    # package.json and a pyproject.toml is ordinary and a guess would decide
+    # which half of it the dataset is about without recording the decision.
+    from crucible.forge import recipe_for
+    from crucible.harvest import base_image_for, parse_seed_line
+
+    node = parse_seed_line("https://github.com/o/r lang=node")
+    assert node is not None and node.lang == "node"
+    assert recipe_for(node.lang) == "docker/node.Dockerfile"
+
+    default = parse_seed_line("https://github.com/o/r")
+    assert default is not None and default.lang == "python"
+    assert recipe_for(default.lang) == "docker/generic.Dockerfile"
+    assert recipe_for("fortran") == "docker/generic.Dockerfile"
+
+    # A version declaration resolves against the language it was declared with.
+    pinned = parse_seed_line("https://github.com/o/r lang=node python=22")
+    assert pinned is not None
+    assert base_image_for(pinned.python, pinned.lang) == "node:22-slim"
+    assert base_image_for("3.12") == "python:3.12-slim"

@@ -4,7 +4,7 @@
 
 ## Abstract
 
-We attempt to build 25 open-source AI agent repositories into containers at pinned commits and to start each resulting image in a network-denied sandbox. 21 build successfully and 21 pass a container environment check, a rate of 84.0 percent. We report the distribution of failure causes and, for each, whether the cause is a property of the agent or a limit of the harness. We do not measure whether any agent runs.
+We attempt to build 26 open-source AI agent repositories into containers at pinned commits and to start each resulting image in a network-denied sandbox. 21 build successfully and 21 pass a container environment check, a rate of 80.8 percent. We report the distribution of failure causes and, for each, whether the cause is a property of the agent or a limit of the harness. We do not measure whether any agent runs.
 
 ## Method
 
@@ -16,16 +16,16 @@ A build that exits successfully is checked for having installed a distribution: 
 
 The probe does not invoke the agent. The container command overrides whatever entrypoint the agent defines, so a passing check establishes that the environment works and nothing more. The repositories studied share no common entrypoint, and with no network and no credentials an invocation would measure the harness rather than the agent.
 
-Records span 2026-09-26 to 2026-09-27. Build recipes used: 4. A recipe digest is pinned on every build row, since the recipe determines which agents are buildable and rows produced under different recipes are different measurements.
+Records span 2026-09-26 to 2026-09-27. Build recipes used: 5. A recipe digest is pinned on every build row, since the recipe determines which agents are buildable and rows produced under different recipes are different measurements.
 
 ## Results
 
 | Stage | Count |
 |---|---|
-| Repositories harvested | 25 |
+| Repositories harvested | 26 |
 | Seed URLs unresolved | 0 |
 | Built | 21 |
-| Build failed | 9 |
+| Build failed | 10 |
 | Environment check passed | 21 |
 | Environment check failed | 0 |
 
@@ -40,6 +40,7 @@ Failure counts are tallies of recorded rows and are not a partition of the repos
 | Dependencies could not be resolved | 2 | the repository |
 | Build failed | 2 | the repository |
 | Requires a Python version the base image does not provide | 1 | this harness |
+| The machine running the build ran out of memory | 1 | this harness |
 
 ### Environment check stage
 
@@ -59,9 +60,9 @@ Probe durations range from 208 to 723 milliseconds.
 
 Generated from run metadata rather than composed, so these cannot fall out of date with the results above.
 
-- Sample size is 25 repositories.
+- Sample size is 26 repositories.
 - Models held constant across checks: 1.
-- Build recipes in the record: 4. A rate computed across more than one recipe is not a single measurement.
+- Build recipes in the record: 5. A rate computed across more than one recipe is not a single measurement.
 - No agent was invoked, so nothing here is evidence of agent behaviour.
 - No pair of agents was run, so nothing here concerns interaction.
 
@@ -78,6 +79,7 @@ Failure classes are assigned by matching the build log against a fixed, ordered 
 - **no_build_recipe**: No usable build recipe. Attributable to this harness.
 - **dependency_conflict**: Dependencies could not be resolved. Attributable to the repository.
 - **host_out_of_disk**: The machine running the build ran out of disk. Attributable to this harness.
+- **host_out_of_memory**: The machine running the build ran out of memory. Attributable to this harness.
 - **build_failed**: Build failed. Attributable to the repository.
 - **env_check_timeout**: Container environment probe did not finish in time. Attributable to the repository.
 - **env_check_failed**: Container environment probe exited non-zero. Attributable to the repository.
@@ -113,6 +115,7 @@ Failure classes are assigned by matching the build log against a fixed, ordered 
 | openhands-openhands | OpenHands/OpenHands | 7fbb48c40679 | failed | dependency_conflict | not reached |  |
 | significant-gravitas-autogpt | Significant-Gravitas/AutoGPT | 5e84f064d377 | built |  | passed | 290 |
 | significant-gravitas-autogpt | Significant-Gravitas/AutoGPT | c035ab1f91b8 | built |  | passed | 290 |
+| qwenlm-qwen-code | QwenLM/qwen-code | 3f5ae3ffeb72 | failed | host_out_of_memory | not reached |  |
 
 ## Reproduction
 

@@ -3,7 +3,7 @@ import {
   agentRows, builtButNotInvocable, earnedVerdicts, failuresByClass, loadDataset,
   loadManifest, runsByScenario, scenarioInfo, viability, pairKey,
 } from "../lib/dataset";
-import { FAILURE_LABELS } from "../lib/failures";
+import { FAILURE_LABELS, isHarnessLimit } from "../lib/failures";
 import { StripChart } from "../components/viz/StripChart";
 import { Attrition } from "../components/viz/Attrition";
 import { DefectTimeline } from "../components/DefectTimeline";
@@ -13,7 +13,6 @@ import { Rail } from "../components/Rail";
 import { VerdictMatrix } from "../components/viz/VerdictMatrix";
 import { pairSummaries } from "../lib/dataset";
 
-const HARNESS_LIMITS = new Set(["unsupported_language", "workspace_root_not_installable", "python_version_unsupported", "no_build_recipe", "ambiguous_manifest", "host_out_of_disk", "unknown"]);
 
 export default function Record() {
   const data = loadDataset(); const m = loadManifest();
@@ -157,7 +156,7 @@ export default function Record() {
                   <span className="k"><span className="figure small">{n}</span></span>
                   <div className="v">
                     <p>{FAILURE_LABELS[cls] ?? cls}</p>
-                    <p className="mono faint small">{HARNESS_LIMITS.has(cls) ? "a limit of this harness" : "a property of the repository"} · {rows.filter((r) => r.failureClass === cls).map((r) => r.slug).join(", ")}</p>
+                    <p className="mono faint small">{isHarnessLimit(cls) ? "a limit of this harness" : "a property of the repository"} · {rows.filter((r) => r.failureClass === cls).map((r) => r.slug).join(", ")}</p>
                   </div>
                 </div>
               ))}

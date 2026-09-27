@@ -413,6 +413,7 @@ _HARNESS_LIMITS = {
     FailureClass.NO_BUILD_RECIPE,
     FailureClass.AMBIGUOUS_MANIFEST,
     FailureClass.HOST_OUT_OF_DISK,
+    FailureClass.HOST_OUT_OF_MEMORY,
     FailureClass.UNKNOWN,
 }
 

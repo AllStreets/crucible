@@ -396,3 +396,23 @@ def test_a_full_disk_is_never_filed_against_the_agent():
     # And it stays specific: a genuine dependency failure is still that.
     dep = "ERROR: Could not find a version that satisfies the requirement lancedb==0.4.0"
     assert classify_build_log(dep, 1) is FailureClass.DEPENDENCY_CONFLICT
+
+
+def test_a_node_library_is_not_an_agent():
+    # Installing is not evidence that anything is runnable. A package with no
+    # bin entry will import and will never be invocable, which is the same
+    # fact about the repository that a Python workspace root carries.
+    log = ("crucible: installed\n"
+           "crucible-result: node package has no bin\n"
+           "ERROR: failed to solve: process did not complete successfully")
+    assert classify_build_log(log, 1) is FailureClass.WORKSPACE_ROOT_NOT_INSTALLABLE
+
+
+def test_a_build_killed_for_memory_is_the_machines_fault():
+    # A Node agent compiling a native module was killed by the out-of-memory
+    # killer, and the install script replaced the kill with its own exit
+    # status, so the row read as an agent that fails to build.
+    log = ("packages/audio-capture install: CXX(target) audio_capture.o\n"
+           "crucible-result: build host out of memory\n"
+           "ERROR: failed to solve: process did not complete successfully")
+    assert classify_build_log(log, 1) is FailureClass.HOST_OUT_OF_MEMORY

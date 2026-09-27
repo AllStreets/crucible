@@ -31,7 +31,7 @@ from pathlib import Path
 
 from crucible.failures import FailureClass, classify_build_log
 from crucible.harvest import (DEFAULT_BASE_IMAGE, Candidate, Runner,
-                              default_runner)
+                              default_base_for, default_runner)
 from crucible.model_shim import ShimConfig, shim_env, unsatisfiable
 from crucible.store import Store
 
@@ -43,6 +43,16 @@ BUILD_TIMEOUT_S = 1800
 INSPECT_TIMEOUT_S = 60
 
 RECIPE_PATH = "docker/generic.Dockerfile"
+
+# One recipe per language, chosen by the seed rather than sniffed from the
+# repository. A project that ships both a package.json and a pyproject.toml is
+# ordinary, and a recipe picked by guessing would decide which half of it the
+# dataset is about without recording that anything had been decided.
+RECIPES = {"python": RECIPE_PATH, "node": "docker/node.Dockerfile"}
+
+
+def recipe_for(lang: str) -> str:
+    return RECIPES.get(lang, RECIPE_PATH)
 
 
 def recipe_sha(path: str = RECIPE_PATH) -> str:
@@ -109,7 +119,7 @@ def _record_raised(c: Candidate, store: Store, stage: str,
     store.record("builds", candidate=c.slug, commit_sha=c.commit_sha,
                  status="failed", failure_class=str(FailureClass.UNKNOWN),
                  log_ref=ref, recipe_sha=recipe,
-                 base_image=c.base_image or DEFAULT_BASE_IMAGE)
+                 base_image=c.base_image or default_base_for(getattr(c, "lang", "python")))
     return BuildResult(False, None, FailureClass.UNKNOWN, ref)
 
 
@@ -135,14 +145,15 @@ async def build(c: Candidate, *, store: Store,
                 run: Runner = default_runner,
                 timeout_s: int = BUILD_TIMEOUT_S) -> BuildResult:
     tag = _tag(c)
-    recipe = recipe_sha()
+    recipe_path = recipe_for(getattr(c, "lang", "python"))
+    recipe = recipe_sha(recipe_path)
     extras = declared_extras(c.slug)
     # Recorded on every row, including the default. A row that says which base
     # it used is comparable with one that says a different base; a row that
     # says nothing is only comparable with rows from before the variable
     # existed, which is precisely the ambiguity the recipe_sha column was added
     # to remove.
-    base = c.base_image or DEFAULT_BASE_IMAGE
+    base = c.base_image or default_base_for(getattr(c, "lang", "python"))
     pins = " ".join(c.pins)
     try:
         code, log = await run(
@@ -152,7 +163,7 @@ async def build(c: Candidate, *, store: Store,
             "--build-arg", f"EXTRAS={extras}",
             "--build-arg", f"BASE={base}",
             "--build-arg", f"PINS={pins}",
-            "-f", RECIPE_PATH, ".", timeout_s=timeout_s)
+            "-f", recipe_path, ".", timeout_s=timeout_s)
     except Exception as exc:
         return _record_raised(c, store, "docker build", exc, recipe=recipe)
     log_ref = store.blob(log.encode())

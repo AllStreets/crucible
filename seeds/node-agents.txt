@@ -1,0 +1,8 @@
+# Agents written for Node, which this instrument could not build at all until
+# now. Two of the most widely run coding agents in the earlier seed lists were
+# recorded as being written in a language this recipe does not read, which was
+# true and was a limit of the harness rather than a fact about either of them.
+# The population of agents people actually run is now mostly TypeScript, so a
+# Python-only instrument was measuring a shrinking corner of the field and
+# publishing the distribution as though it were the field.
+https://github.com/QwenLM/qwen-code lang=node
