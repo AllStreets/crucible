@@ -28,7 +28,7 @@ export function Journey({ rows }: { rows: StageRow[] }) {
         .jrow.head .label { font-size: 0.62rem; }
         .jrow:hover .who code { color: var(--accent); }
         .who { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
-        .who code { font-size: var(--t-small); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .who code { font-size: var(--t-small); overflow-wrap: anywhere; line-height: 1.25; }
         .why { font-family: var(--font-mono); font-size: 0.62rem; color: var(--warn); }
         .cell { height: 8px; border-radius: 1px; background: var(--ground-raised); border: var(--hair) solid var(--rule); }
         .cell.lit { border-color: transparent; }
