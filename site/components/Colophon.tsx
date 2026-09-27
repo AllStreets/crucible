@@ -11,6 +11,11 @@ export function Colophon() {
           <div><span className="label">Dataset sha256</span><code>{m.dataset_sha256.slice(0, 16)}</code></div>
           <div><span className="label">Generated</span><code>{m.generated_at.slice(0, 19).replace("T", " ")} UTC</code></div>
         </div>
+        <nav className="secondary">
+          {[["/methodology/", "Method"], ["/threat-model/", "Threat model"], ["/data/", "Data"], ["/about/", "About"], ["/submit/", "Submit"]].map(([h, l]) => (
+            <a key={h} href={h}>{l}</a>
+          ))}
+        </nav>
         <p className="note">
           Every figure here is a count of rows in the published dataset. None is
           asserted, and the site has no connection to the running engine, so it
@@ -25,6 +30,9 @@ export function Colophon() {
                 gap: 1rem 2rem; }
         .cols div { display: flex; flex-direction: column; gap: 0.3rem; }
         .cols code { font-size: var(--t-small); color: var(--ink-soft); }
+        .secondary { display: flex; gap: 1.4rem; margin-top: 1.4rem; flex-wrap: wrap; }
+        .secondary a { font-size: var(--t-small); color: var(--ink-soft); text-decoration: none; }
+        .secondary a:hover { color: var(--ink); }
         .note { font-size: var(--t-small); color: var(--ink-soft);
                 border-left: 2px solid var(--accent-cool); padding-left: 0.9rem;
                 margin-top: 1.5rem; }

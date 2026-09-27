@@ -83,6 +83,10 @@ export function InteractionGraph(
       const center = (g.d3Force as (n: string) => { strength: (v: number) => void } | undefined)("center");
       center?.strength(0.9);
 
+      // The library appends its own tooltip to body, above every dialog on the
+      // page. The HUD readout carries the same information, so it is off.
+      g.nodeLabel(() => "");
+      g.linkLabel(() => "");
       g.enableNodeDrag(false);
       g.showNavInfo(false);
 

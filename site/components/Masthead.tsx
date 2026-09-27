@@ -1,15 +1,15 @@
 import Link from "next/link";
 import { loadManifest } from "../lib/dataset";
+import { PaletteButton } from "./PaletteButton";
 
 const SECTIONS = [
   { href: "/explorer", label: "Explorer" },
+  { href: "/pairs", label: "Pairs" },
+  { href: "/agents", label: "Agents" },
   { href: "/findings", label: "Findings" },
   { href: "/papers", label: "Papers" },
-  { href: "/methodology", label: "Method" },
-  { href: "/threat-model", label: "Threat model" },
-  { href: "/data", label: "Data" },
+  { href: "/instrument", label: "Instrument" },
   { href: "/log", label: "Log" },
-  { href: "/about", label: "About" },
 ];
 
 export function Masthead() {
@@ -24,6 +24,7 @@ export function Masthead() {
         <nav>
           {SECTIONS.map((s) => <Link key={s.href} href={s.href}>{s.label}</Link>)}
         </nav>
+        <PaletteButton />
         <span className="stamp label">
           <span className="pill ok live">dataset</span>
           {m.generated_at.slice(0, 10)}

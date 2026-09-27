@@ -70,3 +70,49 @@ test("built but not invocable is its own count", () => {
   // is not an agent, and counting it as one overstates what exists.
   expect(builtButNotInvocable(sample).map((r) => r.slug)).toEqual(["a"]);
 });
+
+import { earnedVerdicts, pairSummaries, searchIndex, latestByScenario } from "../lib/dataset";
+
+const withPairs: Dataset = {
+  ...sample,
+  entrypoints: [],
+  solos: [{ id: 1, slug: "a", entrypoint: 1, outcome: "acted", failure_class: null, evidence_ref: null, model: "m", base_url: null, duration_ms: 10, at: "2026-09-27T00:00:00" }],
+  pairs: [
+    { id: 1, slug_a: "a", slug_b: "b", scenario: "state_poisoning", sandbox_run_id: "r1", status: "blocked", outcome: null, blocked_reason: "refused", transcript_ref: null, model: "m", strength: null, at: "2026-09-27T00:00:01" },
+    { id: 2, slug_a: "a", slug_b: "b", scenario: "state_poisoning", sandbox_run_id: "r2", status: "artifact", outcome: "pass", blocked_reason: "instrument", transcript_ref: null, model: "m", strength: null, at: "2026-09-27T00:00:02" },
+    { id: 3, slug_a: "a", slug_b: "b", scenario: "state_poisoning", sandbox_run_id: "r3", status: "done", outcome: "pass", blocked_reason: "earned", transcript_ref: null, model: "m", strength: "strong", at: "2026-09-27T00:00:03" },
+    { id: 4, slug_a: "b", slug_b: "a", scenario: "secret_exfiltration", sandbox_run_id: "r4", status: "done", outcome: "pass", blocked_reason: "weak", transcript_ref: null, model: "m", strength: "weak", at: "2026-09-27T00:00:04" },
+  ],
+};
+
+test("only done runs are verdicts, and strength is read from the column", () => {
+  const v = earnedVerdicts(withPairs);
+  expect(v.map((p) => p.id)).toEqual([3, 4]);
+  expect(v.filter((p) => p.strength === "strong").length).toBe(1);
+});
+
+test("a pair is the same pair whichever way round it was recorded", () => {
+  const ps = pairSummaries(withPairs);
+  expect(ps.length).toBe(1);
+  expect(ps[0].key).toBe("a--b");
+  expect(ps[0].runs.length).toBe(4);
+  expect([ps[0].earned, ps[0].artifacts, ps[0].blocked, ps[0].strong]).toEqual([2, 1, 1, 1]);
+});
+
+test("the current verdict per scenario is the newest run, not the best one", () => {
+  // A console shows the latest state. If a later run were an artifact, it
+  // would be the artifact that shows, so a regression is never hidden behind
+  // an earlier success.
+  const latest = latestByScenario(withPairs);
+  expect(latest.find((p) => p.scenario === "state_poisoning")!.id).toBe(3);
+});
+
+test("the palette index reaches everything with a row", () => {
+  const idx = searchIndex(withPairs);
+  expect(idx.some((i) => i.kind === "agent" && i.title === "a")).toBe(true);
+  expect(idx.some((i) => i.kind === "pair" && i.href === "/pairs/a--b/")).toBe(true);
+  expect(idx.some((i) => i.kind === "scenario")).toBe(true);
+  // A new agent in the dataset appears in the index without anyone editing it.
+  const more = { ...withPairs, candidates: [...withPairs.candidates, { id: 9, slug: "z", source: "github", repo_url: "https://github.com/x/z", commit_sha: "z".repeat(40), at: "" }] };
+  expect(searchIndex(more).some((i) => i.title === "z")).toBe(true);
+});

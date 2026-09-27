@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Masthead } from "../components/Masthead";
 import { Colophon } from "../components/Colophon";
+import { CommandPalette } from "../components/CommandPalette";
+import { loadDataset, searchIndex } from "../lib/dataset";
 
 export const metadata: Metadata = {
   title: "CRUCIBLE",
@@ -10,6 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const index = searchIndex(loadDataset());
   return (
     <html lang="en">
       <head>
@@ -24,6 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Masthead />
         <main>{children}</main>
         <Colophon />
+        <CommandPalette items={index} />
       </body>
     </html>
   );

@@ -127,3 +127,126 @@ tbody tr:hover { background: rgba(255,255,255,0.018); }
     scroll-behavior: auto !important;
   }
 }
+
+/* ---- console system ------------------------------------------------------
+ * The site is the instrument's front panel. Density is the point: readouts
+ * sit shoulder to shoulder, panels have housings, numbers are tabular, and
+ * anything live carries a pulse. Nothing here is decoration for its own sake;
+ * a readout that shows nothing is removed rather than filled. */
+
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1rem; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+.stack { display: flex; flex-direction: column; gap: 1rem; }
+
+.panel-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+  padding: 0.75rem 1rem; border-bottom: var(--hair) solid var(--rule);
+}
+.panel-head .title { font-family: var(--font-display); font-size: var(--t-small);
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+.panel-body { padding: 1rem; }
+
+/* Telemetry strip: the numbers a console shows before anything else. */
+.telemetry {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  border: var(--hair) solid var(--rule); border-radius: var(--radius);
+  background: linear-gradient(180deg, var(--panel-hi), var(--panel));
+  overflow: hidden;
+}
+.telemetry > div {
+  padding: 0.85rem 1rem; border-right: var(--hair) solid var(--rule);
+  display: flex; flex-direction: column; gap: 0.25rem; min-width: 0;
+}
+.telemetry > div:last-child { border-right: 0; }
+.telemetry .val { font-family: var(--font-mono); font-variant-numeric: tabular-nums;
+  font-size: var(--t-h2); line-height: 1; color: var(--ink); }
+.telemetry .val.hot { color: var(--t5); text-shadow: 0 0 18px rgba(255,138,61,0.35); }
+.telemetry .val.cool { color: var(--t2); }
+.telemetry .val.warn { color: var(--signal-warn); }
+.telemetry .val.artifact { color: var(--signal-artifact); }
+.telemetry .sub { font-size: var(--t-micro); color: var(--ink-faint); font-family: var(--font-mono); }
+
+/* Ledger rows: a run each, dense, scannable. */
+.ledger { display: flex; flex-direction: column; }
+.ledger-row {
+  display: grid; grid-template-columns: 7.5rem 1fr auto; gap: 0.9rem; align-items: center;
+  padding: 0.55rem 1rem; border-bottom: var(--hair) solid var(--rule);
+  font-size: var(--t-small); transition: background 140ms;
+}
+.ledger-row:hover { background: rgba(255,255,255,0.02); }
+.ledger-row:last-child { border-bottom: 0; }
+.ledger-row .when { font-family: var(--font-mono); font-size: var(--t-micro); color: var(--ink-faint); }
+.ledger-row .what { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+.ledger-row .what code { font-size: var(--t-micro); color: var(--ink-soft);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Scenario cards: one question, one current answer, one line of evidence. */
+.scenario { display: flex; flex-direction: column; gap: 0.7rem; padding: 1rem;
+  border-left: 2px solid var(--rule-bright); transition: border-color 160ms, box-shadow 160ms; }
+.scenario:hover { border-left-color: var(--accent); box-shadow: var(--glow-accent); }
+.scenario .q { font-size: var(--t-small); color: var(--ink-soft); max-width: none; }
+.scenario .evidence { font-size: var(--t-micro); color: var(--ink-faint); line-height: 1.5;
+  border-top: var(--hair) solid var(--rule); padding-top: 0.6rem; max-width: none; }
+.scenario .row { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
+
+/* Timeline: the defect log as a strip with a rail. */
+.timeline { position: relative; padding-left: 1.4rem; display: flex; flex-direction: column; gap: 1.1rem; }
+.timeline::before { content: ""; position: absolute; left: 0.3rem; top: 0.4rem; bottom: 0.4rem;
+  width: 1px; background: linear-gradient(180deg, var(--accent), var(--rule) 60%, transparent); }
+.timeline .entry { position: relative; }
+.timeline .entry::before { content: ""; position: absolute; left: -1.4rem; top: 0.45rem;
+  width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: var(--glow-accent);
+  transform: translateX(0.5px); }
+.timeline .entry.retraction::before { background: var(--signal-stop); box-shadow: 0 0 10px rgba(198,69,59,0.5); }
+.timeline h3 { font-size: var(--t-body); margin-bottom: 0.3rem; }
+.timeline p { font-size: var(--t-small); color: var(--ink-soft); }
+
+/* Key/value definition rows used on agent and pair pages. */
+.kv { display: grid; grid-template-columns: minmax(9rem, 12rem) 1fr; gap: 0.45rem 1.2rem;
+  font-size: var(--t-small); }
+.kv dt { font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink-faint); padding-top: 0.15rem; }
+.kv dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+
+/* Scan sweep on live panels: a slow band of light, off under reduced motion. */
+.live-panel { position: relative; overflow: hidden; }
+.live-panel::after {
+  content: ""; position: absolute; inset: -20% 0 auto 0; height: 22%;
+  background: linear-gradient(180deg, transparent, rgba(228,99,42,0.05), transparent);
+  animation: sweep 9s linear infinite; pointer-events: none;
+}
+@keyframes sweep { from { transform: translateY(-120%) } to { transform: translateY(640%) } }
+@media (prefers-reduced-motion: reduce) { .live-panel::after { animation: none; display: none; } }
+
+/* Command palette */
+.kbd { font-family: var(--font-mono); font-size: var(--t-micro); padding: 0.1rem 0.4rem;
+  border: var(--hair) solid var(--rule-bright); border-radius: 3px; color: var(--ink-soft); }
+.palette-backdrop { position: fixed; inset: 0; z-index: 50; background: rgba(4,5,8,0.7);
+  backdrop-filter: blur(6px); display: grid; place-items: start center; padding-top: 12vh; }
+.palette { width: min(640px, 92vw); border-radius: 6px; overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6), var(--glow-accent); }
+.palette input { width: 100%; padding: 0.95rem 1.1rem; background: var(--ground-raised);
+  border: 0; border-bottom: var(--hair) solid var(--rule); color: var(--ink);
+  font-family: var(--font-body); font-size: var(--t-lead); outline: none; }
+.palette ul { list-style: none; margin: 0; padding: 0.35rem 0; max-height: 50vh; overflow-y: auto; }
+.palette li { display: grid; grid-template-columns: 5.5rem 1fr; gap: 1rem; align-items: baseline;
+  padding: 0.55rem 1.1rem; cursor: pointer; }
+.palette li.active, .palette li:hover { background: rgba(228,99,42,0.10); }
+.palette li .kind { font-family: var(--font-mono); font-size: var(--t-micro); letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink-faint); }
+.palette li .hint { font-size: var(--t-micro); color: var(--ink-soft); display: block; }
+.palette .foot { display: flex; gap: 1rem; padding: 0.5rem 1.1rem; font-size: var(--t-micro);
+  color: var(--ink-faint); border-top: var(--hair) solid var(--rule); background: var(--ground-raised); }
+
+.masthead .cmdk { display: inline-flex; align-items: center; gap: 0.45rem; font-size: var(--t-micro);
+  color: var(--ink-faint); border: var(--hair) solid var(--rule); border-radius: 3px;
+  padding: 0.3rem 0.55rem; background: transparent; cursor: pointer; font-family: var(--font-body); }
+.masthead .cmdk:hover { color: var(--ink); border-color: var(--rule-bright); }
+
+.page { padding: 3rem 0 1rem; }
+.page > h1 { margin: 0.6rem 0 0.9rem; max-width: 22ch; }
+.lede { color: var(--ink-soft); font-size: var(--t-lead); max-width: 58ch; margin-bottom: 1.75rem; }
+.note { font-size: var(--t-small); color: var(--ink-soft); }
+.crumbs { display: flex; gap: 0.5rem; font-size: var(--t-micro); color: var(--ink-faint);
+  font-family: var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; }
+.crumbs a { text-decoration: none; }

@@ -8,8 +8,8 @@
     "solos": 10,
     "unresolved": 0
   },
-  "dataset_sha256": "74f94929a43d135cdde7bd4014276de9d857c494bd8c852d05aa890317d772a1",
-  "engine_commit": "a830e297c58df1de3765ac189b92c60c531aea97",
-  "generated_at": "2026-09-27T15:01:10.319559+00:00",
+  "dataset_sha256": "424f40daadb0e980e2423f57f01d832c9d55ed688a345b9adaf08040a3b59727",
+  "engine_commit": "98001d0738a6ea6a1dde6f7cb737cfc3f4e83175",
+  "generated_at": "2026-09-27T15:06:56.790900+00:00",
   "papers_published": 1
 }
