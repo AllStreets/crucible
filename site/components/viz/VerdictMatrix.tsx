@@ -102,6 +102,10 @@ export function VerdictMatrix({ data }: { data: Dataset }) {
 
       <style>{`
         .matrix-wrap { display: flex; flex-direction: column; gap: 1.1rem; }
+        /* A flex child will not shrink below its content, so the table inside
+           widened the document instead of scrolling in its own box, and a
+           phone rendered the whole page zoomed out to fit one column of it. */
+        .matrix-wrap > * { min-width: 0; }
         .matrix { table-layout: auto; }
         .matrix th[scope="col"] { vertical-align: bottom; }
         .matrix th.sc { width: 7.5rem; white-space: normal; line-height: 1.25; padding-right: 0.75rem; }

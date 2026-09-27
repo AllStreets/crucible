@@ -1,6 +1,14 @@
 @import "./tokens.css";
 
 *, *::before, *::after { box-sizing: border-box; }
+/* The page never scrolls sideways. Everything genuinely wider than a phone,
+   the run trace and the pair matrix, sits in its own scrolling box, so a
+   document that scrolls horizontally is always a defect: on a phone the
+   browser answers it by zooming the whole page out until the widest thing
+   fits, which shrinks the type on every other page too. `clip` rather than
+   `hidden` because `hidden` would make this element a scroll container and
+   the sticky masthead would stop sticking. */
+html, body { overflow-x: clip; }
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0; background: var(--ground); color: var(--ink);
@@ -220,7 +228,15 @@ section.block .deck { color: var(--ink-soft); max-width: 58ch; margin-bottom: 1.
 
 /* A flex or grid child will not shrink below its content, so a wide table
    inside one widens the document instead of scrolling in its container. */
-.stack > *, .paper-grid > *, .spec > .v, .grid-2 > *, .grid-3 > * { min-width: 0; }
+.stack > *, .paper-grid > *, .spec > .v, .grid-2 > *, .grid-3 > *,
+figure.fig > *, .record > * { min-width: 0; }
+/* Figures hold the widest things on the site: a table of every pair, a trace
+   of every run. Their container is a flex column, and a flex child does not
+   shrink below its content, so each one widened the document rather than
+   scrolling inside its own box. A phone answered by zooming the whole page
+   out until one column of the matrix fit. */
+figure.fig { min-width: 0; }
+figure.fig svg { max-width: 100%; }
 .scroll-x { max-width: 100%; }
 @media (max-width: 720px) {
   .figures { grid-template-columns: 1fr 1fr; column-gap: 1.2rem; }
