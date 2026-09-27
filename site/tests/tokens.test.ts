@@ -47,9 +47,9 @@ test("the accent is not the default developer-site cyan or violet", () => {
 
 test("state is encoded in form as well as colour", () => {
   // A status that is only a hue fails for a colour-blind reader and in print.
-  // The pill carries a dot and a border, so shape survives the colour.
+  // State carries a dot and a word, so shape and text survive the colour.
+  expect(globals.includes(".state::before")).toBe(true);
   expect(globals.includes(".pill::before")).toBe(true);
-  expect(/\.pill\s*\{[^}]*border:/.test(globals)).toBe(true);
 });
 
 test("motion respects the reduced-motion preference", () => {

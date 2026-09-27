@@ -60,6 +60,18 @@ def _engine_commit() -> str:
         return "unknown"
 
 
+def _research_state(out_dir: Path) -> dict:
+    log = out_dir.parent.parent.parent / "runs" / "research-passes.jsonl"
+    if not log.exists():
+        return {}
+    lines = [l for l in log.read_text().splitlines() if l.strip()]
+    if not lines:
+        return {}
+    last = json.loads(lines[-1])
+    return {"last_pass": last.get("finished"), "cadence_hours": last.get("cadence_hours"),
+            "passes": len(lines)}
+
+
 def publish_dataset(store: Store, out_dir: Path,
                     research: dict | None = None) -> PublishResult:
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -130,9 +142,10 @@ def publish_dataset(store: Store, out_dir: Path,
         "dataset_sha256": hashlib.sha256(body.encode()).hexdigest(),
         "counts": counts,
         "papers_published": len(index),
-        # Written by the unattended research pass: when it last ran and how
-        # often it is scheduled to, so the site can say so from the record.
-        "research": research or {},
+        # When the unattended research last ran and how often it is scheduled
+        # to, read from the passes log rather than passed in, so that no
+        # publish, however it was started, can forget that the research runs.
+        "research": research or _research_state(out_dir),
     }, indent=2, sort_keys=True) + "\n")
 
     files = [dataset_path, schema_path, labels_path, manifest_path,

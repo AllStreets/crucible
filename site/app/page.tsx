@@ -1,169 +1,147 @@
 import Link from "next/link";
 import {
   agentRows, builtButNotInvocable, earnedVerdicts, failuresByClass, loadDataset,
-  loadManifest, stageRows, viability,
+  loadManifest, runsByScenario, scenarioInfo, stageRows, viability, pairKey,
 } from "../lib/dataset";
 import { FAILURE_LABELS } from "../lib/failures";
-import { GraphPanel } from "../components/GraphPanel";
-import { buildGraph, legendFor, stageLegend } from "../lib/graph";
-import { Telemetry } from "../components/Telemetry";
-import { RunLedger } from "../components/RunLedger";
-import { VerdictGrid } from "../components/VerdictGrid";
+import { StripChart } from "../components/viz/StripChart";
 import { Attrition } from "../components/viz/Attrition";
-import { Distribution, type Cause } from "../components/viz/Distribution";
 import { DefectTimeline } from "../components/DefectTimeline";
+import { RunLedger } from "../components/RunLedger";
 
-const HARNESS_LIMITS = new Set([
-  "unsupported_language", "workspace_root_not_installable",
-  "python_version_unsupported", "no_build_recipe", "ambiguous_manifest", "unknown",
-]);
+const HARNESS_LIMITS = new Set(["unsupported_language", "workspace_root_not_installable", "python_version_unsupported", "no_build_recipe", "ambiguous_manifest", "unknown"]);
 
-export default function Console() {
-  const data = loadDataset();
-  const m = loadManifest();
+export default function Record() {
+  const data = loadDataset(); const m = loadManifest();
   const v = viability(data);
   const rows = agentRows(data);
-  const stages = stageRows(data);
   const stranded = builtButNotInvocable(data);
-  const graph = buildGraph(data);
-
   const acted = new Set(data.solos.filter((s) => s.outcome === "acted").map((s) => s.slug));
   const earned = earnedVerdicts(data);
   const strong = earned.filter((p) => p.strength === "strong");
+  const confirmed = earned.filter((p) => p.outcome === "fail");
   const artifacts = data.pairs.filter((p) => p.status === "artifact");
   const blocked = data.pairs.filter((p) => p.status === "blocked");
   const inArena = new Set(data.pairs.filter((p) => p.status !== "blocked").flatMap((p) => [p.slug_a, p.slug_b]));
-
-  const causes: Cause[] = Object.entries(failuresByClass(data)).sort((a, b) => b[1] - a[1])
-    .map(([cls, count]) => ({ cls, count, label: FAILURE_LABELS[cls] ?? cls, harness: HARNESS_LIMITS.has(cls),
-      agents: rows.filter((r) => r.failureClass === cls).map((r) => r.slug) }));
-
+  const by = runsByScenario(data);
+  const causes = Object.entries(failuresByClass(data)).sort((a, b) => b[1] - a[1]);
   const pct = v.rate === null ? null : (v.rate * 100).toFixed(1);
+  const research = m.research ?? {};
 
   return (
-    <div className="console sheet">
-      <section className="strip">
-        <Telemetry items={[
-          { label: "Agents harvested", value: v.harvested, sub: "pinned commits" },
-          { label: "Environment starts", value: v.checked, sub: pct !== null ? `${pct}% of harvested` : "", tone: "cool" },
-          { label: "Invocable", value: acted.size, sub: "passed the solo gate" },
-          { label: "Earned verdicts", value: earned.length, sub: `${strong.length} strong`, tone: "hot" },
-          { label: "Instrument artifacts", value: artifacts.length, sub: "never counted", tone: "artifact" },
-          { label: "Refused", value: blocked.length, sub: "before agents started" },
-        ]} />
-      </section>
-
-      <section className="hero">
-        <div className="claim">
-          <span className="pill hot live">Instrument online</span>
-          <h1>What actually happens when agents share a machine</h1>
-          <p className="lede">
-            Real open-source agents, cloned at pinned commits, built into
-            containers, and run against each other under adversarial scenarios
-            with deterministic criteria. Nothing here is estimated.
-          </p>
-          <div className="headline">
-            <div className="fig"><span className="num">{v.checked}</span><span className="slash">/</span><span className="num total">{v.harvested}</span></div>
-            <div className="fig-meta">
-              {pct !== null && <span className="pct mono">{pct}%</span>}
-              <span className="label">reached a running environment</span>
-            </div>
-          </div>
-          <p className="counterclaim">
-            That figure does not mean the agents run. Of the agents that build,{" "}
-            {stranded.length} cannot be invoked at all: they are frameworks agents
-            are built with, or need a browser this harness does not install. Only{" "}
-            {acted.size} have done a task on command, and {inArena.size} have been
-            run against another agent.
-          </p>
-        </div>
-        <GraphPanel nodes={graph.nodes} links={graph.links} stageKey={stageLegend(graph.nodes)} edgeKey={legendFor(graph.links)} />
-      </section>
-
-      <section className="grid-2 verdicts">
-        <div className="stack">
-          <div className="panel-head" style={{ padding: "0 0 0.6rem" }}>
-            <span className="title">Current verdict per scenario</span>
-            <Link href="/pairs/" className="label" style={{ color: "var(--accent)" }}>all runs</Link>
-          </div>
-          <VerdictGrid data={data} />
-        </div>
-        <div className="panel live-panel">
-          <div className="panel-head">
-            <span className="title">Run ledger</span>
-            <span className="label">{data.pairs.length} runs recorded</span>
-          </div>
-          <RunLedger runs={data.pairs} limit={9} />
-          <p className="note" style={{ padding: "0.7rem 1rem", borderTop: "var(--hair) solid var(--rule)" }}>
-            Status is separated from outcome on purpose. A run the sandbox refused,
-            and a run whose verdict came from the instrument rather than the
-            agents, are both distinct from a result, and neither ever enters a rate.
-          </p>
-        </div>
-      </section>
-
-      <section className="grid-2">
-        <div className="panel">
-          <div className="panel-head"><span className="title">Attrition, drawn to scale</span><span className="label">count of rows per stage</span></div>
-          <div className="panel-body">
-            <Attrition stages={[
-              { key: "harvested", label: "harvested", count: v.harvested, tone: "#3E6E8E" },
-              { key: "built", label: "built", count: v.built, tone: "#2E9C8E" },
-              { key: "checked", label: "env starts", count: v.checked, tone: "#2E9C8E" },
-              { key: "invocable", label: "invocable", count: acted.size, tone: "#C8922A" },
-              { key: "arena", label: "in the arena", count: inArena.size, tone: "#FF8A3D" },
-            ]} />
-            <p className="note" style={{ marginTop: "0.6rem" }}>
-              The band between two bars is the loss at that stage. Getting an
-              agent to the starting line is the hard part, and nobody had
-              published how hard.
+    <div className="record sheet">
+      <section className="block opening">
+        <div className="eyebrow"><span className="label">Instrument record</span></div>
+        <div className="open-grid">
+          <div>
+            <h1>What actually happens when agents share a machine.</h1>
+            <p className="lede">Real open-source agents, cloned at pinned commits, built into containers, and run against each other under adversarial scenarios with deterministic criteria. Nothing here is estimated, and every figure on this page is a count of rows you can open.</p>
+            <p className="status">
+              <span className={`state ${research.last_pass ? "hot live" : "inert"}`}>{research.last_pass ? "research running unattended" : "no unattended pass yet"}</span>
+              {research.last_pass && <span className="mono faint">last pass {research.last_pass.slice(0, 16).replace("T", " ")} UTC</span>}
             </p>
           </div>
+          <div className="figures">
+            <div><span className="figure">{v.checked}<span className="of">of</span>{v.harvested}</span><span className="cap">agents whose container environment starts{pct !== null ? `, ${pct}%` : ""}</span></div>
+            <div><span className="figure">{acted.size}</span><span className="cap">can be invoked and do a task on command</span></div>
+            <div><span className="figure earned">{earned.length}</span><span className="cap">verdicts earned, {strong.length} of them strong</span></div>
+            <div><span className="figure hot">{confirmed.length}</span><span className="cap">attacks confirmed by a side effect</span></div>
+          </div>
         </div>
-        <div className="panel">
-          <div className="panel-head"><span className="title">Why the rest did not</span><span className="label">attribution in colour</span></div>
-          <div className="panel-body"><Distribution causes={causes} /></div>
+        <p className="counter">That first figure does not mean the agents run. Of the agents that build, {stranded.length} cannot be invoked at all: they are frameworks agents are built with, or need a browser this harness does not install. {inArena.size} have been run against another agent.</p>
+      </section>
+
+      <section className="block">
+        <div className="eyebrow"><span className="label">The trace</span><span className="label">{data.pairs.length} runs, {artifacts.length} artifacts, {blocked.length} refusals</span></div>
+        <StripChart runs={data.pairs} />
+        <div className="legend">
+          <span className="state done">verdict</span><span className="state fail">attack confirmed</span>
+          <span className="state artifact">instrument artifact, never counted</span><span className="state blocked">refused before the agents started</span>
         </div>
       </section>
 
-      <section className="panel">
-        <div className="panel-head">
-          <span className="title">What running it cost the instrument</span>
-          <Link href="/log/" className="label" style={{ color: "var(--accent)" }}>the whole log</Link>
+      <section className="block">
+        <div className="eyebrow"><span className="label">Current verdict, per scenario</span><Link href="/pairs/" className="label">every run</Link></div>
+        <div className="spec">
+          {Object.keys(by).sort().map((name) => {
+            const runs = by[name]; const cur = runs[runs.length - 1]; const info = scenarioInfo(name);
+            const note = (cur.blocked_reason ?? "").split(". ").slice(0, 2).join(". ");
+            return (
+              <div key={name} className="contents">
+                <span className="k">{info.objective}</span>
+                <div className="v scenario">
+                  <h3>{info.title}</h3>
+                  <p className="q">{info.question}</p>
+                  <div className="row">
+                    <span className={`state ${cur.status === "done" ? (cur.outcome === "fail" ? "fail" : "done") : cur.status}`}>{cur.status === "done" ? (cur.outcome === "fail" ? "attack confirmed" : "held") : cur.status}</span>
+                    {cur.strength && <span className={`state ${cur.strength}`}>{cur.strength} evidence</span>}
+                    <span className="mono faint">{runs.length} runs, {runs.filter((r) => r.status === "done").length} earned</span>
+                    <Link href={`/pairs/${pairKey(cur.slug_a, cur.slug_b)}/#${name}`} className="mono faint">open</Link>
+                  </div>
+                  {note && <p className="evidence">{note}{note.endsWith(".") ? "" : "."}</p>}
+                </div>
+              </div>
+            );
+          })}
         </div>
-        <div className="panel-body"><DefectTimeline limit={4} /></div>
       </section>
 
-      <section className="panel provenance">
-        <div><span className="label">Engine</span><code>{m.engine_commit.slice(0, 12)}</code></div>
-        <div><span className="label">Dataset sha256</span><code>{m.dataset_sha256.slice(0, 16)}</code></div>
-        <div><span className="label">Generated</span><code>{m.generated_at.slice(0, 19).replace("T", " ")}</code></div>
-        <p>Every figure above is a count of rows in that file. The site has no connection to the running engine, so it cannot display a number that was not published.</p>
+      <section className="block two">
+        <div>
+          <div className="eyebrow"><span className="label">Attrition, to scale</span></div>
+          <Attrition stages={[
+            { key: "harvested", label: "harvested", count: v.harvested, tone: "#3E6E8E" },
+            { key: "built", label: "built", count: v.built, tone: "#34A48F" },
+            { key: "checked", label: "env starts", count: v.checked, tone: "#34A48F" },
+            { key: "invocable", label: "invocable", count: acted.size, tone: "#C9922A" },
+            { key: "arena", label: "in the arena", count: inArena.size, tone: "#E4632A" },
+          ]} />
+          <p className="note">The band between two bars is what was lost there. Getting an agent to the starting line is the hard part, and nobody had published how hard.</p>
+        </div>
+        <div>
+          <div className="eyebrow"><span className="label">Why the rest did not</span></div>
+          <div className="spec causes">
+            {causes.map(([cls, n]) => (
+              <div key={cls} className="contents">
+                <span className="k"><span className="figure small">{n}</span></span>
+                <div className="v">
+                  <p>{FAILURE_LABELS[cls] ?? cls}</p>
+                  <p className="mono faint small">{HARNESS_LIMITS.has(cls) ? "a limit of this harness" : "a property of the repository"} · {rows.filter((r) => r.failureClass === cls).map((r) => r.slug).join(", ")}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="note">Tallies of failure rows, not a partition of the agents. Attribution is the part that keeps the headline honest: a rate driven by harness limits describes the harness.</p>
+        </div>
+      </section>
+
+      <section className="block">
+        <div className="eyebrow"><span className="label">Latest runs</span><Link href="/pairs/" className="label">the ledger</Link></div>
+        <RunLedger runs={data.pairs} limit={8} />
+      </section>
+
+      <section className="block">
+        <div className="eyebrow"><span className="label">What running it cost the instrument</span><Link href="/log/" className="label">the whole log</Link></div>
+        <DefectTimeline limit={3} />
       </section>
 
       <style>{`
-        .console { display: flex; flex-direction: column; gap: 1.25rem; padding-bottom: 3rem; }
-        .strip { padding-top: 1.25rem; }
-        .hero { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-                gap: clamp(1.25rem, 3vw, 2.5rem); align-items: start; padding: 1rem 0 0.5rem; }
-        .hero h1 { margin: 0.8rem 0 0.9rem; max-width: 15ch; }
-        .headline { display: flex; align-items: flex-end; gap: 1.2rem; margin: 1.6rem 0 1.1rem; }
-        .fig { display: flex; align-items: baseline; font-family: var(--font-mono);
-               font-variant-numeric: tabular-nums; line-height: 0.9; }
-        .fig .num { font-size: var(--t-figure); color: var(--ink); text-shadow: 0 0 34px rgba(228,99,42,0.30); }
-        .fig .slash { font-size: 2.6rem; color: var(--rule-bright); margin: 0 0.35rem; }
-        .fig .total { font-size: 2.6rem; color: var(--ink-soft); }
-        .fig-meta { display: flex; flex-direction: column; gap: 0.3rem; padding-bottom: 0.5rem; }
-        .fig-meta .pct { font-size: var(--t-h2); color: var(--accent); }
-        .counterclaim { border-left: 2px solid var(--signal-warn); padding-left: 1rem;
-                        font-size: var(--t-small); max-width: 54ch; }
-        .verdicts { align-items: start; }
-        .provenance { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-                      gap: 1rem 2rem; padding: 1.25rem; }
-        .provenance div { display: flex; flex-direction: column; gap: 0.3rem; }
-        .provenance code { font-size: var(--t-small); color: var(--ink-soft); }
-        .provenance p { grid-column: 1 / -1; font-size: var(--t-small); color: var(--ink-soft); }
-        @media (max-width: 960px) { .hero { grid-template-columns: 1fr; } }
+        .record { padding-bottom: 2rem; }
+        .opening { padding-top: 2.5rem; }
+        .open-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 5rem); align-items: end; margin-top: 2rem; }
+        .open-grid h1 { margin-bottom: 1.2rem; }
+        .status { display: flex; gap: 1rem; align-items: baseline; flex-wrap: wrap; }
+        .faint { color: var(--ink-faint); font-size: var(--t-micro); }
+        .small { font-size: var(--t-micro); }
+        .figure.small { font-size: 2.4rem; line-height: 1; }
+        .counter { margin-top: 2.5rem; padding-top: 1.25rem; border-top: var(--hair) solid var(--rule); font-family: var(--font-display); font-style: italic; font-size: var(--t-lead); max-width: 66ch; color: var(--ink-soft); }
+        .legend { display: flex; gap: 1.6rem; flex-wrap: wrap; margin-top: 0.9rem; }
+        .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 3.5rem; }
+        .two .note { margin-top: 0.9rem; }
+        .causes .k { padding-top: 0.6rem; }
+        .contents { display: contents; }
+        .eyebrow { margin-bottom: 1.4rem; }
+        @media (max-width: 900px) { .open-grid { grid-template-columns: 1fr; } }
       `}</style>
     </div>
   );
