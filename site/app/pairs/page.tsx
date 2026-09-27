@@ -2,7 +2,7 @@ import Link from "next/link";
 import { loadDataset, pairSummaries, runsByScenario, scenarioInfo } from "../../lib/dataset";
 import { RunLedger } from "../../components/RunLedger";
 
-export const metadata = { title: "Pairs | CRUCIBLE" };
+export const metadata = { title: "Pairs | Crucible" };
 
 export default function Pairs() {
   const data = loadDataset();

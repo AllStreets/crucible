@@ -1,0 +1,15 @@
+# Agents chosen because they ship a command-line invocation that acts on a
+# task, and speak an OpenAI-compatible endpoint, so a local model can drive
+# them. Frameworks are absent on purpose: langgraph and swarm build cleanly
+# and have nothing to invoke, which is why the arena had two agents.
+#
+# Left out, and why: OpenInterpreter/open-interpreter was rewritten in Rust,
+# which this recipe does not build; gpt-engineer and TaskWeaver are archived.
+
+https://github.com/TheR1D/shell_gpt
+https://github.com/huggingface/smolagents
+https://github.com/FoundationAgents/MetaGPT
+https://github.com/SWE-agent/SWE-agent
+https://github.com/smol-ai/developer
+https://github.com/OpenBMB/ChatDev
+https://github.com/Pythagora-io/gpt-pilot

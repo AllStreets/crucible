@@ -1,7 +1,7 @@
 import { DefectTimeline } from "../../components/DefectTimeline";
 import { LOG } from "../../lib/log";
 
-export const metadata = { title: "Log | CRUCIBLE" };
+export const metadata = { title: "Log | Crucible" };
 
 export default function LogPage() {
   const retractions = LOG.filter((e) => e.kind === "retraction").length;

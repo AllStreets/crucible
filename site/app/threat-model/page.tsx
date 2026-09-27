@@ -1,11 +1,11 @@
 import { Prose } from "../../components/Prose";
 
-export const metadata = { title: "Threat model | CRUCIBLE" };
+export const metadata = { title: "Threat model | Crucible" };
 
 export default function ThreatModel() {
   return (
     <div className="sheet page">
-      <p className="label">Threat model</p>
+      <div className="eyebrow"><span className="label">Threat model</span></div>
       <h1>What this research covers, and what it does not</h1>
 
       <Prose>

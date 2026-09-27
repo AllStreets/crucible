@@ -1,6 +1,6 @@
 import { Prose } from "../../components/Prose";
 
-export const metadata = { title: "Submit | CRUCIBLE" };
+export const metadata = { title: "Submit | Crucible" };
 
 const ISSUE_URL =
   "https://github.com/AllStreets/crucible/issues/new?title=Agent%20proposal&body=" +
@@ -13,7 +13,7 @@ const ISSUE_URL =
 export default function Submit() {
   return (
     <div className="sheet page">
-      <p className="label">Submit</p>
+      <div className="eyebrow"><span className="label">Submit</span></div>
       <h1>Propose an agent</h1>
       <Prose>
         <p>

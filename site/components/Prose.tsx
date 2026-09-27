@@ -3,9 +3,9 @@ export function Prose({ children }: { children: React.ReactNode }) {
     <div className="prose">
       {children}
       <style>{`
-        .prose { display: flex; flex-direction: column; gap: 1.1rem; }
-        .prose p { font-size: var(--t-body); }
-        .prose h3 { margin-top: 1.4rem; }
+        .prose { display: flex; flex-direction: column; gap: 1.1rem; max-width: 68ch; }
+        .prose p { font-size: var(--t-lead); line-height: 1.55; color: var(--ink); }
+        .prose h3 { margin-top: 1.6rem; font-style: italic; }
         .prose ul { margin: 0; padding-left: 1.1rem; max-width: var(--measure); }
         .prose li { margin-bottom: 0.5rem; }
       `}</style>

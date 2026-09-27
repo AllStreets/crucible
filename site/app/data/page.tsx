@@ -1,6 +1,6 @@
 import { loadManifest, loadSchema } from "../../lib/dataset";
 
-export const metadata = { title: "Data | CRUCIBLE" };
+export const metadata = { title: "Data | Crucible" };
 
 export default function DataPage() {
   const schema = loadSchema();
@@ -8,7 +8,7 @@ export default function DataPage() {
 
   return (
     <div className="sheet page">
-      <p className="label">Data</p>
+      <div className="eyebrow"><span className="label">Data</span></div>
       <h1>The dataset, its schema, and its exclusions</h1>
 
       <p className="lead">

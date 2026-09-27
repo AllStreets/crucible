@@ -1,11 +1,11 @@
 import { Prose } from "../../components/Prose";
 
-export const metadata = { title: "About | CRUCIBLE" };
+export const metadata = { title: "About | Crucible" };
 
 export default function About() {
   return (
     <div className="sheet page">
-      <p className="label">About</p>
+      <div className="eyebrow"><span className="label">About</span></div>
       <h1>An instrument, not an argument</h1>
       <Prose>
         <p>

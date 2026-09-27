@@ -1,72 +1,35 @@
 import { loadDataset, stageRows } from "../../lib/dataset";
 import { VesselPanel } from "../../components/VesselPanel";
+import { GraphPanel } from "../../components/GraphPanel";
+import { buildGraph, legendFor, stageLegend } from "../../lib/graph";
 
-export const metadata = { title: "Explorer | CRUCIBLE" };
+export const metadata = { title: "Explorer | Crucible" };
 
 export default function Explorer() {
   const data = loadDataset();
   const stages = stageRows(data);
-
-  // Grouped by the stage each agent reached. Derived, so a new stage or a new
-  // agent appears here without anyone editing this page.
+  const graph = buildGraph(data);
   const byStage = new Map<number, typeof stages>();
-  for (const r of stages) {
-    const list = byStage.get(r.stage) ?? [];
-    list.push(r);
-    byStage.set(r.stage, list);
-  }
+  for (const r of stages) byStage.set(r.stage, [...(byStage.get(r.stage) ?? []), r]);
   const tiers = [...byStage.entries()].sort((a, b) => b[0] - a[0]);
-
   return (
-    <div className="sheet page">
-      <p className="label">Explorer</p>
-      <h1>The vessel, and what survived each stage</h1>
-      <p className="lede">
-        Every agent that entered the instrument, drawn at the height of the
-        stage it reached. The narrowing is the finding: getting an agent to the
-        starting line is the hard part, and nobody has published how hard.
-      </p>
-
-      <VesselPanel specimens={stages} />
-
-      <section className="tiers">
+    <div className="sheet page stack">
+      <div>
+        <div className="eyebrow"><span className="label">Explorer</span><span className="label">{stages.length} agents</span></div>
+        <h1>The vessel, and the graph.</h1>
+        <p className="lede">Two views of the same rows. The vessel places every agent at the height of the stage it survived to, so the narrowing is the finding. The graph draws every run between a pair as an edge, so hubs emerge from the data rather than being chosen.</p>
+      </div>
+      <figure className="fig"><VesselPanel specimens={stages} /><figcaption><b>Figure 1</b><span>One specimen per agent, at the height of the stage it reached.</span></figcaption></figure>
+      <figure className="fig"><GraphPanel nodes={graph.nodes} links={graph.links} stageKey={stageLegend(graph.nodes)} edgeKey={legendFor(graph.links)} /><figcaption><b>Figure 2</b><span>Every agent, and every run between a pair. Node size is degree.</span></figcaption></figure>
+      <div className="spec">
         {tiers.map(([stage, rows]) => (
-          <div key={stage} className="tier panel">
-            <header>
-              <span className="label">{rows[0].label}</span>
-              <span className="mono n">{rows.length}</span>
-            </header>
-            <ul>
-              {rows.map((r) => (
-                <li key={r.slug}>
-                  <code>{r.slug}</code>
-                  {r.failure && <span className="fail">{r.failure}</span>}
-                </li>
-              ))}
-            </ul>
+          <div key={stage} className="contents">
+            <span className="k">{rows[0].label}</span>
+            <div className="v"><p className="mono" style={{ fontSize: "var(--t-small)" }}>{rows.map((r) => <a key={r.slug} href={`/agents/${r.slug}/`} style={{ marginRight: "1.2rem", textDecoration: "none" }}>{r.slug}{r.failure ? <span style={{ color: "var(--warn)" }}> · {r.failure}</span> : ""}</a>)}</p></div>
           </div>
         ))}
-      </section>
-
-      <style>{`
-        .page { padding: 3.5rem 0 1rem; }
-        .page h1 { margin: 0.7rem 0 1rem; max-width: 20ch; }
-        .lede { color: var(--ink-soft); font-size: var(--t-lead); max-width: 58ch;
-                margin-bottom: 2rem; }
-        .tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                 gap: 1rem; margin-top: 2rem; }
-        .tier { padding: 1.1rem; }
-        .tier header { display: flex; justify-content: space-between;
-                       align-items: baseline; padding-bottom: 0.6rem;
-                       border-bottom: var(--hair) solid var(--rule); }
-        .tier .n { font-size: var(--t-h3); color: var(--ink); }
-        .tier ul { list-style: none; margin: 0.8rem 0 0; padding: 0;
-                   display: flex; flex-direction: column; gap: 0.5rem; }
-        .tier li { display: flex; flex-direction: column; gap: 0.15rem;
-                   font-size: var(--t-small); }
-        .tier .fail { font-family: var(--font-mono); font-size: var(--t-micro);
-                      color: var(--signal-warn); }
-      `}</style>
+      </div>
+      <style>{`.contents { display: contents; } .vessel-panel, .graph-panel { border: 0; padding: 0; background: transparent; }`}</style>
     </div>
   );
 }

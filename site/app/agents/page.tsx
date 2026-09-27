@@ -2,7 +2,7 @@ import Link from "next/link";
 import { agentRows, loadDataset, stageRows } from "../../lib/dataset";
 import { FAILURE_LABELS } from "../../lib/failures";
 
-export const metadata = { title: "Agents | CRUCIBLE" };
+export const metadata = { title: "Agents | Crucible" };
 
 export default function Agents() {
   const data = loadDataset();

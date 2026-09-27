@@ -208,3 +208,5 @@ section.block h2 { font-size: var(--t-h2); margin-bottom: 0.4rem; }
 section.block .deck { color: var(--ink-soft); max-width: 58ch; margin-bottom: 1.8rem; }
 .closing { padding: 5rem 0 2rem; }
 .closing h2 { font-size: var(--t-h1); font-style: italic; max-width: 16ch; }
+/* An identifier in a headline is an identifier: mono, smaller, quieter. */
+.page > h1 code { font-family: var(--font-mono); font-size: 0.62em; font-weight: 400; letter-spacing: -0.01em; }

@@ -17,8 +17,8 @@ export function Distribution({ causes }: { causes: Cause[] }) {
   return (
     <div className="dist">
       <div className="key">
-        <span className="pill warn">harness limit</span>
-        <span className="pill stop">repository</span>
+        <span className="state warn">harness limit</span>
+        <span className="state stop">repository</span>
       </div>
       {causes.map((c) => (
         <article key={c.cls}>

@@ -1,11 +1,11 @@
 import { Figure, Prose } from "../../components/Prose";
 
-export const metadata = { title: "Methodology | CRUCIBLE" };
+export const metadata = { title: "Method | Crucible" };
 
 export default function Methodology() {
   return (
     <div className="sheet page">
-      <p className="label">Methodology</p>
+      <div className="eyebrow"><span className="label">Method</span></div>
       <h1>How a run works, and what it does not claim</h1>
 
       <Prose>
