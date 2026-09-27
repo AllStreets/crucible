@@ -143,6 +143,7 @@ async def build(c: Candidate, *, store: Store,
     # existed, which is precisely the ambiguity the recipe_sha column was added
     # to remove.
     base = c.base_image or DEFAULT_BASE_IMAGE
+    pins = " ".join(c.pins)
     try:
         code, log = await run(
             "docker", "build", "-t", tag,
@@ -150,6 +151,7 @@ async def build(c: Candidate, *, store: Store,
             "--build-arg", f"COMMIT_PIN={c.commit_sha}",
             "--build-arg", f"EXTRAS={extras}",
             "--build-arg", f"BASE={base}",
+            "--build-arg", f"PINS={pins}",
             "-f", RECIPE_PATH, ".", timeout_s=timeout_s)
     except Exception as exc:
         return _record_raised(c, store, "docker build", exc, recipe=recipe)
@@ -159,7 +161,8 @@ async def build(c: Candidate, *, store: Store,
         failure = classify_build_log(log, code)
         store.record("builds", candidate=c.slug, commit_sha=c.commit_sha,
                      status="failed", failure_class=str(failure),
-                     log_ref=log_ref, recipe_sha=recipe, base_image=base)
+                     log_ref=log_ref, recipe_sha=recipe, base_image=base,
+                     pins=pins or None)
         return BuildResult(False, None, failure, log_ref)
 
     # The image ID is the pin. A build we cannot pin is not a usable build.
@@ -183,12 +186,14 @@ async def build(c: Candidate, *, store: Store,
     if dcode != 0 or not digest.startswith("sha256:"):
         store.record("builds", candidate=c.slug, commit_sha=c.commit_sha,
                      status="failed", failure_class=str(FailureClass.BUILD_FAILED),
-                     log_ref=log_ref, recipe_sha=recipe, base_image=base)
+                     log_ref=log_ref, recipe_sha=recipe, base_image=base,
+                     pins=pins or None)
         return BuildResult(False, None, FailureClass.BUILD_FAILED, log_ref)
 
     store.record("builds", candidate=c.slug, commit_sha=c.commit_sha,
                  status="built", image_digest=digest, log_ref=log_ref,
-                 recipe_sha=recipe, extras=extras or None, base_image=base)
+                 recipe_sha=recipe, extras=extras or None, base_image=base,
+                 pins=pins or None)
     return BuildResult(True, digest, FailureClass.NONE, log_ref)
 
 

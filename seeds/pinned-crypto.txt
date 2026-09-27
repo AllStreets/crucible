@@ -1,0 +1,11 @@
+# Two agents that build, install cleanly, and die on import.
+#
+# Both resolve cryptography 50.0.1, whose aarch64 wheel executes an instruction
+# this build host does not implement; the interpreter is killed before either
+# agent reaches any of its own code. 45.0.7 imports cleanly on the same base,
+# so the version is forced here and recorded on the build row. Nothing about
+# either agent is being corrected: the agent's own resolution is being
+# overridden because the machine cannot run what it chose, and a reader of the
+# dataset has to be able to see that these two rows are not like the others.
+https://github.com/Significant-Gravitas/AutoGPT python=3.12 pin=cryptography==45.0.7
+https://github.com/OpenHands/OpenHands ref=0.62.0 python=3.12 pin=cryptography==45.0.7

@@ -103,9 +103,24 @@ def _research_state(out_dir: Path) -> dict:
     if log.exists():
         lines = [l for l in log.read_text().splitlines() if l.strip()]
         if lines:
-            last = json.loads(lines[-1])
+            entries = [json.loads(l) for l in lines]
+            last = entries[-1]
             state["last_pass"] = last.get("finished")
-            state["passes"] = len(lines)
+            state["passes"] = len(entries)
+            # Whether the research runs on its own is a separate claim from
+            # whether it has run, and the site said the first while only the
+            # second was true: the scheduler was installed, reported loaded,
+            # and had never once executed, while passes a person started stood
+            # in for it. Passes recorded before the distinction existed carry
+            # no flag and are counted as neither.
+            unattended = [e for e in entries if e.get("unattended") is True]
+            state["unattended_passes"] = len(unattended)
+            if unattended:
+                state["last_unattended_pass"] = unattended[-1].get("finished")
+            # A pass that could not reach the remote leaves the site showing
+            # the previous day's data with no sign anything went wrong.
+            if last.get("pushed") is False:
+                state["last_pass_pushed"] = False
     return state
 
 

@@ -113,7 +113,7 @@ def test_the_arena_paper_is_generated_and_verified(tmp_path) -> None:
         store.record("pairs", slug_a="a", slug_b="b", scenario="state_poisoning", sandbox_run_id=f"r{i}",
                      status=st, outcome=out, blocked_reason="x", model="m", strength=strength)
     doc, meta = generate_arena_paper(store)
-    assert "5 runs in all" in doc and "3 runs produce a verdict" in doc and "1 confirm an attack" in doc
+    assert "5 runs in all" in doc and "3 runs produce a verdict" in doc and "1 confirms an attack" in doc
     assert meta.slug == "adversarial-interaction" and meta.abstract
 
 
@@ -122,3 +122,13 @@ def test_the_arena_paper_refuses_an_empty_record(tmp_path) -> None:
     store = Store(tmp_path / "s.db"); store.init_db()
     with pytest.raises(VerificationError):
         generate_arena_paper(store)
+
+
+def test_the_abstract_agrees_with_itself_when_one_attack_is_confirmed():
+    # For most of this project's life the count was zero and the plural read
+    # correctly by accident. The first confirmed attack made the abstract say
+    # "1 confirm an attack" in a published PDF.
+    from crucible.press import _n
+
+    assert _n(1, "run") == "1 run"
+    assert _n(2, "run") == "2 runs"

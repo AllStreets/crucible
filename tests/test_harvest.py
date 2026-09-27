@@ -276,3 +276,21 @@ def test_a_seed_can_declare_the_python_it_needs():
     plain = parse_seed_line("https://github.com/o/r")
     assert plain is not None and plain.python is None
     assert base_image_for(None) is None
+
+
+def test_a_seed_can_force_a_dependency_version_and_it_is_recorded():
+    # Two agents install a cryptography wheel that executes an instruction the
+    # build host does not implement, and die on import before reaching any of
+    # their own code. Measuring either at all means overriding what the agent's
+    # own resolution chose, which is a different measurement and has to be
+    # visible as one.
+    from crucible.harvest import parse_seed_line
+
+    seed = parse_seed_line(
+        "https://github.com/o/r python=3.12 pin=cryptography==45.0.7 pin=foo==1.0")
+    assert seed is not None
+    assert seed.pins == ("cryptography==45.0.7", "foo==1.0")
+    assert seed.python == "3.12"
+
+    plain = parse_seed_line("https://github.com/o/r")
+    assert plain is not None and plain.pins == ()

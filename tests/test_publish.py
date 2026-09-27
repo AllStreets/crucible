@@ -72,3 +72,44 @@ def test_publish_emits_failure_labels_so_the_site_never_retypes_them(tmp_path) -
     labels = json.loads((out / "labels.json").read_text())
     for cls in FailureClass:
         assert labels[str(cls)] == cls.label
+
+
+def test_the_manifest_separates_research_running_from_research_having_run(tmp_path):
+    # The site claimed the research ran unattended on the strength of a pass
+    # existing. Four passes existed and a person had started every one; the
+    # scheduler had never executed. The two facts need separate fields or the
+    # weaker one keeps standing in for the stronger.
+    import json
+
+    from crucible.publish import _research_state
+
+    repo = tmp_path
+    (repo / "runs").mkdir(parents=True)
+    log = repo / "runs" / "research-passes.jsonl"
+    log.write_text("\n".join(json.dumps(e) for e in [
+        {"finished": "2026-09-27T01:00:00+00:00"},                      # before the flag
+        {"finished": "2026-09-27T02:00:00+00:00", "unattended": False},  # a person
+        {"finished": "2026-09-27T03:00:00+00:00", "unattended": True},   # the scheduler
+    ]) + "\n")
+    out = repo / "site" / "public" / "data"
+    out.mkdir(parents=True)
+
+    state = _research_state(out)
+    assert state["passes"] == 3
+    assert state["unattended_passes"] == 1
+    assert state["last_unattended_pass"] == "2026-09-27T03:00:00+00:00"
+    assert state["last_pass"] == "2026-09-27T03:00:00+00:00"
+
+
+def test_a_pass_that_could_not_push_says_so(tmp_path):
+    import json
+
+    from crucible.publish import _research_state
+
+    (tmp_path / "runs").mkdir(parents=True)
+    (tmp_path / "runs" / "research-passes.jsonl").write_text(
+        json.dumps({"finished": "2026-09-27T03:00:00+00:00", "unattended": True,
+                    "pushed": False}) + "\n")
+    out = tmp_path / "site" / "public" / "data"
+    out.mkdir(parents=True)
+    assert _research_state(out)["last_pass_pushed"] is False

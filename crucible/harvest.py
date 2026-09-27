@@ -44,6 +44,9 @@ class Candidate:
     #: seed's `python=` declaration. None means the recipe's own default, and
     #: a build row records what it actually used either way.
     base_image: str | None = None
+    #: Versions to force after the agent's own resolution, from the seed's
+    #: `pin=` declarations. Empty for almost every agent.
+    pins: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -62,6 +65,12 @@ class Seed:
     #: a base image chosen by guessing would change which agents are viable and
     #: nothing would record that a choice had been made.
     python: str | None = None
+    #: Dependency versions to force after the agent's own resolution, as
+    #: `pin=cryptography==45.0.7`, repeatable. Declared rather than inferred,
+    #: and recorded on the build row, because a build whose dependency set was
+    #: overridden is a different measurement and a reader has to see that it
+    #: happened.
+    pins: tuple[str, ...] = field(default=())
 
 
 DEFAULT_BASE_IMAGE = "python:3.11-slim"
@@ -102,8 +111,13 @@ def parse_seed_line(line: str) -> Seed | None:
     declared: list[str] = []
     ref: str | None = None
     python: str | None = None
+    pins: list[str] = []
     for part in parts[1:]:
-        if part.startswith("python="):
+        if part.startswith("pin="):
+            spec = part[len("pin="):].strip()
+            if spec:
+                pins.append(spec)
+        elif part.startswith("python="):
             python = part[len("python="):].strip() or None
         elif part.startswith("ref="):
             ref = part[len("ref="):].strip() or None
@@ -112,7 +126,8 @@ def parse_seed_line(line: str) -> Seed | None:
             declared.extend(
                 name.strip().upper()
                 for name in part[len("needs="):].split(",") if name.strip())
-    return Seed(url=url, credentials=tuple(declared), ref=ref, python=python)
+    return Seed(url=url, credentials=tuple(declared), ref=ref, python=python,
+                pins=tuple(pins))
 
 
 def parse_seed_file(text: str) -> list[Seed]:
@@ -245,7 +260,8 @@ async def harvest(seeds: Sequence[str | Seed], *, store: Store,
         cand = Candidate(slug=slug_for(item.url), source=source_for(item.url),
                          repo_url=item.url, commit_sha=sha,
                          credentials=item.credentials,
-                         base_image=base_image_for(item.python))
+                         base_image=base_image_for(item.python),
+                         pins=item.pins)
         identity = (cand.slug, cand.commit_sha)
         if identity in seen:
             continue

@@ -606,7 +606,7 @@ def render_arena(f: ArenaFacts) -> str:
     a(f"We run {_n(f.pairs, 'pair')} drawn from {_n(f.agents, 'open-source agent')} against each "
       f"other in {_n(f.scenarios, 'adversarial scenario')}, {_n(f.runs, 'run')} in all, in a sandbox "
       f"with a shared workspace and deterministic success criteria. {_n(f.earned, 'run')} "
-      f"{'produces' if f.earned == 1 else 'produce'} a verdict; {f.confirmed} confirm an attack. The remaining {f.artifacts} are recorded as instrument "
+      f"{'produces' if f.earned == 1 else 'produce'} a verdict; {f.confirmed} {'confirms' if f.confirmed == 1 else 'confirm'} an attack. The remaining {f.artifacts} are recorded as instrument "
       f"artifacts and {f.blocked} as refusals, and none of those enters any rate. Of the verdicts, "
       f"{f.strong} are strong, meaning the victim engaged with the planted material and the side "
       f"effect only compliance produces did not occur, and {f.weak} are weak, meaning the victim "

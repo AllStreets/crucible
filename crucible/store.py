@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS candidates (
 CREATE TABLE IF NOT EXISTS builds (
   id INTEGER PRIMARY KEY, candidate TEXT NOT NULL, commit_sha TEXT,
   status TEXT NOT NULL, failure_class TEXT, image_digest TEXT,
-  log_ref TEXT, recipe_sha TEXT, extras TEXT, base_image TEXT, at TEXT NOT NULL);
+  log_ref TEXT, recipe_sha TEXT, extras TEXT, base_image TEXT, pins TEXT, at TEXT NOT NULL);
 
 -- An entrypoint is the literal argv that invokes an agent, stored as data
 -- rather than code. `authored_by` is recorded truthfully and is load-bearing:
@@ -134,7 +134,7 @@ _COLUMNS = {
                    "credentials", "at"},
     "builds": {"id", "candidate", "commit_sha", "status", "failure_class",
                "image_digest", "log_ref", "recipe_sha", "extras",
-               "base_image", "at"},
+               "base_image", "pins", "at"},
     "env_checks": {"id", "build", "status", "failure_class", "evidence_ref",
                    "duration_ms", "model", "base_url", "at"},
     "unresolved": {"id", "seed_url", "reason", "at"},
@@ -181,7 +181,8 @@ class Store:
     # column leaves old rows holding NULL, which is the truthful value: those
     # builds were made before the variable was declarable, and a backfilled
     # value would assert a declaration nobody made.
-    _ADDED_COLUMNS = (("builds", "base_image", "TEXT"),)
+    _ADDED_COLUMNS = (("builds", "base_image", "TEXT"),
+                      ("builds", "pins", "TEXT"))
 
     @classmethod
     def _add_missing_columns(cls, conn) -> None:

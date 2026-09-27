@@ -23,6 +23,9 @@ function Bars({ counts, tone }: { counts: Record<string, number>; tone: Record<s
 
 export default function Instrument() {
   const data = loadDataset(); const m = loadManifest();
+  // "a pass has run" and "the research runs on its own" are different
+  // claims, and this page made the first stand for the second.
+  const unattended = (m.research?.unattended_passes ?? 0) > 0;
   const s = instrumentStats(data, m);
   const t = s.tables;
   return (
@@ -54,11 +57,16 @@ export default function Instrument() {
             <dt>last record</dt><dd><code>{s.lastAt.slice(0, 19).replace("T", " ")}</code></dd>
           </dl></section>
         <section className="panel"><div className="panel-head"><span className="title">Research schedule</span>
-            {m.research.last_pass ? <span className="pill ok live">running unattended</span> : <span className="pill inert">no pass yet</span>}</div>
+            {unattended ? <span className="pill ok live">running unattended</span>
+              : m.research.last_pass ? <span className="pill warn">runs when started</span>
+              : <span className="pill inert">no pass yet</span>}</div>
           <dl className="kv panel-body">
             <dt>last pass</dt><dd><code>{m.research.last_pass ? m.research.last_pass.slice(0, 19).replace("T", " ") : "none recorded"}</code></dd>
             <dt>cadence</dt><dd>{m.research.cadence_hours ? <code>every {m.research.cadence_hours} hours while the machine is on</code> : <span className="note">not scheduled; passes are started by hand</span>}</dd>
-            <dt>passes</dt><dd><code>{m.research.passes ?? 0}</code></dd>
+            <dt>passes</dt><dd><code>{m.research.passes ?? 0}</code>{unattended ? <span className="note"> of which <code>{m.research.unattended_passes}</code> were started by the scheduler rather than a person</span> : <span className="note"> none of them started by the scheduler</span>}</dd>
+            {m.research.last_unattended_pass && <><dt>last unattended</dt><dd><code>{m.research.last_unattended_pass.slice(0, 19).replace("T", " ")}</code></dd></>}
+            {m.research.last_pass_pushed === false && <><dt>publishing</dt><dd><span className="pill stop">the last pass could not reach the remote, so this page may be behind the record</span></dd></>}
+            <dt>how this is known</dt><dd>the scheduler sets a variable no other caller sets, and each pass records whether it saw it. The distinction is here because for a day it was missing: the job was installed, reported itself loaded, and had never once executed, while passes a person had started stood in for it. A job that has never run reports the same health as one that runs hourly, so the only honest evidence is a pass that says the scheduler started it.</dd>
             <dt>parameters</dt><dd>
               {m.research.params ? (
                 <pre className="mono" style={{ margin: 0, whiteSpace: "pre-wrap", fontSize: "var(--t-micro)", color: "var(--ink-soft)" }}>{JSON.stringify(m.research.params, null, 2)}</pre>

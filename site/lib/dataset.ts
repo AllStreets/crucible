@@ -57,8 +57,17 @@ export interface Manifest {
    *  and the papers page renders it, rather than an empty template presented
    *  as a published result. */
   papers_published: number;
-  /** Written by the unattended research pass. Empty until one has run. */
-  research: { last_pass?: string; cadence_hours?: number | null; passes?: number; params?: Record<string, unknown> };
+  /** Written by every research pass. Empty until one has run.
+   *
+   *  `passes` counts every pass; `unattended_passes` counts the ones the
+   *  scheduler started. They are separate because for a day they disagreed:
+   *  the site read the first and reported the second, while the scheduler had
+   *  never executed and a person had started all four. */
+  research: {
+    last_pass?: string; cadence_hours?: number | null; passes?: number;
+    unattended_passes?: number; last_unattended_pass?: string;
+    last_pass_pushed?: boolean; params?: Record<string, unknown>;
+  };
 }
 
 const DATA_DIR = join(process.cwd(), "public", "data");

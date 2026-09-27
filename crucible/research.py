@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
@@ -100,20 +101,25 @@ def research_pass(*, repo: Path, db: Path | None = None, root: Path | None = Non
 
     log = repo / "runs" / "research-passes.jsonl"
     log.parent.mkdir(parents=True, exist_ok=True)
+    # Set by the launchd job and by nothing else. A pass that cannot say
+    # whether a person started it lets "research has run" pass for "research
+    # runs on its own", and those are different claims. The scheduler was
+    # installed, was loaded, reported every sign of health, and had never once
+    # executed; four passes a person had started stood in for it.
+    unattended = os.environ.get("CRUCIBLE_UNATTENDED") == "1"
     entry = {"started": started, "finished": datetime.now(timezone.utc).isoformat(),
              "runs": len(recorded), "by_status": by_status, "harvested": harvested,
              "solos": solos, "model": params.model, "cadence_hours": params.cadence_hours,
-             "params": params.as_dict()}
-    with log.open("a") as f:
-        f.write(json.dumps(entry) + "\n")
+             "unattended": unattended, "params": params.as_dict()}
 
     publish_dataset(store, repo / "site" / "public" / "data")
 
     if _git(repo, "status", "--porcelain", "runs", "site/public").stdout.strip():
         _git(repo, "add", "runs", "site/public")
         summary = ", ".join(f"{v} {k}" for k, v in sorted(by_status.items())) or "no runs"
+        started_by = "unattended pass" if unattended else "supervised pass"
         _git(repo, "-c", "commit.gpgsign=false", "commit", "-q", "-m",
-             f"research: unattended pass, {len(recorded)} runs ({summary})\n\n"
+             f"research: {started_by}, {len(recorded)} runs ({summary})\n\n"
              f"Parameters from {params.source}: scenarios {', '.join(params.scenarios)}; "
              f"rounds {params.rounds}; model {params.model}. Harvested {harvested} seeds; "
              f"solo gate ran for {len(solos)} entrypoints. Every run classified by "
@@ -121,4 +127,11 @@ def research_pass(*, repo: Path, db: Path | None = None, root: Path | None = Non
              f"regenerated and verified; dataset republished.")
         if push:
             entry["pushed"] = _git(repo, "push", "-q", "origin", "main").returncode == 0
+
+    # Written last, on purpose. The first version wrote the entry before the
+    # git work, so whether the push succeeded was assigned to a dict nobody
+    # ever serialised: a pass that never reached the remote left a log saying
+    # it had run and nothing saying the site still had yesterday's data.
+    with log.open("a") as f:
+        f.write(json.dumps(entry) + "\n")
     return entry

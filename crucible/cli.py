@@ -34,7 +34,15 @@ def _read_seeds(path: Path) -> list[Seed] | None:
     return parse_seed_file(text)
 
 
-def main(argv: list[str] | None = None) -> int:
+def build_parser() -> argparse.ArgumentParser:
+    """The parser, built separately so it can be checked without running it.
+
+    The launchd job's arguments are generated in one place and parsed in
+    another, and for a day the two disagreed: the job passed three flags this
+    parser does not take, so every run it attempted died on an argument error
+    before doing any work. A test now parses the generated argv with this
+    exact parser rather than a copy, because a copy drifts the same way.
+    """
     parser = argparse.ArgumentParser(prog="crucible")
     sub = parser.add_subparsers(dest="cmd", required=True)
 
@@ -59,6 +67,9 @@ def main(argv: list[str] | None = None) -> int:
 
     params_cmd = sub.add_parser("params", help="print the research parameters as they will be used")
 
+    sub.add_parser("schedule-status",
+                   help="what launchd actually knows about the research job")
+
     aud = sub.add_parser("audit", help="cross-check every verdict against its transcript; prints flags, changes nothing")
     aud.add_argument("--db", type=Path, default=Path("runs/arena.db"))
     aud.add_argument("--since", default=None, help="ISO timestamp; audit rows recorded at or after it")
@@ -68,6 +79,11 @@ def main(argv: list[str] | None = None) -> int:
     pub.add_argument("--db", type=Path, default=Path("runs/arena.db"))
     pub.add_argument("--out", type=Path, default=Path("site/public/data"))
 
+    return parser
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = build_parser()
     args = parser.parse_args(argv)
 
     if args.cmd == "run":
@@ -91,6 +107,11 @@ def main(argv: list[str] | None = None) -> int:
         from crucible.schedule import install, remove
         p = load_params(Path.cwd())
         print(remove() if args.remove else install(every_hours=p.cadence_hours))
+        return 0
+
+    if args.cmd == "schedule-status":
+        from crucible.schedule import status
+        print(status())
         return 0
 
     if args.cmd == "audit":

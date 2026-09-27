@@ -39,6 +39,21 @@ RUN git clone "$REPO_URL" . && git checkout "$COMMIT_PIN"
 COPY docker/resolve_manifest.sh /opt/crucible/resolve_manifest.sh
 RUN sh /opt/crucible/resolve_manifest.sh
 
+# Versions forced after the agent resolved its own, declared by the seed line
+# and recorded on the build row. This exists for one situation and says so in
+# the record: a transitive dependency whose current release is broken on the
+# machine doing the building, where the agent has done nothing wrong and
+# measuring it at all requires overriding what its own resolution chose. Two
+# agents install a cryptography wheel that executes an instruction this host
+# does not implement, and die on import before reaching any of their own code.
+# A pinned build is a different measurement from an unpinned one, which is why
+# it is a column and not a quiet fix.
+ARG PINS=""
+RUN if [ -n "$PINS" ]; then \
+        echo "crucible: forcing declared pins: $PINS"; \
+        pip install --no-cache-dir $PINS; \
+    fi
+
 # The default command is an environment probe, not the agent. It starts the
 # interpreter in the built image, prints one line and exits, and that is the
 # whole of what the check downstream measures: this image runs in a clean
