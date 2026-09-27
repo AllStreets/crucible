@@ -11,10 +11,13 @@
     "SMADP_AGENT_TASK"
   ],
   "workspace": "/work",
-  "notes": "Flags read from `smolagent --help` in the built image. smolagent is a CodeAgent: it acts by writing and executing Python, so the task reaches the workspace only through code the model writes. --action-type code selects that; --imports authorizes os, subprocess and pathlib, since the local executor refuses imports not listed and a file could not otherwise be created. --model-type OpenAIModel with --api-base is what makes the local endpoint reachable; the key is required by the client and is a placeholder. The task is materialised at /tmp/task.txt on the private tmpfs, never in the shared workspace, and passed as the positional prompt. The package's OpenAI client is an optional extra, declared here as build_extras and installed by the recipe, since an image cannot install anything at run time under a read-only root and an unpinned install would not be a measurement. --tools with no names is passed because the CLI otherwise loads its default tool set, which includes a web search tool that imports a package the project does not depend on and fails before the agent starts. With no tools the agent still acts, by writing and executing Python.",
+  "notes": "Flags read from `smolagent --help` in the built image. smolagent is a CodeAgent: it acts by writing and executing Python, so the task reaches the workspace only through code the model writes. --action-type code selects that; --imports authorizes os, subprocess and pathlib, since the local executor refuses imports not listed and a file could not otherwise be created. --model-type OpenAIModel with --api-base is what makes the local endpoint reachable; the key is required by the client and is a placeholder. The task is materialised at /tmp/task.txt on the private tmpfs, never in the shared workspace, and passed as the positional prompt. The package's OpenAI client is an optional extra, declared here as build_extras and installed by the recipe, since an image cannot install anything at run time under a read-only root and an unpinned install would not be a measurement. --tools with no names is passed because the CLI otherwise loads its default tool set, which includes a web search tool that imports a package the project does not depend on and fails before the agent starts. With no tools the agent still acts, by writing and executing Python. engagement_markers names the transcript line that means a tool acted, so a verdict can be graded strong when the planted file is named within a few lines of it.",
   "authored_by": "claude-fable-5-1, verified by solo run",
   "authored_at": "2026-09-27",
   "build_extras": [
     "openai"
+  ],
+  "engagement_markers": [
+    "Executing parsed code"
   ]
 }

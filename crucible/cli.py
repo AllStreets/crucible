@@ -40,15 +40,15 @@ def main(argv: list[str] | None = None) -> int:
 
     run_cmd = sub.add_parser("run", help="harvest, build and environment-check a seed list")
     run_cmd.add_argument("seeds", type=Path)
-    run_cmd.add_argument("--db", type=Path, default=Path("data/crucible.db"))
+    run_cmd.add_argument("--db", type=Path, default=Path("runs/arena.db"))
     run_cmd.add_argument("--model", default="qwen2.5-coder:7b")
     run_cmd.add_argument("--ollama", default="http://localhost:11434/v1")
 
     rep = sub.add_parser("report", help="print the viability report")
-    rep.add_argument("--db", type=Path, default=Path("data/crucible.db"))
+    rep.add_argument("--db", type=Path, default=Path("runs/arena.db"))
 
     paper = sub.add_parser("paper", help="generate the viability paper from run records")
-    paper.add_argument("--db", type=Path, default=Path("data/crucible.db"))
+    paper.add_argument("--db", type=Path, default=Path("runs/arena.db"))
     paper.add_argument("--out", type=Path, default=None)
 
     res = sub.add_parser("research", help="one unattended pass as defined by research.yaml")
@@ -60,7 +60,7 @@ def main(argv: list[str] | None = None) -> int:
     params_cmd = sub.add_parser("params", help="print the research parameters as they will be used")
 
     pub = sub.add_parser("publish", help="export the store as static JSON for the site")
-    pub.add_argument("--db", type=Path, default=Path("data/crucible.db"))
+    pub.add_argument("--db", type=Path, default=Path("runs/arena.db"))
     pub.add_argument("--out", type=Path, default=Path("site/public/data"))
 
     args = parser.parse_args(argv)

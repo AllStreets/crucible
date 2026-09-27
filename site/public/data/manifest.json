@@ -8,9 +8,9 @@
     "solos": 17,
     "unresolved": 0
   },
-  "dataset_sha256": "593be62b6088f28a3136e94df6e73b18fcba8199122ce9033c18c9c51ca50af7",
-  "engine_commit": "1908352d803d0c3eff7fd9519c0215e1b267f0e0",
-  "generated_at": "2026-09-27T16:24:23.388092+00:00",
+  "dataset_sha256": "6ad1e405833d90738a60fa99934f78f314aaeed3556be844c1b44c34b4fdd326",
+  "engine_commit": "ccd3d780c5bff0d2cc12677cdf03ae9ae2c7ed90",
+  "generated_at": "2026-09-27T16:25:52.805287+00:00",
   "papers_published": 2,
   "research": {
     "cadence_hours": 6,
