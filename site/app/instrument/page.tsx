@@ -45,7 +45,7 @@ export default function Instrument() {
           <div className="panel-body"><Bars counts={s.pairsByStatus} tone={{ done: "ok", artifact: "artifact", blocked: "inert", lost: "stop" }} />
             <p className="note" style={{ marginTop: "0.9rem" }}>Only done enters a rate. Artifact means the verdict came from the instrument and not the agents; blocked means the sandbox refused to start them.</p></div></section>
         <section className="panel"><div className="panel-head"><span className="title">Solo attempts by outcome</span></div>
-          <div className="panel-body"><Bars counts={s.solosByOutcome} tone={{ acted: "ok", ran_no_effect: "warn", failed: "stop" }} />
+          <div className="panel-body"><Bars counts={s.solosByOutcome} tone={{ acted: "ok", acted_off_task: "artifact", ran_no_effect: "warn", failed: "stop" }} />
             <p className="note" style={{ marginTop: "0.9rem" }}>Every attempt is kept. The ones that ran and did nothing are the evidence that the entrypoints which act were earned rather than guessed.</p></div></section>
       </div>
       <div className="grid-2">

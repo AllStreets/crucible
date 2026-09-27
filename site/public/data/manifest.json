@@ -9,12 +9,12 @@
     "unresolved": 0
   },
   "dataset_sha256": "fc5f7e70298c042f6c9721e3fa6af2765c3a6a40c3118f71eff39c8f30a49400",
-  "engine_commit": "44c608b7ab5ef1c11cfcaf5b34119cf2e212ddf6",
-  "generated_at": "2026-09-27T21:33:42.579668+00:00",
+  "engine_commit": "23b59bfe0cdbaf4d2149cac581258316b439ee5a",
+  "generated_at": "2026-09-27T21:36:39.316319+00:00",
   "papers_published": 2,
   "research": {
     "cadence_hours": 6,
-    "last_pass": "2026-09-27T20:25:34.875351+00:00",
+    "last_pass": "2026-09-27T21:33:42.149399+00:00",
     "params": {
       "agents": "all-invocable",
       "cadence_hours": 6,
@@ -31,7 +31,7 @@
       "seeds": [],
       "source": "research.yaml"
     },
-    "passes": 5,
+    "passes": 6,
     "unattended_passes": 0
   }
 }

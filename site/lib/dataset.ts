@@ -31,7 +31,7 @@ export interface EntrypointRow {
 }
 export interface SoloRow {
   id: number; slug: string; entrypoint: number;
-  outcome: "acted" | "ran_no_effect" | "failed";
+  outcome: "acted" | "acted_off_task" | "ran_no_effect" | "failed";
   failure_class: string | null; evidence_ref: string | null;
   model: string | null; base_url: string | null; duration_ms: number | null; at: string;
 }

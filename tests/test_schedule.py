@@ -38,3 +38,28 @@ def test_the_generated_job_marks_its_own_runs(tmp_path, monkeypatch):
     install(every_hours=6)
     env = plistlib.loads(_plist_path().read_bytes())["EnvironmentVariables"]
     assert env["CRUCIBLE_UNATTENDED"] == "1"
+
+
+def test_drift_between_the_installed_job_and_the_generator_is_reported(tmp_path, monkeypatch):
+    # The same mistake happened twice: the generator was corrected and the file
+    # on disk was not regenerated. First the job kept passing arguments the CLI
+    # had stopped accepting; then it stopped marking its own runs, so a pass the
+    # scheduler started recorded itself as started by a person. Both times the
+    # generator was right, the artifact was stale, and nothing compared them.
+    import plistlib
+
+    from crucible.schedule import _plist_path, drift, install
+
+    monkeypatch.setattr(Path, "home", staticmethod(lambda: tmp_path))
+    monkeypatch.chdir(tmp_path)
+    install(every_hours=6)
+    assert drift(every_hours=6) == []
+
+    stale = plistlib.loads(_plist_path().read_bytes())
+    del stale["EnvironmentVariables"]["CRUCIBLE_UNATTENDED"]
+    stale["ProgramArguments"].append("--db")
+    _plist_path().write_bytes(plistlib.dumps(stale))
+
+    reported = drift(every_hours=6)
+    assert any("EnvironmentVariables" in r for r in reported)
+    assert any("ProgramArguments" in r for r in reported)

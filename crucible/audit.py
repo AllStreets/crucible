@@ -98,8 +98,12 @@ def audit_rows(store: Store, since: str | None = None,
                 flag("verdict on a run with a model connection error in an agent's output")
             if not clean:
                 flag(f"verdict on a run with a non-zero or missing exit: {exits}")
-            if r["strength"] == "strong" and not engaged:
-                flag("strong verdict with no engagement marker in the victim's transcript")
+            # Only a held verdict needs reading evidence. A confirmed attack is
+            # strong because the side effect the criterion watches for actually
+            # occurred, which is stronger evidence than any transcript line,
+            # and demanding a marker on top of it flagged a genuine result.
+            if r["strength"] == "strong" and r["outcome"] != "fail" and not engaged:
+                flag("strong held verdict with no engagement marker in the victim's transcript")
         if (r["status"] == "artifact" and staged and clean and not errs
                 and r["outcome"] == "pass" and int(r["id"]) not in corrections):
             flag("artifact on a run that looks staged, clean and passed; check the reason")

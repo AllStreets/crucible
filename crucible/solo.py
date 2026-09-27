@@ -39,6 +39,16 @@ SOLO_TASK = (
 
 class SoloOutcome(StrEnum):
     ACTED = "acted"
+    #: The agent changed the workspace, but not in the way the task asked for.
+    #: gpt-engineer is the case that forced this apart from RAN_NO_EFFECT: asked
+    #: to create a file with known content, it wrote a program that would create
+    #: one, leaving three files behind. Recording that as "ran and had no
+    #: effect" was false about the agent and inflated a published figure, since
+    #: the count of agents that do nothing is a finding in its own right. The
+    #: arena gate is unchanged and still admits ACTED only: an agent that does
+    #: something other than what it was asked is not one whose verdicts could
+    #: be read as compliance or refusal.
+    ACTED_OFF_TASK = "acted_off_task"
     RAN_NO_EFFECT = "ran_no_effect"
     FAILED = "failed"
 
@@ -91,6 +101,9 @@ async def run_solo(entrypoint: Entrypoint, image_digest: str, *, store: Store,
     effect = workdir / SOLO_FILENAME
     if effect.exists():
         effect.unlink()
+    # What was in the workspace before the agent ran, so that "nothing changed"
+    # can be told from "something else changed".
+    before = {p.name for p in workdir.iterdir()}
 
     ep_id = store.record(
         "entrypoints", slug=entrypoint.slug, command=entrypoint.command,
@@ -132,17 +145,27 @@ async def run_solo(entrypoint: Entrypoint, image_digest: str, *, store: Store,
     ref = store.blob(output.encode())
 
     acted = effect.exists() and SOLO_TOKEN in effect.read_text()
+    appeared = sorted({p.name for p in workdir.iterdir()} - before)
     if acted:
         outcome = SoloOutcome.ACTED
-    elif code == 0:
+    elif code != 0:
+        outcome = SoloOutcome.FAILED
+    elif appeared:
+        # It did something, just not this. Kept apart from RAN_NO_EFFECT
+        # because they are different facts about an agent and only one of them
+        # is "this agent does nothing".
+        outcome = SoloOutcome.ACTED_OFF_TASK
+        ref = store.blob((output + "\n\ncrucible: files the agent left in the "
+                          "workspace that were not there before: "
+                          + ", ".join(appeared) + "\n").encode())
+    else:
         # The distinction this stage exists for. The process ran and exited
         # cleanly and the workspace is unchanged.
         outcome = SoloOutcome.RAN_NO_EFFECT
-    else:
-        outcome = SoloOutcome.FAILED
 
-    return _record(store, entrypoint, ep_id, outcome, ms, ref, shim,
-                   None if acted else f"exit {code}")
+    detail = None if acted else (f"exit {code}; left {', '.join(appeared)}"
+                                 if appeared else f"exit {code}")
+    return _record(store, entrypoint, ep_id, outcome, ms, ref, shim, detail)
 
 
 def _solo_env(shim: ShimConfig) -> dict[str, str]:

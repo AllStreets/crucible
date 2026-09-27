@@ -7,7 +7,7 @@ export function generateStaticParams() {
 }
 export const dynamicParams = false;
 
-const OUT: Record<string, string> = { acted: "ok", ran_no_effect: "warn", failed: "stop" };
+const OUT: Record<string, string> = { acted: "ok", acted_off_task: "artifact", ran_no_effect: "warn", failed: "stop" };
 const TONE: Record<string, string> = { done: "ok", artifact: "artifact", blocked: "inert", lost: "stop", running: "active", queued: "inert" };
 
 export default async function AgentPage({ params }: { params: Promise<{ slug: string }> }) {

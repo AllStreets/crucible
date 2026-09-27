@@ -111,7 +111,12 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.cmd == "schedule-status":
         from crucible.schedule import status
-        print(status())
+        from crucible.params import load_params
+        try:
+            hours = load_params(Path.cwd()).cadence_hours
+        except Exception:  # noqa: BLE001
+            hours = None
+        print(status(every_hours=hours))
         return 0
 
     if args.cmd == "audit":

@@ -15,7 +15,8 @@
   "authored_by": "claude-fable-5-1, verified by solo run",
   "authored_at": "2026-09-27",
   "engagement_markers": [
-    "**CmdRunAction**",
-    "**FileEditAction**"
+    "CmdRunAction",
+    "CmdOutputObservation",
+    "FileEditAction"
   ]
 }
