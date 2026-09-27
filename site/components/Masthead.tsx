@@ -5,6 +5,7 @@ import { PaletteButton } from "./PaletteButton";
 const SECTIONS = [
   { href: "/explorer", label: "Explorer" },
   { href: "/pairs", label: "Pairs" },
+  { href: "/scenarios", label: "Scenarios" },
   { href: "/agents", label: "Agents" },
   { href: "/findings", label: "Findings" },
   { href: "/papers", label: "Papers" },

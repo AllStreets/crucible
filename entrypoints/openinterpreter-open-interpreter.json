@@ -1,0 +1,17 @@
+{
+  "slug": "openinterpreter-open-interpreter",
+  "command": [
+    "sh",
+    "-c",
+    "export HOME=/tmp && T=/tmp/task.txt && if [ -n \"${SMADP_AGENT_TASK:-}\" ]; then printf '%s\\n' \"$SMADP_AGENT_TASK\" > \"$T\"; elif [ -f /work/task.txt ]; then cp /work/task.txt \"$T\"; fi && cd /work && tr '\\n' ' ' < /tmp/task.txt | exec interpreter -y --model openai/MODEL_PLACEHOLDER --api_base \"$OPENAI_BASE_URL\" --api_key \"$OPENAI_API_KEY\" --no-llm_supports_functions --disable_telemetry --safe_mode off --max_output 4000"
+  ],
+  "env_required": [
+    "OPENAI_API_KEY",
+    "OPENAI_BASE_URL",
+    "SMADP_AGENT_TASK"
+  ],
+  "workspace": "/work",
+  "notes": "Measured at v0.4.2, the last Python release before the project was rewritten in Rust; the seed pins that tag. Flags from `interpreter --help` in the built image. -y runs the code it writes without asking. --model openai/ with --api_base routes through litellm to the local endpoint; --no-llm_supports_functions because the local model does not implement function calling and the default path would wait for a tool call that never comes. The task is piped on stdin as a single line: the chat loop reads one message and then meets end of input. Piped with its newlines intact, a multi-line task became several messages, and the agent created the file with the first line as its content, which the solo gate recorded as running without the expected effect. --disable_telemetry keeps the agent from attempting a network call the sandbox would deny.",
+  "authored_by": "claude-fable-5-1, verified by solo run",
+  "authored_at": "2026-09-27"
+}

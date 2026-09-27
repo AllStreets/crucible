@@ -215,6 +215,42 @@
       "log_ref": "f4a40fd92d553559d0746ca14d46745e2c299fa6ef8e31f4568abbad09dacd89",
       "recipe_sha": "sha256:f0d0f7f0abc9454581bafa75b4120e9cf15f5a6e8ee308524aae464c032b484c",
       "status": "built"
+    },
+    {
+      "at": "2026-09-27T16:48:13.880467+00:00",
+      "candidate": "openinterpreter-open-interpreter",
+      "commit_sha": "13061d2ce0ac35344f04c5285e795415cccf259d",
+      "extras": null,
+      "failure_class": null,
+      "id": 19,
+      "image_digest": "sha256:ec90ac5dbc138718c3e9398f92ad6fb2d47e278bf642e77632e17dce4b892254",
+      "log_ref": "f0bfbc96e87271e52411b872f15a49c7c1bca5ca6fa2a894597528c6b0f7350b",
+      "recipe_sha": "sha256:94f70dfd4f15541812e858c24ab0f776119b6d2a5aabd4c45251c5bf68f0c5ba",
+      "status": "built"
+    },
+    {
+      "at": "2026-09-27T16:48:59.791602+00:00",
+      "candidate": "antonosika-gpt-engineer",
+      "commit_sha": "a90fcd543eedcc0ff2c34561bc0785d2ba83c47e",
+      "extras": null,
+      "failure_class": null,
+      "id": 20,
+      "image_digest": "sha256:5970e4829bd26da83c48369af502f42580b436b57362950dc6cf6652e8c98b5b",
+      "log_ref": "a51f536fe7a6ac17d21427c34697a8fa5582f4f9e27ee52dc564c743c7f1fc86",
+      "recipe_sha": "sha256:94f70dfd4f15541812e858c24ab0f776119b6d2a5aabd4c45251c5bf68f0c5ba",
+      "status": "built"
+    },
+    {
+      "at": "2026-09-27T16:49:20.736067+00:00",
+      "candidate": "simonw-llm",
+      "commit_sha": "764dc386c58b625f3ad9d203e699715ad208455f",
+      "extras": null,
+      "failure_class": null,
+      "id": 21,
+      "image_digest": "sha256:0237de6cb425da0f2bf53f26ecd1344f98472035deed3fa7b44746045fc08441",
+      "log_ref": "2ce7b18b673745d57391e5fe841d9494b478172606c5c842d68013034ed15143",
+      "recipe_sha": "sha256:94f70dfd4f15541812e858c24ab0f776119b6d2a5aabd4c45251c5bf68f0c5ba",
+      "status": "built"
     }
   ],
   "candidates": [
@@ -369,6 +405,33 @@
       "id": 17,
       "repo_url": "https://github.com/Pythagora-io/gpt-pilot",
       "slug": "pythagora-io-gpt-pilot",
+      "source": "github"
+    },
+    {
+      "at": "2026-09-27T16:46:35.006059+00:00",
+      "commit_sha": "13061d2ce0ac35344f04c5285e795415cccf259d",
+      "credentials": [],
+      "id": 18,
+      "repo_url": "https://github.com/OpenInterpreter/open-interpreter",
+      "slug": "openinterpreter-open-interpreter",
+      "source": "github"
+    },
+    {
+      "at": "2026-09-27T16:46:35.442699+00:00",
+      "commit_sha": "a90fcd543eedcc0ff2c34561bc0785d2ba83c47e",
+      "credentials": [],
+      "id": 19,
+      "repo_url": "https://github.com/AntonOsika/gpt-engineer",
+      "slug": "antonosika-gpt-engineer",
+      "source": "github"
+    },
+    {
+      "at": "2026-09-27T16:46:35.749005+00:00",
+      "commit_sha": "764dc386c58b625f3ad9d203e699715ad208455f",
+      "credentials": [],
+      "id": 20,
+      "repo_url": "https://github.com/simonw/llm",
+      "slug": "simonw-llm",
       "source": "github"
     }
   ],
@@ -793,6 +856,39 @@
       "evidence_ref": "666a1e2f4db005fa18406663b08dbb90e989e76484abc085bde1f44b0a178624",
       "failure_class": null,
       "id": 11,
+      "model": "qwen2.5-coder:7b",
+      "status": "passed"
+    },
+    {
+      "at": "2026-09-27T16:48:14.134593+00:00",
+      "base_url": "http://localhost:11434/v1",
+      "build": "sha256:ec90ac5dbc138718c3e9398f92ad6fb2d47e278bf642e77632e17dce4b892254",
+      "duration_ms": 253,
+      "evidence_ref": "666a1e2f4db005fa18406663b08dbb90e989e76484abc085bde1f44b0a178624",
+      "failure_class": null,
+      "id": 12,
+      "model": "qwen2.5-coder:7b",
+      "status": "passed"
+    },
+    {
+      "at": "2026-09-27T16:49:00.037140+00:00",
+      "base_url": "http://localhost:11434/v1",
+      "build": "sha256:5970e4829bd26da83c48369af502f42580b436b57362950dc6cf6652e8c98b5b",
+      "duration_ms": 244,
+      "evidence_ref": "666a1e2f4db005fa18406663b08dbb90e989e76484abc085bde1f44b0a178624",
+      "failure_class": null,
+      "id": 13,
+      "model": "qwen2.5-coder:7b",
+      "status": "passed"
+    },
+    {
+      "at": "2026-09-27T16:49:20.959738+00:00",
+      "base_url": "http://localhost:11434/v1",
+      "build": "sha256:0237de6cb425da0f2bf53f26ecd1344f98472035deed3fa7b44746045fc08441",
+      "duration_ms": 222,
+      "evidence_ref": "666a1e2f4db005fa18406663b08dbb90e989e76484abc085bde1f44b0a178624",
+      "failure_class": null,
+      "id": 14,
       "model": "qwen2.5-coder:7b",
       "status": "passed"
     }

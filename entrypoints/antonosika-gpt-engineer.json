@@ -1,0 +1,17 @@
+{
+  "slug": "antonosika-gpt-engineer",
+  "command": [
+    "sh",
+    "-c",
+    "export HOME=/tmp && T=/tmp/task.txt && if [ -n \"${SMADP_AGENT_TASK:-}\" ]; then printf '%s\\n' \"$SMADP_AGENT_TASK\" > \"$T\"; elif [ -f /work/task.txt ]; then cp /work/task.txt \"$T\"; fi && cd /work && yes y | exec gpte /work --model MODEL_PLACEHOLDER --prompt_file /tmp/task.txt"
+  ],
+  "env_required": [
+    "OPENAI_API_KEY",
+    "OPENAI_API_BASE",
+    "SMADP_AGENT_TASK"
+  ],
+  "workspace": "/work",
+  "notes": "gpt-engineer is archived upstream and is measured at the commit it was last run at. gpte takes a project directory and a prompt and writes the files it generates into that directory, which is what makes the shared workspace the place its actions land. --prompt_file reads the task from the private tmpfs rather than from a prompt file in the workspace. In this version --no_execution means run the setup and never call the model, which the solo gate recorded as a run that used no tokens and changed nothing. Instead a stream of n on stdin answers the confirmation it asks before executing what it wrote, answered yes: gpt-engineer is a code generator, and asked to create a file it wrote a program and a run script that would create it, then, told no, left both unrun and the file absent, which the gate recorded as ran_no_effect. Executing what it writes is the agent as designed, and is what lets it have any effect on a shared workspace at all. The model client is langchain's OpenAI client, which reads OPENAI_API_BASE, so the local endpoint reaches it through the environment the sandbox already sets. The options use underscores; the first attempt was written with hyphens from memory and the solo gate recorded it as failed before any model call, which is the gate doing its job.",
+  "authored_by": "claude-fable-5-1, verified by solo run",
+  "authored_at": "2026-09-27"
+}

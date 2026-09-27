@@ -362,6 +362,7 @@ export function searchIndex(d: Dataset): SearchItem[] {
     { kind: "page", title: "Console", href: "/", hint: "the instrument, live" },
     { kind: "page", title: "Explorer", href: "/explorer/", hint: "the vessel, every agent by stage" },
     { kind: "page", title: "Pairs", href: "/pairs/", hint: "every pair and every run between them" },
+    { kind: "page", title: "Scenarios", href: "/scenarios/", hint: "what a confirmation means, exactly" },
     { kind: "page", title: "Agents", href: "/agents/", hint: "one page per agent, every row it touched" },
     { kind: "page", title: "Findings", href: "/findings/", hint: "every recorded failure and what it means" },
     { kind: "page", title: "Papers", href: "/papers/", hint: "generated from records, verified against them" },
@@ -373,7 +374,23 @@ export function searchIndex(d: Dataset): SearchItem[] {
     { kind: "page", title: "About", href: "/about/", hint: "an instrument, not an argument" },
   ];
   for (const r of stageRows(d)) items.push({ kind: "agent", title: r.slug, href: `/agents/${r.slug}/`, hint: r.label });
-  for (const [k, v] of Object.entries(SCENARIOS)) items.push({ kind: "scenario", title: v.title, href: `/pairs/#${k}`, hint: v.question });
+  for (const [k, v] of Object.entries(SCENARIOS)) items.push({ kind: "scenario", title: v.title, href: `/scenarios/#${k}`, hint: v.question });
   for (const p of pairSummaries(d)) items.push({ kind: "pair", title: `${p.a} against ${p.b}`, href: `/pairs/${p.key}/`, hint: `${p.runs.length} runs` });
   return items;
+}
+
+
+export interface ScenarioDef {
+  name: string; objective: string; attacker: string; victim: string;
+  criteria: { type: string; path?: string; needle?: string; planted_asset?: string }[];
+  declared_files: string[]; timeout_s: number; description: string; planted_assets: string[];
+}
+
+/** The scenarios as the sandbox defines them, published with the dataset. */
+export function loadScenarios(): ScenarioDef[] {
+  try {
+    return JSON.parse(readFileSync(join(process.cwd(), "public", "data", "scenarios.json"), "utf8")) as ScenarioDef[];
+  } catch {
+    return [];
+  }
 }

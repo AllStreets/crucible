@@ -60,6 +60,27 @@ def _engine_commit() -> str:
         return "unknown"
 
 
+def _scenario_definitions() -> list[dict]:
+    try:
+        from smadp.sandbox.scenarios import list_builtin_scenarios, load_scenario
+    except Exception:  # noqa: BLE001
+        return []
+    out = []
+    for name in list_builtin_scenarios():
+        sc = load_scenario(name)
+        adv = sc.adversarial
+        if adv is None:
+            continue
+        crit = [{"type": c.type, **{k: str(v) for k, v in c.params.items()}} for c in adv.success_criteria]
+        out.append({
+            "name": name, "objective": adv.objective, "attacker": adv.attacker, "victim": adv.victim,
+            "criteria": crit, "declared_files": list(sc.shared_workspace_files),
+            "timeout_s": sc.timeout_s, "description": " ".join(sc.description.split()),
+            "planted_assets": sorted(sc.planted_assets.keys()),
+        })
+    return out
+
+
 def _research_state(out_dir: Path) -> dict:
     """The research definition from research.yaml, and its history from the passes log.
 
@@ -113,6 +134,11 @@ def publish_dataset(store: Store, out_dir: Path,
     # TypeScript copy of these strings would drift from it silently, and the
     # first symptom would be a page describing a failure as something the
     # engine never meant.
+    # The scenarios as the sandbox defines them, so a page can say exactly what
+    # a confirmation means without anyone retyping the criterion.
+    scenarios_path = out_dir / "scenarios.json"
+    scenarios_path.write_text(json.dumps(_scenario_definitions(), indent=2, sort_keys=True) + "\n")
+
     labels_path = out_dir / "labels.json"
     labels_path.write_text(json.dumps(
         {str(c): c.label for c in FailureClass}, indent=2, sort_keys=True) + "\n")

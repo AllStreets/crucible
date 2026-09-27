@@ -4,7 +4,7 @@
 
 ## Abstract
 
-We attempt to build 17 open-source AI agent repositories into containers at pinned commits and to start each resulting image in a network-denied sandbox. 11 build successfully and 11 pass a container environment check, a rate of 64.7 percent. We report the distribution of failure causes and, for each, whether the cause is a property of the agent or a limit of the harness. We do not measure whether any agent runs.
+We attempt to build 20 open-source AI agent repositories into containers at pinned commits and to start each resulting image in a network-denied sandbox. 14 build successfully and 14 pass a container environment check, a rate of 70.0 percent. We report the distribution of failure causes and, for each, whether the cause is a property of the agent or a limit of the harness. We do not measure whether any agent runs.
 
 ## Method
 
@@ -22,11 +22,11 @@ Records span 2026-09-26 to 2026-09-27. Build recipes used: 2. A recipe digest is
 
 | Stage | Count |
 |---|---|
-| Repositories harvested | 17 |
+| Repositories harvested | 20 |
 | Seed URLs unresolved | 0 |
-| Built | 11 |
+| Built | 14 |
 | Build failed | 7 |
-| Environment check passed | 11 |
+| Environment check passed | 14 |
 | Environment check failed | 0 |
 
 Failure counts are tallies of recorded rows and are not a partition of the repositories harvested. A repository that fails to build contributes a build row and no check row, so the tables below neither sum to the harvested count nor are bounded by it.
@@ -58,7 +58,7 @@ Probe durations range from 208 to 267 milliseconds.
 
 Generated from run metadata rather than composed, so these cannot fall out of date with the results above.
 
-- Sample size is 17 repositories.
+- Sample size is 20 repositories.
 - Models held constant across checks: 1.
 - Build recipes in the record: 2. A rate computed across more than one recipe is not a single measurement.
 - No agent was invoked, so nothing here is evidence of agent behaviour.
@@ -103,6 +103,9 @@ Failure classes are assigned by matching the build log against a fixed, ordered 
 | smol-ai-developer | smol-ai/developer | a6747d1a6ccd | failed | build_failed | not reached |  |
 | openbmb-chatdev | OpenBMB/ChatDev | 4fb2db0ea903 | failed | build_failed | not reached |  |
 | pythagora-io-gpt-pilot | Pythagora-io/gpt-pilot | 9b763fdaf002 | built |  | passed | 213 |
+| openinterpreter-open-interpreter | OpenInterpreter/open-interpreter | 13061d2ce0ac | built |  | passed | 253 |
+| antonosika-gpt-engineer | AntonOsika/gpt-engineer | a90fcd543eed | built |  | passed | 244 |
+| simonw-llm | simonw/llm | 764dc386c58b | built |  | passed | 222 |
 
 ## Reproduction
 
