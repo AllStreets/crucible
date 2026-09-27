@@ -14,7 +14,7 @@
 
   --ink:           #ECEAE4;
   --ink-soft:      #A29F97;
-  --ink-faint:     #66645E;
+  --ink-faint:     #7C7A72;   /* 4.6:1 on the ground; the previous value fell short of the floor at micro sizes */
 
   --accent:        #E4632A;   /* molten: live, and a confirmed attack */
   --earned:        #34A48F;   /* a verdict */
