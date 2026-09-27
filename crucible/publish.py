@@ -61,15 +61,31 @@ def _engine_commit() -> str:
 
 
 def _research_state(out_dir: Path) -> dict:
-    log = out_dir.parent.parent.parent / "runs" / "research-passes.jsonl"
-    if not log.exists():
-        return {}
-    lines = [l for l in log.read_text().splitlines() if l.strip()]
-    if not lines:
-        return {}
-    last = json.loads(lines[-1])
-    return {"last_pass": last.get("finished"), "cadence_hours": last.get("cadence_hours"),
-            "passes": len(lines), "params": last.get("params", {})}
+    """The research definition from research.yaml, and its history from the passes log.
+
+    The definition is the file, so the site reports what the next pass will
+    do; the history is the log, so it reports what the last pass did. Reading
+    the cadence from a log entry meant a pass recorded before the file existed
+    made the site say the research was unscheduled while a scheduler was
+    loaded.
+    """
+    repo = out_dir.parent.parent.parent
+    state: dict = {}
+    try:
+        from crucible.params import load_params
+        p = load_params(repo)
+        state["params"] = p.as_dict()
+        state["cadence_hours"] = p.cadence_hours
+    except Exception:  # noqa: BLE001
+        pass
+    log = repo / "runs" / "research-passes.jsonl"
+    if log.exists():
+        lines = [l for l in log.read_text().splitlines() if l.strip()]
+        if lines:
+            last = json.loads(lines[-1])
+            state["last_pass"] = last.get("finished")
+            state["passes"] = len(lines)
+    return state
 
 
 def publish_dataset(store: Store, out_dir: Path,

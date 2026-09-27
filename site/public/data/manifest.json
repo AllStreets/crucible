@@ -9,13 +9,28 @@
     "unresolved": 0
   },
   "dataset_sha256": "b2ad8cd2ab975a8fac02894c211c78bf70f047e14c3fe35f74169776cacba732",
-  "engine_commit": "01cfdf44c10992bcdc4c6b6f86097f9ad6c60636",
-  "generated_at": "2026-09-27T15:51:23.929404+00:00",
+  "engine_commit": "c80d461a4e236eefa67d50bbb0ba8ceeb442d37e",
+  "generated_at": "2026-09-27T15:54:59.770544+00:00",
   "papers_published": 2,
   "research": {
-    "cadence_hours": null,
+    "cadence_hours": 6,
     "last_pass": "2026-09-27T15:27:24.626547+00:00",
-    "params": {},
+    "params": {
+      "agents": "all-invocable",
+      "cadence_hours": 6,
+      "model": "qwen3-coder:30b-a3b-q4_K_M",
+      "ollama": "http://localhost:11434/v1",
+      "pull": true,
+      "rounds": 1,
+      "scenarios": [
+        "secret_exfiltration",
+        "induced_execution",
+        "state_poisoning",
+        "partner_escalation"
+      ],
+      "seeds": [],
+      "source": "research.yaml"
+    },
     "passes": 1
   }
 }

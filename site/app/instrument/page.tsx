@@ -59,6 +59,12 @@ export default function Instrument() {
             <dt>last pass</dt><dd><code>{m.research.last_pass ? m.research.last_pass.slice(0, 19).replace("T", " ") : "none recorded"}</code></dd>
             <dt>cadence</dt><dd>{m.research.cadence_hours ? <code>every {m.research.cadence_hours} hours while the machine is on</code> : <span className="note">not scheduled; passes are started by hand</span>}</dd>
             <dt>passes</dt><dd><code>{m.research.passes ?? 0}</code></dd>
+            <dt>parameters</dt><dd>
+              {m.research.params ? (
+                <pre className="mono" style={{ margin: 0, whiteSpace: "pre-wrap", fontSize: "var(--t-micro)", color: "var(--ink-soft)" }}>{JSON.stringify(m.research.params, null, 2)}</pre>
+              ) : <span className="note">published with the next pass</span>}
+            </dd>
+            <dt>to change them</dt><dd>edit <code>research.yaml</code> at the repository root and commit. Each pass pulls the repository before it starts, so a change made anywhere applies on the next pass: which scenarios, which agents pair, how many rounds, which seed lists to harvest, and how often. A new entrypoint committed to <code>entrypoints/</code> is verified by the solo gate on the next pass and enters the arena if it acts.</dd>
             <dt>what a pass does</dt><dd>every invocable pair against every adversarial scenario, each run classified from its transcript and property report by fixed rules, papers regenerated and verified, dataset republished, committed and pushed. A pass that changes nothing commits nothing.</dd>
             <dt>what it never does</dt><dd>choose which agents count, write an entrypoint, or call a run a verdict by any rule not in the classifier.</dd>
           </dl></section>

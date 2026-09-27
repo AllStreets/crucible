@@ -58,7 +58,7 @@ export interface Manifest {
    *  as a published result. */
   papers_published: number;
   /** Written by the unattended research pass. Empty until one has run. */
-  research: { last_pass?: string; cadence_hours?: number | null; passes?: number };
+  research: { last_pass?: string; cadence_hours?: number | null; passes?: number; params?: Record<string, unknown> };
 }
 
 const DATA_DIR = join(process.cwd(), "public", "data");
@@ -222,6 +222,9 @@ export interface PaperMeta {
   filename: string;
   word_count: number;
   sha256: string;
+  pdf?: string;
+  pages?: number;
+  pdf_sha256?: string;
 }
 
 /** The published papers, read from the index the engine writes.

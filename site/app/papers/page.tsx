@@ -9,7 +9,7 @@ export default function Papers() {
       <div>
         <div className="eyebrow"><span className="label">Papers</span><span className="label">{papers.length} verified</span></div>
         <h1>Generated from records. Verified against them.</h1>
-        <p className="lede">Each paper is rendered from a typed template whose every numeric slot is a query. The generator then reads its own output back and refuses to emit the document if any numeral in it is absent from the record. No model writes these, and they are regenerated on every research pass, so they cannot drift from the data.</p>
+        <p className="lede">Each paper is rendered from a typed template whose every numeric slot is a query, then read back by a verifier that refuses to emit the document if any numeral in it is absent from the record. The PDF is typeset from that verified text and nothing else. No model writes these; they are regenerated on every research pass, so they cannot drift from the data, and the appendices grow as the record does.</p>
       </div>
       {papers.length === 0 ? (
         <p className="note">No paper currently verifies against the record. Generation refuses to emit a document the data cannot support.</p>
@@ -22,14 +22,16 @@ export default function Papers() {
                 <h2>{p.title}</h2>
                 <div className="meta">
                   <span className="state done">verified</span>
+                  {p.pages && <span className="mono faint">{p.pages} pages</span>}
                   <span className="mono faint">{p.word_count} words</span>
                   <span className="mono faint">regenerated {p.generated_at.slice(0, 10)}</span>
-                  <span className="mono faint">sha256 {p.sha256.slice(0, 12)}</span>
+                  {p.pdf_sha256 && <span className="mono faint">pdf sha256 {p.pdf_sha256.slice(0, 12)}</span>}
                 </div>
                 <p className="abstract"><em>Abstract.</em> {p.abstract}</p>
                 <div className="actions">
-                  <a className="btn primary" href={`/papers/${p.filename}`} download>Download the paper</a>
-                  <a className="btn" href={`/papers/${p.filename}`} target="_blank" rel="noreferrer">Read in the browser</a>
+                  {p.pdf && <a className="btn primary" href={`/papers/${p.pdf}`} download>Download the PDF</a>}
+                  {p.pdf && <a className="btn" href={`/papers/${p.pdf}`} target="_blank" rel="noreferrer">Read in the browser</a>}
+                  <a className="mono faint" href={`/papers/${p.filename}`} style={{ alignSelf: "center" }}>source markdown</a>
                 </div>
               </div>
             </div>

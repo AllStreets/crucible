@@ -30,7 +30,7 @@
   --glow-accent: 0 0 22px rgba(228,99,42,0.28); --glow-cool: 0 0 18px rgba(52,164,143,0.22);
 
   --font-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
-  --font-body:    "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --font-body:    "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
   --font-mono:    "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
   --t-micro: 0.72rem;
@@ -39,8 +39,9 @@
   --t-lead:  1.2rem;
   --t-h3:    1.45rem;
   --t-h2:    2rem;
-  --t-h1:    3.4rem;
-  --t-figure: 6.5rem;
+  --t-h1:    clamp(2.6rem, 5.4vw, 4.6rem);
+  --t-hero:  clamp(3.2rem, 8vw, 7.4rem);
+  --t-figure: clamp(4.2rem, 7vw, 6.8rem);
 
   --measure: 64ch;
   --hair: 1px;
