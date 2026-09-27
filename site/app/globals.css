@@ -157,15 +157,18 @@ tbody tr:hover td { background: rgba(255,255,255,0.015); }
 
 /* Masthead */
 .masthead { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--ground) 90%, transparent); backdrop-filter: blur(12px); border-bottom: var(--hair) solid var(--rule); }
-.masthead .inner { display: flex; align-items: baseline; gap: 2.2rem; padding-top: 1rem; padding-bottom: 0.9rem; }
+.masthead .inner { display: flex; align-items: baseline; gap: 1.4rem; padding-top: 1rem; padding-bottom: 0.9rem; }
 .wordmark { font-family: var(--font-display); font-style: italic; font-size: 1.55rem; text-decoration: none; letter-spacing: 0.01em; white-space: nowrap; }
 .wordmark .mark { display: inline-block; width: 0.5em; height: 0.5em; background: var(--accent); margin-right: 0.45em; transform: translateY(-0.05em) rotate(45deg); box-shadow: var(--glow-accent); }
-.masthead nav { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-right: auto; }
+.masthead nav { display: flex; gap: 1.05rem; flex-wrap: wrap; margin-right: auto; }
 .masthead nav a { font-size: var(--t-small); color: var(--ink-soft); text-decoration: none; }
 .masthead nav a:hover { color: var(--ink); }
 .masthead .cmdk { display: inline-flex; align-items: center; gap: 0.45rem; font-size: var(--t-micro); color: var(--ink-faint); border: 0; background: transparent; cursor: pointer; font-family: var(--font-body); padding: 0; }
 .masthead .cmdk:hover { color: var(--ink); }
 .stamp { font-family: var(--font-mono); font-size: var(--t-micro); color: var(--ink-faint); letter-spacing: 0.06em; }
+/* The dated stamp is a nicety and the first thing to go when the bar is
+   tight: the same date is in the colophon on every page. */
+@media (max-width: 1280px) { .masthead .stamp { display: none; } }
 @media (max-width: 900px) { .masthead { position: static; } .masthead .inner { flex-wrap: wrap; gap: 0.6rem 1.2rem; } }
 
 /* Top and bottom only: the shorthand zeroed the sheet's side gutters, which

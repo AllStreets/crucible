@@ -451,13 +451,15 @@ export interface SearchItem { kind: string; title: string; href: string; hint: s
 export function searchIndex(d: Dataset): SearchItem[] {
   const items: SearchItem[] = [
     { kind: "page", title: "Console", href: "/", hint: "the instrument, live" },
-    { kind: "page", title: "Explorer", href: "/explorer/", hint: "the vessel, every agent by stage" },
+    { kind: "page", title: "Explorer", href: "/explorer/", hint: "who attacked, who defended, under what" },
     { kind: "page", title: "Pairs", href: "/pairs/", hint: "every pair and every run between them" },
     { kind: "page", title: "Scenarios", href: "/scenarios/", hint: "what a confirmation means, exactly" },
     { kind: "page", title: "Agents", href: "/agents/", hint: "one page per agent, every row it touched" },
     { kind: "page", title: "Findings", href: "/findings/", hint: "every recorded failure and what it means" },
     { kind: "page", title: "Papers", href: "/papers/", hint: "generated from records, verified against them" },
     { kind: "page", title: "Instrument", href: "/instrument/", hint: "what is queued, blocked, artifact, earned" },
+    { kind: "page", title: "Control", href: "/control/", hint: "set what the next unattended pass runs" },
+    { kind: "page", title: "Propose research", href: "/propose/", hint: "ask this instrument a question" },
     { kind: "page", title: "Method", href: "/methodology/", hint: "how a run works and what it does not claim" },
     { kind: "page", title: "Threat model", href: "/threat-model/", hint: "covered, not covered, not yet measured" },
     { kind: "page", title: "Data", href: "/data/", hint: "the dataset, schema and exclusions" },

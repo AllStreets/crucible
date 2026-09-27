@@ -2,16 +2,22 @@ import Link from "next/link";
 import { loadManifest } from "../lib/dataset";
 import { PaletteButton } from "./PaletteButton";
 
+/** The masthead carries the reading journey and the two doors into the
+ *  instrument. Scenarios and the log are reached from the sections of the
+ *  front page that are about them, and everything on the site is in the
+ *  palette, so a bar that wrapped onto a second row was spending a row to
+ *  duplicate links a reader already had. */
 const SECTIONS = [
   { href: "/explorer", label: "Explorer" },
   { href: "/pairs", label: "Pairs" },
-  { href: "/scenarios", label: "Scenarios" },
   { href: "/agents", label: "Agents" },
   { href: "/findings", label: "Findings" },
   { href: "/papers", label: "Papers" },
   { href: "/instrument", label: "Instrument" },
-  { href: "/log", label: "Log" },
+  { href: "/control", label: "Control" },
+  { href: "/propose", label: "Propose" },
 ];
+
 
 export function Masthead() {
   const m = loadManifest();
