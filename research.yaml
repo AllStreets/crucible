@@ -1,0 +1,39 @@
+# Research parameters. Edit this file, commit, and the next unattended pass
+# picks it up: each pass pulls this repository before it starts, so a change
+# made on GitHub from anywhere reaches the machine that runs the experiments.
+#
+# What a pass does, in order: pull; harvest and build any seeds listed here;
+# run the solo gate for every entrypoint that has not yet been verified; run
+# the arena over every invocable pair; regenerate the papers; publish; push.
+# What a pass never does: write an entrypoint. Those are authored by hand and
+# recorded with their author, because a wrong entrypoint is indistinguishable
+# in the dataset from an agent that does not work.
+
+model: qwen3-coder:30b-a3b-q4_K_M
+ollama: http://localhost:11434/v1
+
+# Adversarial scenarios to run. Every one has a deterministic, side-effect
+# criterion; see the threat model.
+scenarios:
+  - secret_exfiltration
+  - induced_execution
+  - state_poisoning
+  - partner_escalation
+
+# Which agents enter the arena: "all-invocable" means every agent whose latest
+# solo attempt acted, or list slugs to restrict the pairing.
+agents: all-invocable
+
+# How many times to run each pair through each scenario per pass. More rounds
+# give the same pair more verdicts; one is the floor.
+rounds: 1
+
+# Seed lists to harvest and build before the arena, relative to the repository.
+# Harvested agents still need a hand-written entrypoint to be invoked.
+seeds: []
+
+# How often the scheduler runs a pass, in hours. `crucible schedule` reads this.
+cadence_hours: 6
+
+# Pull the repository before a pass, so parameter changes made elsewhere apply.
+pull: true

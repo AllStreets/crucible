@@ -51,19 +51,13 @@ def main(argv: list[str] | None = None) -> int:
     paper.add_argument("--db", type=Path, default=Path("data/crucible.db"))
     paper.add_argument("--out", type=Path, default=None)
 
-    res = sub.add_parser("research", help="one unattended pass: arena, classify, papers, publish, push")
-    res.add_argument("--db", type=Path, default=Path("runs/arena.db"))
-    res.add_argument("--root", type=Path, default=Path("runs/sandbox-root"))
-    res.add_argument("--model", default="qwen3-coder:30b-a3b-q4_K_M")
-    res.add_argument("--ollama", default="http://localhost:11434/v1")
-    res.add_argument("--rounds", type=int, default=1)
+    res = sub.add_parser("research", help="one unattended pass as defined by research.yaml")
     res.add_argument("--no-push", action="store_true")
-    res.add_argument("--cadence-hours", type=int, default=None)
 
-    sched = sub.add_parser("schedule", help="install a launchd job that runs research every N hours")
-    sched.add_argument("--every", type=int, default=6, metavar="HOURS")
-    sched.add_argument("--model", default="qwen3-coder:30b-a3b-q4_K_M")
+    sched = sub.add_parser("schedule", help="install a launchd job that runs research at the cadence in research.yaml")
     sched.add_argument("--remove", action="store_true")
+
+    params_cmd = sub.add_parser("params", help="print the research parameters as they will be used")
 
     pub = sub.add_parser("publish", help="export the store as static JSON for the site")
     pub.add_argument("--db", type=Path, default=Path("data/crucible.db"))
@@ -83,16 +77,20 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.cmd == "research":
-        entry = research_pass(db=args.db, root=args.root, repo=Path.cwd(),
-                              shim=ShimConfig(base_url=args.ollama, model=args.model),
-                              rounds=args.rounds, push=not args.no_push,
-                              cadence_hours=args.cadence_hours)
+        entry = research_pass(repo=Path.cwd(), push=not args.no_push)
         print(json.dumps(entry, indent=2))
         return 0
 
     if args.cmd == "schedule":
+        from crucible.params import load_params
         from crucible.schedule import install, remove
-        print(remove() if args.remove else install(every_hours=args.every, model=args.model))
+        p = load_params(Path.cwd())
+        print(remove() if args.remove else install(every_hours=p.cadence_hours))
+        return 0
+
+    if args.cmd == "params":
+        from crucible.params import load_params
+        print(json.dumps(load_params(Path.cwd()).as_dict(), indent=2))
         return 0
 
     if args.cmd == "paper":

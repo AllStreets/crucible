@@ -69,7 +69,7 @@ def _research_state(out_dir: Path) -> dict:
         return {}
     last = json.loads(lines[-1])
     return {"last_pass": last.get("finished"), "cadence_hours": last.get("cadence_hours"),
-            "passes": len(lines)}
+            "passes": len(lines), "params": last.get("params", {})}
 
 
 def publish_dataset(store: Store, out_dir: Path,
@@ -124,11 +124,20 @@ def publish_dataset(store: Store, out_dir: Path,
                 target.unlink()
             continue
         target.write_text(document)
+        # The PDF is typeset from the verified text and nothing else. The
+        # markdown stays beside it as the machine-readable form.
+        from crucible.typeset import render_pdf
+        pdf = papers_dir / f"{slug}.pdf"
+        pages = render_pdf(document, pdf, engine_commit=_engine_commit(),
+                           dataset_sha256=hashlib.sha256(body.encode()).hexdigest(),
+                           figures=meta.figures)
         index.append({
             "slug": meta.slug, "title": meta.title, "abstract": meta.abstract,
             "generated_at": meta.generated_at, "filename": meta.filename,
+            "pdf": pdf.name, "pages": pages,
             "word_count": meta.word_count,
             "sha256": hashlib.sha256(document.encode()).hexdigest(),
+            "pdf_sha256": hashlib.sha256(pdf.read_bytes()).hexdigest(),
         })
 
     (papers_dir / "index.json").write_text(
@@ -151,4 +160,5 @@ def publish_dataset(store: Store, out_dir: Path,
     files = [dataset_path, schema_path, labels_path, manifest_path,
              papers_dir / "index.json"]
     files.extend(papers_dir / p["filename"] for p in index)
+    files.extend(papers_dir / p["pdf"] for p in index)
     return PublishResult(files=tuple(files), counts=counts)

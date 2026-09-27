@@ -10,6 +10,10 @@ We attempt to build 10 open-source AI agent repositories into containers at pinn
 
 Each repository is resolved to a commit SHA, cloned inside a container build at that pin, and installed using a single generic recipe. The resulting image is started with egress denied and runs an environment probe: the interpreter starts, prints one line, and exits.
 
+The recipe starts from the python:3.11-slim image, clones at the pinned commit, and installs the first package definition it finds at the repository root or one or two directories below it, refusing to choose when several qualify. A build is abandoned after 30 minutes and the image identity is read within 60 seconds of the build completing. The environment probe runs with the network disabled.
+
+A build that exits successfully is checked for having installed a distribution: a workspace manifest that setuptools installs under the name UNKNOWN exits zero and installs nothing, and was recorded as a success until the check existed.
+
 The probe does not invoke the agent. The container command overrides whatever entrypoint the agent defines, so a passing check establishes that the environment works and nothing more. The repositories studied share no common entrypoint, and with no network and no credentials an invocation would measure the harness rather than the agent.
 
 Records span 2026-09-26 to 2026-09-26. Build recipes used: 1. A recipe digest is pinned on every build row, since the recipe determines which agents are buildable and rows produced under different recipes are different measurements.
@@ -58,6 +62,39 @@ Generated from run metadata rather than composed, so these cannot fall out of da
 - No agent was invoked, so nothing here is evidence of agent behaviour.
 - No pair of agents was run, so nothing here concerns interaction.
 
+## Classification
+
+Failure classes are assigned by matching the build log against a fixed, ordered list of needles, most specific first, so that a generic wrapper error cannot claim a failure that a more specific message explains. Two needles present in an early version were removed because they matched text that BuildKit prints in every failed build. Each class carries an attribution: whether it describes the repository or a limit of this harness.
+
+- **clone_failed**: Repository could not be cloned. Attributable to the repository.
+- **no_installable_manifest**: No installable manifest at the repository root. Attributable to the repository.
+- **ambiguous_manifest**: Several installable subprojects, none of them obviously the agent. Attributable to this harness.
+- **python_version_unsupported**: Requires a Python version the base image does not provide. Attributable to this harness.
+- **workspace_root_not_installable**: The manifest found is a workspace root, not an installable package. Attributable to this harness.
+- **unsupported_language**: Written in a language this recipe does not build. Attributable to this harness.
+- **no_build_recipe**: No usable build recipe. Attributable to this harness.
+- **dependency_conflict**: Dependencies could not be resolved. Attributable to the repository.
+- **build_failed**: Build failed. Attributable to the repository.
+- **env_check_timeout**: Container environment probe did not finish in time. Attributable to the repository.
+- **env_check_failed**: Container environment probe exited non-zero. Attributable to the repository.
+- **needs_credentials**: Requires credentials we do not supply. Attributable to the repository.
+- **unknown**: Unclassified failure. Attributable to this harness.
+
+## Appendix A: every agent
+
+| Agent | Repository | Commit | Build | Cause | Environment check | Probe (ms) |
+|---|---|---|---|---|---|---|
+| aider-ai-aider | Aider-AI/aider | 5dc9490bb35f | built |  | passed | 214 |
+| gptme-gptme | gptme/gptme | 9e3ab7cf5418 | built |  | passed | 246 |
+| continuedev-continue | continuedev/continue | 5522c6f44ca0 | failed | unsupported_language | not reached |  |
+| anomalyco-opencode | anomalyco/opencode | a42f393c850b | failed | unsupported_language | not reached |  |
+| openai-swarm | openai/swarm | 6af0b4caf37d | built |  | passed | 235 |
+| microsoft-autogen | microsoft/autogen | 027ecf0a379b | failed | workspace_root_not_installable | not reached |  |
+| crewaiinc-crewai | crewAIInc/crewAI | 4ed2abc7bbf5 | failed | workspace_root_not_installable | not reached |  |
+| langchain-ai-langgraph | langchain-ai/langgraph | 7daa3ab49d67 | built |  | passed | 208 |
+| yoheinakajima-babyagi | yoheinakajima/babyagi | fa8930ebe72a | built |  | passed | 255 |
+| browser-use-browser-use | browser-use/browser-use | 4cbe921673b4 | built |  | passed | 267 |
+
 ## Reproduction
 
-Every figure resolves to a row in the published dataset, and every recorded failure to its full build log, addressed by content hash.
+Every figure resolves to a row in the published dataset, and every recorded failure to its full build log, addressed by content hash. The dataset, its schema, and the recipe digest pinned on every build row are published beside this document. Running `crucible run` against the same seed list at the same commits under the same recipe reproduces the rows; a different recipe is a different measurement and is recorded as such.

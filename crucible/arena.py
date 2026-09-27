@@ -127,10 +127,16 @@ def _write_allowlist(store: Store, root: Path, agents: list[str]) -> None:
 
 async def run_arena(store: Store, root: Path, *, shim: ShimConfig,
                     scenarios: tuple[str, ...] = ADVERSARIAL,
-                    rounds: int = 1) -> list[dict]:
-    """Every invocable pair, every scenario, `rounds` times; each run classified and recorded."""
+                    rounds: int = 1, agents: list[str] | None = None) -> list[dict]:
+    """Every invocable pair, every scenario, `rounds` times; each run classified and recorded.
+
+    `agents` restricts the pairing to the slugs listed; those that have not
+    passed the solo gate are dropped rather than run, since an unverified
+    entrypoint produces failures indistinguishable from a broken agent.
+    """
     root.mkdir(parents=True, exist_ok=True)
-    agents = invocable_agents(store)
+    invocable = invocable_agents(store)
+    agents = invocable if agents is None else [a for a in agents if a in invocable]
     emit_adapters(store, root, model=shim.model)
     _write_allowlist(store, root, agents)
     _sandbox_env(root)

@@ -9,12 +9,13 @@
     "unresolved": 0
   },
   "dataset_sha256": "b2ad8cd2ab975a8fac02894c211c78bf70f047e14c3fe35f74169776cacba732",
-  "engine_commit": "ff10d519955856f2d2965231fb3e521779776f8b",
-  "generated_at": "2026-09-27T15:34:18.977996+00:00",
+  "engine_commit": "01cfdf44c10992bcdc4c6b6f86097f9ad6c60636",
+  "generated_at": "2026-09-27T15:51:23.929404+00:00",
   "papers_published": 2,
   "research": {
     "cadence_hours": null,
     "last_pass": "2026-09-27T15:27:24.626547+00:00",
+    "params": {},
     "passes": 1
   }
 }

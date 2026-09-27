@@ -20,15 +20,14 @@ def _plist_path() -> Path:
     return Path.home() / "Library" / "LaunchAgents" / f"{LABEL}.plist"
 
 
-def install(*, every_hours: int, model: str) -> str:
+def install(*, every_hours: int) -> str:
     repo = Path.cwd().resolve()
     crucible = Path(sys.executable).parent / "crucible"
     logs = repo / "runs" / "logs"
     logs.mkdir(parents=True, exist_ok=True)
     plist = {
         "Label": LABEL,
-        "ProgramArguments": [str(crucible), "research", "--db", "runs/arena.db",
-                             "--model", model, "--cadence-hours", str(every_hours)],
+        "ProgramArguments": [str(crucible), "research"],
         "WorkingDirectory": str(repo),
         "StartInterval": every_hours * 3600,
         "RunAtLoad": False,
