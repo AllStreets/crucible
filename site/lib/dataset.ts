@@ -284,6 +284,20 @@ export function latestByScenario(d: Dataset): PairRow[] {
   return Object.keys(by).sort().map((k) => by[k][by[k].length - 1]);
 }
 
+/** Slug to repository name, taken from the recorded clone URL rather than by
+ *  splitting the slug. A slug is org-and-repo joined by a hyphen and the repo
+ *  name may itself contain hyphens, so splitting it guesses; the URL the row
+ *  was harvested from says exactly what the repository is called. Agents with
+ *  no candidate row keep their slug. */
+export function repoNames(d: Dataset): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const c of d.candidates) {
+    const name = c.repo_url.replace(/\/+$/, "").split("/").pop();
+    if (name) out[c.slug] = name.replace(/\.git$/, "");
+  }
+  return out;
+}
+
 export function pairKey(a: string, b: string): string {
   return [a, b].sort().join("--");
 }

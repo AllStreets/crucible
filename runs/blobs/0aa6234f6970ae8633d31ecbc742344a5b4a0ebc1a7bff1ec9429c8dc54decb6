@@ -1,0 +1,105 @@
+#1 [internal] load build definition from generic.Dockerfile
+#1 transferring dockerfile: 2.15kB done
+#1 DONE 0.1s
+
+#2 [internal] load .dockerignore
+#2 transferring context: 2B done
+#2 DONE 0.1s
+
+#3 [internal] load metadata for docker.io/library/python:3.11-slim
+#3 DONE 0.0s
+
+#4 [1/6] FROM docker.io/library/python:3.11-slim
+#4 CACHED
+
+#5 [internal] load build context
+#5 transferring context: 74B done
+#5 DONE 0.0s
+
+#6 [2/6] RUN apt-get update && apt-get install -y --no-install-recommends         git ca-certificates build-essential     && rm -rf /var/lib/apt/lists/*
+#6 0.380 Get:1 http://deb.debian.org/debian trixie InRelease [140 kB]
+#6 0.429 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]
+#6 0.448 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]
+#6 0.468 Get:4 http://deb.debian.org/debian trixie/main arm64 Packages [9614 kB]
+#6 0.769 Get:5 http://deb.debian.org/debian trixie-updates/main arm64 Packages [4424 B]
+#6 0.790 Get:6 http://deb.debian.org/debian-security trixie-security/main arm64 Packages [264 kB]
+#6 1.369 Fetched 10.1 MB in 1s (9652 kB/s)
+#6 1.369 Reading package lists...
+#6 1.763 Reading package lists...
+#6 2.095 Building dependency tree...
+#6 2.187 Reading state information...
+#6 2.344 ca-certificates is already the newest version (20250419).
+#6 2.344 The following additional packages will be installed:
+#6 2.344   binutils binutils-aarch64-linux-gnu binutils-common bzip2 cpp cpp-14
+#6 2.344   cpp-14-aarch64-linux-gnu cpp-aarch64-linux-gnu dpkg-dev g++ g++-14
+#6 2.344   g++-14-aarch64-linux-gnu g++-aarch64-linux-gnu gcc gcc-14
+#6 2.344   gcc-14-aarch64-linux-gnu gcc-aarch64-linux-gnu git-man libasan8 libatomic1
+#6 2.344   libbinutils libbrotli1 libc-bin libc-dev-bin libc6 libc6-dev libcc1-0
+#6 2.344   libcom-err2 libcrypt-dev libctf-nobfd0 libctf0 libcurl3t64-gnutls
+#6 2.344   libdpkg-perl liberror-perl libexpat1 libgcc-14-dev libgdbm-compat4t64
+#6 2.344   libgnutls30t64 libgomp1 libgprofng0 libgssapi-krb5-2 libhwasan0 libidn2-0
+#6 2.344   libisl23 libitm1 libjansson4 libk5crypto3 libkeyutils1 libkrb5-3
+#6 2.344   libkrb5support0 libldap2 liblsan0 liblzma5 libmpc3 libmpfr6 libnghttp2-14
+#6 2.344   libnghttp3-9 libngtcp2-16 libngtcp2-crypto-gnutls8 libp11-kit0 libperl5.40
+#6 2.344   libpsl5t64 librtmp1 libsasl2-2 libsasl2-modules-db libsframe1 libssh2-1t64
+#6 2.344   libstdc++-14-dev libtasn1-6 libtsan2 libubsan1 libunistring5 linux-libc-dev
+#6 2.344   make patch perl perl-base perl-modules-5.40 rpcsvc-proto xz-utils
+#6 2.344 Suggested packages:
+#6 2.344   binutils-doc gprofng-gui binutils-gold bzip2-doc cpp-doc gcc-14-locales
+#6 2.344   cpp-14-doc debian-keyring debian-tag2upload-keyring gcc-14-doc gcc-multilib
+#6 2.344   manpages-dev autoconf automake libtool flex bison gdb gcc-doc
+#6 2.344   gdb-aarch64-linux-gnu gettext-base git-doc git-email git-gui gitk gitweb
+#6 2.344   git-cvs git-mediawiki git-svn libc-devtools glibc-doc sq | sqop | rsop
+#6 2.344   | gosop | pgpainless-cli | gpg-sq | gnupg sensible-utils bzr gnutls-bin
+#6 2.344   krb5-doc krb5-user libstdc++-14-doc make-doc ed diffutils-doc perl-doc
+#6 2.344   libterm-readline-gnu-perl | libterm-readline-perl-perl
+#6 2.344   libtap-harness-archive-perl
+#6 2.344 Recommended packages:
+#6 2.344   fakeroot sq | sqop | rsop | gosop | pgpainless-cli | gpg-sq | gnupg
+#6 2.344   libalgorithm-merge-perl less ssh-client manpages manpages-dev
+#6 2.344   libfile-fcntllock-perl liblocale-gettext-perl krb5-locales libldap-common
+#6 2.344   publicsuffix libsasl2-modules
+#6 2.595 The following NEW packages will be installed:
+#6 2.595   binutils binutils-aarch64-linux-gnu binutils-common build-essential bzip2
+#6 2.595   cpp cpp-14 cpp-14-aarch64-linux-gnu cpp-aarch64-linux-gnu dpkg-dev g++
+#6 2.595   g++-14 g++-14-aarch64-linux-gnu g++-aarch64-linux-gnu gcc gcc-14
+#6 2.595   gcc-14-aarch64-linux-gnu gcc-aarch64-linux-gnu git git-man libasan8
+#6 2.595   libatomic1 libbinutils libbrotli1 libc-dev-bin libc6-dev libcc1-0
+#6 2.595   libcom-err2 libcrypt-dev libctf-nobfd0 libctf0 libcurl3t64-gnutls
+#6 2.595   libdpkg-perl liberror-perl libexpat1 libgcc-14-dev libgdbm-compat4t64
+#6 2.595   libgnutls30t64 libgomp1 libgprofng0 libgssapi-krb5-2 libhwasan0 libidn2-0
+#6 2.595   libisl23 libitm1 libjansson4 libk5crypto3 libkeyutils1 libkrb5-3
+#6 2.595   libkrb5support0 libldap2 liblsan0 libmpc3 libmpfr6 libnghttp2-14
+#6 2.595   libnghttp3-9 libngtcp2-16 libngtcp2-crypto-gnutls8 libp11-kit0 libperl5.40
+#6 2.595   libpsl5t64 librtmp1 libsasl2-2 libsasl2-modules-db libsframe1 libssh2-1t64
+#6 2.595   libstdc++-14-dev libtasn1-6 libtsan2 libubsan1 libunistring5 linux-libc-dev
+#6 2.595   make patch perl perl-modules-5.40 rpcsvc-proto xz-utils
+#6 2.595 The following packages will be upgraded:
+#6 2.595   libc-bin libc6 liblzma5 perl-base
+#6 2.613 4 upgraded, 78 newly installed, 0 to remove and 24 not upgraded.
+#6 2.613 Need to get 93.5 MB of archives.
+#6 2.613 After this operation, 392 MB of additional disk space will be used.
+#6 2.613 E: You don't have enough free space in /var/cache/apt/archives/.
+#6 ERROR: process "/bin/sh -c apt-get update && apt-get install -y --no-install-recommends         git ca-certificates build-essential     && rm -rf /var/lib/apt/lists/*" did not complete successfully: exit code: 100
+------
+ > [2/6] RUN apt-get update && apt-get install -y --no-install-recommends         git ca-certificates build-essential     && rm -rf /var/lib/apt/lists/*:
+#6 2.595   libnghttp3-9 libngtcp2-16 libngtcp2-crypto-gnutls8 libp11-kit0 libperl5.40
+#6 2.595   libpsl5t64 librtmp1 libsasl2-2 libsasl2-modules-db libsframe1 libssh2-1t64
+#6 2.595   libstdc++-14-dev libtasn1-6 libtsan2 libubsan1 libunistring5 linux-libc-dev
+#6 2.595   make patch perl perl-modules-5.40 rpcsvc-proto xz-utils
+#6 2.595 The following packages will be upgraded:
+#6 2.595   libc-bin libc6 liblzma5 perl-base
+#6 2.613 4 upgraded, 78 newly installed, 0 to remove and 24 not upgraded.
+#6 2.613 Need to get 93.5 MB of archives.
+#6 2.613 After this operation, 392 MB of additional disk space will be used.
+#6 2.613 E: You don't have enough free space in /var/cache/apt/archives/.
+------
+generic.Dockerfile:18
+--------------------
+  17 |     
+  18 | >>> RUN apt-get update && apt-get install -y --no-install-recommends \
+  19 | >>>         git ca-certificates build-essential \
+  20 | >>>     && rm -rf /var/lib/apt/lists/*
+  21 |     
+--------------------
+ERROR: failed to solve: process "/bin/sh -c apt-get update && apt-get install -y --no-install-recommends         git ca-certificates build-essential     && rm -rf /var/lib/apt/lists/*" did not complete successfully: exit code: 100

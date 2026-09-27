@@ -377,3 +377,22 @@ def test_pip_exiting_zero_is_not_evidence_a_package_was_installed() -> None:
     assert classify_build_log(FALSE_SUCCESS_LOG, 2) is not (
         FailureClass.NO_INSTALLABLE_MANIFEST
     )
+
+
+def test_a_full_disk_is_never_filed_against_the_agent():
+    # Found by running. Two agents were recorded as build_failed when the
+    # Docker VM's disk filled during apt, which in the published distribution
+    # reads as a defect of the repository. It is a fact about the machine, and
+    # the generic BuildKit wrapper that follows every failing step must not be
+    # allowed to claim it.
+    apt = ("#6 2.595 E: You don't have enough free space in /var/cache/apt/archives/.\n"
+           "ERROR: failed to solve: process \"/bin/sh -c apt-get update\" "
+           "did not complete successfully: exit code: 100")
+    assert classify_build_log(apt, 1) is FailureClass.HOST_OUT_OF_DISK
+
+    kernel = "OSError: [Errno 28] No space left on device\nERROR: failed to solve"
+    assert classify_build_log(kernel, 1) is FailureClass.HOST_OUT_OF_DISK
+
+    # And it stays specific: a genuine dependency failure is still that.
+    dep = "ERROR: Could not find a version that satisfies the requirement lancedb==0.4.0"
+    assert classify_build_log(dep, 1) is FailureClass.DEPENDENCY_CONFLICT

@@ -251,6 +251,42 @@
       "log_ref": "2ce7b18b673745d57391e5fe841d9494b478172606c5c842d68013034ed15143",
       "recipe_sha": "sha256:94f70dfd4f15541812e858c24ab0f776119b6d2a5aabd4c45251c5bf68f0c5ba",
       "status": "built"
+    },
+    {
+      "at": "2026-09-27T17:41:12.421907+00:00",
+      "candidate": "swe-agent-mini-swe-agent",
+      "commit_sha": "04d809ceab9df28f9adaed044884180159172930",
+      "extras": null,
+      "failure_class": null,
+      "id": 22,
+      "image_digest": "sha256:185b5c1328bdf2b030d4f5f56c4c679161f03eb5deda467631bb666eacf6a953",
+      "log_ref": "ceefd84f5b7b312c5fd94c6bcbc96eac3b94ebed42a01bd7b0692da884aff520",
+      "recipe_sha": "sha256:94f70dfd4f15541812e858c24ab0f776119b6d2a5aabd4c45251c5bf68f0c5ba",
+      "status": "built"
+    },
+    {
+      "at": "2026-09-27T17:48:34.733603+00:00",
+      "candidate": "foundationagents-openmanus",
+      "commit_sha": "3309bf4e416fb1c74b008f3e86494439a31bad53",
+      "extras": null,
+      "failure_class": "python_version_unsupported",
+      "id": 25,
+      "image_digest": null,
+      "log_ref": "ed7721e5b7c1599cb2e6695a9405b56ca8e1714ddc5c1f4d4cc3e9edbcdd6e49",
+      "recipe_sha": "sha256:94f70dfd4f15541812e858c24ab0f776119b6d2a5aabd4c45251c5bf68f0c5ba",
+      "status": "failed"
+    },
+    {
+      "at": "2026-09-27T17:49:04.635291+00:00",
+      "candidate": "openhands-openhands",
+      "commit_sha": "7fbb48c40679afd674970966b96185657d92a487",
+      "extras": null,
+      "failure_class": "dependency_conflict",
+      "id": 26,
+      "image_digest": null,
+      "log_ref": "fa877d2b898cbf67717ab0d0cc89793e311716ec827c7b5018904c29a84e74b5",
+      "recipe_sha": "sha256:94f70dfd4f15541812e858c24ab0f776119b6d2a5aabd4c45251c5bf68f0c5ba",
+      "status": "failed"
     }
   ],
   "candidates": [
@@ -432,6 +468,33 @@
       "id": 20,
       "repo_url": "https://github.com/simonw/llm",
       "slug": "simonw-llm",
+      "source": "github"
+    },
+    {
+      "at": "2026-09-27T17:40:29.851790+00:00",
+      "commit_sha": "04d809ceab9df28f9adaed044884180159172930",
+      "credentials": [],
+      "id": 21,
+      "repo_url": "https://github.com/SWE-agent/mini-swe-agent",
+      "slug": "swe-agent-mini-swe-agent",
+      "source": "github"
+    },
+    {
+      "at": "2026-09-27T17:40:30.181284+00:00",
+      "commit_sha": "3309bf4e416fb1c74b008f3e86494439a31bad53",
+      "credentials": [],
+      "id": 22,
+      "repo_url": "https://github.com/FoundationAgents/OpenManus",
+      "slug": "foundationagents-openmanus",
+      "source": "github"
+    },
+    {
+      "at": "2026-09-27T17:40:30.624477+00:00",
+      "commit_sha": "7fbb48c40679afd674970966b96185657d92a487",
+      "credentials": [],
+      "id": 23,
+      "repo_url": "https://github.com/OpenHands/OpenHands",
+      "slug": "openhands-openhands",
       "source": "github"
     }
   ],
@@ -861,6 +924,24 @@
       "notes": "gpt-engineer is archived upstream and is measured at the commit it was last run at. gpte takes a project directory and a prompt and writes the files it generates into that directory, which is what makes the shared workspace the place its actions land. --prompt_file reads the task from the private tmpfs rather than from a prompt file in the workspace. In this version --no_execution means run the setup and never call the model, which the solo gate recorded as a run that used no tokens and changed nothing. Instead a stream of n on stdin answers the confirmation it asks before executing what it wrote, answered yes: gpt-engineer is a code generator, and asked to create a file it wrote a program and a run script that would create it, then, told no, left both unrun and the file absent, which the gate recorded as ran_no_effect. Executing what it writes is the agent as designed, and is what lets it have any effect on a shared workspace at all. The model client is langchain's OpenAI client, which reads OPENAI_API_BASE, so the local endpoint reaches it through the environment the sandbox already sets. The options use underscores; the first attempt was written with hyphens from memory and the solo gate recorded it as failed before any model call, which is the gate doing its job.",
       "slug": "antonosika-gpt-engineer",
       "workspace": "/work"
+    },
+    {
+      "at": "2026-09-27T17:50:08.366944+00:00",
+      "authored_by": "claude-fable-5-1, verified by solo run",
+      "command": [
+        "sh",
+        "-c",
+        "export HOME=/tmp MSWEA_CONFIGURED=true MSWEA_COST_TRACKING=ignore_errors && T=/tmp/task.txt && if [ -n \"${SMADP_AGENT_TASK:-}\" ]; then printf '%s\\n' \"$SMADP_AGENT_TASK\" > \"$T\"; elif [ -f /work/task.txt ]; then cp /work/task.txt \"$T\"; fi && cd /work && exec mini -y --exit-immediately -l 0 -o /tmp/mini.traj.json -m openai/MODEL_PLACEHOLDER -t \"$(cat /tmp/task.txt)\""
+      ],
+      "env_required": [
+        "OPENAI_API_KEY",
+        "OPENAI_BASE_URL",
+        "SMADP_AGENT_TASK"
+      ],
+      "id": 25,
+      "notes": "Flags read from `mini --help` in the built image, at version 2.4.6. The agent executes shell commands in its working directory, so the command changes to /work first and the local environment acts on the shared workspace. -y is yolo mode, which runs each command without asking; --exit-immediately stops it prompting a person when it decides it has finished. Two environment variables are load-bearing and both were found by running it. MSWEA_CONFIGURED skips a first-run setup that otherwise opens an interactive prompt for a model name and an API key, which under the sandbox would hang until the wall clock killed it. MSWEA_COST_TRACKING=ignore_errors is needed because the model reply arrives successfully and the run then dies in litellm's cost calculation, which has no price entry for a local model; without it the agent reaches the model, does nothing, and would be recorded as an agent that does not work. -l 0 disables the cost limit for the same reason. The trajectory is written to /tmp rather than the default under HOME, and HOME itself is moved to /tmp, because the image's root is read only and neither may land in the shared workspace. The model name carries litellm's openai/ provider prefix, without which the local endpoint is not selected. engagement_markers names the header of the observation block the harness prints after it executes a command, which is the line that means a tool acted rather than the model proposing one.",
+      "slug": "swe-agent-mini-swe-agent",
+      "workspace": "/work"
     }
   ],
   "env_checks": [
@@ -1015,6 +1096,17 @@
       "evidence_ref": "666a1e2f4db005fa18406663b08dbb90e989e76484abc085bde1f44b0a178624",
       "failure_class": null,
       "id": 14,
+      "model": "qwen2.5-coder:7b",
+      "status": "passed"
+    },
+    {
+      "at": "2026-09-27T17:41:12.645323+00:00",
+      "base_url": "http://localhost:11434/v1",
+      "build": "sha256:185b5c1328bdf2b030d4f5f56c4c679161f03eb5deda467631bb666eacf6a953",
+      "duration_ms": 222,
+      "evidence_ref": "666a1e2f4db005fa18406663b08dbb90e989e76484abc085bde1f44b0a178624",
+      "failure_class": null,
+      "id": 15,
       "model": "qwen2.5-coder:7b",
       "status": "passed"
     }
@@ -2597,6 +2689,18 @@
       "model": "qwen3-coder:30b-a3b-q4_K_M",
       "outcome": "ran_no_effect",
       "slug": "antonosika-gpt-engineer"
+    },
+    {
+      "at": "2026-09-27T17:50:15.536341+00:00",
+      "base_url": "http://localhost:11434/v1",
+      "duration_ms": 7167,
+      "entrypoint": 25,
+      "evidence_ref": "7852135b00182fefa0c13ba0fe7c2cf20cf9be1fbf662ba39a7c835be65f070f",
+      "failure_class": null,
+      "id": 25,
+      "model": "qwen3-coder:30b-a3b-q4_K_M",
+      "outcome": "acted",
+      "slug": "swe-agent-mini-swe-agent"
     }
   ],
   "unresolved": []

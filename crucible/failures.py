@@ -10,7 +10,8 @@ UNKNOWN holds one more thing, and a reader of the distribution needs to know it:
 two failures of this harness rather than of an agent are filed here too, because
 neither is a fact about the agent and no build class would be honest. They are
 the build timeout (30 minutes, which heavy agents will hit) and the docker
-command failing to run at all. Both store the exception text as evidence, so
+command failing to run at all. A third, the build machine running out of disk,
+was there until it happened and now has its own class. Both store the exception text as evidence, so
 they are identifiable in the dataset, and the report says so in its limitations.
 """
 from __future__ import annotations
@@ -28,6 +29,7 @@ class FailureClass(StrEnum):
     UNSUPPORTED_LANGUAGE = "unsupported_language"
     NO_BUILD_RECIPE = "no_build_recipe"
     DEPENDENCY_CONFLICT = "dependency_conflict"
+    HOST_OUT_OF_DISK = "host_out_of_disk"
     BUILD_FAILED = "build_failed"
     ENV_CHECK_TIMEOUT = "env_check_timeout"
     ENV_CHECK_FAILED = "env_check_failed"
@@ -51,6 +53,8 @@ class FailureClass(StrEnum):
                 "Written in a language this recipe does not build",
             FailureClass.NO_BUILD_RECIPE: "No usable build recipe",
             FailureClass.DEPENDENCY_CONFLICT: "Dependencies could not be resolved",
+            FailureClass.HOST_OUT_OF_DISK:
+                "The machine running the build ran out of disk",
             FailureClass.BUILD_FAILED: "Build failed",
             FailureClass.ENV_CHECK_TIMEOUT:
                 "Container environment probe did not finish in time",
@@ -103,6 +107,19 @@ _GIT_TRANSPORT_FAILURE = ("fatal: unable to access", "fatal: clone of",
                           "error: rpc failed")
 
 _BUILD_PATTERNS: tuple[tuple[str, FailureClass, tuple[str, ...]], ...] = (
+    # The machine, not the repository, and therefore first of all. A disk that
+    # fills during a build says nothing whatever about the agent being built,
+    # and the generic wrapper that follows every failing step would otherwise
+    # file it as build_failed, which reads in the published distribution as a
+    # defect of the agent. Two agents were recorded that way before this class
+    # existed, and the rows had to be superseded; the log said "you don't have
+    # enough free space" and the dataset said the agent did not build.
+    #
+    # Neither needle is ambiguous. Both are the kernel's or apt's own wording
+    # for a full filesystem, and a repository cannot cause either by being
+    # badly packaged, so no guard is needed.
+    ("no space left on device", FailureClass.HOST_OUT_OF_DISK, ()),
+    ("you don't have enough free space", FailureClass.HOST_OUT_OF_DISK, ()),
     # Dependency resolution, as pip, uv and poetry actually word it.
     ("could not find a version that satisfies", FailureClass.DEPENDENCY_CONFLICT, ()),
     ("no matching distribution found", FailureClass.DEPENDENCY_CONFLICT, ()),

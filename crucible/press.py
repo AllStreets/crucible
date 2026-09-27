@@ -412,6 +412,7 @@ _HARNESS_LIMITS = {
     FailureClass.PYTHON_VERSION_UNSUPPORTED,
     FailureClass.NO_BUILD_RECIPE,
     FailureClass.AMBIGUOUS_MANIFEST,
+    FailureClass.HOST_OUT_OF_DISK,
     FailureClass.UNKNOWN,
 }
 

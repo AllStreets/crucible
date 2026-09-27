@@ -5,6 +5,7 @@
   "dependency_conflict": "Dependencies could not be resolved",
   "env_check_failed": "Container environment probe exited non-zero",
   "env_check_timeout": "Container environment probe did not finish in time",
+  "host_out_of_disk": "The machine running the build ran out of disk",
   "needs_credentials": "Requires credentials we do not supply",
   "no_build_recipe": "No usable build recipe",
   "no_installable_manifest": "No installable manifest at the repository root",

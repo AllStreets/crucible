@@ -4,7 +4,7 @@
 
 ## Abstract
 
-We attempt to build 20 open-source AI agent repositories into containers at pinned commits and to start each resulting image in a network-denied sandbox. 14 build successfully and 14 pass a container environment check, a rate of 70.0 percent. We report the distribution of failure causes and, for each, whether the cause is a property of the agent or a limit of the harness. We do not measure whether any agent runs.
+We attempt to build 23 open-source AI agent repositories into containers at pinned commits and to start each resulting image in a network-denied sandbox. 15 build successfully and 15 pass a container environment check, a rate of 65.2 percent. We report the distribution of failure causes and, for each, whether the cause is a property of the agent or a limit of the harness. We do not measure whether any agent runs.
 
 ## Method
 
@@ -22,11 +22,11 @@ Records span 2026-09-26 to 2026-09-27. Build recipes used: 2. A recipe digest is
 
 | Stage | Count |
 |---|---|
-| Repositories harvested | 20 |
+| Repositories harvested | 23 |
 | Seed URLs unresolved | 0 |
-| Built | 14 |
-| Build failed | 7 |
-| Environment check passed | 14 |
+| Built | 15 |
+| Build failed | 9 |
+| Environment check passed | 15 |
 | Environment check failed | 0 |
 
 Failure counts are tallies of recorded rows and are not a partition of the repositories harvested. A repository that fails to build contributes a build row and no check row, so the tables below neither sum to the harvested count nor are bounded by it.
@@ -37,8 +37,9 @@ Failure counts are tallies of recorded rows and are not a partition of the repos
 |---|---|---|
 | Written in a language this recipe does not build | 2 | this harness |
 | The manifest found is a workspace root, not an installable package | 2 | this harness |
+| Dependencies could not be resolved | 2 | the repository |
 | Build failed | 2 | the repository |
-| Dependencies could not be resolved | 1 | the repository |
+| Requires a Python version the base image does not provide | 1 | this harness |
 
 ### Environment check stage
 
@@ -58,7 +59,7 @@ Probe durations range from 208 to 267 milliseconds.
 
 Generated from run metadata rather than composed, so these cannot fall out of date with the results above.
 
-- Sample size is 20 repositories.
+- Sample size is 23 repositories.
 - Models held constant across checks: 1.
 - Build recipes in the record: 2. A rate computed across more than one recipe is not a single measurement.
 - No agent was invoked, so nothing here is evidence of agent behaviour.
@@ -76,6 +77,7 @@ Failure classes are assigned by matching the build log against a fixed, ordered 
 - **unsupported_language**: Written in a language this recipe does not build. Attributable to this harness.
 - **no_build_recipe**: No usable build recipe. Attributable to this harness.
 - **dependency_conflict**: Dependencies could not be resolved. Attributable to the repository.
+- **host_out_of_disk**: The machine running the build ran out of disk. Attributable to this harness.
 - **build_failed**: Build failed. Attributable to the repository.
 - **env_check_timeout**: Container environment probe did not finish in time. Attributable to the repository.
 - **env_check_failed**: Container environment probe exited non-zero. Attributable to the repository.
@@ -106,6 +108,9 @@ Failure classes are assigned by matching the build log against a fixed, ordered 
 | openinterpreter-open-interpreter | OpenInterpreter/open-interpreter | 13061d2ce0ac | built |  | passed | 253 |
 | antonosika-gpt-engineer | AntonOsika/gpt-engineer | a90fcd543eed | built |  | passed | 244 |
 | simonw-llm | simonw/llm | 764dc386c58b | built |  | passed | 222 |
+| swe-agent-mini-swe-agent | SWE-agent/mini-swe-agent | 04d809ceab9d | built |  | passed | 222 |
+| foundationagents-openmanus | FoundationAgents/OpenManus | 3309bf4e416f | failed | python_version_unsupported | not reached |  |
+| openhands-openhands | OpenHands/OpenHands | 7fbb48c40679 | failed | dependency_conflict | not reached |  |
 
 ## Reproduction
 

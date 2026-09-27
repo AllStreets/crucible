@@ -13,7 +13,7 @@ import { Rail } from "../components/Rail";
 import { VerdictMatrix } from "../components/viz/VerdictMatrix";
 import { pairSummaries } from "../lib/dataset";
 
-const HARNESS_LIMITS = new Set(["unsupported_language", "workspace_root_not_installable", "python_version_unsupported", "no_build_recipe", "ambiguous_manifest", "unknown"]);
+const HARNESS_LIMITS = new Set(["unsupported_language", "workspace_root_not_installable", "python_version_unsupported", "no_build_recipe", "ambiguous_manifest", "host_out_of_disk", "unknown"]);
 
 export default function Record() {
   const data = loadDataset(); const m = loadManifest();
@@ -28,6 +28,20 @@ export default function Record() {
   const blocked = data.pairs.filter((p) => p.status === "blocked");
   const inArena = new Set(data.pairs.filter((p) => p.status !== "blocked").flatMap((p) => [p.slug_a, p.slug_b]));
   const by = runsByScenario(data);
+  // The classifier explains a held verdict in the same words whichever
+  // scenario produced it, because the shape it describes is the same one. The
+  // first version printed that sentence under every scenario, which set the
+  // identical line out four times and read as filler rather than as evidence.
+  // Each distinct explanation now appears once, under the first scenario it
+  // applies to; the rest carry the counts and the strength, which do differ.
+  const scenarioNames = Object.keys(by).sort();
+  const seenNote = new Set<string>();
+  const notes: Record<string, string> = {};
+  for (const name of scenarioNames) {
+    const runs = by[name];
+    const note = (runs[runs.length - 1].blocked_reason ?? "").split(". ").slice(0, 2).join(". ");
+    if (note && !seenNote.has(note)) { seenNote.add(note); notes[name] = note; }
+  }
   const causes = Object.entries(failuresByClass(data)).sort((a, b) => b[1] - a[1]);
   const pct = v.rate === null ? null : (v.rate * 100).toFixed(1);
   const research = m.research ?? {};
@@ -66,7 +80,7 @@ export default function Record() {
       <div className="sheet paper-grid">
         <Rail items={sections} />
         <div>
-          <p className="counter">That first figure does not mean the agents run. Of the agents that build, {stranded.length} cannot be invoked at all: they are frameworks agents are built with, or need a browser this harness does not install. {inArena.size} have been run against another agent.</p>
+          <p className="counter"><span>That first figure does not mean the agents run. Of the agents that build, {stranded.length} cannot be invoked at all: they are frameworks agents are built with, or need a browser this harness does not install. {inArena.size} have been run against another agent.</span></p>
 
           <section className="block" id="trace" data-reveal>
             <h2>Every run, in order.</h2>
@@ -82,9 +96,9 @@ export default function Record() {
             <h2>The current verdict, per scenario.</h2>
             <p className="deck">The newest run decides, so a regression is never hidden behind an earlier success. Strength says whether the victim engaged with the planted material before the side effect failed to occur.</p>
             <div className="spec">
-              {Object.keys(by).sort().map((name) => {
+              {scenarioNames.map((name) => {
                 const runs = by[name]; const cur = runs[runs.length - 1]; const info = scenarioInfo(name);
-                const note = (cur.blocked_reason ?? "").split(". ").slice(0, 2).join(". ");
+                const note = notes[name];
                 return (
                   <div key={name} className="contents">
                     <span className="k">{info.objective}</span>
@@ -167,7 +181,8 @@ export default function Record() {
         .faint { color: var(--ink-faint); font-size: var(--t-micro); }
         .small { font-size: var(--t-micro); }
         .figure.small { font-size: 2.4rem; line-height: 1; }
-        .counter { margin-top: 2.5rem; padding: 1.4rem 0; border-top: var(--hair) solid var(--rule); border-bottom: var(--hair) solid var(--rule); font-family: var(--font-display); font-style: italic; font-size: var(--t-lead); max-width: 62ch; color: var(--ink-soft); }
+        .counter { margin-top: 2.5rem; padding: 1.4rem 0; border-top: var(--hair) solid var(--rule); border-bottom: var(--hair) solid var(--rule); font-family: var(--font-display); font-style: italic; font-size: var(--t-lead); max-width: none; color: var(--ink-soft); }
+        .counter span { display: block; max-width: 62ch; }
         .legend { display: flex; gap: 1.6rem; flex-wrap: wrap; margin-top: 0.9rem; }
         .causes .k { padding-top: 0.6rem; }
         .contents { display: contents; }

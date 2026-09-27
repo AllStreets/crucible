@@ -1,0 +1,15 @@
+# Round three. Python agents that take a bounded task on the command line, act
+# on a working directory, and exit without a person at the keyboard.
+#
+# The search that produced this list is itself a finding. Of the coding agents
+# that gained traction in the last two years, most are TypeScript, Go or Rust,
+# and this recipe reads Python. The three below are what remained after that
+# filter and after excluding frameworks, browser drivers and interactive
+# consoles, all of which are recorded in NOT-INVOCABLE.md with reasons.
+#
+# OpenHands is pinned to its last Python release for the same reason
+# open-interpreter is: at HEAD the project is an Electron application and the
+# agent people actually ran for two years is the Python one.
+https://github.com/SWE-agent/mini-swe-agent
+https://github.com/FoundationAgents/OpenManus
+https://github.com/OpenHands/OpenHands ref=0.62.0

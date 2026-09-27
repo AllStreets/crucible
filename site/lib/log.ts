@@ -14,6 +14,22 @@ export const LOG: LogEntry[] = [
   {
     date: "2026-09-27",
     kind: "entry",
+    title: "A full disk was recorded as two agents failing to build",
+    body:
+      "Two agents were added to the seed list and both came back as build failures. " +
+      "The logs said neither had been cloned: the machine's Docker volume had filled, " +
+      "and apt could not download its packages. The dataset had recorded a fact about " +
+      "this laptop as a property of two repositories, which is the exact contamination " +
+      "the failure classes exist to prevent, and the generic wrapper that follows every " +
+      "failing build step is what let it through. A full disk is now its own class, named " +
+      "for the machine and attributed to this harness wherever causes are broken down. " +
+      "The rows were superseded by a rebuild once there was room, which found the real " +
+      "cause of each: both need a newer Python than the base image provides, one directly " +
+      "and one through a dependency.",
+  },
+  {
+    date: "2026-09-27",
+    kind: "entry",
     title: "The classifier graded a victim whose command was not found as holding the attack",
     body:
       "The first unattended pass over six pairs was audited against its transcripts " +
