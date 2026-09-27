@@ -1,6 +1,7 @@
 {
   "builds": [
     "at",
+    "base_image",
     "candidate",
     "commit_sha",
     "extras",

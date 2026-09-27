@@ -2,6 +2,7 @@
   "builds": [
     {
       "at": "2026-09-26T19:07:19.691017+00:00",
+      "base_image": null,
       "candidate": "aider-ai-aider",
       "commit_sha": "5dc9490bb35f9729ef2c95d00a19ccd30c26339c",
       "extras": null,
@@ -14,6 +15,7 @@
     },
     {
       "at": "2026-09-26T19:07:31.831246+00:00",
+      "base_image": null,
       "candidate": "gptme-gptme",
       "commit_sha": "9e3ab7cf5418ae623d4b01ad7710fc9cfcf43a9c",
       "extras": null,
@@ -26,6 +28,7 @@
     },
     {
       "at": "2026-09-26T19:07:32.425137+00:00",
+      "base_image": null,
       "candidate": "continuedev-continue",
       "commit_sha": "5522c6f44ca0ac3528b37244818fbfa39b5af470",
       "extras": null,
@@ -38,6 +41,7 @@
     },
     {
       "at": "2026-09-26T19:07:32.800965+00:00",
+      "base_image": null,
       "candidate": "anomalyco-opencode",
       "commit_sha": "a42f393c850bec0c0f395fb91bf19b1ee8b31666",
       "extras": null,
@@ -50,6 +54,7 @@
     },
     {
       "at": "2026-09-26T19:07:42.909829+00:00",
+      "base_image": null,
       "candidate": "openai-swarm",
       "commit_sha": "6af0b4caf37dca4526dfd98e9fbd8ce36e7eeb22",
       "extras": null,
@@ -62,6 +67,7 @@
     },
     {
       "at": "2026-09-26T19:07:45.006024+00:00",
+      "base_image": null,
       "candidate": "microsoft-autogen",
       "commit_sha": "027ecf0a379bcc1d09956d46d12d44a3ad9cee14",
       "extras": null,
@@ -74,6 +80,7 @@
     },
     {
       "at": "2026-09-26T19:07:47.362958+00:00",
+      "base_image": null,
       "candidate": "crewaiinc-crewai",
       "commit_sha": "4ed2abc7bbf504a634d3b733f2a97e0fbe8d44ec",
       "extras": null,
@@ -86,6 +93,7 @@
     },
     {
       "at": "2026-09-26T19:07:53.275360+00:00",
+      "base_image": null,
       "candidate": "langchain-ai-langgraph",
       "commit_sha": "7daa3ab49d678a5da75edb08baa87db4a2be52c3",
       "extras": null,
@@ -98,6 +106,7 @@
     },
     {
       "at": "2026-09-26T19:08:16.467487+00:00",
+      "base_image": null,
       "candidate": "yoheinakajima-babyagi",
       "commit_sha": "fa8930ebe72a82e5ad57b356e7cbec96290e5bb2",
       "extras": null,
@@ -110,6 +119,7 @@
     },
     {
       "at": "2026-09-26T19:08:32.401092+00:00",
+      "base_image": null,
       "candidate": "browser-use-browser-use",
       "commit_sha": "4cbe921673b48a488f5415d9159249afd12a625b",
       "extras": null,
@@ -122,6 +132,7 @@
     },
     {
       "at": "2026-09-27T16:03:42.303298+00:00",
+      "base_image": null,
       "candidate": "ther1d-shell-gpt",
       "commit_sha": "a082bd5327ce0c4ef5a0284d9060e833be9444a6",
       "extras": null,
@@ -134,6 +145,7 @@
     },
     {
       "at": "2026-09-27T16:04:19.483447+00:00",
+      "base_image": null,
       "candidate": "huggingface-smolagents",
       "commit_sha": "227ef5e49ddd82339295939072f0223249aa8d38",
       "extras": null,
@@ -146,6 +158,7 @@
     },
     {
       "at": "2026-09-27T16:06:35.278048+00:00",
+      "base_image": null,
       "candidate": "foundationagents-metagpt",
       "commit_sha": "11cdf466d042aece04fc6cfd13b28e1a70341b1f",
       "extras": null,
@@ -158,6 +171,7 @@
     },
     {
       "at": "2026-09-27T16:07:28.015464+00:00",
+      "base_image": null,
       "candidate": "swe-agent-swe-agent",
       "commit_sha": "3ea751c087f32b16e039a2233dd6eefecef325d5",
       "extras": null,
@@ -170,6 +184,7 @@
     },
     {
       "at": "2026-09-27T16:07:44.882420+00:00",
+      "base_image": null,
       "candidate": "smol-ai-developer",
       "commit_sha": "a6747d1a6ccd983c54a483c4a4fb1fa4bf740e82",
       "extras": null,
@@ -182,6 +197,7 @@
     },
     {
       "at": "2026-09-27T16:09:44.937226+00:00",
+      "base_image": null,
       "candidate": "openbmb-chatdev",
       "commit_sha": "4fb2db0ea90375ce1059f44fe03ffbd191a7a169",
       "extras": null,
@@ -194,6 +210,7 @@
     },
     {
       "at": "2026-09-27T16:12:13.178577+00:00",
+      "base_image": null,
       "candidate": "huggingface-smolagents",
       "commit_sha": "227ef5e49ddd82339295939072f0223249aa8d38",
       "extras": "openai",
@@ -206,6 +223,7 @@
     },
     {
       "at": "2026-09-27T16:12:34.713130+00:00",
+      "base_image": null,
       "candidate": "pythagora-io-gpt-pilot",
       "commit_sha": "9b763fdaf0020c7d8abacc7b58b2b09e57494623",
       "extras": null,
@@ -218,6 +236,7 @@
     },
     {
       "at": "2026-09-27T16:48:13.880467+00:00",
+      "base_image": null,
       "candidate": "openinterpreter-open-interpreter",
       "commit_sha": "13061d2ce0ac35344f04c5285e795415cccf259d",
       "extras": null,
@@ -230,6 +249,7 @@
     },
     {
       "at": "2026-09-27T16:48:59.791602+00:00",
+      "base_image": null,
       "candidate": "antonosika-gpt-engineer",
       "commit_sha": "a90fcd543eedcc0ff2c34561bc0785d2ba83c47e",
       "extras": null,
@@ -242,6 +262,7 @@
     },
     {
       "at": "2026-09-27T16:49:20.736067+00:00",
+      "base_image": null,
       "candidate": "simonw-llm",
       "commit_sha": "764dc386c58b625f3ad9d203e699715ad208455f",
       "extras": null,
@@ -254,6 +275,7 @@
     },
     {
       "at": "2026-09-27T17:41:12.421907+00:00",
+      "base_image": null,
       "candidate": "swe-agent-mini-swe-agent",
       "commit_sha": "04d809ceab9df28f9adaed044884180159172930",
       "extras": null,
@@ -266,6 +288,7 @@
     },
     {
       "at": "2026-09-27T17:48:34.733603+00:00",
+      "base_image": null,
       "candidate": "foundationagents-openmanus",
       "commit_sha": "3309bf4e416fb1c74b008f3e86494439a31bad53",
       "extras": null,
@@ -278,6 +301,7 @@
     },
     {
       "at": "2026-09-27T17:49:04.635291+00:00",
+      "base_image": null,
       "candidate": "openhands-openhands",
       "commit_sha": "7fbb48c40679afd674970966b96185657d92a487",
       "extras": null,
@@ -287,6 +311,45 @@
       "log_ref": "fa877d2b898cbf67717ab0d0cc89793e311716ec827c7b5018904c29a84e74b5",
       "recipe_sha": "sha256:94f70dfd4f15541812e858c24ab0f776119b6d2a5aabd4c45251c5bf68f0c5ba",
       "status": "failed"
+    },
+    {
+      "at": "2026-09-27T17:56:25.618639+00:00",
+      "base_image": "python:3.12-slim",
+      "candidate": "significant-gravitas-autogpt",
+      "commit_sha": "5e84f064d3779acc49c86c51e2167ba8f660c93d",
+      "extras": null,
+      "failure_class": null,
+      "id": 27,
+      "image_digest": "sha256:0ba7c82b72fff3cb9d609f0cc5e23df92deb85915caffa8fe1f018f7077283fa",
+      "log_ref": "f7c1a3e022ef49a58ef1d4afbeb77621a53ddcd3c23164816ad9ab1aa570d1e2",
+      "recipe_sha": "sha256:f13e4697e6c685173a65a8b69beac311e77c95ab739e430f3e6de81898e76cb7",
+      "status": "built"
+    },
+    {
+      "at": "2026-09-27T18:00:35.182274+00:00",
+      "base_image": "python:3.12-slim",
+      "candidate": "foundationagents-openmanus",
+      "commit_sha": "3309bf4e416fb1c74b008f3e86494439a31bad53",
+      "extras": null,
+      "failure_class": null,
+      "id": 28,
+      "image_digest": "sha256:1126bfd9efd1e1bfc2206d9bee550d3b58eac0c11d30307580af58e88a45892f",
+      "log_ref": "86de9602e5b5fa68dbe6d44f649b9eae20c2aa01acfaea1996af27ef4e42261b",
+      "recipe_sha": "sha256:f13e4697e6c685173a65a8b69beac311e77c95ab739e430f3e6de81898e76cb7",
+      "status": "built"
+    },
+    {
+      "at": "2026-09-27T18:02:01.857353+00:00",
+      "base_image": "python:3.12-slim",
+      "candidate": "openhands-openhands",
+      "commit_sha": "7fbb48c40679afd674970966b96185657d92a487",
+      "extras": null,
+      "failure_class": null,
+      "id": 29,
+      "image_digest": "sha256:f5370629c03e37c6c440ca1810d48caa747cde992ddec885345e1312e47b4e20",
+      "log_ref": "ef3cafb740073cce835b44238b26d7d92dd695134d5c156cb00a51c29a5c9a9f",
+      "recipe_sha": "sha256:f13e4697e6c685173a65a8b69beac311e77c95ab739e430f3e6de81898e76cb7",
+      "status": "built"
     }
   ],
   "candidates": [
@@ -495,6 +558,15 @@
       "id": 23,
       "repo_url": "https://github.com/OpenHands/OpenHands",
       "slug": "openhands-openhands",
+      "source": "github"
+    },
+    {
+      "at": "2026-09-27T17:55:12.791729+00:00",
+      "commit_sha": "5e84f064d3779acc49c86c51e2167ba8f660c93d",
+      "credentials": [],
+      "id": 24,
+      "repo_url": "https://github.com/Significant-Gravitas/AutoGPT",
+      "slug": "significant-gravitas-autogpt",
       "source": "github"
     }
   ],
@@ -1107,6 +1179,39 @@
       "evidence_ref": "666a1e2f4db005fa18406663b08dbb90e989e76484abc085bde1f44b0a178624",
       "failure_class": null,
       "id": 15,
+      "model": "qwen2.5-coder:7b",
+      "status": "passed"
+    },
+    {
+      "at": "2026-09-27T17:56:25.910188+00:00",
+      "base_url": "http://localhost:11434/v1",
+      "build": "sha256:0ba7c82b72fff3cb9d609f0cc5e23df92deb85915caffa8fe1f018f7077283fa",
+      "duration_ms": 290,
+      "evidence_ref": "666a1e2f4db005fa18406663b08dbb90e989e76484abc085bde1f44b0a178624",
+      "failure_class": null,
+      "id": 16,
+      "model": "qwen2.5-coder:7b",
+      "status": "passed"
+    },
+    {
+      "at": "2026-09-27T18:00:35.510057+00:00",
+      "base_url": "http://localhost:11434/v1",
+      "build": "sha256:1126bfd9efd1e1bfc2206d9bee550d3b58eac0c11d30307580af58e88a45892f",
+      "duration_ms": 326,
+      "evidence_ref": "666a1e2f4db005fa18406663b08dbb90e989e76484abc085bde1f44b0a178624",
+      "failure_class": null,
+      "id": 17,
+      "model": "qwen2.5-coder:7b",
+      "status": "passed"
+    },
+    {
+      "at": "2026-09-27T18:02:02.158901+00:00",
+      "base_url": "http://localhost:11434/v1",
+      "build": "sha256:f5370629c03e37c6c440ca1810d48caa747cde992ddec885345e1312e47b4e20",
+      "duration_ms": 300,
+      "evidence_ref": "666a1e2f4db005fa18406663b08dbb90e989e76484abc085bde1f44b0a178624",
+      "failure_class": null,
+      "id": 18,
       "model": "qwen2.5-coder:7b",
       "status": "passed"
     }

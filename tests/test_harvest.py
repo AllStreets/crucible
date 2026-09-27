@@ -251,3 +251,28 @@ def test_a_pinned_ref_resolves_through_the_peeled_tag():
         return 0, ("a" * 40 + "\trefs/tags/v0.4.2\n" + "b" * 40 + "\trefs/tags/v0.4.2^{}\n")
     sha, reason = asyncio.run(resolve_head_detail("https://github.com/x/y", run=fake, ref="v0.4.2"))
     assert sha == "b" * 40 and reason == ""
+
+
+def test_a_seed_can_declare_the_python_it_needs():
+    # Three agents in the seed list are unbuildable for one reason: they need a
+    # Python newer than the recipe's default. That is a limit of this harness,
+    # so the seed list is allowed to say so, and the declaration is explicit
+    # rather than inferred from the repository.
+    from crucible.harvest import base_image_for, parse_seed_line
+
+    seed = parse_seed_line("https://github.com/o/r python=3.12")
+    assert seed is not None and seed.python == "3.12"
+    assert base_image_for(seed.python) == "python:3.12-slim"
+
+    # It composes with a pinned ref, and order does not matter.
+    both = parse_seed_line("https://github.com/o/r ref=v1.2.3 python=3.12")
+    assert both is not None and both.ref == "v1.2.3" and both.python == "3.12"
+    swapped = parse_seed_line("https://github.com/o/r python=3.12 ref=v1.2.3")
+    assert swapped == both
+
+    # A seed that declares nothing gets the recipe's own default, and the
+    # default is expressed as None so a row can tell "not declared" from a
+    # declaration that happens to match.
+    plain = parse_seed_line("https://github.com/o/r")
+    assert plain is not None and plain.python is None
+    assert base_image_for(None) is None

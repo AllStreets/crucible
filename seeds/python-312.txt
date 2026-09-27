@@ -1,0 +1,13 @@
+# Agents blocked on one thing only: a Python newer than the recipe's default.
+#
+# Each of these was recorded as a build failure whose cause is a limit of this
+# harness rather than a property of the repository. The base image is now a
+# declared variable, so the seed says which Python the agent asks for and the
+# build row records which one it got. Rows built on two bases are two
+# measurements and the column is there so nobody has to guess which is which.
+#
+# OpenHands is pinned to its last Python release. At HEAD the project is an
+# Electron application, and the agent people ran is the Python one.
+https://github.com/Significant-Gravitas/AutoGPT python=3.12
+https://github.com/FoundationAgents/OpenManus python=3.12
+https://github.com/OpenHands/OpenHands ref=0.62.0 python=3.12

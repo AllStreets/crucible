@@ -1,16 +1,16 @@
 {
   "counts": {
-    "builds": 24,
-    "candidates": 23,
+    "builds": 27,
+    "candidates": 24,
     "entrypoints": 25,
-    "env_checks": 15,
+    "env_checks": 18,
     "pairs": 92,
     "solos": 25,
     "unresolved": 0
   },
-  "dataset_sha256": "02a3322513c28eeb434441e8efce86bf878cbc5073d622fae6e3d296c01d8451",
-  "engine_commit": "b51803c61374b3db2108b859af8ba8ab18555d8b",
-  "generated_at": "2026-09-27T17:51:47.622139+00:00",
+  "dataset_sha256": "1a3bcb4fca692feea26e18514382e0494e6120e2cf4b5081af5d275d4126196e",
+  "engine_commit": "3f63fbb9ef0c8f359d36d96bce609875fdd0667a",
+  "generated_at": "2026-09-27T18:08:10.570339+00:00",
   "papers_published": 2,
   "research": {
     "cadence_hours": 6,

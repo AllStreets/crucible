@@ -40,6 +40,10 @@ class Candidate:
     # Anything here that the local shim cannot honestly supply makes the
     # candidate a NEEDS_CREDENTIALS observation rather than a crash.
     credentials: tuple[str, ...] = ()
+    #: The base image this candidate is to be built on, resolved from the
+    #: seed's `python=` declaration. None means the recipe's own default, and
+    #: a build row records what it actually used either way.
+    base_image: str | None = None
 
 
 @dataclass(frozen=True)
@@ -53,6 +57,26 @@ class Seed:
     #: commit people ran it at, and measuring it there is a choice the seed
     #: list records rather than one the harvester makes.
     ref: str | None = None
+    #: A Python version the agent needs, as `python=3.12`. Declared in the seed
+    #: rather than inferred, for the same reason entrypoints are hand written:
+    #: a base image chosen by guessing would change which agents are viable and
+    #: nothing would record that a choice had been made.
+    python: str | None = None
+
+
+DEFAULT_BASE_IMAGE = "python:3.11-slim"
+
+
+def base_image_for(python: str | None) -> str | None:
+    """The base image a `python=` declaration resolves to, or None for default.
+
+    One place translates the version a seed asks for into an image tag, so the
+    seed list stays a statement about the agent ("this needs 3.12") rather than
+    about Docker Hub, and a change of image family is one edit here.
+    """
+    if python is None:
+        return None
+    return f"python:{python}-slim"
 
 
 def parse_seed_line(line: str) -> Seed | None:
@@ -77,15 +101,18 @@ def parse_seed_line(line: str) -> Seed | None:
     url = parts[0]
     declared: list[str] = []
     ref: str | None = None
+    python: str | None = None
     for part in parts[1:]:
-        if part.startswith("ref="):
+        if part.startswith("python="):
+            python = part[len("python="):].strip() or None
+        elif part.startswith("ref="):
             ref = part[len("ref="):].strip() or None
             continue
         if part.startswith("needs="):
             declared.extend(
                 name.strip().upper()
                 for name in part[len("needs="):].split(",") if name.strip())
-    return Seed(url=url, credentials=tuple(declared), ref=ref)
+    return Seed(url=url, credentials=tuple(declared), ref=ref, python=python)
 
 
 def parse_seed_file(text: str) -> list[Seed]:
@@ -217,7 +244,8 @@ async def harvest(seeds: Sequence[str | Seed], *, store: Store,
             continue
         cand = Candidate(slug=slug_for(item.url), source=source_for(item.url),
                          repo_url=item.url, commit_sha=sha,
-                         credentials=item.credentials)
+                         credentials=item.credentials,
+                         base_image=base_image_for(item.python))
         identity = (cand.slug, cand.commit_sha)
         if identity in seen:
             continue

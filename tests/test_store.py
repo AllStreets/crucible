@@ -132,3 +132,30 @@ def test_declared_credentials_round_trip_as_a_list(store: Store) -> None:
     store.record("candidates", slug="x", source="github", repo_url="u",
                  commit_sha="c", credentials=["GITHUB_TOKEN"])
     assert store.rows("candidates")[0]["credentials"] == ["GITHUB_TOKEN"]
+
+
+def test_a_store_written_before_a_column_existed_gains_it(tmp_path):
+    # CREATE TABLE IF NOT EXISTS says nothing about a table whose shape has
+    # changed, so without a migration the first write naming a new column
+    # raises against every store that already holds rows. The rows that
+    # predate the column keep NULL, which is the truthful value.
+    import sqlite3
+
+    from crucible.store import Store
+
+    db = tmp_path / "old.db"
+    conn = sqlite3.connect(db)
+    conn.executescript(
+        "CREATE TABLE builds (id INTEGER PRIMARY KEY, candidate TEXT NOT NULL,"
+        " commit_sha TEXT, status TEXT NOT NULL, failure_class TEXT,"
+        " image_digest TEXT, log_ref TEXT, recipe_sha TEXT, extras TEXT,"
+        " at TEXT NOT NULL);"
+        "INSERT INTO builds (candidate, status, at) VALUES ('old', 'built', 't');")
+    conn.commit(); conn.close()
+
+    store = Store(db)
+    store.init_db()
+    store.record("builds", candidate="new", status="built", base_image="python:3.12-slim")
+    rows = {r["candidate"]: r["base_image"] for r in store.live_rows("builds")}
+    assert rows["old"] is None
+    assert rows["new"] == "python:3.12-slim"

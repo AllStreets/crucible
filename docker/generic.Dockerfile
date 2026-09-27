@@ -5,7 +5,16 @@
 # This recipe is an experimental variable, and every build row pins a sha256 of
 # these bytes. Editing it changes which agents are viable, so rows produced
 # under two versions of this file are two measurements and must not be pooled.
-FROM python:3.11-slim
+# The base image is a declared variable, defaulting to the Python this recipe
+# was written against. It is an argument rather than a constant because three
+# agents in the seed list are unbuildable for one reason and one reason only:
+# they require a Python newer than 3.11, directly or through a dependency. That
+# is a limit of this harness, not a property of those repositories, and the
+# honest fix is to let a seed line say which Python it needs and to record on
+# the build row which one it got. Two rows built on two bases are two
+# measurements, so the base travels with the row that it produced.
+ARG BASE=python:3.11-slim
+FROM ${BASE}
 
 ARG REPO_URL
 ARG COMMIT_PIN

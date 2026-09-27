@@ -4,29 +4,29 @@
 
 ## Abstract
 
-We attempt to build 23 open-source AI agent repositories into containers at pinned commits and to start each resulting image in a network-denied sandbox. 15 build successfully and 15 pass a container environment check, a rate of 65.2 percent. We report the distribution of failure causes and, for each, whether the cause is a property of the agent or a limit of the harness. We do not measure whether any agent runs.
+We attempt to build 24 open-source AI agent repositories into containers at pinned commits and to start each resulting image in a network-denied sandbox. 18 build successfully and 18 pass a container environment check, a rate of 75.0 percent. We report the distribution of failure causes and, for each, whether the cause is a property of the agent or a limit of the harness. We do not measure whether any agent runs.
 
 ## Method
 
 Each repository is resolved to a commit SHA, cloned inside a container build at that pin, and installed using a single generic recipe. The resulting image is started with egress denied and runs an environment probe: the interpreter starts, prints one line, and exits.
 
-The recipe starts from the python:3.11-slim image, clones at the pinned commit, and installs the first package definition it finds at the repository root or one or two directories below it, refusing to choose when several qualify. A build is abandoned after 30 minutes and the image identity is read within 60 seconds of the build completing. The environment probe runs with the network disabled.
+The recipe starts from the ${BASE} image, clones at the pinned commit, and installs the first package definition it finds at the repository root or one or two directories below it, refusing to choose when several qualify. A build is abandoned after 30 minutes and the image identity is read within 60 seconds of the build completing. The environment probe runs with the network disabled.
 
 A build that exits successfully is checked for having installed a distribution: a workspace manifest that setuptools installs under the name UNKNOWN exits zero and installs nothing, and was recorded as a success until the check existed.
 
 The probe does not invoke the agent. The container command overrides whatever entrypoint the agent defines, so a passing check establishes that the environment works and nothing more. The repositories studied share no common entrypoint, and with no network and no credentials an invocation would measure the harness rather than the agent.
 
-Records span 2026-09-26 to 2026-09-27. Build recipes used: 2. A recipe digest is pinned on every build row, since the recipe determines which agents are buildable and rows produced under different recipes are different measurements.
+Records span 2026-09-26 to 2026-09-27. Build recipes used: 3. A recipe digest is pinned on every build row, since the recipe determines which agents are buildable and rows produced under different recipes are different measurements.
 
 ## Results
 
 | Stage | Count |
 |---|---|
-| Repositories harvested | 23 |
+| Repositories harvested | 24 |
 | Seed URLs unresolved | 0 |
-| Built | 15 |
+| Built | 18 |
 | Build failed | 9 |
-| Environment check passed | 15 |
+| Environment check passed | 18 |
 | Environment check failed | 0 |
 
 Failure counts are tallies of recorded rows and are not a partition of the repositories harvested. A repository that fails to build contributes a build row and no check row, so the tables below neither sum to the harvested count nor are bounded by it.
@@ -45,7 +45,7 @@ Failure counts are tallies of recorded rows and are not a partition of the repos
 
 No environment check failures recorded.
 
-Probe durations range from 208 to 267 milliseconds.
+Probe durations range from 208 to 326 milliseconds.
 
 ## Threats to validity
 
@@ -59,9 +59,9 @@ Probe durations range from 208 to 267 milliseconds.
 
 Generated from run metadata rather than composed, so these cannot fall out of date with the results above.
 
-- Sample size is 23 repositories.
+- Sample size is 24 repositories.
 - Models held constant across checks: 1.
-- Build recipes in the record: 2. A rate computed across more than one recipe is not a single measurement.
+- Build recipes in the record: 3. A rate computed across more than one recipe is not a single measurement.
 - No agent was invoked, so nothing here is evidence of agent behaviour.
 - No pair of agents was run, so nothing here concerns interaction.
 
@@ -111,6 +111,7 @@ Failure classes are assigned by matching the build log against a fixed, ordered 
 | swe-agent-mini-swe-agent | SWE-agent/mini-swe-agent | 04d809ceab9d | built |  | passed | 222 |
 | foundationagents-openmanus | FoundationAgents/OpenManus | 3309bf4e416f | failed | python_version_unsupported | not reached |  |
 | openhands-openhands | OpenHands/OpenHands | 7fbb48c40679 | failed | dependency_conflict | not reached |  |
+| significant-gravitas-autogpt | Significant-Gravitas/AutoGPT | 5e84f064d377 | built |  | passed | 290 |
 
 ## Reproduction
 

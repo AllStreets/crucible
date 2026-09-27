@@ -30,7 +30,8 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from crucible.failures import FailureClass, classify_build_log
-from crucible.harvest import Candidate, Runner, default_runner
+from crucible.harvest import (DEFAULT_BASE_IMAGE, Candidate, Runner,
+                              default_runner)
 from crucible.model_shim import ShimConfig, shim_env, unsatisfiable
 from crucible.store import Store
 
@@ -107,7 +108,8 @@ def _record_raised(c: Candidate, store: Store, stage: str,
     ref = store.blob(detail.encode())
     store.record("builds", candidate=c.slug, commit_sha=c.commit_sha,
                  status="failed", failure_class=str(FailureClass.UNKNOWN),
-                 log_ref=ref, recipe_sha=recipe)
+                 log_ref=ref, recipe_sha=recipe,
+                 base_image=c.base_image or DEFAULT_BASE_IMAGE)
     return BuildResult(False, None, FailureClass.UNKNOWN, ref)
 
 
@@ -135,12 +137,19 @@ async def build(c: Candidate, *, store: Store,
     tag = _tag(c)
     recipe = recipe_sha()
     extras = declared_extras(c.slug)
+    # Recorded on every row, including the default. A row that says which base
+    # it used is comparable with one that says a different base; a row that
+    # says nothing is only comparable with rows from before the variable
+    # existed, which is precisely the ambiguity the recipe_sha column was added
+    # to remove.
+    base = c.base_image or DEFAULT_BASE_IMAGE
     try:
         code, log = await run(
             "docker", "build", "-t", tag,
             "--build-arg", f"REPO_URL={c.repo_url}",
             "--build-arg", f"COMMIT_PIN={c.commit_sha}",
             "--build-arg", f"EXTRAS={extras}",
+            "--build-arg", f"BASE={base}",
             "-f", RECIPE_PATH, ".", timeout_s=timeout_s)
     except Exception as exc:
         return _record_raised(c, store, "docker build", exc, recipe=recipe)
@@ -150,7 +159,7 @@ async def build(c: Candidate, *, store: Store,
         failure = classify_build_log(log, code)
         store.record("builds", candidate=c.slug, commit_sha=c.commit_sha,
                      status="failed", failure_class=str(failure),
-                     log_ref=log_ref, recipe_sha=recipe)
+                     log_ref=log_ref, recipe_sha=recipe, base_image=base)
         return BuildResult(False, None, failure, log_ref)
 
     # The image ID is the pin. A build we cannot pin is not a usable build.
@@ -174,12 +183,12 @@ async def build(c: Candidate, *, store: Store,
     if dcode != 0 or not digest.startswith("sha256:"):
         store.record("builds", candidate=c.slug, commit_sha=c.commit_sha,
                      status="failed", failure_class=str(FailureClass.BUILD_FAILED),
-                     log_ref=log_ref, recipe_sha=recipe)
+                     log_ref=log_ref, recipe_sha=recipe, base_image=base)
         return BuildResult(False, None, FailureClass.BUILD_FAILED, log_ref)
 
     store.record("builds", candidate=c.slug, commit_sha=c.commit_sha,
                  status="built", image_digest=digest, log_ref=log_ref,
-                 recipe_sha=recipe, extras=extras or None)
+                 recipe_sha=recipe, extras=extras or None, base_image=base)
     return BuildResult(True, digest, FailureClass.NONE, log_ref)
 
 

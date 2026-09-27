@@ -14,6 +14,24 @@ export const LOG: LogEntry[] = [
   {
     date: "2026-09-27",
     kind: "entry",
+    title: "The base image became a variable, and two agents got as far as crashing",
+    body:
+      "Three agents in the seed list failed to build for one reason: each needed a newer " +
+      "Python than the recipe provides, one directly and two through a dependency. That is " +
+      "a limit of this harness and not a property of any of the three, so the base image is " +
+      "now declared by the seed line and recorded on the build row, because rows built on " +
+      "two bases are two measurements and nothing else marked the boundary. All three now " +
+      "build. None can yet be invoked. Two die on start with an illegal instruction, traced " +
+      "to the current release of a cryptography library whose compiled extension uses an " +
+      "instruction this machine does not implement; two earlier releases on the same base " +
+      "import cleanly. Neither agent does anything wrong, and nothing about either has been " +
+      "measured beyond the fact that it builds. The third keeps its configuration and every " +
+      "file it writes inside an image root the sandbox mounts read only, so it could not " +
+      "reach the shared workspace even if it were configured.",
+  },
+  {
+    date: "2026-09-27",
+    kind: "entry",
     title: "A full disk was recorded as two agents failing to build",
     body:
       "Two agents were added to the seed list and both came back as build failures. " +

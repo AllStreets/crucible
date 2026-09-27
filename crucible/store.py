@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS candidates (
 CREATE TABLE IF NOT EXISTS builds (
   id INTEGER PRIMARY KEY, candidate TEXT NOT NULL, commit_sha TEXT,
   status TEXT NOT NULL, failure_class TEXT, image_digest TEXT,
-  log_ref TEXT, recipe_sha TEXT, extras TEXT, at TEXT NOT NULL);
+  log_ref TEXT, recipe_sha TEXT, extras TEXT, base_image TEXT, at TEXT NOT NULL);
 
 -- An entrypoint is the literal argv that invokes an agent, stored as data
 -- rather than code. `authored_by` is recorded truthfully and is load-bearing:
@@ -133,7 +133,8 @@ _COLUMNS = {
     "candidates": {"id", "slug", "source", "repo_url", "commit_sha",
                    "credentials", "at"},
     "builds": {"id", "candidate", "commit_sha", "status", "failure_class",
-               "image_digest", "log_ref", "recipe_sha", "extras", "at"},
+               "image_digest", "log_ref", "recipe_sha", "extras",
+               "base_image", "at"},
     "env_checks": {"id", "build", "status", "failure_class", "evidence_ref",
                    "duration_ms", "model", "base_url", "at"},
     "unresolved": {"id", "seed_url", "reason", "at"},
@@ -172,6 +173,22 @@ class Store:
         self.blobs.mkdir(parents=True, exist_ok=True)
         with self._conn() as conn:
             conn.executescript(SCHEMA)
+            self._add_missing_columns(conn)
+
+    # Columns added after rows already existed. CREATE TABLE IF NOT EXISTS is
+    # silent about a table whose shape has changed, so a store written before a
+    # column existed would raise on the first write that names it. Adding the
+    # column leaves old rows holding NULL, which is the truthful value: those
+    # builds were made before the variable was declarable, and a backfilled
+    # value would assert a declaration nobody made.
+    _ADDED_COLUMNS = (("builds", "base_image", "TEXT"),)
+
+    @classmethod
+    def _add_missing_columns(cls, conn) -> None:
+        for table, column, decl in cls._ADDED_COLUMNS:
+            have = {row[1] for row in conn.execute(f"PRAGMA table_info({table})")}
+            if column not in have:
+                conn.execute(f"ALTER TABLE {table} ADD COLUMN {column} {decl}")
 
     @staticmethod
     def _now() -> str:
