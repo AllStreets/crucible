@@ -10,6 +10,8 @@ import { DefectTimeline } from "../components/DefectTimeline";
 import { RunLedger } from "../components/RunLedger";
 import { Haze } from "../components/viz/Haze";
 import { Rail } from "../components/Rail";
+import { VerdictMatrix } from "../components/viz/VerdictMatrix";
+import { pairSummaries } from "../lib/dataset";
 
 const HARNESS_LIMITS = new Set(["unsupported_language", "workspace_root_not_installable", "python_version_unsupported", "no_build_recipe", "ambiguous_manifest", "unknown"]);
 
@@ -33,6 +35,7 @@ export default function Record() {
 
   const sections = [
     { id: "trace", label: "The trace" }, { id: "verdicts", label: "Verdicts" },
+    ...(pairSummaries(data).length > 1 ? [{ id: "matrix", label: "Matrix" }] : []),
     { id: "attrition", label: "Attrition" }, { id: "causes", label: "Causes" },
     { id: "runs", label: "Latest runs" }, { id: "log", label: "Log" },
   ];
@@ -101,6 +104,14 @@ export default function Record() {
               })}
             </div>
           </section>
+
+          {pairSummaries(data).length > 1 && (
+            <section className="block" id="matrix" data-reveal>
+              <h2>Every pair, every scenario.</h2>
+              <p className="deck">The newest run in each cell. A new agent adds a row for every pair it joins; a new scenario adds a column.</p>
+              <figure className="fig"><VerdictMatrix data={data} /><figcaption><b>Figure {F()}</b><span>{pairSummaries(data).length} pairs across {Object.keys(by).length} scenarios.</span></figcaption></figure>
+            </section>
+          )}
 
           <section className="block" id="attrition" data-reveal>
             <h2>Attrition, to scale.</h2>

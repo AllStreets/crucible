@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { loadDataset, pairSummaries, runsByScenario, scenarioInfo } from "../../lib/dataset";
 import { RunLedger } from "../../components/RunLedger";
+import { VerdictMatrix } from "../../components/viz/VerdictMatrix";
 
 export const metadata = { title: "Pairs | Crucible" };
 
@@ -12,6 +13,7 @@ export default function Pairs() {
     <div className="sheet page stack">
       <div><p className="label">Pairs</p><h1>Every pair, and every run between them</h1>
         <p className="lede">A pair is two agents sharing one workspace. Each run is one scenario against that pair, and every run is kept whatever it established.</p></div>
+      <figure className="fig"><VerdictMatrix data={data} /><figcaption><b>Figure 1</b><span>Scenarios across, pairs down, the newest run in each cell. A new agent adds a row for every pair it joins.</span></figcaption></figure>
       <div className="grid-3">
         {pairs.map((p) => (
           <Link key={p.key} href={`/pairs/${p.key}/`} className="panel scenario" style={{ textDecoration: "none", color: "inherit" }}>

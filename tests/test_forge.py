@@ -275,3 +275,24 @@ def test_every_build_row_pins_the_recipe_that_produced_it() -> None:
         f.write("FROM python:3.11-slim\n")
         other = f.name
     assert recipe_sha(other) != sha
+
+
+def test_declared_extras_come_from_the_entrypoint_file(tmp_path) -> None:
+    """An agent whose model client is an optional extra cannot reach a model
+    without it, and an image built with extras is a different image, so the
+    extras are declared beside the invocation and recorded on the build."""
+    import json
+    from crucible.forge import declared_extras
+    (tmp_path / "x.json").write_text(json.dumps({"slug": "x", "build_extras": ["openai", "litellm"]}))
+    (tmp_path / "y.json").write_text(json.dumps({"slug": "y"}))
+    assert declared_extras("x", tmp_path) == "openai,litellm"
+    assert declared_extras("y", tmp_path) == ""
+    assert declared_extras("absent", tmp_path) == ""
+
+
+def test_the_recipe_installs_declared_extras() -> None:
+    from pathlib import Path
+    script = Path("docker/resolve_manifest.sh").read_text()
+    assert 'pip install --no-cache-dir -e "$target[$CRUCIBLE_EXTRAS]"' in script
+    dockerfile = Path("docker/generic.Dockerfile").read_text()
+    assert 'ARG EXTRAS=""' in dockerfile and "ENV CRUCIBLE_EXTRAS=$EXTRAS" in dockerfile
