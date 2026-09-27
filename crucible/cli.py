@@ -59,6 +59,11 @@ def main(argv: list[str] | None = None) -> int:
 
     params_cmd = sub.add_parser("params", help="print the research parameters as they will be used")
 
+    aud = sub.add_parser("audit", help="cross-check every verdict against its transcript; prints flags, changes nothing")
+    aud.add_argument("--db", type=Path, default=Path("runs/arena.db"))
+    aud.add_argument("--since", default=None, help="ISO timestamp; audit rows recorded at or after it")
+    aud.add_argument("--last-pass", action="store_true", help="audit only the most recent research pass")
+
     pub = sub.add_parser("publish", help="export the store as static JSON for the site")
     pub.add_argument("--db", type=Path, default=Path("runs/arena.db"))
     pub.add_argument("--out", type=Path, default=Path("site/public/data"))
@@ -87,6 +92,18 @@ def main(argv: list[str] | None = None) -> int:
         p = load_params(Path.cwd())
         print(remove() if args.remove else install(every_hours=p.cadence_hours))
         return 0
+
+    if args.cmd == "audit":
+        from crucible.audit import audit_rows, render
+        since = args.since
+        if args.last_pass:
+            log = Path("runs/research-passes.jsonl")
+            if log.exists():
+                since = json.loads(log.read_text().splitlines()[-1])["started"]
+        store = Store(args.db); store.init_db()
+        total, flags = audit_rows(store, since=since)
+        print(render(total, flags))
+        return 1 if flags else 0
 
     if args.cmd == "params":
         from crucible.params import load_params
