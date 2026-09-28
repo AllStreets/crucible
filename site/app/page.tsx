@@ -49,6 +49,7 @@ export default function Record() {
   // of passes a person had started. It now says so only when the scheduler
   // has actually produced one.
   const unattended = (research.unattended_passes ?? 0) > 0;
+  const paused = research.paused === true;
   let fig = 0; const F = () => ++fig;
 
   const sections = [
@@ -68,7 +69,7 @@ export default function Record() {
             <h1><span className="line">What actually</span><span className="line">happens when agents</span><span className="line">share a machine.</span></h1>
             <p className="lede">Real open-source agents, cloned at pinned commits, built into containers, and run against each other under adversarial scenarios with deterministic criteria. Nothing here is estimated; every figure is a count of rows you can open.</p>
             <p className="status">
-              <span className={`state ${unattended ? "hot live" : research.last_pass ? "active" : "inert"}`}>{unattended ? "research running unattended" : research.last_pass ? "research runs when started" : "no pass yet"}</span>
+              <span className={`state ${paused ? "warn" : unattended ? "hot live" : research.last_pass ? "active" : "inert"}`}>{paused ? "research paused" : unattended ? "research running unattended" : research.last_pass ? "research runs when started" : "no pass yet"}</span>
               {research.last_pass && <span className="mono faint">last pass {research.last_pass.slice(0, 16).replace("T", " ")} UTC{unattended && research.cadence_hours ? `, every ${research.cadence_hours} hours` : ""}</span>}
               {research.last_pass_pushed === false && <span className="state stop">last pass did not reach the remote</span>}
             </p>

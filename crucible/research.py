@@ -24,6 +24,7 @@ from crucible.arena import run_arena
 from crucible.emit import latest_solo
 from crucible.harvest import parse_seed_file
 from crucible.model_shim import ShimConfig
+from crucible.pause import is_paused, state as pause_state
 from crucible.params import Params, load_params
 from crucible.pipeline import run_pipeline
 from crucible.publish import publish_dataset
@@ -73,6 +74,15 @@ async def _verify_entrypoints(store: Store, repo: Path, shim: ShimConfig) -> lis
 
 def research_pass(*, repo: Path, db: Path | None = None, root: Path | None = None,
                   params: Params | None = None, push: bool = True) -> dict:
+    # A paused instrument does not start a pass. The sentinel outlives a
+    # reboot, which unloading the launchd job does not: that job is reloaded at
+    # the next login and the research would quietly resume on a machine whose
+    # owner believed it was stopped.
+    if is_paused(repo):
+        st = pause_state(repo)
+        return {"skipped": "paused", "reason": st.reason, "paused_at": st.at,
+                "runs": 0, "by_status": {}}
+
     started = datetime.now(timezone.utc).isoformat()
     params = params or load_params(repo)
     db = db or repo / "runs" / "arena.db"
@@ -91,10 +101,12 @@ def research_pass(*, repo: Path, db: Path | None = None, root: Path | None = Non
         solos = await _verify_entrypoints(store, repo, shim)
         agents = None if params.agents == "all-invocable" else list(params.agents)
         recorded = await run_arena(store, root, shim=shim, scenarios=params.scenarios,
-                                   rounds=params.rounds, agents=agents)
+                                   rounds=params.rounds, agents=agents,
+                                   should_stop=lambda: is_paused(repo))
         return harvested, solos, recorded
 
     harvested, solos, recorded = asyncio.run(stages())
+    stopped_early = is_paused(repo)
     by_status: dict[str, int] = {}
     for r in recorded:
         by_status[r["status"]] = by_status.get(r["status"], 0) + 1
@@ -110,7 +122,8 @@ def research_pass(*, repo: Path, db: Path | None = None, root: Path | None = Non
     entry = {"started": started, "finished": datetime.now(timezone.utc).isoformat(),
              "runs": len(recorded), "by_status": by_status, "harvested": harvested,
              "solos": solos, "model": params.model, "cadence_hours": params.cadence_hours,
-             "unattended": unattended, "params": params.as_dict()}
+             "unattended": unattended, "params": params.as_dict(),
+             **({"stopped_early": "paused"} if stopped_early else {})}
 
     publish_dataset(store, repo / "site" / "public" / "data")
 

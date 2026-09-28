@@ -48,6 +48,24 @@ def drift(*, every_hours: int) -> list[str]:
     return out
 
 
+def unload() -> str:
+    """Stop the job firing, without deleting it.
+
+    Deliberately not the whole of a pause. launchd reloads this job from its
+    plist at the next login, so a research run that was stopped only this way
+    comes back on its own; the sentinel file is what survives that, and this
+    just saves the machine from starting work it would immediately abandon.
+    """
+    path = _plist_path()
+    if not path.exists():
+        return f"{LABEL}: not installed, so nothing to unload"
+    r = subprocess.run(["launchctl", "bootout", f"gui/{os.getuid()}/{LABEL}"],
+                       capture_output=True, text=True)
+    if r.returncode == 0:
+        return f"{LABEL}: unloaded, so it will not fire"
+    return f"{LABEL}: already not loaded"
+
+
 def status(*, every_hours: int | None = None) -> str:
     """What launchd actually knows about the job, not what we hope.
 

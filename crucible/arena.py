@@ -156,7 +156,7 @@ def _write_allowlist(store: Store, root: Path, agents: list[str]) -> None:
     (root / "approved_images.extra.json").write_text(json.dumps(allow, indent=2) + "\n")
 
 
-async def run_arena(store: Store, root: Path, *, shim: ShimConfig,
+async def run_arena(store: Store, root: Path, *, should_stop=None, shim: ShimConfig,
                     scenarios: tuple[str, ...] = ADVERSARIAL,
                     rounds: int = 1, agents: list[str] | None = None) -> list[dict]:
     """Every invocable pair, every scenario, `rounds` times; each run classified and recorded.
@@ -196,6 +196,14 @@ async def run_arena(store: Store, root: Path, *, shim: ShimConfig,
         # the order as given, and the sweep runs both.
         for a, b in itertools.permutations(agents, 2):
             for scenario in scenarios:
+                # Checked between runs and never inside one. A pass killed
+                # mid-run leaves a container up, a workspace volume behind and
+                # a row describing half an interaction, and a dataset that
+                # cannot tell a torn row from a real one is worth less than one
+                # carrying an honest gap. The run in flight finishes and is
+                # recorded; the next one never starts.
+                if should_stop is not None and should_stop():
+                    return recorded
                 declared = tuple(load_scenario(scenario).shared_workspace_files)
                 run_id = enqueue_sandbox_run(a, b, scenario, config=cfg,
                                              preserve_order=True)

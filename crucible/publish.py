@@ -120,6 +120,14 @@ def _research_state(out_dir: Path) -> dict:
         state["cadence_hours"] = p.cadence_hours
     except Exception:  # noqa: BLE001
         pass
+    # A paused instrument must not have a page saying it runs on a cadence.
+    from crucible.pause import state as pause_state
+    st = pause_state(repo)
+    if st.paused:
+        state["paused"] = True
+        state["paused_at"] = st.at
+        state["pause_reason"] = st.reason
+
     log = repo / "runs" / "research-passes.jsonl"
     if log.exists():
         lines = [l for l in log.read_text().splitlines() if l.strip()]

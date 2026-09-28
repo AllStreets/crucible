@@ -18,6 +18,7 @@ export default function Control() {
   const invocable = [...new Set(data.solos.filter((s) => s.outcome === "acted").map((s) => s.slug))].sort();
   const allScenarios = [...new Set([...data.pairs.map((p) => p.scenario), ...params.scenarios])].sort();
   const unattended = (m.research?.unattended_passes ?? 0) > 0;
+  const paused = m.research?.paused === true;
 
   return (
     <div className="sheet page stack">
@@ -34,8 +35,8 @@ export default function Control() {
 
       <div className="telemetry">
         <div>
-          <span className={`state ${unattended ? "hot live" : "active"}`}>
-            {unattended ? "running unattended" : "runs when started"}
+          <span className={`state ${paused ? "warn" : unattended ? "hot live" : "active"}`}>
+            {paused ? "paused" : unattended ? "running unattended" : "runs when started"}
           </span>
           <span className="sub">scheduler</span>
         </div>
@@ -52,6 +53,16 @@ export default function Control() {
           <span className="sub">agents that can be invoked</span>
         </div>
       </div>
+
+      {paused && (
+        <p className="note" style={{ borderLeft: "2px solid var(--warn)", paddingLeft: "1rem" }}>
+          The research is paused{m.research?.pause_reason ? `, because ${m.research.pause_reason}` : ""}.
+          No pass will start, including after a reboot, until it is resumed. A pass holds a local
+          model resident for as long as it runs, which is most of the memory on the machine this
+          runs on, so stopping is a state the instrument understands rather than something a
+          person achieves by killing processes.
+        </p>
+      )}
 
       <ParameterDesk current={params} allScenarios={allScenarios} invocable={invocable} names={names} />
 

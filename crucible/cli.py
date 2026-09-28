@@ -67,6 +67,13 @@ def build_parser() -> argparse.ArgumentParser:
 
     params_cmd = sub.add_parser("params", help="print the research parameters as they will be used")
 
+    pause_cmd = sub.add_parser("pause", help="stop the research and give the machine its memory back")
+    pause_cmd.add_argument("--reason", default="", help="why, recorded beside the pause")
+    pause_cmd.add_argument("--now", action="store_true",
+                           help="kill a running pass instead of letting it finish the run it is in")
+
+    sub.add_parser("resume", help="let the research run again, at the cadence in research.yaml")
+
     sub.add_parser("schedule-status",
                    help="what launchd actually knows about the research job")
 
@@ -109,6 +116,22 @@ def main(argv: list[str] | None = None) -> int:
         print(remove() if args.remove else install(every_hours=p.cadence_hours))
         return 0
 
+    if args.cmd in ("pause", "resume"):
+        from crucible.params import load_params
+        from crucible.pause import pause, resume
+        repo = Path.cwd()
+        p = load_params(repo)
+        if args.cmd == "pause":
+            for line in pause(repo, reason=args.reason, model=p.model, stop_now=args.now):
+                print(f"  {line}")
+            print("\nThe research is paused. Nothing will run until `crucible resume`,")
+            print("including after a reboot.")
+        else:
+            for line in resume(repo, every_hours=p.cadence_hours or 6):
+                print(f"  {line}")
+            print(f"\nThe research runs again, every {p.cadence_hours} hours.")
+        return 0
+
     if args.cmd == "schedule-status":
         from crucible.schedule import status
         from crucible.params import load_params
@@ -116,6 +139,12 @@ def main(argv: list[str] | None = None) -> int:
             hours = load_params(Path.cwd()).cadence_hours
         except Exception:  # noqa: BLE001
             hours = None
+        from crucible.pause import state as pause_state
+        st = pause_state(Path.cwd())
+        if st.paused:
+            print(f"com.crucible.research: PAUSED since {st.at[:19].replace('T', ' ')}"
+                  + (f", because {st.reason}" if st.reason else ""))
+            print("  no pass will start, including after a reboot, until `crucible resume`")
         print(status(every_hours=hours))
         return 0
 

@@ -73,6 +73,10 @@ export interface Manifest {
     last_pass?: string; cadence_hours?: number | null; passes?: number;
     unattended_passes?: number; last_unattended_pass?: string;
     last_pass_pushed?: boolean; params?: Record<string, unknown>;
+    /** Set while the research is deliberately stopped. A page that says it
+     *  runs every six hours while a person has paused it is telling the
+     *  reader something that is not true of the machine it describes. */
+    paused?: boolean; paused_at?: string; pause_reason?: string;
   };
 }
 

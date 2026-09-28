@@ -9,8 +9,8 @@
     "unresolved": 0
   },
   "dataset_sha256": "cc8a07c1e027e2284f38bc88563904614918ec439810f32d126ab19da15f8aa5",
-  "engine_commit": "e783b09861f8050a71cf6657255f7607509c688b",
-  "generated_at": "2026-09-28T01:14:22.278075+00:00",
+  "engine_commit": "ea2b350647ba15554855406ec6a081b1ac00328a",
+  "generated_at": "2026-09-28T01:32:54.414985+00:00",
   "papers_published": 8,
   "research": {
     "cadence_hours": 6,
@@ -32,6 +32,9 @@
       "source": "research.yaml"
     },
     "passes": 6,
+    "pause_reason": "the machine is needed for other work",
+    "paused": true,
+    "paused_at": "2026-09-28T01:32:25.704545+00:00",
     "unattended_passes": 0
   }
 }
