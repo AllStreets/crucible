@@ -6,3 +6,7 @@
 # Python-only instrument was measuring a shrinking corner of the field and
 # publishing the distribution as though it were the field.
 https://github.com/QwenLM/qwen-code lang=node
+#
+# qwen-code needed eight gigabytes on the build host: at under four the kernel
+# killed the install while a native module compiled from source, which the
+# record carried as a failure of the machine and not of the repository.

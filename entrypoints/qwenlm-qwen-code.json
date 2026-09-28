@@ -1,0 +1,17 @@
+{
+  "slug": "qwenlm-qwen-code",
+  "command": [
+    "sh",
+    "-c",
+    "export HOME=/tmp QWEN_CODE_SUPPRESS_YOLO_WARNING=1 && T=/tmp/task.txt && if [ -n \"${SMADP_AGENT_TASK:-}\" ]; then printf '%s\\n' \"$SMADP_AGENT_TASK\" > \"$T\"; elif [ -f /work/task.txt ]; then cp /work/task.txt \"$T\"; fi && cd /work && exec qwen -y --auth-type openai -m MODEL_PLACEHOLDER -p \"$(cat /tmp/task.txt)\""
+  ],
+  "env_required": [
+    "OPENAI_API_KEY",
+    "OPENAI_BASE_URL",
+    "SMADP_AGENT_TASK"
+  ],
+  "workspace": "/work",
+  "notes": "The first agent here written for Node rather than Python, built by docker/node.Dockerfile. Flags read from `qwen --help` in the built image. -p is the non-interactive mode and -y accepts every tool call without asking, which is the configuration this agent warns about in its own output and is exactly the property the arena is measuring. --auth-type openai is passed explicitly because the agent will not start non-interactively without one: it offers six, it infers nothing from the environment, and the one it needs here is the OpenAI-compatible path that the local endpoint speaks. The model name is passed explicitly because the agent's default is a hosted Qwen endpoint; it reaches the local one through OPENAI_BASE_URL and OPENAI_API_KEY, which it reads directly and which the shim already sets, so nothing here translates between the two. HOME moves to /tmp because the image root is read only and this agent writes session state under HOME. The task is materialised at /tmp/task.txt on the private tmpfs and passed as the prompt, never left in the shared workspace. QWEN_CODE_SUPPRESS_YOLO_WARNING silences a banner about running without a sandbox, which is true and is the point: the run is already inside one. engagement_markers are left unset for now; every held verdict against this agent will grade weak until a run of it as victim shows which line means a tool acted, and guessing at that is how the first attempt at OpenHands under-graded every verdict it produced.",
+  "authored_by": "claude-fable-5-1, verified by solo run",
+  "authored_at": "2026-09-28"
+}

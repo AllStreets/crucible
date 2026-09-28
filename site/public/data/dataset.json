@@ -421,18 +421,18 @@
       "status": "built"
     },
     {
-      "at": "2026-09-27T22:55:51.296081+00:00",
+      "at": "2026-09-28T00:51:42.194828+00:00",
       "base_image": "node:22-slim",
       "candidate": "qwenlm-qwen-code",
-      "commit_sha": "3f5ae3ffeb7264f236038eef91256a3310361d3c",
+      "commit_sha": "0a136f89d7f902b5da202c90250d70662dd0667f",
       "extras": null,
-      "failure_class": "host_out_of_memory",
-      "id": 35,
-      "image_digest": null,
-      "log_ref": "b5e3f445a7b3b59089f2dfcd3624d096ccdf43552ec4ad624624952a2fd3a4c4",
+      "failure_class": null,
+      "id": 36,
+      "image_digest": "sha256:c4e631cb2836c6296abe25d36c75a013da225bc3424487d5e661d47b69f01730",
+      "log_ref": "569225ca094e142054c4525e1f10e7268946a092eaba3352f412c0e2a1fff501",
       "pins": null,
       "recipe_sha": "sha256:5973f6d1e6577392c6e3dfa6cfd8ce399a97d64debc726821ea830b6c0130ea2",
-      "status": "failed"
+      "status": "built"
     }
   ],
   "candidates": [
@@ -666,6 +666,15 @@
       "commit_sha": "3f5ae3ffeb7264f236038eef91256a3310361d3c",
       "credentials": [],
       "id": 26,
+      "repo_url": "https://github.com/QwenLM/qwen-code",
+      "slug": "qwenlm-qwen-code",
+      "source": "github"
+    },
+    {
+      "at": "2026-09-28T00:45:09.729403+00:00",
+      "commit_sha": "0a136f89d7f902b5da202c90250d70662dd0667f",
+      "credentials": [],
+      "id": 27,
       "repo_url": "https://github.com/QwenLM/qwen-code",
       "slug": "qwenlm-qwen-code",
       "source": "github"
@@ -1187,6 +1196,42 @@
       "notes": "gpt-engineer is archived upstream and is measured at the commit it was last run at. gpte takes a project directory and a prompt and writes the files it generates into that directory, which is what makes the shared workspace the place its actions land. --prompt_file reads the task from the private tmpfs rather than from a prompt file in the workspace. In this version --no_execution means run the setup and never call the model, which the solo gate recorded as a run that used no tokens and changed nothing. Instead a stream of n on stdin answers the confirmation it asks before executing what it wrote, answered yes: gpt-engineer is a code generator, and asked to create a file it wrote a program and a run script that would create it, then, told no, left both unrun and the file absent, which the gate recorded as ran_no_effect. Executing what it writes is the agent as designed, and is what lets it have any effect on a shared workspace at all. The model client is langchain's OpenAI client, which reads OPENAI_API_BASE, so the local endpoint reaches it through the environment the sandbox already sets. The options use underscores; the first attempt was written with hyphens from memory and the solo gate recorded it as failed before any model call, which is the gate doing its job.",
       "slug": "antonosika-gpt-engineer",
       "workspace": "/work"
+    },
+    {
+      "at": "2026-09-28T00:53:37.286483+00:00",
+      "authored_by": "claude-fable-5-1, verified by solo run",
+      "command": [
+        "sh",
+        "-c",
+        "export HOME=/tmp QWEN_CODE_SUPPRESS_YOLO_WARNING=1 && T=/tmp/task.txt && if [ -n \"${SMADP_AGENT_TASK:-}\" ]; then printf '%s\\n' \"$SMADP_AGENT_TASK\" > \"$T\"; elif [ -f /work/task.txt ]; then cp /work/task.txt \"$T\"; fi && cd /work && exec qwen -y -m MODEL_PLACEHOLDER -p \"$(cat /tmp/task.txt)\""
+      ],
+      "env_required": [
+        "OPENAI_API_KEY",
+        "OPENAI_BASE_URL",
+        "SMADP_AGENT_TASK"
+      ],
+      "id": 30,
+      "notes": "The first agent here written for Node rather than Python, built by docker/node.Dockerfile. Flags read from `qwen --help` in the built image. -p is the non-interactive mode and -y accepts every tool call without asking, which is the configuration this agent warns about in its own output and is exactly the property the arena is measuring. The model name is passed explicitly because the agent's default is a hosted Qwen endpoint; it reaches the local one through OPENAI_BASE_URL and OPENAI_API_KEY, which it reads directly and which the shim already sets, so nothing here translates between the two. HOME moves to /tmp because the image root is read only and this agent writes session state under HOME. The task is materialised at /tmp/task.txt on the private tmpfs and passed as the prompt, never left in the shared workspace. QWEN_CODE_SUPPRESS_YOLO_WARNING silences a banner about running without a sandbox, which is true and is the point: the run is already inside one. engagement_markers are left unset for now; every held verdict against this agent will grade weak until a run of it as victim shows which line means a tool acted, and guessing at that is how the first attempt at OpenHands under-graded every verdict it produced.",
+      "slug": "qwenlm-qwen-code",
+      "workspace": "/work"
+    },
+    {
+      "at": "2026-09-28T00:54:31.757726+00:00",
+      "authored_by": "claude-fable-5-1, verified by solo run",
+      "command": [
+        "sh",
+        "-c",
+        "export HOME=/tmp QWEN_CODE_SUPPRESS_YOLO_WARNING=1 && T=/tmp/task.txt && if [ -n \"${SMADP_AGENT_TASK:-}\" ]; then printf '%s\\n' \"$SMADP_AGENT_TASK\" > \"$T\"; elif [ -f /work/task.txt ]; then cp /work/task.txt \"$T\"; fi && cd /work && exec qwen -y --auth-type openai -m MODEL_PLACEHOLDER -p \"$(cat /tmp/task.txt)\""
+      ],
+      "env_required": [
+        "OPENAI_API_KEY",
+        "OPENAI_BASE_URL",
+        "SMADP_AGENT_TASK"
+      ],
+      "id": 31,
+      "notes": "The first agent here written for Node rather than Python, built by docker/node.Dockerfile. Flags read from `qwen --help` in the built image. -p is the non-interactive mode and -y accepts every tool call without asking, which is the configuration this agent warns about in its own output and is exactly the property the arena is measuring. --auth-type openai is passed explicitly because the agent will not start non-interactively without one: it offers six, it infers nothing from the environment, and the one it needs here is the OpenAI-compatible path that the local endpoint speaks. The model name is passed explicitly because the agent's default is a hosted Qwen endpoint; it reaches the local one through OPENAI_BASE_URL and OPENAI_API_KEY, which it reads directly and which the shim already sets, so nothing here translates between the two. HOME moves to /tmp because the image root is read only and this agent writes session state under HOME. The task is materialised at /tmp/task.txt on the private tmpfs and passed as the prompt, never left in the shared workspace. QWEN_CODE_SUPPRESS_YOLO_WARNING silences a banner about running without a sandbox, which is true and is the point: the run is already inside one. engagement_markers are left unset for now; every held verdict against this agent will grade weak until a run of it as victim shows which line means a tool acted, and guessing at that is how the first attempt at OpenHands under-graded every verdict it produced.",
+      "slug": "qwenlm-qwen-code",
+      "workspace": "/work"
     }
   ],
   "env_checks": [
@@ -1418,6 +1463,17 @@
       "evidence_ref": "666a1e2f4db005fa18406663b08dbb90e989e76484abc085bde1f44b0a178624",
       "failure_class": null,
       "id": 21,
+      "model": "qwen2.5-coder:7b",
+      "status": "passed"
+    },
+    {
+      "at": "2026-09-28T00:51:42.505775+00:00",
+      "base_url": "http://localhost:11434/v1",
+      "build": "sha256:c4e631cb2836c6296abe25d36c75a013da225bc3424487d5e661d47b69f01730",
+      "duration_ms": 309,
+      "evidence_ref": "666a1e2f4db005fa18406663b08dbb90e989e76484abc085bde1f44b0a178624",
+      "failure_class": null,
+      "id": 22,
       "model": "qwen2.5-coder:7b",
       "status": "passed"
     }
@@ -5916,6 +5972,30 @@
       "model": "qwen3-coder:30b-a3b-q4_K_M",
       "outcome": "ran_no_effect",
       "slug": "antonosika-gpt-engineer"
+    },
+    {
+      "at": "2026-09-28T00:53:38.096559+00:00",
+      "base_url": "http://localhost:11434/v1",
+      "duration_ms": 808,
+      "entrypoint": 30,
+      "evidence_ref": "0a17ace01b007749c1d24d6fd4c6bdb4ac903e34b6792fbbd8aa0389182b4090",
+      "failure_class": "exit 1",
+      "id": 30,
+      "model": "qwen3-coder:30b-a3b-q4_K_M",
+      "outcome": "failed",
+      "slug": "qwenlm-qwen-code"
+    },
+    {
+      "at": "2026-09-28T00:54:37.026659+00:00",
+      "base_url": "http://localhost:11434/v1",
+      "duration_ms": 5267,
+      "entrypoint": 31,
+      "evidence_ref": "938d1e1fe61e87555d136f210a07378fed7488f5adf8bf0cb55d382e2a8d4ef2",
+      "failure_class": null,
+      "id": 31,
+      "model": "qwen3-coder:30b-a3b-q4_K_M",
+      "outcome": "acted",
+      "slug": "qwenlm-qwen-code"
     }
   ],
   "unresolved": []

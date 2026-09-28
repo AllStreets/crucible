@@ -1,0 +1,1839 @@
+#1 [internal] load build definition from node.Dockerfile
+#1 transferring dockerfile: 2.75kB done
+#1 DONE 0.0s
+
+#2 [internal] load .dockerignore
+#2 transferring context: 2B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:22-slim
+#3 ...
+
+#4 [auth] library/node:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:22-slim
+#3 DONE 1.1s
+
+#5 [internal] load build context
+#5 transferring context: 8.76kB done
+#5 DONE 0.0s
+
+#6 [1/7] FROM docker.io/library/node:22-slim@sha256:43ac6c60b8f89723f746e8a92ce91abd5017e627ce1ddfe4238355d3a30b772c
+#6 resolve docker.io/library/node:22-slim@sha256:43ac6c60b8f89723f746e8a92ce91abd5017e627ce1ddfe4238355d3a30b772c done
+#6 sha256:443f150fdaaf3900597eb42593ffd9da89872a7ddf30e2bf9d29116973a8e2f7 3.31kB / 3.31kB 0.0s done
+#6 sha256:7f33852fe56d4b3372c04540761702d58a08c946f7b28022b6b11abffba903c7 1.05MB / 49.96MB 0.1s
+#6 sha256:7a718d416e6a5f2e01d91a59faca4813e603709ecfb0b64ca0df2319ce19bc37 0B / 1.71MB 0.1s
+#6 sha256:43ac6c60b8f89723f746e8a92ce91abd5017e627ce1ddfe4238355d3a30b772c 5.22kB / 5.22kB done
+#6 sha256:a0ddbc73510e98f5e824fd64266ffe1c2c343ba9cf260d95ca2985ad632a3f3e 1.93kB / 1.93kB done
+#6 sha256:78175922b1739c305f3832562c569a07cbc0005b39db6b97a4a3ac328b9fae94 6.79kB / 6.79kB done
+#6 sha256:333125b5cee9fb6718bdcb523fc93b4adc71b7c37ada6146a20c193430e549b9 0B / 28.12MB 0.1s
+#6 sha256:7f33852fe56d4b3372c04540761702d58a08c946f7b28022b6b11abffba903c7 6.29MB / 49.96MB 0.2s
+#6 sha256:7f33852fe56d4b3372c04540761702d58a08c946f7b28022b6b11abffba903c7 10.49MB / 49.96MB 0.3s
+#6 sha256:7a718d416e6a5f2e01d91a59faca4813e603709ecfb0b64ca0df2319ce19bc37 1.05MB / 1.71MB 0.3s
+#6 sha256:333125b5cee9fb6718bdcb523fc93b4adc71b7c37ada6146a20c193430e549b9 3.15MB / 28.12MB 0.3s
+#6 sha256:7f33852fe56d4b3372c04540761702d58a08c946f7b28022b6b11abffba903c7 22.02MB / 49.96MB 0.5s
+#6 sha256:7a718d416e6a5f2e01d91a59faca4813e603709ecfb0b64ca0df2319ce19bc37 1.71MB / 1.71MB 0.4s done
+#6 sha256:333125b5cee9fb6718bdcb523fc93b4adc71b7c37ada6146a20c193430e549b9 7.34MB / 28.12MB 0.5s
+#6 sha256:e036486ceb4f744447e52d2b06825d6dd848d2e26affe04ef5a1c5b17a7e2626 449B / 449B 0.4s done
+#6 sha256:7f33852fe56d4b3372c04540761702d58a08c946f7b28022b6b11abffba903c7 28.31MB / 49.96MB 0.6s
+#6 sha256:333125b5cee9fb6718bdcb523fc93b4adc71b7c37ada6146a20c193430e549b9 9.44MB / 28.12MB 0.6s
+#6 sha256:7f33852fe56d4b3372c04540761702d58a08c946f7b28022b6b11abffba903c7 33.55MB / 49.96MB 0.7s
+#6 sha256:333125b5cee9fb6718bdcb523fc93b4adc71b7c37ada6146a20c193430e549b9 11.53MB / 28.12MB 0.7s
+#6 sha256:7f33852fe56d4b3372c04540761702d58a08c946f7b28022b6b11abffba903c7 39.85MB / 49.96MB 0.8s
+#6 sha256:333125b5cee9fb6718bdcb523fc93b4adc71b7c37ada6146a20c193430e549b9 14.68MB / 28.12MB 0.8s
+#6 sha256:7f33852fe56d4b3372c04540761702d58a08c946f7b28022b6b11abffba903c7 49.96MB / 49.96MB 1.0s done
+#6 sha256:333125b5cee9fb6718bdcb523fc93b4adc71b7c37ada6146a20c193430e549b9 18.87MB / 28.12MB 1.0s
+#6 sha256:333125b5cee9fb6718bdcb523fc93b4adc71b7c37ada6146a20c193430e549b9 22.02MB / 28.12MB 1.1s
+#6 sha256:333125b5cee9fb6718bdcb523fc93b4adc71b7c37ada6146a20c193430e549b9 26.21MB / 28.12MB 1.2s
+#6 extracting sha256:333125b5cee9fb6718bdcb523fc93b4adc71b7c37ada6146a20c193430e549b9
+#6 sha256:333125b5cee9fb6718bdcb523fc93b4adc71b7c37ada6146a20c193430e549b9 28.12MB / 28.12MB 1.2s done
+#6 extracting sha256:333125b5cee9fb6718bdcb523fc93b4adc71b7c37ada6146a20c193430e549b9 0.3s done
+#6 extracting sha256:443f150fdaaf3900597eb42593ffd9da89872a7ddf30e2bf9d29116973a8e2f7
+#6 extracting sha256:443f150fdaaf3900597eb42593ffd9da89872a7ddf30e2bf9d29116973a8e2f7 done
+#6 extracting sha256:7f33852fe56d4b3372c04540761702d58a08c946f7b28022b6b11abffba903c7
+#6 extracting sha256:7f33852fe56d4b3372c04540761702d58a08c946f7b28022b6b11abffba903c7 0.4s done
+#6 extracting sha256:7a718d416e6a5f2e01d91a59faca4813e603709ecfb0b64ca0df2319ce19bc37
+#6 extracting sha256:7a718d416e6a5f2e01d91a59faca4813e603709ecfb0b64ca0df2319ce19bc37 0.0s done
+#6 extracting sha256:e036486ceb4f744447e52d2b06825d6dd848d2e26affe04ef5a1c5b17a7e2626 done
+#6 DONE 2.2s
+
+#7 [2/7] RUN apt-get update && apt-get install -y --no-install-recommends         git ca-certificates python3 make g++     && rm -rf /var/lib/apt/lists/*
+#7 0.149 Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+#7 0.166 Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+#7 0.175 Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [34.8 kB]
+#7 0.209 Get:4 http://deb.debian.org/debian bookworm/main arm64 Packages [8689 kB]
+#7 0.339 Get:5 http://deb.debian.org/debian bookworm-updates/main arm64 Packages [6936 B]
+#7 0.341 Get:6 http://deb.debian.org/debian-security bookworm-security/main arm64 Packages [343 kB]
+#7 0.808 Fetched 9280 kB in 1s (13.4 MB/s)
+#7 0.808 Reading package lists...
+#7 1.001 Reading package lists...
+#7 1.181 Building dependency tree...
+#7 1.225 Reading state information...
+#7 1.287 The following additional packages will be installed:
+#7 1.287   binutils binutils-aarch64-linux-gnu binutils-common cpp cpp-12 g++-12 gcc
+#7 1.287   gcc-12 git-man libasan8 libatomic1 libbinutils libbrotli1 libc-dev-bin
+#7 1.287   libc6-dev libcc1-0 libcrypt-dev libctf-nobfd0 libctf0 libcurl3-gnutls
+#7 1.287   liberror-perl libexpat1 libgcc-12-dev libgdbm-compat4 libgdbm6 libgomp1
+#7 1.287   libgprofng0 libgssapi-krb5-2 libhwasan0 libisl23 libitm1 libjansson4
+#7 1.287   libk5crypto3 libkeyutils1 libkrb5-3 libkrb5support0 libldap-2.5-0 liblsan0
+#7 1.287   libmpc3 libmpfr6 libncursesw6 libnghttp2-14 libnsl-dev libnsl2 libperl5.36
+#7 1.287   libpsl5 libpython3-stdlib libpython3.11-minimal libpython3.11-stdlib
+#7 1.287   libreadline8 librtmp1 libsasl2-2 libsasl2-modules-db libsqlite3-0 libssh2-1
+#7 1.287   libssl3 libstdc++-12-dev libtirpc-common libtirpc-dev libtirpc3 libtsan2
+#7 1.287   libubsan1 linux-libc-dev media-types openssl perl perl-modules-5.36
+#7 1.287   python3-minimal python3.11 python3.11-minimal readline-common rpcsvc-proto
+#7 1.287 Suggested packages:
+#7 1.287   binutils-doc cpp-doc gcc-12-locales cpp-12-doc gcc-12-doc gcc-multilib
+#7 1.287   manpages-dev autoconf automake libtool flex bison gdb gcc-doc gettext-base
+#7 1.287   git-daemon-run | git-daemon-sysvinit git-doc git-email git-gui gitk gitweb
+#7 1.287   git-cvs git-mediawiki git-svn glibc-doc gdbm-l10n krb5-doc krb5-user
+#7 1.287   sensible-utils libstdc++-12-doc make-doc perl-doc libterm-readline-gnu-perl
+#7 1.287   | libterm-readline-perl-perl libtap-harness-archive-perl python3-doc
+#7 1.287   python3-tk python3-venv python3.11-venv python3.11-doc binfmt-support
+#7 1.287   readline-doc
+#7 1.287 Recommended packages:
+#7 1.287   patch less ssh-client manpages manpages-dev libc-devtools krb5-locales
+#7 1.287   libldap-common libgpm2 publicsuffix libsasl2-modules netbase
+#7 1.450 The following NEW packages will be installed:
+#7 1.450   binutils binutils-aarch64-linux-gnu binutils-common ca-certificates cpp
+#7 1.450   cpp-12 g++ g++-12 gcc gcc-12 git git-man libasan8 libatomic1 libbinutils
+#7 1.450   libbrotli1 libc-dev-bin libc6-dev libcc1-0 libcrypt-dev libctf-nobfd0
+#7 1.450   libctf0 libcurl3-gnutls liberror-perl libexpat1 libgcc-12-dev
+#7 1.450   libgdbm-compat4 libgdbm6 libgomp1 libgprofng0 libgssapi-krb5-2 libhwasan0
+#7 1.450   libisl23 libitm1 libjansson4 libk5crypto3 libkeyutils1 libkrb5-3
+#7 1.450   libkrb5support0 libldap-2.5-0 liblsan0 libmpc3 libmpfr6 libncursesw6
+#7 1.450   libnghttp2-14 libnsl-dev libnsl2 libperl5.36 libpsl5 libpython3-stdlib
+#7 1.450   libpython3.11-minimal libpython3.11-stdlib libreadline8 librtmp1 libsasl2-2
+#7 1.450   libsasl2-modules-db libsqlite3-0 libssh2-1 libssl3 libstdc++-12-dev
+#7 1.450   libtirpc-common libtirpc-dev libtirpc3 libtsan2 libubsan1 linux-libc-dev
+#7 1.450   make media-types openssl perl perl-modules-5.36 python3 python3-minimal
+#7 1.450   python3.11 python3.11-minimal readline-common rpcsvc-proto
+#7 1.477 0 upgraded, 77 newly installed, 0 to remove and 1 not upgraded.
+#7 1.477 Need to get 84.5 MB of archives.
+#7 1.477 After this operation, 382 MB of additional disk space will be used.
+#7 1.477 Get:1 http://deb.debian.org/debian bookworm/main arm64 perl-modules-5.36 all 5.36.0-7+deb12u3 [2815 kB]
+#7 1.552 Get:2 http://deb.debian.org/debian bookworm/main arm64 libgdbm6 arm64 1.23-3 [70.9 kB]
+#7 1.556 Get:3 http://deb.debian.org/debian bookworm/main arm64 libgdbm-compat4 arm64 1.23-3 [48.0 kB]
+#7 1.556 Get:4 http://deb.debian.org/debian bookworm/main arm64 libperl5.36 arm64 5.36.0-7+deb12u3 [4009 kB]
+#7 1.604 Get:5 http://deb.debian.org/debian bookworm/main arm64 perl arm64 5.36.0-7+deb12u3 [239 kB]
+#7 1.607 Get:6 http://deb.debian.org/debian-security bookworm-security/main arm64 libssl3 arm64 3.0.22-1~deb12u1 [1828 kB]
+#7 1.626 Get:7 http://deb.debian.org/debian bookworm/main arm64 libpython3.11-minimal arm64 3.11.2-6+deb12u8 [811 kB]
+#7 1.648 Get:8 http://deb.debian.org/debian-security bookworm-security/main arm64 libexpat1 arm64 2.5.0-1+deb12u3 [87.9 kB]
+#7 1.648 Get:9 http://deb.debian.org/debian bookworm/main arm64 python3.11-minimal arm64 3.11.2-6+deb12u8 [1861 kB]
+#7 1.671 Get:10 http://deb.debian.org/debian bookworm/main arm64 python3-minimal arm64 3.11.2-1+b1 [26.3 kB]
+#7 1.671 Get:11 http://deb.debian.org/debian bookworm/main arm64 media-types all 10.0.0 [26.1 kB]
+#7 1.672 Get:12 http://deb.debian.org/debian bookworm/main arm64 libncursesw6 arm64 6.4-4 [122 kB]
+#7 1.674 Get:13 http://deb.debian.org/debian bookworm/main arm64 libkrb5support0 arm64 1.20.1-2+deb12u5 [32.6 kB]
+#7 1.674 Get:14 http://deb.debian.org/debian bookworm/main arm64 libk5crypto3 arm64 1.20.1-2+deb12u5 [79.9 kB]
+#7 1.674 Get:15 http://deb.debian.org/debian bookworm/main arm64 libkeyutils1 arm64 1.6.3-2 [8844 B]
+#7 1.675 Get:16 http://deb.debian.org/debian bookworm/main arm64 libkrb5-3 arm64 1.20.1-2+deb12u5 [316 kB]
+#7 1.680 Get:17 http://deb.debian.org/debian bookworm/main arm64 libgssapi-krb5-2 arm64 1.20.1-2+deb12u5 [124 kB]
+#7 1.682 Get:18 http://deb.debian.org/debian bookworm/main arm64 libtirpc-common all 1.3.3+ds-1 [14.0 kB]
+#7 1.682 Get:19 http://deb.debian.org/debian bookworm/main arm64 libtirpc3 arm64 1.3.3+ds-1 [80.9 kB]
+#7 1.686 Get:20 http://deb.debian.org/debian bookworm/main arm64 libnsl2 arm64 1.3.0-2 [36.9 kB]
+#7 1.687 Get:21 http://deb.debian.org/debian bookworm/main arm64 readline-common all 8.2-1.3 [69.0 kB]
+#7 1.692 Get:22 http://deb.debian.org/debian bookworm/main arm64 libreadline8 arm64 8.2-1.3 [155 kB]
+#7 1.695 Get:23 http://deb.debian.org/debian bookworm/main arm64 libsqlite3-0 arm64 3.40.1-2+deb12u2 [786 kB]
+#7 1.703 Get:24 http://deb.debian.org/debian bookworm/main arm64 libpython3.11-stdlib arm64 3.11.2-6+deb12u8 [1750 kB]
+#7 1.726 Get:25 http://deb.debian.org/debian bookworm/main arm64 python3.11 arm64 3.11.2-6+deb12u8 [574 kB]
+#7 1.729 Get:26 http://deb.debian.org/debian bookworm/main arm64 libpython3-stdlib arm64 3.11.2-1+b1 [9296 B]
+#7 1.729 Get:27 http://deb.debian.org/debian bookworm/main arm64 python3 arm64 3.11.2-1+b1 [26.3 kB]
+#7 1.732 Get:28 http://deb.debian.org/debian-security bookworm-security/main arm64 openssl arm64 3.0.22-1~deb12u1 [1410 kB]
+#7 1.751 Get:29 http://deb.debian.org/debian-security bookworm-security/main arm64 ca-certificates all 20250419~deb12u1 [162 kB]
+#7 1.751 Get:30 http://deb.debian.org/debian bookworm/main arm64 binutils-common arm64 2.40-2 [2487 kB]
+#7 1.789 Get:31 http://deb.debian.org/debian bookworm/main arm64 libbinutils arm64 2.40-2 [645 kB]
+#7 1.803 Get:32 http://deb.debian.org/debian bookworm/main arm64 libctf-nobfd0 arm64 2.40-2 [144 kB]
+#7 1.803 Get:33 http://deb.debian.org/debian bookworm/main arm64 libctf0 arm64 2.40-2 [79.2 kB]
+#7 1.803 Get:34 http://deb.debian.org/debian bookworm/main arm64 libgprofng0 arm64 2.40-2 [680 kB]
+#7 1.810 Get:35 http://deb.debian.org/debian bookworm/main arm64 libjansson4 arm64 2.14-2 [40.2 kB]
+#7 1.817 Get:36 http://deb.debian.org/debian bookworm/main arm64 binutils-aarch64-linux-gnu arm64 2.40-2 [2637 kB]
+#7 1.858 Get:37 http://deb.debian.org/debian bookworm/main arm64 binutils arm64 2.40-2 [64.9 kB]
+#7 1.858 Get:38 http://deb.debian.org/debian bookworm/main arm64 libisl23 arm64 0.25-1.1 [610 kB]
+#7 1.866 Get:39 http://deb.debian.org/debian bookworm/main arm64 libmpfr6 arm64 4.2.0-1 [600 kB]
+#7 1.873 Get:40 http://deb.debian.org/debian bookworm/main arm64 libmpc3 arm64 1.3.1-1 [49.2 kB]
+#7 1.873 Get:41 http://deb.debian.org/debian bookworm/main arm64 cpp-12 arm64 12.2.0-14+deb12u1 [8228 kB]
+#7 1.985 Get:42 http://deb.debian.org/debian bookworm/main arm64 cpp arm64 4:12.2.0-3 [6832 B]
+#7 1.985 Get:43 http://deb.debian.org/debian bookworm/main arm64 libcc1-0 arm64 12.2.0-14+deb12u1 [37.7 kB]
+#7 1.986 Get:44 http://deb.debian.org/debian bookworm/main arm64 libgomp1 arm64 12.2.0-14+deb12u1 [104 kB]
+#7 1.987 Get:45 http://deb.debian.org/debian bookworm/main arm64 libitm1 arm64 12.2.0-14+deb12u1 [24.0 kB]
+#7 1.987 Get:46 http://deb.debian.org/debian bookworm/main arm64 libatomic1 arm64 12.2.0-14+deb12u1 [9568 B]
+#7 1.988 Get:47 http://deb.debian.org/debian bookworm/main arm64 libasan8 arm64 12.2.0-14+deb12u1 [2096 kB]
+#7 2.012 Get:48 http://deb.debian.org/debian bookworm/main arm64 liblsan0 arm64 12.2.0-14+deb12u1 [926 kB]
+#7 2.028 Get:49 http://deb.debian.org/debian bookworm/main arm64 libtsan2 arm64 12.2.0-14+deb12u1 [2178 kB]
+#7 2.058 Get:50 http://deb.debian.org/debian bookworm/main arm64 libubsan1 arm64 12.2.0-14+deb12u1 [862 kB]
+#7 2.066 Get:51 http://deb.debian.org/debian bookworm/main arm64 libhwasan0 arm64 12.2.0-14+deb12u1 [999 kB]
+#7 2.079 Get:52 http://deb.debian.org/debian bookworm/main arm64 libgcc-12-dev arm64 12.2.0-14+deb12u1 [956 kB]
+#7 2.088 Get:53 http://deb.debian.org/debian bookworm/main arm64 gcc-12 arm64 12.2.0-14+deb12u1 [16.3 MB]
+#7 2.285 Get:54 http://deb.debian.org/debian bookworm/main arm64 gcc arm64 4:12.2.0-3 [5244 B]
+#7 2.285 Get:55 http://deb.debian.org/debian bookworm/main arm64 libc-dev-bin arm64 2.36-9+deb12u14 [47.2 kB]
+#7 2.288 Get:56 http://deb.debian.org/debian-security bookworm-security/main arm64 linux-libc-dev arm64 6.1.187-1 [2333 kB]
+#7 2.311 Get:57 http://deb.debian.org/debian bookworm/main arm64 libcrypt-dev arm64 1:4.4.33-2 [121 kB]
+#7 2.312 Get:58 http://deb.debian.org/debian bookworm/main arm64 libtirpc-dev arm64 1.3.3+ds-1 [194 kB]
+#7 2.314 Get:59 http://deb.debian.org/debian bookworm/main arm64 libnsl-dev arm64 1.3.0-2 [66.1 kB]
+#7 2.316 Get:60 http://deb.debian.org/debian bookworm/main arm64 rpcsvc-proto arm64 1.4.3-1 [59.7 kB]
+#7 2.316 Get:61 http://deb.debian.org/debian bookworm/main arm64 libc6-dev arm64 2.36-9+deb12u14 [1436 kB]
+#7 2.330 Get:62 http://deb.debian.org/debian bookworm/main arm64 libstdc++-12-dev arm64 12.2.0-14+deb12u1 [2007 kB]
+#7 2.361 Get:63 http://deb.debian.org/debian bookworm/main arm64 g++-12 arm64 12.2.0-14+deb12u1 [9072 kB]
+#7 2.470 Get:64 http://deb.debian.org/debian bookworm/main arm64 g++ arm64 4:12.2.0-3 [1336 B]
+#7 2.470 Get:65 http://deb.debian.org/debian bookworm/main arm64 libbrotli1 arm64 1.0.9-2+b6 [269 kB]
+#7 2.477 Get:66 http://deb.debian.org/debian bookworm/main arm64 libsasl2-modules-db arm64 2.1.28+dfsg-10 [20.8 kB]
+#7 2.478 Get:67 http://deb.debian.org/debian bookworm/main arm64 libsasl2-2 arm64 2.1.28+dfsg-10 [58.0 kB]
+#7 2.478 Get:68 http://deb.debian.org/debian bookworm/main arm64 libldap-2.5-0 arm64 2.5.13+dfsg-5 [171 kB]
+#7 2.480 Get:69 http://deb.debian.org/debian bookworm/main arm64 libnghttp2-14 arm64 1.52.0-1+deb12u3 [69.0 kB]
+#7 2.481 Get:70 http://deb.debian.org/debian bookworm/main arm64 libpsl5 arm64 0.21.2-1 [58.6 kB]
+#7 2.481 Get:71 http://deb.debian.org/debian bookworm/main arm64 librtmp1 arm64 2.4+20151223.gitfa8646d.1-2+b2 [59.4 kB]
+#7 2.482 Get:72 http://deb.debian.org/debian-security bookworm-security/main arm64 libssh2-1 arm64 1.10.0-3+deb12u1 [169 kB]
+#7 2.488 Get:73 http://deb.debian.org/debian bookworm/main arm64 libcurl3-gnutls arm64 7.88.1-10+deb12u15 [362 kB]
+#7 2.492 Get:74 http://deb.debian.org/debian bookworm/main arm64 liberror-perl all 0.17029-2 [29.0 kB]
+#7 2.492 Get:75 http://deb.debian.org/debian bookworm/main arm64 git-man all 1:2.39.5-0+deb12u3 [2053 kB]
+#7 2.530 Get:76 http://deb.debian.org/debian bookworm/main arm64 git arm64 1:2.39.5-0+deb12u3 [7153 kB]
+#7 2.644 Get:77 http://deb.debian.org/debian bookworm/main arm64 make arm64 4.3-4.1 [391 kB]
+#7 2.734 debconf: delaying package configuration, since apt-utils is not installed
+#7 2.747 Fetched 84.5 MB in 1s (70.9 MB/s)
+#7 2.756 Selecting previously unselected package perl-modules-5.36.
+#7 2.756 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 6090 files and directories currently installed.)
+#7 2.758 Preparing to unpack .../0-perl-modules-5.36_5.36.0-7+deb12u3_all.deb ...
+#7 2.760 Unpacking perl-modules-5.36 (5.36.0-7+deb12u3) ...
+#7 2.910 Selecting previously unselected package libgdbm6:arm64.
+#7 2.910 Preparing to unpack .../1-libgdbm6_1.23-3_arm64.deb ...
+#7 2.912 Unpacking libgdbm6:arm64 (1.23-3) ...
+#7 2.924 Selecting previously unselected package libgdbm-compat4:arm64.
+#7 2.924 Preparing to unpack .../2-libgdbm-compat4_1.23-3_arm64.deb ...
+#7 2.925 Unpacking libgdbm-compat4:arm64 (1.23-3) ...
+#7 2.938 Selecting previously unselected package libperl5.36:arm64.
+#7 2.939 Preparing to unpack .../3-libperl5.36_5.36.0-7+deb12u3_arm64.deb ...
+#7 2.940 Unpacking libperl5.36:arm64 (5.36.0-7+deb12u3) ...
+#7 3.115 Selecting previously unselected package perl.
+#7 3.116 Preparing to unpack .../4-perl_5.36.0-7+deb12u3_arm64.deb ...
+#7 3.120 Unpacking perl (5.36.0-7+deb12u3) ...
+#7 3.139 Selecting previously unselected package libssl3:arm64.
+#7 3.140 Preparing to unpack .../5-libssl3_3.0.22-1~deb12u1_arm64.deb ...
+#7 3.140 Unpacking libssl3:arm64 (3.0.22-1~deb12u1) ...
+#7 3.208 Selecting previously unselected package libpython3.11-minimal:arm64.
+#7 3.209 Preparing to unpack .../6-libpython3.11-minimal_3.11.2-6+deb12u8_arm64.deb ...
+#7 3.209 Unpacking libpython3.11-minimal:arm64 (3.11.2-6+deb12u8) ...
+#7 3.253 Selecting previously unselected package libexpat1:arm64.
+#7 3.254 Preparing to unpack .../7-libexpat1_2.5.0-1+deb12u3_arm64.deb ...
+#7 3.255 Unpacking libexpat1:arm64 (2.5.0-1+deb12u3) ...
+#7 3.267 Selecting previously unselected package python3.11-minimal.
+#7 3.268 Preparing to unpack .../8-python3.11-minimal_3.11.2-6+deb12u8_arm64.deb ...
+#7 3.270 Unpacking python3.11-minimal (3.11.2-6+deb12u8) ...
+#7 3.349 Setting up libssl3:arm64 (3.0.22-1~deb12u1) ...
+#7 3.351 Setting up libpython3.11-minimal:arm64 (3.11.2-6+deb12u8) ...
+#7 3.354 Setting up libexpat1:arm64 (2.5.0-1+deb12u3) ...
+#7 3.356 Setting up python3.11-minimal (3.11.2-6+deb12u8) ...
+#7 3.576 Selecting previously unselected package python3-minimal.
+#7 3.576 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 8429 files and directories currently installed.)
+#7 3.579 Preparing to unpack .../00-python3-minimal_3.11.2-1+b1_arm64.deb ...
+#7 3.580 Unpacking python3-minimal (3.11.2-1+b1) ...
+#7 3.589 Selecting previously unselected package media-types.
+#7 3.590 Preparing to unpack .../01-media-types_10.0.0_all.deb ...
+#7 3.590 Unpacking media-types (10.0.0) ...
+#7 3.600 Selecting previously unselected package libncursesw6:arm64.
+#7 3.600 Preparing to unpack .../02-libncursesw6_6.4-4_arm64.deb ...
+#7 3.601 Unpacking libncursesw6:arm64 (6.4-4) ...
+#7 3.615 Selecting previously unselected package libkrb5support0:arm64.
+#7 3.616 Preparing to unpack .../03-libkrb5support0_1.20.1-2+deb12u5_arm64.deb ...
+#7 3.616 Unpacking libkrb5support0:arm64 (1.20.1-2+deb12u5) ...
+#7 3.626 Selecting previously unselected package libk5crypto3:arm64.
+#7 3.627 Preparing to unpack .../04-libk5crypto3_1.20.1-2+deb12u5_arm64.deb ...
+#7 3.628 Unpacking libk5crypto3:arm64 (1.20.1-2+deb12u5) ...
+#7 3.639 Selecting previously unselected package libkeyutils1:arm64.
+#7 3.642 Preparing to unpack .../05-libkeyutils1_1.6.3-2_arm64.deb ...
+#7 3.676 Unpacking libkeyutils1:arm64 (1.6.3-2) ...
+#7 3.697 Selecting previously unselected package libkrb5-3:arm64.
+#7 3.698 Preparing to unpack .../06-libkrb5-3_1.20.1-2+deb12u5_arm64.deb ...
+#7 3.699 Unpacking libkrb5-3:arm64 (1.20.1-2+deb12u5) ...
+#7 3.724 Selecting previously unselected package libgssapi-krb5-2:arm64.
+#7 3.724 Preparing to unpack .../07-libgssapi-krb5-2_1.20.1-2+deb12u5_arm64.deb ...
+#7 3.725 Unpacking libgssapi-krb5-2:arm64 (1.20.1-2+deb12u5) ...
+#7 3.740 Selecting previously unselected package libtirpc-common.
+#7 3.741 Preparing to unpack .../08-libtirpc-common_1.3.3+ds-1_all.deb ...
+#7 3.741 Unpacking libtirpc-common (1.3.3+ds-1) ...
+#7 3.752 Selecting previously unselected package libtirpc3:arm64.
+#7 3.753 Preparing to unpack .../09-libtirpc3_1.3.3+ds-1_arm64.deb ...
+#7 3.754 Unpacking libtirpc3:arm64 (1.3.3+ds-1) ...
+#7 3.766 Selecting previously unselected package libnsl2:arm64.
+#7 3.767 Preparing to unpack .../10-libnsl2_1.3.0-2_arm64.deb ...
+#7 3.767 Unpacking libnsl2:arm64 (1.3.0-2) ...
+#7 3.779 Selecting previously unselected package readline-common.
+#7 3.779 Preparing to unpack .../11-readline-common_8.2-1.3_all.deb ...
+#7 3.780 Unpacking readline-common (8.2-1.3) ...
+#7 3.792 Selecting previously unselected package libreadline8:arm64.
+#7 3.793 Preparing to unpack .../12-libreadline8_8.2-1.3_arm64.deb ...
+#7 3.794 Unpacking libreadline8:arm64 (8.2-1.3) ...
+#7 3.810 Selecting previously unselected package libsqlite3-0:arm64.
+#7 3.811 Preparing to unpack .../13-libsqlite3-0_3.40.1-2+deb12u2_arm64.deb ...
+#7 3.811 Unpacking libsqlite3-0:arm64 (3.40.1-2+deb12u2) ...
+#7 3.844 Selecting previously unselected package libpython3.11-stdlib:arm64.
+#7 3.845 Preparing to unpack .../14-libpython3.11-stdlib_3.11.2-6+deb12u8_arm64.deb ...
+#7 3.846 Unpacking libpython3.11-stdlib:arm64 (3.11.2-6+deb12u8) ...
+#7 3.925 Selecting previously unselected package python3.11.
+#7 3.926 Preparing to unpack .../15-python3.11_3.11.2-6+deb12u8_arm64.deb ...
+#7 3.927 Unpacking python3.11 (3.11.2-6+deb12u8) ...
+#7 3.941 Selecting previously unselected package libpython3-stdlib:arm64.
+#7 3.942 Preparing to unpack .../16-libpython3-stdlib_3.11.2-1+b1_arm64.deb ...
+#7 3.942 Unpacking libpython3-stdlib:arm64 (3.11.2-1+b1) ...
+#7 3.952 Setting up python3-minimal (3.11.2-1+b1) ...
+#7 4.008 Selecting previously unselected package python3.
+#7 4.008 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 8937 files and directories currently installed.)
+#7 4.011 Preparing to unpack .../00-python3_3.11.2-1+b1_arm64.deb ...
+#7 4.014 Unpacking python3 (3.11.2-1+b1) ...
+#7 4.023 Selecting previously unselected package openssl.
+#7 4.024 Preparing to unpack .../01-openssl_3.0.22-1~deb12u1_arm64.deb ...
+#7 4.024 Unpacking openssl (3.0.22-1~deb12u1) ...
+#7 4.081 Selecting previously unselected package ca-certificates.
+#7 4.082 Preparing to unpack .../02-ca-certificates_20250419~deb12u1_all.deb ...
+#7 4.082 Unpacking ca-certificates (20250419~deb12u1) ...
+#7 4.099 Selecting previously unselected package binutils-common:arm64.
+#7 4.100 Preparing to unpack .../03-binutils-common_2.40-2_arm64.deb ...
+#7 4.100 Unpacking binutils-common:arm64 (2.40-2) ...
+#7 4.210 Selecting previously unselected package libbinutils:arm64.
+#7 4.210 Preparing to unpack .../04-libbinutils_2.40-2_arm64.deb ...
+#7 4.211 Unpacking libbinutils:arm64 (2.40-2) ...
+#7 4.245 Selecting previously unselected package libctf-nobfd0:arm64.
+#7 4.246 Preparing to unpack .../05-libctf-nobfd0_2.40-2_arm64.deb ...
+#7 4.246 Unpacking libctf-nobfd0:arm64 (2.40-2) ...
+#7 4.260 Selecting previously unselected package libctf0:arm64.
+#7 4.261 Preparing to unpack .../06-libctf0_2.40-2_arm64.deb ...
+#7 4.261 Unpacking libctf0:arm64 (2.40-2) ...
+#7 4.275 Selecting previously unselected package libgprofng0:arm64.
+#7 4.275 Preparing to unpack .../07-libgprofng0_2.40-2_arm64.deb ...
+#7 4.276 Unpacking libgprofng0:arm64 (2.40-2) ...
+#7 4.312 Selecting previously unselected package libjansson4:arm64.
+#7 4.313 Preparing to unpack .../08-libjansson4_2.14-2_arm64.deb ...
+#7 4.313 Unpacking libjansson4:arm64 (2.14-2) ...
+#7 4.323 Selecting previously unselected package binutils-aarch64-linux-gnu.
+#7 4.323 Preparing to unpack .../09-binutils-aarch64-linux-gnu_2.40-2_arm64.deb ...
+#7 4.324 Unpacking binutils-aarch64-linux-gnu (2.40-2) ...
+#7 4.457 Selecting previously unselected package binutils.
+#7 4.457 Preparing to unpack .../10-binutils_2.40-2_arm64.deb ...
+#7 4.458 Unpacking binutils (2.40-2) ...
+#7 4.471 Selecting previously unselected package libisl23:arm64.
+#7 4.471 Preparing to unpack .../11-libisl23_0.25-1.1_arm64.deb ...
+#7 4.472 Unpacking libisl23:arm64 (0.25-1.1) ...
+#7 4.505 Selecting previously unselected package libmpfr6:arm64.
+#7 4.505 Preparing to unpack .../12-libmpfr6_4.2.0-1_arm64.deb ...
+#7 4.506 Unpacking libmpfr6:arm64 (4.2.0-1) ...
+#7 4.526 Selecting previously unselected package libmpc3:arm64.
+#7 4.527 Preparing to unpack .../13-libmpc3_1.3.1-1_arm64.deb ...
+#7 4.527 Unpacking libmpc3:arm64 (1.3.1-1) ...
+#7 4.537 Selecting previously unselected package cpp-12.
+#7 4.538 Preparing to unpack .../14-cpp-12_12.2.0-14+deb12u1_arm64.deb ...
+#7 4.538 Unpacking cpp-12 (12.2.0-14+deb12u1) ...
+#7 4.820 Selecting previously unselected package cpp.
+#7 4.820 Preparing to unpack .../15-cpp_4%3a12.2.0-3_arm64.deb ...
+#7 4.821 Unpacking cpp (4:12.2.0-3) ...
+#7 4.831 Selecting previously unselected package libcc1-0:arm64.
+#7 4.832 Preparing to unpack .../16-libcc1-0_12.2.0-14+deb12u1_arm64.deb ...
+#7 4.832 Unpacking libcc1-0:arm64 (12.2.0-14+deb12u1) ...
+#7 4.843 Selecting previously unselected package libgomp1:arm64.
+#7 4.843 Preparing to unpack .../17-libgomp1_12.2.0-14+deb12u1_arm64.deb ...
+#7 4.844 Unpacking libgomp1:arm64 (12.2.0-14+deb12u1) ...
+#7 4.857 Selecting previously unselected package libitm1:arm64.
+#7 4.858 Preparing to unpack .../18-libitm1_12.2.0-14+deb12u1_arm64.deb ...
+#7 4.858 Unpacking libitm1:arm64 (12.2.0-14+deb12u1) ...
+#7 4.868 Selecting previously unselected package libatomic1:arm64.
+#7 4.869 Preparing to unpack .../19-libatomic1_12.2.0-14+deb12u1_arm64.deb ...
+#7 4.869 Unpacking libatomic1:arm64 (12.2.0-14+deb12u1) ...
+#7 4.878 Selecting previously unselected package libasan8:arm64.
+#7 4.879 Preparing to unpack .../20-libasan8_12.2.0-14+deb12u1_arm64.deb ...
+#7 4.880 Unpacking libasan8:arm64 (12.2.0-14+deb12u1) ...
+#7 4.972 Selecting previously unselected package liblsan0:arm64.
+#7 4.973 Preparing to unpack .../21-liblsan0_12.2.0-14+deb12u1_arm64.deb ...
+#7 4.974 Unpacking liblsan0:arm64 (12.2.0-14+deb12u1) ...
+#7 5.017 Selecting previously unselected package libtsan2:arm64.
+#7 5.018 Preparing to unpack .../22-libtsan2_12.2.0-14+deb12u1_arm64.deb ...
+#7 5.019 Unpacking libtsan2:arm64 (12.2.0-14+deb12u1) ...
+#7 5.113 Selecting previously unselected package libubsan1:arm64.
+#7 5.114 Preparing to unpack .../23-libubsan1_12.2.0-14+deb12u1_arm64.deb ...
+#7 5.115 Unpacking libubsan1:arm64 (12.2.0-14+deb12u1) ...
+#7 5.156 Selecting previously unselected package libhwasan0:arm64.
+#7 5.157 Preparing to unpack .../24-libhwasan0_12.2.0-14+deb12u1_arm64.deb ...
+#7 5.158 Unpacking libhwasan0:arm64 (12.2.0-14+deb12u1) ...
+#7 5.204 Selecting previously unselected package libgcc-12-dev:arm64.
+#7 5.205 Preparing to unpack .../25-libgcc-12-dev_12.2.0-14+deb12u1_arm64.deb ...
+#7 5.205 Unpacking libgcc-12-dev:arm64 (12.2.0-14+deb12u1) ...
+#7 5.264 Selecting previously unselected package gcc-12.
+#7 5.264 Preparing to unpack .../26-gcc-12_12.2.0-14+deb12u1_arm64.deb ...
+#7 5.265 Unpacking gcc-12 (12.2.0-14+deb12u1) ...
+#7 5.603 Selecting previously unselected package gcc.
+#7 5.604 Preparing to unpack .../27-gcc_4%3a12.2.0-3_arm64.deb ...
+#7 5.604 Unpacking gcc (4:12.2.0-3) ...
+#7 5.614 Selecting previously unselected package libc-dev-bin.
+#7 5.614 Preparing to unpack .../28-libc-dev-bin_2.36-9+deb12u14_arm64.deb ...
+#7 5.615 Unpacking libc-dev-bin (2.36-9+deb12u14) ...
+#7 5.625 Selecting previously unselected package linux-libc-dev:arm64.
+#7 5.626 Preparing to unpack .../29-linux-libc-dev_6.1.187-1_arm64.deb ...
+#7 5.627 Unpacking linux-libc-dev:arm64 (6.1.187-1) ...
+#7 5.694 Selecting previously unselected package libcrypt-dev:arm64.
+#7 5.695 Preparing to unpack .../30-libcrypt-dev_1%3a4.4.33-2_arm64.deb ...
+#7 5.699 Unpacking libcrypt-dev:arm64 (1:4.4.33-2) ...
+#7 5.712 Selecting previously unselected package libtirpc-dev:arm64.
+#7 5.712 Preparing to unpack .../31-libtirpc-dev_1.3.3+ds-1_arm64.deb ...
+#7 5.713 Unpacking libtirpc-dev:arm64 (1.3.3+ds-1) ...
+#7 5.729 Selecting previously unselected package libnsl-dev:arm64.
+#7 5.730 Preparing to unpack .../32-libnsl-dev_1.3.0-2_arm64.deb ...
+#7 5.730 Unpacking libnsl-dev:arm64 (1.3.0-2) ...
+#7 5.742 Selecting previously unselected package rpcsvc-proto.
+#7 5.743 Preparing to unpack .../33-rpcsvc-proto_1.4.3-1_arm64.deb ...
+#7 5.743 Unpacking rpcsvc-proto (1.4.3-1) ...
+#7 5.756 Selecting previously unselected package libc6-dev:arm64.
+#7 5.757 Preparing to unpack .../34-libc6-dev_2.36-9+deb12u14_arm64.deb ...
+#7 5.757 Unpacking libc6-dev:arm64 (2.36-9+deb12u14) ...
+#7 5.830 Selecting previously unselected package libstdc++-12-dev:arm64.
+#7 5.831 Preparing to unpack .../35-libstdc++-12-dev_12.2.0-14+deb12u1_arm64.deb ...
+#7 5.832 Unpacking libstdc++-12-dev:arm64 (12.2.0-14+deb12u1) ...
+#7 5.940 Selecting previously unselected package g++-12.
+#7 5.941 Preparing to unpack .../36-g++-12_12.2.0-14+deb12u1_arm64.deb ...
+#7 5.941 Unpacking g++-12 (12.2.0-14+deb12u1) ...
+#7 6.230 Selecting previously unselected package g++.
+#7 6.230 Preparing to unpack .../37-g++_4%3a12.2.0-3_arm64.deb ...
+#7 6.231 Unpacking g++ (4:12.2.0-3) ...
+#7 6.240 Selecting previously unselected package libbrotli1:arm64.
+#7 6.241 Preparing to unpack .../38-libbrotli1_1.0.9-2+b6_arm64.deb ...
+#7 6.241 Unpacking libbrotli1:arm64 (1.0.9-2+b6) ...
+#7 6.260 Selecting previously unselected package libsasl2-modules-db:arm64.
+#7 6.261 Preparing to unpack .../39-libsasl2-modules-db_2.1.28+dfsg-10_arm64.deb ...
+#7 6.261 Unpacking libsasl2-modules-db:arm64 (2.1.28+dfsg-10) ...
+#7 6.271 Selecting previously unselected package libsasl2-2:arm64.
+#7 6.272 Preparing to unpack .../40-libsasl2-2_2.1.28+dfsg-10_arm64.deb ...
+#7 6.272 Unpacking libsasl2-2:arm64 (2.1.28+dfsg-10) ...
+#7 6.283 Selecting previously unselected package libldap-2.5-0:arm64.
+#7 6.284 Preparing to unpack .../41-libldap-2.5-0_2.5.13+dfsg-5_arm64.deb ...
+#7 6.285 Unpacking libldap-2.5-0:arm64 (2.5.13+dfsg-5) ...
+#7 6.300 Selecting previously unselected package libnghttp2-14:arm64.
+#7 6.301 Preparing to unpack .../42-libnghttp2-14_1.52.0-1+deb12u3_arm64.deb ...
+#7 6.301 Unpacking libnghttp2-14:arm64 (1.52.0-1+deb12u3) ...
+#7 6.313 Selecting previously unselected package libpsl5:arm64.
+#7 6.314 Preparing to unpack .../43-libpsl5_0.21.2-1_arm64.deb ...
+#7 6.314 Unpacking libpsl5:arm64 (0.21.2-1) ...
+#7 6.325 Selecting previously unselected package librtmp1:arm64.
+#7 6.326 Preparing to unpack .../44-librtmp1_2.4+20151223.gitfa8646d.1-2+b2_arm64.deb ...
+#7 6.327 Unpacking librtmp1:arm64 (2.4+20151223.gitfa8646d.1-2+b2) ...
+#7 6.338 Selecting previously unselected package libssh2-1:arm64.
+#7 6.339 Preparing to unpack .../45-libssh2-1_1.10.0-3+deb12u1_arm64.deb ...
+#7 6.340 Unpacking libssh2-1:arm64 (1.10.0-3+deb12u1) ...
+#7 6.355 Selecting previously unselected package libcurl3-gnutls:arm64.
+#7 6.355 Preparing to unpack .../46-libcurl3-gnutls_7.88.1-10+deb12u15_arm64.deb ...
+#7 6.356 Unpacking libcurl3-gnutls:arm64 (7.88.1-10+deb12u15) ...
+#7 6.375 Selecting previously unselected package liberror-perl.
+#7 6.375 Preparing to unpack .../47-liberror-perl_0.17029-2_all.deb ...
+#7 6.376 Unpacking liberror-perl (0.17029-2) ...
+#7 6.386 Selecting previously unselected package git-man.
+#7 6.387 Preparing to unpack .../48-git-man_1%3a2.39.5-0+deb12u3_all.deb ...
+#7 6.387 Unpacking git-man (1:2.39.5-0+deb12u3) ...
+#7 6.437 Selecting previously unselected package git.
+#7 6.438 Preparing to unpack .../49-git_1%3a2.39.5-0+deb12u3_arm64.deb ...
+#7 6.442 Unpacking git (1:2.39.5-0+deb12u3) ...
+#7 6.620 Selecting previously unselected package make.
+#7 6.621 Preparing to unpack .../50-make_4.3-4.1_arm64.deb ...
+#7 6.621 Unpacking make (4.3-4.1) ...
+#7 6.648 Setting up media-types (10.0.0) ...
+#7 6.650 Setting up libkeyutils1:arm64 (1.6.3-2) ...
+#7 6.652 Setting up libpsl5:arm64 (0.21.2-1) ...
+#7 6.654 Setting up libtirpc-common (1.3.3+ds-1) ...
+#7 6.657 Setting up libbrotli1:arm64 (1.0.9-2+b6) ...
+#7 6.658 Setting up libsqlite3-0:arm64 (3.40.1-2+deb12u2) ...
+#7 6.660 Setting up binutils-common:arm64 (2.40-2) ...
+#7 6.662 Setting up libnghttp2-14:arm64 (1.52.0-1+deb12u3) ...
+#7 6.664 Setting up linux-libc-dev:arm64 (6.1.187-1) ...
+#7 6.665 Setting up libctf-nobfd0:arm64 (2.40-2) ...
+#7 6.667 Setting up libgomp1:arm64 (12.2.0-14+deb12u1) ...
+#7 6.668 Setting up libjansson4:arm64 (2.14-2) ...
+#7 6.670 Setting up libkrb5support0:arm64 (1.20.1-2+deb12u5) ...
+#7 6.671 Setting up libsasl2-modules-db:arm64 (2.1.28+dfsg-10) ...
+#7 6.673 Setting up perl-modules-5.36 (5.36.0-7+deb12u3) ...
+#7 6.674 Setting up rpcsvc-proto (1.4.3-1) ...
+#7 6.677 Setting up make (4.3-4.1) ...
+#7 6.678 Setting up libmpfr6:arm64 (4.2.0-1) ...
+#7 6.680 Setting up librtmp1:arm64 (2.4+20151223.gitfa8646d.1-2+b2) ...
+#7 6.681 Setting up libmpc3:arm64 (1.3.1-1) ...
+#7 6.683 Setting up libatomic1:arm64 (12.2.0-14+deb12u1) ...
+#7 6.684 Setting up libncursesw6:arm64 (6.4-4) ...
+#7 6.686 Setting up libk5crypto3:arm64 (1.20.1-2+deb12u5) ...
+#7 6.687 Setting up libsasl2-2:arm64 (2.1.28+dfsg-10) ...
+#7 6.689 Setting up libubsan1:arm64 (12.2.0-14+deb12u1) ...
+#7 6.690 Setting up libhwasan0:arm64 (12.2.0-14+deb12u1) ...
+#7 6.692 Setting up libcrypt-dev:arm64 (1:4.4.33-2) ...
+#7 6.696 Setting up libasan8:arm64 (12.2.0-14+deb12u1) ...
+#7 6.698 Setting up git-man (1:2.39.5-0+deb12u3) ...
+#7 6.699 Setting up libssh2-1:arm64 (1.10.0-3+deb12u1) ...
+#7 6.701 Setting up libkrb5-3:arm64 (1.20.1-2+deb12u5) ...
+#7 6.702 Setting up libtsan2:arm64 (12.2.0-14+deb12u1) ...
+#7 6.704 Setting up libbinutils:arm64 (2.40-2) ...
+#7 6.707 Setting up libisl23:arm64 (0.25-1.1) ...
+#7 6.708 Setting up libc-dev-bin (2.36-9+deb12u14) ...
+#7 6.709 Setting up openssl (3.0.22-1~deb12u1) ...
+#7 6.712 Setting up readline-common (8.2-1.3) ...
+#7 6.717 Setting up libcc1-0:arm64 (12.2.0-14+deb12u1) ...
+#7 6.719 Setting up liblsan0:arm64 (12.2.0-14+deb12u1) ...
+#7 6.720 Setting up libitm1:arm64 (12.2.0-14+deb12u1) ...
+#7 6.722 Setting up libgdbm6:arm64 (1.23-3) ...
+#7 6.723 Setting up libctf0:arm64 (2.40-2) ...
+#7 6.725 Setting up cpp-12 (12.2.0-14+deb12u1) ...
+#7 6.729 Setting up libreadline8:arm64 (8.2-1.3) ...
+#7 6.730 Setting up libldap-2.5-0:arm64 (2.5.13+dfsg-5) ...
+#7 6.732 Setting up ca-certificates (20250419~deb12u1) ...
+#7 6.762 debconf: unable to initialize frontend: Dialog
+#7 6.762 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#7 6.762 debconf: falling back to frontend: Readline
+#7 6.766 debconf: unable to initialize frontend: Readline
+#7 6.766 debconf: (This frontend requires a controlling tty.)
+#7 6.766 debconf: falling back to frontend: Teletype
+#7 7.063 Updating certificates in /etc/ssl/certs...
+#7 7.468 150 added, 0 removed; done.
+#7 7.477 Setting up libgprofng0:arm64 (2.40-2) ...
+#7 7.479 Setting up libgcc-12-dev:arm64 (12.2.0-14+deb12u1) ...
+#7 7.481 Setting up libgssapi-krb5-2:arm64 (1.20.1-2+deb12u5) ...
+#7 7.484 Setting up libgdbm-compat4:arm64 (1.23-3) ...
+#7 7.486 Setting up cpp (4:12.2.0-3) ...
+#7 7.490 Setting up libperl5.36:arm64 (5.36.0-7+deb12u3) ...
+#7 7.492 Setting up libtirpc3:arm64 (1.3.3+ds-1) ...
+#7 7.493 Setting up binutils-aarch64-linux-gnu (2.40-2) ...
+#7 7.495 Setting up libcurl3-gnutls:arm64 (7.88.1-10+deb12u15) ...
+#7 7.496 Setting up binutils (2.40-2) ...
+#7 7.498 Setting up perl (5.36.0-7+deb12u3) ...
+#7 7.504 Setting up libtirpc-dev:arm64 (1.3.3+ds-1) ...
+#7 7.505 Setting up gcc-12 (12.2.0-14+deb12u1) ...
+#7 7.507 Setting up libnsl2:arm64 (1.3.0-2) ...
+#7 7.508 Setting up libpython3.11-stdlib:arm64 (3.11.2-6+deb12u8) ...
+#7 7.510 Setting up gcc (4:12.2.0-3) ...
+#7 7.515 Setting up liberror-perl (0.17029-2) ...
+#7 7.517 Setting up git (1:2.39.5-0+deb12u3) ...
+#7 7.522 Setting up libnsl-dev:arm64 (1.3.0-2) ...
+#7 7.524 Setting up libc6-dev:arm64 (2.36-9+deb12u14) ...
+#7 7.525 Setting up libpython3-stdlib:arm64 (3.11.2-1+b1) ...
+#7 7.527 Setting up python3.11 (3.11.2-6+deb12u8) ...
+#7 7.756 Setting up libstdc++-12-dev:arm64 (12.2.0-14+deb12u1) ...
+#7 7.758 Setting up python3 (3.11.2-1+b1) ...
+#7 7.763 running python rtupdate hooks for python3.11...
+#7 7.763 running python post-rtupdate hooks for python3.11...
+#7 7.797 Setting up g++-12 (12.2.0-14+deb12u1) ...
+#7 7.799 Setting up g++ (4:12.2.0-3) ...
+#7 7.802 update-alternatives: using /usr/bin/g++ to provide /usr/bin/c++ (c++) in auto mode
+#7 7.803 Processing triggers for libc-bin (2.36-9+deb12u14) ...
+#7 7.812 Processing triggers for ca-certificates (20250419~deb12u1) ...
+#7 7.815 Updating certificates in /etc/ssl/certs...
+#7 8.135 0 added, 0 removed; done.
+#7 8.135 Running hooks in /etc/ca-certificates/update.d...
+#7 8.136 done.
+#7 DONE 8.4s
+
+#8 [3/7] WORKDIR /app
+#8 DONE 0.0s
+
+#9 [4/7] RUN git clone "https://github.com/QwenLM/qwen-code" . && git checkout "0a136f89d7f902b5da202c90250d70662dd0667f"
+#9 0.169 Cloning into '.'...
+#9 58.76 Note: switching to '0a136f89d7f902b5da202c90250d70662dd0667f'.
+#9 58.76 
+#9 58.76 You are in 'detached HEAD' state. You can look around, make experimental
+#9 58.76 changes and commit them, and you can discard any commits you make in this
+#9 58.76 state without impacting any branches by switching back to a branch.
+#9 58.76 
+#9 58.76 If you want to create a new branch to retain commits you create, you may
+#9 58.76 do so (now or later) by using -c with the switch command. Example:
+#9 58.76 
+#9 58.76   git switch -c <new-branch-name>
+#9 58.76 
+#9 58.76 Or undo this operation with:
+#9 58.76 
+#9 58.76   git switch -
+#9 58.76 
+#9 58.76 Turn off this advice by setting config variable advice.detachedHead to false
+#9 58.76 
+#9 58.76 HEAD is now at 0a136f89d7 test(managed-agent): Close the deferred Hosted no-tool gate follow-ups (#12864)
+#9 DONE 59.0s
+
+#10 [5/7] COPY docker/resolve_node.sh /opt/crucible/resolve_node.sh
+#10 DONE 0.0s
+
+#11 [6/7] RUN sh /opt/crucible/resolve_node.sh
+#11 0.287 crucible: resolving a node package in /app
+#11 0.287 crucible: lockfile says the package manager is pnpm
+#11 0.820 ! Corepack is about to download https://registry.npmjs.org/pnpm/-/pnpm-11.24.0.tgz
+#11 1.470 Scope: all 27 workspace projects
+#11 1.555 ? Verifying lockfile against supply-chain policies (1988 entries)...
+#11 1.582 Lockfile is up to date, resolution step is skipped
+#11 1.724 Packages: +1927
+#11 1.724 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#11 1.855 
+#11 1.855    ╭──────────────────────────────────────────────╮
+#11 1.855    │                                              │
+#11 1.855    │     Update available! 11.24.0 → 12.6.0.      │
+#11 1.855    │     Changelog: https://pnpm.io/v/12.6.0      │
+#11 1.855    │   To update, run: corepack use pnpm@12.6.0   │
+#11 1.855    │                                              │
+#11 1.855    ╰──────────────────────────────────────────────╯
+#11 1.855 
+#11 1.929 Progress: resolved 0, reused 0, downloaded 1, added 0
+#11 1.940 Packages are copied from the content-addressable store to the virtual store.
+#11 1.940   Content-addressable store is at: /root/.local/share/pnpm/store/v11
+#11 1.940   Virtual store is at:             node_modules/.pnpm
+#11 2.930 Progress: resolved 0, reused 0, downloaded 397, added 229
+#11 3.932 Progress: resolved 0, reused 0, downloaded 639, added 538
+#11 4.949 Progress: resolved 0, reused 0, downloaded 977, added 687
+#11 5.967 Progress: resolved 0, reused 0, downloaded 1357, added 973
+#11 7.148 Progress: resolved 0, reused 0, downloaded 1636, added 1133
+#11 7.922 ✓ Lockfile passes supply-chain policies (1988 entries in 6.3s)
+#11 8.150 Progress: resolved 0, reused 0, downloaded 1806, added 1873
+#11 9.151 Progress: resolved 0, reused 0, downloaded 1806, added 1926
+#11 11.18 Progress: resolved 0, reused 0, downloaded 1807, added 1926
+#11 11.38 Progress: resolved 0, reused 0, downloaded 1807, added 1927, done
+#11 11.42 node_modules/protobufjs postinstall$ node scripts/postinstall
+#11 11.43 node_modules/esbuild postinstall$ node install.js
+#11 11.43 node_modules/msw postinstall$ node -e "import('./config/scripts/postinstall.js').catch(() => void 0)"
+#11 11.43 node_modules/vitest/node_modules/esbuild postinstall$ node install.js
+#11 11.44 node_modules/vite/node_modules/esbuild postinstall$ node install.js
+#11 11.46 node_modules/protobufjs postinstall: Done
+#11 11.48 node_modules/@vscode/vsce-sign postinstall$ node ./src/postinstall.js
+#11 11.48 node_modules/msw postinstall: Done
+#11 11.50 node_modules/esbuild postinstall: Done
+#11 11.50 node_modules/vitest/node_modules/esbuild postinstall: Done
+#11 11.50 node_modules/vite/node_modules/esbuild postinstall: Done
+#11 11.53 node_modules/keytar install$ prebuild-install || npm run build
+#11 11.54 node_modules/@vscode/vsce-sign postinstall: Done
+#11 11.75 node_modules/keytar install: Done
+#11 11.76 node_modules/@google/genai preinstall$ echo 'preinstall: no-op'
+#11 11.77 node_modules/@google/genai preinstall: preinstall: no-op
+#11 11.77 node_modules/@google/genai preinstall: Done
+#11 11.95 [WARN] Failed to create bin at /app/node_modules/.bin/qwen-serve-mcp. ENOENT: no such file or directory, chmod '/app/node_modules/@qwen-code/sdk/dist/daemon-mcp/serve-bridge/bin.js'
+#11 11.95 [WARN] Failed to create bin at /app/node_modules/.bin/qwen. ENOENT: no such file or directory, chmod '/app/node_modules/@qwen-code/qwen-code/dist/index.js'
+#11 11.95 [WARN] Failed to create bin at /app/packages/cli/node_modules/.bin/qwen-serve-mcp. ENOENT: no such file or directory, chmod '/app/packages/cli/node_modules/@qwen-code/sdk/dist/daemon-mcp/serve-bridge/bin.js'
+#11 11.96 [WARN] Failed to create bin at /app/packages/qwen-live/node_modules/.bin/qwen-serve-mcp. ENOENT: no such file or directory, chmod '/app/packages/qwen-live/node_modules/@qwen-code/sdk/dist/daemon-mcp/serve-bridge/bin.js'
+#11 11.96 [WARN] Failed to create bin at /app/packages/vscode-ide-companion/node_modules/.bin/qwen. ENOENT: no such file or directory, chmod '/app/packages/vscode-ide-companion/node_modules/@qwen-code/qwen-code/dist/index.js'
+#11 11.96 [WARN] Failed to create bin at /app/packages/vscode-ide-companion/node_modules/.bin/qwen-serve-mcp. ENOENT: no such file or directory, chmod '/app/packages/vscode-ide-companion/node_modules/@qwen-code/sdk/dist/daemon-mcp/serve-bridge/bin.js'
+#11 11.96 [WARN] Failed to create bin at /app/packages/web-shell/node_modules/.bin/qwen-serve-mcp. ENOENT: no such file or directory, chmod '/app/packages/web-shell/node_modules/@qwen-code/sdk/dist/daemon-mcp/serve-bridge/bin.js'
+#11 11.96 [WARN] Failed to create bin at /app/packages/web-templates/node_modules/.bin/qwen-serve-mcp. ENOENT: no such file or directory, chmod '/app/packages/web-templates/node_modules/@qwen-code/sdk/dist/daemon-mcp/serve-bridge/bin.js'
+#11 12.07 
+#11 12.07 devDependencies:
+#11 12.07 + @qwen-code/acp-bridge 0.24.6 <- packages/acp-bridge
+#11 12.07 + @qwen-code/channel-base 0.24.6 <- packages/channels/base
+#11 12.07 + @qwen-code/qwen-code 0.24.6 <- packages/cli
+#11 12.07 + @qwen-code/qwen-code-core 0.24.6 <- packages/core
+#11 12.07 + @qwen-code/sdk 0.1.16 <- packages/sdk-typescript
+#11 12.07 + @qwen-code/web-shell 0.24.6 <- packages/web-shell
+#11 12.07 + @qwen-code/web-templates 0.24.6 <- packages/web-templates
+#11 12.07 
+#11 12.07 packages/audio-capture install$ node install.js
+#11 12.16 packages/audio-capture install: gyp info it worked if it ends with ok
+#11 12.16 packages/audio-capture install: gyp info using node-gyp@11.5.0
+#11 12.16 packages/audio-capture install: gyp info using node@22.23.3 | linux | arm64
+#11 12.18 packages/audio-capture install: gyp info find Python using Python version 3.11.2 found at "/usr/bin/python3"
+#11 12.22 packages/audio-capture install: gyp http GET https://nodejs.org/download/release/v22.23.3/node-v22.23.3-headers.tar.gz
+#11 12.29 packages/audio-capture install: gyp http 200 https://nodejs.org/download/release/v22.23.3/node-v22.23.3-headers.tar.gz
+#11 14.34 packages/audio-capture install: gyp http GET https://nodejs.org/download/release/v22.23.3/SHASUMS256.txt
+#11 14.36 packages/audio-capture install: gyp http 200 https://nodejs.org/download/release/v22.23.3/SHASUMS256.txt
+#11 14.69 packages/audio-capture install: gyp info spawn /usr/bin/python3
+#11 14.69 packages/audio-capture install: gyp info spawn args [
+#11 14.69 packages/audio-capture install: gyp info spawn args '/app/node_modules/node-gyp/gyp/gyp_main.py',
+#11 14.69 packages/audio-capture install: gyp info spawn args 'binding.gyp',
+#11 14.69 packages/audio-capture install: gyp info spawn args '-f',
+#11 14.69 packages/audio-capture install: gyp info spawn args 'make',
+#11 14.69 packages/audio-capture install: gyp info spawn args '-I',
+#11 14.69 packages/audio-capture install: gyp info spawn args '/app/packages/audio-capture/build/config.gypi',
+#11 14.69 packages/audio-capture install: gyp info spawn args '-I',
+#11 14.69 packages/audio-capture install: gyp info spawn args '/app/node_modules/node-gyp/addon.gypi',
+#11 14.69 packages/audio-capture install: gyp info spawn args '-I',
+#11 14.69 packages/audio-capture install: gyp info spawn args '/root/.cache/node-gyp/22.23.3/include/node/common.gypi',
+#11 14.69 packages/audio-capture install: gyp info spawn args '-Dlibrary=shared_library',
+#11 14.69 packages/audio-capture install: gyp info spawn args '-Dvisibility=default',
+#11 14.69 packages/audio-capture install: gyp info spawn args '-Dnode_root_dir=/root/.cache/node-gyp/22.23.3',
+#11 14.69 packages/audio-capture install: gyp info spawn args '-Dnode_gyp_dir=/app/node_modules/node-gyp',
+#11 14.69 packages/audio-capture install: gyp info spawn args '-Dnode_lib_file=/root/.cache/node-gyp/22.23.3/<(target_arch)/node.lib',
+#11 14.69 packages/audio-capture install: gyp info spawn args '-Dmodule_root_dir=/app/packages/audio-capture',
+#11 14.69 packages/audio-capture install: gyp info spawn args '-Dnode_engine=v8',
+#11 14.69 packages/audio-capture install: gyp info spawn args '--depth=.',
+#11 14.69 packages/audio-capture install: gyp info spawn args '--no-parallel',
+#11 14.69 packages/audio-capture install: gyp info spawn args '--generator-output',
+#11 14.69 packages/audio-capture install: gyp info spawn args 'build',
+#11 14.69 packages/audio-capture install: gyp info spawn args '-Goutput_dir=.'
+#11 14.69 packages/audio-capture install: gyp info spawn args ]
+#11 14.75 packages/audio-capture install: gyp info spawn make
+#11 14.75 packages/audio-capture install: gyp info spawn args [ 'BUILDTYPE=Release', '-C', 'build' ]
+#11 14.75 packages/audio-capture install: make: Entering directory '/app/packages/audio-capture/build'
+#11 14.75 packages/audio-capture install:   CXX(target) Release/obj.target/audio_capture/native/audio_capture.o
+#11 21.28 packages/audio-capture install:   SOLINK_MODULE(target) Release/obj.target/audio_capture.node
+#11 21.32 packages/audio-capture install:   COPY Release/audio_capture.node
+#11 21.33 packages/audio-capture install: make: Leaving directory '/app/packages/audio-capture/build'
+#11 21.33 packages/audio-capture install: gyp info ok 
+#11 21.34 packages/audio-capture install: Done
+#11 21.35 packages/core postinstall$ node scripts/postinstall.js
+#11 21.38 packages/core postinstall: ✓ Set executable permissions on /app/packages/core/vendor/ripgrep/arm64-linux/rg
+#11 21.38 packages/core postinstall: Done
+#11 21.41 packages/vscode-ide-companion prepare$ npm run generate:notices
+#11 21.58 packages/vscode-ide-companion prepare: > qwen-code-vscode-ide-companion@0.24.6 generate:notices
+#11 21.58 packages/vscode-ide-companion prepare: > node ./scripts/generate-notices.js
+#11 21.64 . postinstall$ patch-package
+#11 21.73 . postinstall: patch-package 8.0.1
+#11 21.73 . postinstall: Applying patches...
+#11 21.74 . postinstall: ink@7.0.3 ✔
+#11 21.74 . postinstall: Done
+#11 21.74 . prepare$ node scripts/prepare.js
+#11 21.87 . prepare: > @qwen-code/qwen-code@0.24.6 build
+#11 21.87 . prepare: > cross-env NODE_OPTIONS="--max-old-space-size=4096" node scripts/build.js
+#11 22.00 . prepare: > @qwen-code/qwen-code@0.24.6 generate
+#11 22.00 . prepare: > node scripts/generate-git-commit-info.js
+#11 22.15 packages/vscode-ide-companion prepare: NOTICES.txt generated at /app/packages/vscode-ide-companion/NOTICES.txt
+#11 22.15 packages/vscode-ide-companion prepare: Total dependencies: 659
+#11 22.16 packages/vscode-ide-companion prepare: npm notice
+#11 22.16 packages/vscode-ide-companion prepare: npm notice New major version of npm available! 10.9.9 -> 12.1.0
+#11 22.16 packages/vscode-ide-companion prepare: npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.1.0
+#11 22.16 packages/vscode-ide-companion prepare: npm notice To update run: npm install -g npm@12.1.0
+#11 22.16 packages/vscode-ide-companion prepare: npm notice
+#11 22.18 packages/vscode-ide-companion prepare: Done
+#11 22.40 . prepare: Scope: 25 of 27 workspace projects
+#11 22.40 . prepare: integrations/external-context build$ npm run clean && tsc --build && npm --prefix examples/provider-extension-local run build
+#11 22.40 . prepare: packages/audio-capture build$ tsc --build
+#11 22.40 . prepare: integrations/external-context-mem0 build$ npm run clean && esbuild src/main.ts src/auto-recall.ts src/write-main.ts src/delete-main.ts --bundle --platform=node --target=node22 --format=esm --banner:js="import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);" --outdir=dist
+#11 22.40 . prepare: packages/browser-use build$ node build.mjs && tsc -p tsconfig.declarations.json
+#11 22.51 . prepare: integrations/external-context-mem0 build: > @qwen-code/external-context-mem0@0.24.6 clean
+#11 22.51 . prepare: integrations/external-context-mem0 build: > node -e "require('node:fs').rmSync('dist',{recursive:true,force:true})"
+#11 22.51 . prepare: integrations/external-context build: > @qwen-code/external-context@0.24.6 clean
+#11 22.51 . prepare: integrations/external-context build: > node -e "const fs=require('node:fs'); fs.rmSync('dist',{recursive:true,force:true}); fs.rmSync('tsconfig.tsbuildinfo',{force:true})"
+#11 22.67 . prepare: integrations/external-context-mem0 build:   dist/delete-main.js  755.9kb
+#11 22.67 . prepare: integrations/external-context-mem0 build:   dist/main.js         755.1kb
+#11 22.67 . prepare: integrations/external-context-mem0 build:   dist/write-main.js   752.3kb
+#11 22.67 . prepare: integrations/external-context-mem0 build:   dist/auto-recall.js  409.3kb
+#11 22.67 . prepare: integrations/external-context-mem0 build: ⚡ Done in 109ms
+#11 22.68 . prepare: integrations/external-context-mem0 build: Done
+#11 22.68 . prepare: packages/channels/base build$ tsc --build
+#11 23.51 . prepare: packages/audio-capture build: Done
+#11 23.51 . prepare: packages/chrome-extension build$ node scripts/sync-extension.js && node config/esbuild.background.config.js --production
+#11 23.60 . prepare: packages/chrome-extension build: Static assets synced -> dist/extension
+#11 23.72 . prepare: packages/chrome-extension build: Background/content build complete!
+#11 23.74 . prepare: packages/chrome-extension build: Done
+#11 23.74 . prepare: packages/node-repl build$ node build.mjs
+#11 25.23 . prepare: integrations/external-context build: > provider-context-local-example@1.0.0 build
+#11 25.23 . prepare: integrations/external-context build: > npm run clean && esbuild src/main.ts --bundle --platform=node --target=node22 --format=esm --banner:js="import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);" --outfile=dist/main.js
+#11 25.40 . prepare: integrations/external-context build: > provider-context-local-example@1.0.0 clean
+#11 25.40 . prepare: integrations/external-context build: > node -e "require('node:fs').rmSync('dist',{recursive:true,force:true})"
+#11 25.41 . prepare: packages/browser-use build: Done
+#11 25.55 . prepare: integrations/external-context build:   dist/main.js  1.7mb ⚠️
+#11 25.55 . prepare: integrations/external-context build: ⚡ Done in 77ms
+#11 25.56 . prepare: integrations/external-context build: Done
+#11 25.61 . prepare: packages/channels/base build: Done
+#11 26.12 . prepare: packages/node-repl build: node-repl-mcp: runtime assets copied to /app/packages/node-repl/dist/runtime
+#11 26.12 . prepare: packages/node-repl build: Done
+#11 26.12 . prepare: packages/channels/dingtalk build$ tsc --build
+#11 26.12 . prepare: packages/channels/dws build$ tsc --build
+#11 26.12 . prepare: packages/channels/github build$ tsc --build
+#11 26.12 . prepare: packages/channels/feishu build$ tsc --build
+#11 28.80 . prepare: packages/channels/dingtalk build: Done
+#11 28.80 . prepare: packages/channels/gitlab build$ tsc --build
+#11 28.91 . prepare: packages/channels/dws build: Done
+#11 28.92 . prepare: packages/channels/plugin-example build$ tsc --build
+#11 29.41 . prepare: packages/channels/github build: Done
+#11 29.41 . prepare: packages/channels/qqbot build$ tsc --build
+#11 29.66 . prepare: packages/channels/feishu build: Done
+#11 29.66 . prepare: packages/channels/telegram build$ tsc --build
+#11 31.21 . prepare: packages/channels/plugin-example build: Done
+#11 31.21 . prepare: packages/channels/wecom build$ tsc --build
+#11 31.75 . prepare: packages/channels/qqbot build: Done
+#11 31.75 . prepare: packages/channels/weixin build$ tsc --build
+#11 31.82 . prepare: packages/channels/gitlab build: Done
+#11 31.82 . prepare: packages/core prebuild$ node -e "require('node:fs').accessSync('../browser-use/dist/index.js')" || npm --prefix ../browser-use run build
+#11 31.85 . prepare: packages/core prebuild: Done
+#11 31.85 . prepare: packages/core build$ node ../../scripts/build_package.js
+#11 31.87 . prepare: packages/channels/telegram build: Done
+#11 33.56 . prepare: packages/channels/wecom build: Done
+#11 33.58 . prepare: packages/channels/weixin build: Done
+#11 63.13 . prepare: packages/core build: Successfully copied files.
+#11 63.13 . prepare: packages/core build: Done
+#11 63.14 . prepare: packages/acp-bridge build$ node ../../scripts/build_package.js
+#11 68.05 . prepare: packages/acp-bridge build: Successfully copied files.
+#11 68.05 . prepare: packages/acp-bridge build: Done
+#11 68.05 . prepare: packages/sdk-typescript build$ node scripts/build.js
+#11 70.78 . prepare: packages/sdk-typescript build: Compiling input files...
+#11 72.66 . prepare: packages/sdk-typescript build: Processing src/index.ts
+#11 81.73 . prepare: packages/sdk-typescript build: Writing src/index.ts -> dist/index.d.ts
+#11 81.73 . prepare: packages/sdk-typescript build: Checking generated files...
+#11 81.73 . prepare: packages/sdk-typescript build: [1;33mCompiler option "skipLibCheck" is disabled to properly check generated output[0m
+#11 83.75 . prepare: packages/sdk-typescript build: Done in 12.97s
+#11 84.23 . prepare: packages/sdk-typescript build: Compiling input files...
+#11 85.21 . prepare: packages/sdk-typescript build: Processing src/daemon/transcript.ts
+#11 85.37 . prepare: packages/sdk-typescript build: Writing src/daemon/transcript.ts -> dist/daemon/transcript.d.ts
+#11 85.37 . prepare: packages/sdk-typescript build: Checking generated files...
+#11 85.37 . prepare: packages/sdk-typescript build: [1;33mCompiler option "skipLibCheck" is disabled to properly check generated output[0m
+#11 86.19 . prepare: packages/sdk-typescript build: Done in 1.96s
+#11 86.33 . prepare: packages/sdk-typescript build: Browser daemon SDK bundle is 257984 bytes
+#11 86.33 . prepare: packages/sdk-typescript build: Browser daemon SDK bundle exceeds the 221184-byte warning threshold
+#11 86.43 . prepare: packages/sdk-typescript build: Done
+#11 86.43 . prepare: packages/qwen-live build$ node build.mjs
+#11 86.43 . prepare: packages/web-shell build$ vite build && vite build --config vite.lib.config.ts && vite build --config vite.lib.config.ts --mode transcript && tsc -p tsconfig.lib.json
+#11 86.74 . prepare: packages/web-shell build: vite v5.4.21 building for production...
+#11 86.77 . prepare: packages/web-shell build: transforming...
+#11 89.24 . prepare: packages/qwen-live build: Done
+#11 97.63 . prepare: packages/web-shell build: ✓ 5914 modules transformed.
+#11 98.36 . prepare: packages/web-shell build: rendering chunks...
+#11 99.93 . prepare: packages/web-shell build: computing gzip size...
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/capture-worklet-DvBxuiSL.js                   2.56 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Size3-Regular-CTq5MqoE.woff             4.42 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Size4-Regular-Dl5lxZxV.woff2            4.93 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/knowledge-Dg9788h4.svg                        4.97 kB │ gzip:     1.79 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Size2-Regular-Dy4dx90m.woff2            5.21 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/csv-CX7rUNeC.svg                              5.46 kB │ gzip:     1.99 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Size1-Regular-mCD8mA8B.woff2            5.47 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Size4-Regular-BF-4gkZK.woff             5.98 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Size2-Regular-oD1tc_U0.woff             6.19 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Size1-Regular-C195tn64.woff             6.50 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Caligraphic-Regular-Di6jR-x-.woff2      6.91 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Caligraphic-Bold-Dq_IR9rO.woff2         6.91 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Size3-Regular-DgpXs0kz.ttf              7.59 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Caligraphic-Regular-CTRA-rTL.woff       7.66 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Caligraphic-Bold-BEiXGLvX.woff          7.72 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/default-aEtf0G7-.svg                          8.90 kB │ gzip:     2.54 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Script-Regular-D3wIWfF6.woff2           9.64 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_SansSerif-Regular-DDBCnlJ7.woff2       10.34 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Size4-Regular-DWFBv043.ttf             10.36 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Script-Regular-D5yQViql.woff           10.59 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Fraktur-Regular-CTYiF6lA.woff2         11.32 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Fraktur-Bold-CL6g_b3V.woff2            11.35 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Size2-Regular-B7gKUWhC.ttf             11.51 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/queue-DWpnpFgW.svg                           11.56 kB │ gzip:     2.39 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_SansSerif-Italic-C3H0VqGB.woff2        12.03 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_SansSerif-Bold-D1sUS0GD.woff2          12.22 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Size1-Regular-Dbsnue_I.ttf             12.23 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_SansSerif-Regular-CS6fqUqJ.woff        12.32 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Caligraphic-Regular-wX97UBjC.ttf       12.34 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Caligraphic-Bold-ATXxdsX0.ttf          12.37 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Fraktur-Regular-Dxdc4cR9.woff          13.21 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Fraktur-Bold-BsDP51OF.woff             13.30 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Typewriter-Regular-CO6r4hn1.woff2      13.57 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_SansSerif-Italic-DN2j7dab.woff         14.11 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/qwen-code-notification-BRVagufF.png          14.13 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_SansSerif-Bold-DbIhKOiC.woff           14.41 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Typewriter-Regular-C0xS9mPB.woff       16.03 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Math-BoldItalic-CZnvNsCZ.woff2         16.40 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Math-Italic-t53AETM-.woff2             16.44 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Script-Regular-C5JkGWo-.ttf            16.65 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Main-BoldItalic-DxDJ3AOS.woff2         16.78 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Main-Italic-NWA7e6Wa.woff2             16.99 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/index.html                                          18.66 kB │ gzip:     6.83 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Math-BoldItalic-iY-2wyZ7.woff          18.67 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Math-Italic-DA0__PXp.woff              18.75 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Main-BoldItalic-SpSLRI95.woff          19.41 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_SansSerif-Regular-BNo7hRIc.ttf         19.44 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Fraktur-Regular-CB_wures.ttf           19.57 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Fraktur-Bold-BdnERNNW.ttf              19.58 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Main-Italic-BMLOBm91.woff              19.68 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_SansSerif-Italic-YYjJ1zSn.ttf          22.36 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_SansSerif-Bold-CFMepnvq.ttf            24.50 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Main-Bold-Cx986IdX.woff2               25.32 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Main-Regular-B22Nviop.woff2            26.27 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Typewriter-Regular-D3Ib7_Hf.ttf        27.56 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_AMS-Regular-BQhdFMY1.woff2             28.08 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Main-Bold-Jm3AIy58.woff                29.91 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Main-Regular-Dr94JaBh.woff             30.77 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Math-BoldItalic-B3XSjfu4.ttf           31.20 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Math-Italic-flOr_0UB.ttf               31.31 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Main-BoldItalic-DzxPMmG6.ttf           32.97 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_AMS-Regular-DMm9YOAa.woff              33.52 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Main-Italic-3WenGoN9.ttf               33.58 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Main-Bold-waoOVXN0.ttf                 51.34 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_Main-Regular-ypZvNtVU.ttf              53.58 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/KaTeX_AMS-Regular-DRggAlZN.ttf               63.63 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/index-BtANA5bs.css                          600.16 kB │ gzip:   103.90 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/channel-DCaumfeM.js                           0.11 kB │ gzip:     0.13 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/init-Gi6I4Gst.js                              0.15 kB │ gzip:     0.13 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/chunk-2Q5K7J3B-ByAA6bxC.js                    0.19 kB │ gzip:     0.16 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/chunk-JWPE2WC7-Df7EDKWj.js                    0.23 kB │ gzip:     0.17 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/chunk-XXDRQBXY-Cqu4SRJN.js                    0.23 kB │ gzip:     0.21 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/chunk-5VM5RSS4-B9aNCzfh.js                    0.37 kB │ gzip:     0.27 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/stateDiagram-v2-4QOOHH4V-C0qo6RMj.js          0.43 kB │ gzip:     0.30 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/classDiagram-DTDB5LWJ-yV7Ku45M.js             0.47 kB │ gzip:     0.32 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/classDiagram-v2-JRS7N3AN-yV7Ku45M.js          0.47 kB │ gzip:     0.32 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/chunk-POPQ4Y6H-CJ_5UhNV.js                    0.51 kB │ gzip:     0.36 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/codeowners-Bp6g37R7.js                        0.55 kB │ gzip:     0.32 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/swimlanesDiagram-VK2B7HYN-B-4t3zXB.js         0.55 kB │ gzip:     0.37 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/infoDiagram-RXCK75RN-OI_YWSD9.js              0.59 kB │ gzip:     0.41 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/shellsession-C_rIy8kc.js                      0.72 kB │ gzip:     0.43 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/tsv-B_m7g4N7.js                               0.74 kB │ gzip:     0.34 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/sizeCapture-X5ZJPWSS-B_qIPwZe.js              0.94 kB │ gzip:     0.53 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/html-derivative-CSfWNPLT.js                   0.97 kB │ gzip:     0.53 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/git-rebase-B-v9cOL2.js                        0.98 kB │ gzip:     0.44 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/qmldir-C8lEn-DE.js                            1.00 kB │ gzip:     0.45 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/fortran-fixed-form-TqA4NnZg.js                1.11 kB │ gzip:     0.55 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/ordinal-Cboi1Yqb.js                           1.19 kB │ gzip:     0.57 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/csv-B0qRVHPH.js                               1.22 kB │ gzip:     0.37 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/xsl-Dd0NUgwM.js                               1.39 kB │ gzip:     0.52 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/sparql-bYkjHRlG.js                            1.51 kB │ gzip:     0.83 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/ini-BjABl1g7.js                               1.53 kB │ gzip:     0.50 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/git-commit-i4q6IMui.js                        1.55 kB │ gzip:     0.67 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/railroadDiagram-O6MQD6OU-C3HrNlFc.js          1.61 kB │ gzip:     0.76 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/dotenv-BjQB5zDj.js                            1.70 kB │ gzip:     0.64 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/wenyan-7A4Fjokl.js                            1.71 kB │ gzip:     1.11 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/docker-COcR7UxN.js                            1.77 kB │ gzip:     0.61 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/abnfDiagram-VCTEODGH-CZTFGMRJ.js              1.81 kB │ gzip:     0.89 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/hxml-TIA70rKU.js                              1.83 kB │ gzip:     0.90 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/chunk-F27PBJKO-6ic3aDcn.js                    1.85 kB │ gzip:     0.82 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/sw.js                                                1.90 kB │ gzip:     1.15 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/pegDiagram-XKGWAZYB-CD1xxcXJ.js               1.96 kB │ gzip:     0.92 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/ebnfDiagram-PWID7BFC-DLsMcivj.js              2.01 kB │ gzip:     0.88 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/desktop-DEIpsLCJ.js                           2.03 kB │ gzip:     0.79 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/edge-D5gP-w-T.js                              2.36 kB │ gzip:     0.70 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/reg-5LuOXUq_.js                               2.37 kB │ gzip:     0.71 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/berry-3xVqZejG.js                             2.45 kB │ gzip:     0.80 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/erb-BYTLMnw6.js                               2.61 kB │ gzip:     0.85 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/diff-BgYniUM_.js                              2.64 kB │ gzip:     0.74 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/gleam-B430Bg39.js                             2.69 kB │ gzip:     0.86 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/hy-BMj5Y0dO.js                                2.82 kB │ gzip:     1.19 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/json-BQoSv7ci.js                              2.92 kB │ gzip:     0.81 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/cairo--RitsXJZ.js                             2.95 kB │ gzip:     0.81 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/log-Cc5clBb7.js                               2.97 kB │ gzip:     0.89 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/jssm-P4WzXJd0.js                              2.97 kB │ gzip:     0.70 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/jsonl-DREVFZK8.js                             3.10 kB │ gzip:     0.83 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/jsonc-TU54ms6u.js                             3.20 kB │ gzip:     0.83 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/logo-IuBKFhSY.js                              3.21 kB │ gzip:     1.48 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/genie-ajMbGru0.js                             3.38 kB │ gzip:     1.22 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/po-BFLt1xDp.js                                3.38 kB │ gzip:     0.99 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/tasl-CQjiPCtT.js                              3.39 kB │ gzip:     0.89 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/vala-BFOHcciG.js                              3.40 kB │ gzip:     1.19 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/mipsasm-BC5c_5Pe.js                           3.41 kB │ gzip:     1.27 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/arc-Bce454Nt.js                               3.43 kB │ gzip:     1.47 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/rel-DJlmqQ1C.js                               3.43 kB │ gzip:     1.11 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/json5-w8dY5SsB.js                             3.54 kB │ gzip:     0.94 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/ssh-config-BknIz3MU.js                        3.61 kB │ gzip:     1.59 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/fluent-Dayu4EKP.js                            3.62 kB │ gzip:     0.89 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/jsonnet-BfivnA6A.js                           3.63 kB │ gzip:     1.06 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/narrat-DLbgOhZU.js                            3.69 kB │ gzip:     1.11 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/turtle-BMR_PYu6.js                            3.71 kB │ gzip:     0.98 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/splunk-Cf8iN4DR.js                            3.92 kB │ gzip:     1.65 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/glsl-DBO2IWDn.js                              3.94 kB │ gzip:     1.43 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/nextflow-B0XVJmRM.js                          3.96 kB │ gzip:     1.10 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/sdbl-BLhTXw86.js                              4.14 kB │ gzip:     2.12 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/pascal-JqZropPD.js                            4.18 kB │ gzip:     1.68 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/smalltalk-DkLiglaE.js                         4.20 kB │ gzip:     1.26 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/diagram-Z3DM3KII-DK84ohrT.js                  4.21 kB │ gzip:     1.83 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/lean-XBlWyCtg.js                              4.29 kB │ gzip:     1.33 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/zenscript-HnGAYVZD.js                         4.40 kB │ gzip:     1.42 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/bicep-DHo0CJ0O.js                             4.45 kB │ gzip:     1.08 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/http-FRrOvY1W.js                              4.65 kB │ gzip:     1.14 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/polar-DKykz6zU.js                             4.68 kB │ gzip:     1.17 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/defaultLocale-DX6XiGOO.js                     4.69 kB │ gzip:     2.18 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/fennel-bCA53EVm.js                            4.82 kB │ gzip:     1.55 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/tcl-DQ1-QYvQ.js                               5.02 kB │ gzip:     1.69 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/bibtex-xW4inM5L.js                            5.08 kB │ gzip:     0.81 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/fish-w-ucz2PV.js                              5.39 kB │ gzip:     1.69 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/xml-e3z08dGr.js                               5.41 kB │ gzip:     1.23 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/qml-D8XfuvdV.js                               5.42 kB │ gzip:     1.39 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/zig-BVz_zdnA.js                               5.46 kB │ gzip:     1.60 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/gdresource-BHYsBjWJ.js                        5.48 kB │ gzip:     1.37 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/awk-eg146-Ew.js                               5.49 kB │ gzip:     1.39 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/dax-ClGRhx96.js                               5.53 kB │ gzip:     2.28 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/linear-DlmBHpW5.js                            5.66 kB │ gzip:     2.31 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/jinja-DGy0s7-h.js                             5.72 kB │ gzip:     1.42 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/powerquery-CSHBycmS.js                        5.93 kB │ gzip:     1.52 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/verilog-CJaU5se_.js                           5.94 kB │ gzip:     1.89 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/coq-Dsg_Bt_b.js                               5.99 kB │ gzip:     2.02 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/diagram-UQ7AKVKN-DyIXj7Vi.js                  6.08 kB │ gzip:     2.62 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/vb-CdO5JTpU.js                                6.26 kB │ gzip:     2.36 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/red-bN70gL4F.js                               6.26 kB │ gzip:     1.60 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/shaderlab-B7qAK45m.js                         6.27 kB │ gzip:     2.10 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/min-dark-CafNBF8u.js                          6.29 kB │ gzip:     1.71 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/pieDiagram-E7YTZNPT-CXiM774g.js               6.31 kB │ gzip:     2.63 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/gdshader-SKMF96pI.js                          6.37 kB │ gzip:     1.75 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/prisma-B48N-Iqd.js                            6.39 kB │ gzip:     1.40 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/solarized-light-L9t79GZl.js                   6.48 kB │ gzip:     1.73 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/wgsl-CB0Krxn9.js                              6.49 kB │ gzip:     1.71 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/postcss-B3ZDOciz.js                           6.52 kB │ gzip:     1.93 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/toml-CB2ApiWb.js                              6.53 kB │ gzip:     1.31 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/proto-zocC4JxJ.js                             6.57 kB │ gzip:     1.42 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/talonscript-C1XDQQGZ.js                       6.71 kB │ gzip:     1.47 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/cypher-m2LEI-9-.js                            6.81 kB │ gzip:     1.84 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/solarized-dark-DXbdFlpD.js                    6.85 kB │ gzip:     1.80 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/soy-C-lX7w71.js                               6.95 kB │ gzip:     1.68 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/min-light-CTRr51gU.js                         6.97 kB │ gzip:     1.89 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/clojure-DxSadP1t.js                           7.08 kB │ gzip:     1.49 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/ara-7O62HKoU.js                               7.25 kB │ gzip:     2.13 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/hlsl-ifBTmRxC.js                              7.61 kB │ gzip:     2.24 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/riscv-QhoSD0DR.js                             7.70 kB │ gzip:     2.21 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/qss-DhMKtDLN.js                               7.82 kB │ gzip:     2.59 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/monokai-D4h5O-jR.js                           7.88 kB │ gzip:     1.91 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/dart-B9wLZaAG.js                              7.89 kB │ gzip:     1.93 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/systemd-CUnW07Te.js                           8.00 kB │ gzip:     2.57 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/regexp-DWJ3fJO_.js                            8.07 kB │ gzip:     1.46 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/diagram-S7CK7UJ4-D-SSkUo-.js                  8.16 kB │ gzip:     3.67 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/haml-B2EZWmdv.js                              8.49 kB │ gzip:     1.87 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/typst-BVUVsWT6.js                             8.55 kB │ gzip:     1.70 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/plsql-LKU2TuZ1.js                             8.57 kB │ gzip:     3.00 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/vue-html-xdeiXROB.js                          8.70 kB │ gzip:     1.77 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/scheme-BJGe-b2p.js                            8.72 kB │ gzip:     2.60 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/kotlin-B5lbUyaz.js                            8.82 kB │ gzip:     2.14 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/andromeeda-C3khCPGq.js                        8.86 kB │ gzip:     2.31 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/make-Bvotw-X0.js                              9.01 kB │ gzip:     1.77 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/dark-plus-C3mMm8J8.js                         9.10 kB │ gzip:     2.10 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/slack-dark-BthQWCQV.js                        9.12 kB │ gzip:     1.97 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/ts-tags-CipyTH0X.js                           9.18 kB │ gzip:     1.25 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/plastic-3e1v2bzS.js                           9.30 kB │ gzip:     1.98 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/tex-rYs2v40G.js                               9.37 kB │ gzip:     2.94 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/sass-BJ4Li9vH.js                              9.41 kB │ gzip:     2.50 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/slack-ochin-DqwNpetd.js                       9.43 kB │ gzip:     2.10 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/jison-BqZprYcd.js                             9.72 kB │ gzip:     1.87 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/sas-BmTFh92c.js                               9.79 kB │ gzip:     4.07 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/light-plus-B7mTdjB0.js                        9.94 kB │ gzip:     2.27 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/cynefinDiagram-5FMLGOSQ-X_f5RuJU.js          10.08 kB │ gzip:     3.63 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/gherkin--30QC5Em.js                          10.12 kB │ gzip:     5.14 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/stateDiagram-HBIQ2CUA-Dhg8Olg_.js            10.37 kB │ gzip:     3.63 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/cmake-DbXoA79R.js                            10.50 kB │ gzip:     3.59 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/dream-maker-C-nORZOA.js                      10.61 kB │ gzip:     2.30 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/raku-B1bQXN8T.js                             10.61 kB │ gzip:     2.96 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/rst-4NLicBqY.js                              10.65 kB │ gzip:     2.42 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/dagre-3AP2YEHR-M_odz_Ek.js                   10.71 kB │ gzip:     4.04 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/diagram-VSXAHHWV-CTKFHvb-.js                 10.74 kB │ gzip:     4.14 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/beancount-BwXTMy5W.js                        10.76 kB │ gzip:     1.52 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/yaml-CVw76BM1.js                             10.79 kB │ gzip:     2.30 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/cadence-DNquZEk8.js                          11.03 kB │ gzip:     2.32 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/github-light-DAi9KRSo.js                     11.18 kB │ gzip:     2.51 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/elm-CmHSxxaM.js                              11.29 kB │ gzip:     2.23 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/github-dark-DHJKELXO.js                      11.41 kB │ gzip:     2.55 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/prolog-BY-TUvya.js                           11.44 kB │ gzip:     3.84 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/laserwave-DUszq2jm.js                        11.50 kB │ gzip:     2.58 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/puppet-Cza_XSSt.js                           11.75 kB │ gzip:     2.23 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/hcl-HzYwdGDm.js                              11.97 kB │ gzip:     2.51 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/handlebars-BQGss363.js                       12.27 kB │ gzip:     2.39 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/hjson-T-Tgc4AT.js                            12.33 kB │ gzip:     1.68 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/vesper-BEBZ7ncR.js                           12.66 kB │ gzip:     1.97 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/luau-Du5NY7AG.js                             12.92 kB │ gzip:     3.11 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/bat-fje9CFhw.js                              12.99 kB │ gzip:     3.26 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/apache-Dn00JSTd.js                           13.21 kB │ gzip:     3.79 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/terraform-BbSNqyBO.js                        13.38 kB │ gzip:     3.11 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/vitesse-light-CVO1_9PV.js                    13.62 kB │ gzip:     3.04 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/aurora-x-D-2ljcwZ.js                         13.66 kB │ gzip:     2.28 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/vitesse-black-Bkuqu6BP.js                    13.68 kB │ gzip:     3.06 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/v-CAQ2eGtk.js                                13.74 kB │ gzip:     2.85 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/vitesse-dark-D0r3Knsf.js                     13.76 kB │ gzip:     3.06 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/synthwave-84-CbfX1IO0.js                     14.04 kB │ gzip:     2.87 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/github-light-default-D7oLnXFd.js             14.16 kB │ gzip:     3.04 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/github-light-high-contrast-BfjtVDDH.js       14.28 kB │ gzip:     3.02 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/github-dark-dimmed-DH5Ifo-i.js               14.43 kB │ gzip:     3.13 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/github-dark-default-Cuk6v7N8.js              14.44 kB │ gzip:     3.13 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/clarity-BHOwM8T6.js                          14.55 kB │ gzip:     2.48 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/actionscript-3-D_z4Izcz.js                   14.56 kB │ gzip:     2.80 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/github-dark-high-contrast-E3gJ1_iC.js        14.60 kB │ gzip:     3.09 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/pug-CM9l7STV.js                              14.89 kB │ gzip:     2.91 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/gnuplot-CM8KxXT1.js                          14.91 kB │ gzip:     3.30 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/ayu-dark-Cv9koXgw.js                         14.95 kB │ gzip:     3.08 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/nix-shcSOmrb.js                              15.55 kB │ gzip:     2.35 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/lua-CvWAzNxB.js                              15.62 kB │ gzip:     3.16 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/chunk-SVP7TREG-olZSM8MK.js                   15.73 kB │ gzip:     4.41 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/wasm-C6j12Q_x.js                             15.93 kB │ gzip:     2.90 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/diagram-VX7I27RA-DPat6-Fc.js                 15.96 kB │ gzip:     5.70 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/solidity-C1w2a3ep.js                         16.23 kB │ gzip:     3.13 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/svelte-MSaWC3Je.js                           16.89 kB │ gzip:     2.96 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/purescript-Bg-kzb6g.js                       17.07 kB │ gzip:     2.65 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/kanagawa-wave-DWedfzmr.js                    17.12 kB │ gzip:     2.93 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/kanagawa-lotus-CfQXZHmo.js                   17.13 kB │ gzip:     2.93 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/kanagawa-dragon-CkXjmgJE.js                  17.13 kB │ gzip:     2.95 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/liquid-D3W5UaiH.js                           17.17 kB │ gzip:     3.08 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/cue-DtFQj3wx.js                              17.35 kB │ gzip:     2.09 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/ishikawaDiagram-5VMMS53U-CoGABTTF.js         17.47 kB │ gzip:     6.64 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/rust-Be6lgOlo.js                             17.60 kB │ gzip:     3.37 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/angular-html-LfdN0zeE.js                     17.66 kB │ gzip:     3.51 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/graphql-cDcHW_If.js                          18.20 kB │ gzip:     2.66 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/elixir-CLiX3zqd.js                           18.30 kB │ gzip:     3.22 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/material-theme-D5KoaKCx.js                   18.62 kB │ gzip:     3.11 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/material-theme-darker-BfHTSMKl.js            18.63 kB │ gzip:     3.11 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/material-theme-ocean-CyktbL80.js             18.63 kB │ gzip:     3.14 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/material-theme-lighter-B0m2ddpp.js           18.63 kB │ gzip:     3.11 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/material-theme-palenight-Csfq5Kiy.js         18.64 kB │ gzip:     3.13 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/gdscript-DfxzS6Rs.js                         18.65 kB │ gzip:     3.72 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/abap-DsBKuouk.js                             18.82 kB │ gzip:     6.20 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/marko-z0MBrx5-.js                            19.33 kB │ gzip:     3.20 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/groovy-DkBy-JyN.js                           19.65 kB │ gzip:     3.78 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/mdc-DB_EDNY_.js                              19.70 kB │ gzip:     6.61 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/nushell-D4Tzg5kh.js                          19.75 kB │ gzip:     4.94 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/matlab-D9-PGadD.js                           20.14 kB │ gzip:     3.87 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/move-DB_GagMm.js                             20.24 kB │ gzip:     4.05 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/kanban-definition-3QL26DDD-r16PWkfz.js       20.29 kB │ gzip:     7.21 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/glimmer-js-D-cwc0-E.js                       20.56 kB │ gzip:     3.00 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/glimmer-ts-pgjy16dm.js                       20.56 kB │ gzip:     3.00 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/kusto-mebxcVVE.js                            20.63 kB │ gzip:     4.55 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/snazzy-light-Bw305WKR.js                     20.77 kB │ gzip:     3.83 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/viml-m4uW47V2.js                             21.02 kB │ gzip:     7.24 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/dracula-BzJJZx-M.js                          21.07 kB │ gzip:     4.00 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/dracula-soft-BXkSAIEj.js                     21.08 kB │ gzip:     4.04 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/vue-BuYVFjOK.js                              21.48 kB │ gzip:     2.89 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/rose-pine-CmCqftbK.js                        21.76 kB │ gzip:     3.87 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/rose-pine-moon-CjDtw9vr.js                   21.77 kB │ gzip:     3.89 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/rose-pine-dawn-Ds-gbosJ.js                   21.77 kB │ gzip:     3.89 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/powershell-BIEUsx6d.js                       22.26 kB │ gzip:     4.70 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/apl-BBq3IX1j.js                              22.84 kB │ gzip:     4.22 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/twig-NC5TFiHP.js                             23.01 kB │ gzip:     4.15 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/mindmap-definition-FBJOCRG2-B3j4_bMU.js      23.17 kB │ gzip:     7.83 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/sankeyDiagram-P5KCCOFB-BNx8MO5z.js           23.20 kB │ gzip:     8.56 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/journeyDiagram-EYS64GPL-TQxr9pst.js          23.58 kB │ gzip:     8.35 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/nim-ZlGxZxc3.js                              23.63 kB │ gzip:     3.50 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/vhdl-DYoNaHQp.js                             23.78 kB │ gzip:     3.86 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/templ-dwX3ZSMB.js                            23.97 kB │ gzip:     5.39 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/astro-CqkE3fuf.js                            24.07 kB │ gzip:     7.45 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/sql-COK4E0Yg.js                              24.32 kB │ gzip:     7.68 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/one-light-PoHY5YXO.js                        25.30 kB │ gzip:     3.68 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/wardleyDiagram-VM6X3IG4-VXXztVLQ.js          25.50 kB │ gzip:     6.79 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/razor-CNLDkMZG.js                            25.81 kB │ gzip:     3.47 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/fsharp-XplgxFYe.js                           25.83 kB │ gzip:     4.22 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/nord-Ddv68eIx.js                             26.72 kB │ gzip:     4.40 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/system-verilog-C7L56vO4.js                   26.77 kB │ gzip:     4.88 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/bsl-Dgyn0ogV.js                              27.44 kB │ gzip:     8.92 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/java-xI-RfyKK.js                             27.49 kB │ gzip:     4.33 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/coffee-dyiR41kL.js                           27.75 kB │ gzip:     6.42 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/scss-C31hgJw-.js                             28.13 kB │ gzip:     4.43 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/typespec-BpWG_bgh.js                         28.19 kB │ gzip:     2.83 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/index-BbSBwux0.js                            28.29 kB │ gzip:     9.87 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/common-lisp-C7gG9l05.js                      28.50 kB │ gzip:     6.72 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/night-owl-C39BiMTA.js                        28.91 kB │ gzip:     5.16 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/gitGraphDiagram-WWUBYQGX-ChMF64cc.js         29.42 kB │ gzip:     8.70 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/julia-BBuGR-5E.js                            29.45 kB │ gzip:     6.13 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/scala-DQVVAn-B.js                            30.49 kB │ gzip:     4.32 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/applescript-Bu5BbsvL.js                      30.78 kB │ gzip:     6.35 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/erDiagram-SSCWMZ5O-BwN5ClCQ.js               30.79 kB │ gzip:    10.59 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/timeline-definition-24CTP7MA-BdacA7xo.js     30.84 kB │ gzip:    10.16 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/requirementDiagram-EFPCY7ZU-9SMCaKRf.js      31.00 kB │ gzip:     9.73 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/stylus-BeQkCIfX.js                           31.56 kB │ gzip:     8.11 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/mermaid-Ci6OQyBP.js                          33.06 kB │ gzip:     4.65 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/poimandres-CS3Unz2-.js                       33.49 kB │ gzip:     5.50 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/codeql-sacFqUAJ.js                           33.59 kB │ gzip:     4.00 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/one-dark-pro-GBQ2dnAY.js                     33.74 kB │ gzip:     5.51 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/crystal-DtDmRg-F.js                          33.75 kB │ gzip:     5.59 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/quadrantDiagram-AXDQQJYC-CqhTIo6W.js         34.00 kB │ gzip:     9.98 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/tokyo-night-DBQeEorK.js                      34.36 kB │ gzip:     5.97 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/haxe-C5wWYbrZ.js                             35.30 kB │ gzip:     5.93 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/houston-DnULxvSX.js                          35.42 kB │ gzip:     5.78 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/layout-CEITGak9.js                           35.44 kB │ gzip:    12.75 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/nginx-D_VnBJ67.js                            35.73 kB │ gzip:     4.49 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/erlang-B-DoSBHF.js                           36.31 kB │ gzip:     4.44 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/r-CwjWoCRV.js                                36.87 kB │ gzip:    11.22 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/chunk-G27WJ6UU-BkDf4na6.js                   38.06 kB │ gzip:    12.52 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/cobol-PTqiYgYu.js                            40.58 kB │ gzip:    11.08 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/asm-Dhn9LcZ4.js                              40.85 kB │ gzip:     8.18 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/blockDiagram-NRAW4CY4-Djz-zsgh.js            41.59 kB │ gzip:    13.55 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/vennDiagram-4TSXK5OY-D8YwnBBh.js             41.96 kB │ gzip:    15.70 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/shellscript-atvbtKCR.js                      42.71 kB │ gzip:     6.33 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/d-BoXegm-a.js                                43.01 kB │ gzip:     8.40 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/haskell-BILxekzW.js                          43.21 kB │ gzip:     7.02 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/xychartDiagram-S5SC5T6Z-fx9WGVpt.js          44.51 kB │ gzip:    12.61 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/perl-CHQXSrWU.js                             44.54 kB │ gzip:     4.87 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/catppuccin-mocha-LGGdnPYs.js                 45.61 kB │ gzip:     7.73 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/catppuccin-latte-DRW-0cLl.js                 45.61 kB │ gzip:     7.74 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/catppuccin-frappe-CD_QflpE.js                45.62 kB │ gzip:     7.75 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/catppuccin-macchiato-C-_shW-Y.js             45.62 kB │ gzip:     7.74 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/apex-COJ4H7py.js                             46.81 kB │ gzip:     6.78 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/ada-727ZlQH0.js                              48.53 kB │ gzip:     6.05 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/chunk-LCL6LL3I-DNKTyVTR.js                   49.18 kB │ gzip:    15.75 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/ruby-DeZ3UC14.js                             51.47 kB │ gzip:     7.13 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/go-B1SYOhNW.js                               52.41 kB │ gzip:     6.40 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/imba-bv_oIlVt.js                             53.46 kB │ gzip:    10.21 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/everforest-dark-BgDCqdQA.js                  53.75 kB │ gzip:     8.42 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/everforest-light-C8M2exoo.js                 53.75 kB │ gzip:     8.42 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/css-BPhBrDlE.js                              53.80 kB │ gzip:    13.50 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/wikitext-DCE3LsBG.js                         56.62 kB │ gzip:     4.82 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/markdown-UIAJJxZW.js                         56.99 kB │ gzip:     5.63 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/latex-C-cWTeAZ.js                            59.42 kB │ gzip:     6.01 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/stata-DorPZHa4.js                            61.01 kB │ gzip:    13.71 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/html-C2L_23MC.js                             61.33 kB │ gzip:    11.99 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/ballerina-Du268qiB.js                        61.63 kB │ gzip:     8.31 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/flowDiagram-A5DVABFB-DoJLkrYQ.js             61.84 kB │ gzip:    19.87 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/c4Diagram-UCG6FXSJ-DODqqgY2.js               65.47 kB │ gzip:    18.79 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/ocaml-BNioltXt.js                            65.87 kB │ gzip:     5.17 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/ganttDiagram-EL5Y4UJY-Zzs5GFqW.js            69.44 kB │ gzip:    23.44 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/mojo-Tz6hzZYG.js                             72.57 kB │ gzip:    10.36 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/python-DhUJRlN_.js                           73.53 kB │ gzip:    10.43 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/c-C3t2pwGQ.js                                73.97 kB │ gzip:    10.64 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/vyper-nyqBNV6O.js                            78.23 kB │ gzip:    12.05 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/cose-bilkent-JH36ORCC-Bwybf6ES.js            81.53 kB │ gzip:    22.44 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/hack-D1yCygmZ.js                             84.64 kB │ gzip:    27.60 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/csharp-D9R-vmeu.js                           87.17 kB │ gzip:    10.39 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/swift-BSxZ-RaX.js                            90.99 kB │ gzip:    14.55 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/asciidoc-BPT9niGB.js                         93.51 kB │ gzip:     7.43 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/racket-CzouJOBO.js                           97.61 kB │ gzip:    15.62 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/fortran-free-form-DKXYxT9g.js                98.19 kB │ gzip:    12.37 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/less-BfCpw3nA.js                            102.46 kB │ gzip:    15.13 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/objective-c-Deuh7S70.js                     107.79 kB │ gzip:    23.25 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/blade-a8OxSdnT.js                           108.00 kB │ gzip:    28.67 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/php-B5ebYQev.js                             113.76 kB │ gzip:    28.82 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/swimlanes-XN3QIQJK-CWRD5bXQ.js              115.80 kB │ gzip:    42.52 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/sequenceDiagram-WJ2MYXX4-BXETDP3C.js        116.94 kB │ gzip:    31.13 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/mdx-sdHcTMYB.js                             140.36 kB │ gzip:    23.62 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/architectureDiagram-5GKGNRK7-LlL0EntW.js    151.62 kB │ gzip:    43.10 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/objective-cpp-BUEGK8hf.js                   175.60 kB │ gzip:    30.67 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/javascript-ySlJ1b_l.js                      198.03 kB │ gzip:    17.45 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/tsx-B6W0miNI.js                             198.75 kB │ gzip:    17.45 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/jsx-BAng5TT0.js                             201.01 kB │ gzip:    17.55 kB
+#11 100.2 . prepare: packages/web-shell build: ../dist/assets/typescript-Dj6nwHGl.js                      209.02 kB │ gzip:    17.02 kB
+#11 100.2 . prepare: packages/web-shell build: (!) Some chunks are larger than 500 kB after minification. Consider:
+#11 100.2 . prepare: packages/web-shell build: - Using dynamic import() to code-split the application
+#11 100.2 . prepare: packages/web-shell build: - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+#11 100.2 . prepare: packages/web-shell build: - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+#11 100.3 . prepare: packages/web-shell build: ../dist/assets/angular-ts-CKsD7JZE.js                      211.78 kB │ gzip:    17.62 kB
+#11 100.3 . prepare: packages/web-shell build: ../dist/assets/wolfram-C3FkfJm5.js                         268.60 kB │ gzip:    77.05 kB
+#11 100.3 . prepare: packages/web-shell build: ../dist/assets/cytoscape.esm-DJK6lGiH.js                   443.65 kB │ gzip:   142.35 kB
+#11 100.3 . prepare: packages/web-shell build: ../dist/assets/wasm-CG6Dc4jp.js                            622.34 kB │ gzip:   230.29 kB
+#11 100.3 . prepare: packages/web-shell build: ../dist/assets/mermaid.core-CZyv2voI.js                    682.72 kB │ gzip:   169.15 kB
+#11 100.3 . prepare: packages/web-shell build: ../dist/assets/cynefin-OW5HDTMX-D4pYFR4P.js                688.45 kB │ gzip:   154.49 kB
+#11 100.3 . prepare: packages/web-shell build: ../dist/assets/cpp-BksuvNSY.js                             697.52 kB │ gzip:    50.25 kB
+#11 100.3 . prepare: packages/web-shell build: ../dist/assets/emacs-lisp-BX77sIaO.js                      804.67 kB │ gzip:   196.96 kB
+#11 100.3 . prepare: packages/web-shell build: ../dist/assets/index-DohPy72Z.js                         1,135.40 kB │ gzip:   382.19 kB
+#11 100.3 . prepare: packages/web-shell build: ../dist/assets/index-CE76CrnP.js                         5,066.63 kB │ gzip: 1,513.57 kB
+#11 100.3 . prepare: packages/web-shell build: ✓ built in 13.48s
+#11 100.8 . prepare: packages/web-shell build: vite v5.4.21 building for production...
+#11 100.8 . prepare: packages/web-shell build: transforming...
+#11 103.5 . prepare: packages/web-shell build: ✓ 713 modules transformed.
+#11 103.6 . prepare: packages/web-shell build: rendering chunks...
+#11 104.8 . prepare: packages/web-shell build: computing gzip size...
+#11 104.9 . prepare: packages/web-shell build: dist/code-highlighter.js              0.09 kB │ gzip:     0.10 kB
+#11 104.9 . prepare: packages/web-shell build: dist/daemon-react-sdk.js              1.78 kB │ gzip:     0.79 kB
+#11 104.9 . prepare: packages/web-shell build: dist/codeHighlighter-pfciSYNN.js      2.07 kB │ gzip:     0.97 kB
+#11 104.9 . prepare: packages/web-shell build: dist/toolNames-BN-CjKbP.js          789.69 kB │ gzip:   218.08 kB
+#11 104.9 . prepare: packages/web-shell build: dist/index.js                     7,542.92 kB │ gzip: 2,074.69 kB
+#11 104.9 . prepare: packages/web-shell build: ✓ built in 4.06s
+#11 105.3 . prepare: packages/web-shell build: vite v5.4.21 building for transcript...
+#11 105.3 . prepare: packages/web-shell build: transforming...
+#11 106.6 . prepare: packages/web-shell build: ✓ 345 modules transformed.
+#11 106.8 . prepare: packages/web-shell build: rendering chunks...
+#11 107.2 . prepare: packages/web-shell build: computing gzip size...
+#11 107.3 . prepare: packages/web-shell build: dist/transcript.js  3,636.87 kB │ gzip: 1,336.44 kB
+#11 107.3 . prepare: packages/web-shell build: ✓ built in 2.02s
+#11 122.3 . prepare: packages/web-shell build: Done
+#11 122.3 . prepare: packages/web-templates build$ node build.mjs && tsc --build --clean && tsc
+#11 122.3 . prepare: packages/web-templates build: Building web-templates...
+#11 122.4 . prepare: packages/web-templates build: Building insight assets with Vite...
+#11 122.5 . prepare: packages/web-templates build: vite v5.4.21 building for production...
+#11 122.5 . prepare: packages/web-templates build: ▲ [WARNING] "import.meta" is not available with the "iife" output format and will be empty [empty-import-meta]
+#11 122.5 . prepare: packages/web-templates build:     ../../../web-shell/dist/transcript.js:15570:49:
+#11 122.5 . prepare: packages/web-templates build:       15570 │ ... pt(void 0), fC = typeof import.meta.url == "string" && impo...
+#11 122.5 . prepare: packages/web-templates build:             ╵                             ~~~~~~~~~~~
+#11 122.5 . prepare: packages/web-templates build:   You need to set the output format to "esm" for "import.meta" to work correctly.
+#11 122.5 . prepare: packages/web-templates build: ▲ [WARNING] "import.meta" is not available with the "iife" output format and will be empty [empty-import-meta]
+#11 122.5 . prepare: packages/web-templates build:     ../../../web-shell/dist/transcript.js:15570:80:
+#11 122.5 . prepare: packages/web-templates build:       15570 │ ....meta.url == "string" && import.meta.url ? import.meta.url :...
+#11 122.5 . prepare: packages/web-templates build:             ╵                             ~~~~~~~~~~~
+#11 122.5 . prepare: packages/web-templates build:   You need to set the output format to "esm" for "import.meta" to work correctly.
+#11 122.5 . prepare: packages/web-templates build: ▲ [WARNING] "import.meta" is not available with the "iife" output format and will be empty [empty-import-meta]
+#11 122.5 . prepare: packages/web-templates build:     ../../../web-shell/dist/transcript.js:15570:98:
+#11 122.5 . prepare: packages/web-templates build:       15570 │ ...ng" && import.meta.url ? import.meta.url : "web-shell/Daemon...
+#11 122.5 . prepare: packages/web-templates build:             ╵                             ~~~~~~~~~~~
+#11 122.5 . prepare: packages/web-templates build:   You need to set the output format to "esm" for "import.meta" to work correctly.
+#11 122.6 . prepare: packages/web-templates build: transforming...
+#11 122.6 . prepare: packages/web-templates build: Browserslist: browsers data (caniuse-lite) is 10 months old. Please run:
+#11 122.6 . prepare: packages/web-templates build:   npx update-browserslist-db@latest
+#11 122.6 . prepare: packages/web-templates build:   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+#11 122.7 . prepare: packages/web-templates build: ✓ 8 modules transformed.
+#11 122.7 . prepare: packages/web-templates build: rendering chunks...
+#11 122.7 . prepare: packages/web-templates build: computing gzip size...
+#11 122.7 . prepare: packages/web-templates build: dist/main.css  17.77 kB │ gzip: 4.28 kB
+#11 122.7 . prepare: packages/web-templates build: dist/main.js   32.80 kB │ gzip: 9.07 kB
+#11 122.7 . prepare: packages/web-templates build: ✓ built in 264ms
+#11 122.7 . prepare: packages/web-templates build: Reading generated files...
+#11 122.7 . prepare: packages/web-templates build: Successfully generated /app/packages/web-templates/src/generated/insightTemplate.ts
+#11 122.8 . prepare: packages/web-templates build: Document export top inputs (pre-minify bytes): first-party 1616910, lucide-react 1574512, katex 601155, react-dom 545403, micromark-core-commonmark 114773, tailwind-merge 105606, micromark 70253, @datafe-open/markdown-chart-echarts 69449
+#11 122.8 . prepare: packages/web-templates build: Document export renderer JS is 1947629 bytes; component CSS moved to export-transcript-document.css is 2344964 bytes
+#11 122.8 . prepare: packages/web-templates build: Successfully built all web-templates.
+#11 123.4 . prepare: packages/web-templates build: Done
+#11 123.4 . prepare: packages/cli build$ node ../../scripts/build_package.js
+#11 164.5 . prepare: packages/cli build: Successfully copied files.
+#11 164.5 . prepare: packages/cli build: Done
+#11 164.5 . prepare: packages/vscode-ide-companion build$ npm run build:dev
+#11 164.7 . prepare: packages/vscode-ide-companion build: > qwen-code-vscode-ide-companion@0.24.6 build:dev
+#11 164.7 . prepare: packages/vscode-ide-companion build: > npm run check-types && npm run lint && node esbuild.js
+#11 164.8 . prepare: packages/vscode-ide-companion build: > qwen-code-vscode-ide-companion@0.24.6 check-types
+#11 164.8 . prepare: packages/vscode-ide-companion build: > tsc --noEmit
+#11 168.0 . prepare: packages/vscode-ide-companion build: > qwen-code-vscode-ide-companion@0.24.6 lint
+#11 168.0 . prepare: packages/vscode-ide-companion build: > eslint src
+#11 171.7 . prepare: packages/vscode-ide-companion build: Done
+#11 172.5 . prepare: Generated settings JSON Schema at: /app/packages/vscode-ide-companion/schemas/settings.schema.json
+#11 172.7 . prepare: > @qwen-code/qwen-code@0.24.6 bundle
+#11 172.7 . prepare: > npm run generate && node esbuild.config.js && node scripts/copy_bundle_assets.js
+#11 172.7 . prepare: > @qwen-code/qwen-code@0.24.6 generate
+#11 172.7 . prepare: > node scripts/generate-git-commit-info.js
+#11 174.2 . prepare: Copied sandbox profiles to dist/
+#11 174.2 . prepare: Copying vendor directory...
+#11 174.2 . prepare: Copied vendor directory to dist/
+#11 174.3 . prepare: Copied bundled skills to dist/bundled/
+#11 174.3 . prepare: Copied docs/users/ to dist/bundled/qc-helper/docs/
+#11 174.3 . prepare: Copied builtin locales to dist/locales/
+#11 174.3 . prepare: Copied 14 OpenTUI runtime assets to dist/opentui-assets/
+#11 174.3 . prepare: Copied extension examples to dist/examples/
+#11 174.4 . prepare: Copied Web Shell UI to dist/web-shell/
+#11 174.4 . prepare: Copied HTML export renderer to dist/
+#11 174.4 . prepare: Stamped the review source digest over 121 files.
+#11 174.4 . prepare: ✅ All bundle assets copied to dist/
+#11 174.4 . prepare: Done
+#11 174.5 Done in 2m 53.2s using pnpm v11.24.0
+#11 174.6 crucible: package.json declares a build script, running it
+#11 174.8 $ cross-env NODE_OPTIONS="--max-old-space-size=4096" node scripts/build.js
+#11 174.9 
+#11 174.9 > @qwen-code/qwen-code@0.24.6 generate
+#11 174.9 > node scripts/generate-git-commit-info.js
+#11 174.9 
+#11 175.3 Scope: 25 of 27 workspace projects
+#11 175.3 integrations/external-context build$ npm run clean && tsc --build && npm --prefix examples/provider-extension-local run build
+#11 175.3 packages/audio-capture build$ tsc --build
+#11 175.3 packages/browser-use build$ node build.mjs && tsc -p tsconfig.declarations.json
+#11 175.3 integrations/external-context-mem0 build$ npm run clean && esbuild src/main.ts src/auto-recall.ts src/write-main.ts src/delete-main.ts --bundle --platform=node --target=node22 --format=esm --banner:js="import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);" --outdir=dist
+#11 175.4 integrations/external-context build: > @qwen-code/external-context@0.24.6 clean
+#11 175.4 integrations/external-context build: > node -e "const fs=require('node:fs'); fs.rmSync('dist',{recursive:true,force:true}); fs.rmSync('tsconfig.tsbuildinfo',{force:true})"
+#11 175.5 integrations/external-context-mem0 build: > @qwen-code/external-context-mem0@0.24.6 clean
+#11 175.5 integrations/external-context-mem0 build: > node -e "require('node:fs').rmSync('dist',{recursive:true,force:true})"
+#11 175.5 packages/audio-capture build: Done
+#11 175.5 packages/channels/base build$ tsc --build
+#11 175.6 packages/channels/base build: Done
+#11 175.6 packages/chrome-extension build$ node scripts/sync-extension.js && node config/esbuild.background.config.js --production
+#11 175.6 integrations/external-context-mem0 build:   dist/delete-main.js  755.9kb
+#11 175.6 integrations/external-context-mem0 build:   dist/main.js         755.1kb
+#11 175.6 integrations/external-context-mem0 build:   dist/write-main.js   752.3kb
+#11 175.6 integrations/external-context-mem0 build:   dist/auto-recall.js  409.3kb
+#11 175.6 integrations/external-context-mem0 build: ⚡ Done in 115ms
+#11 175.6 integrations/external-context-mem0 build: Done
+#11 175.6 packages/node-repl build$ node build.mjs
+#11 175.7 packages/chrome-extension build: Static assets synced -> dist/extension
+#11 175.8 packages/chrome-extension build: Background/content build complete!
+#11 175.8 packages/chrome-extension build: Done
+#11 177.3 integrations/external-context build: > provider-context-local-example@1.0.0 build
+#11 177.3 integrations/external-context build: > npm run clean && esbuild src/main.ts --bundle --platform=node --target=node22 --format=esm --banner:js="import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);" --outfile=dist/main.js
+#11 177.4 packages/node-repl build: node-repl-mcp: runtime assets copied to /app/packages/node-repl/dist/runtime
+#11 177.4 packages/node-repl build: Done
+#11 177.4 integrations/external-context build: > provider-context-local-example@1.0.0 clean
+#11 177.4 integrations/external-context build: > node -e "require('node:fs').rmSync('dist',{recursive:true,force:true})"
+#11 177.4 packages/browser-use build: Done
+#11 177.5 integrations/external-context build:   dist/main.js  1.7mb ⚠️
+#11 177.5 integrations/external-context build: ⚡ Done in 30ms
+#11 177.5 integrations/external-context build: Done
+#11 177.5 packages/channels/dingtalk build$ tsc --build
+#11 177.5 packages/channels/dws build$ tsc --build
+#11 177.5 packages/channels/feishu build$ tsc --build
+#11 177.5 packages/channels/github build$ tsc --build
+#11 177.6 packages/channels/dws build: Done
+#11 177.6 packages/channels/gitlab build$ tsc --build
+#11 177.6 packages/channels/dingtalk build: Done
+#11 177.6 packages/channels/github build: Done
+#11 177.6 packages/channels/plugin-example build$ tsc --build
+#11 177.6 packages/channels/qqbot build$ tsc --build
+#11 177.6 packages/channels/feishu build: Done
+#11 177.6 packages/channels/telegram build$ tsc --build
+#11 177.7 packages/channels/gitlab build: Done
+#11 177.7 packages/channels/wecom build$ tsc --build
+#11 177.7 packages/channels/qqbot build: Done
+#11 177.7 packages/channels/weixin build$ tsc --build
+#11 177.7 packages/channels/plugin-example build: Done
+#11 177.7 packages/core prebuild$ node -e "require('node:fs').accessSync('../browser-use/dist/index.js')" || npm --prefix ../browser-use run build
+#11 177.8 packages/channels/telegram build: Done
+#11 177.8 packages/core prebuild: Done
+#11 177.8 packages/core build$ node ../../scripts/build_package.js
+#11 177.8 packages/channels/wecom build: Done
+#11 177.8 packages/channels/weixin build: Done
+#11 204.4 packages/core build: Successfully copied files.
+#11 204.4 packages/core build: Done
+#11 204.4 packages/acp-bridge build$ node ../../scripts/build_package.js
+#11 208.7 packages/acp-bridge build: Successfully copied files.
+#11 208.7 packages/acp-bridge build: Done
+#11 208.7 packages/sdk-typescript build$ node scripts/build.js
+#11 211.1 packages/sdk-typescript build: Compiling input files...
+#11 212.9 packages/sdk-typescript build: Processing src/index.ts
+#11 222.0 packages/sdk-typescript build: Writing src/index.ts -> dist/index.d.ts
+#11 222.0 packages/sdk-typescript build: Checking generated files...
+#11 222.0 packages/sdk-typescript build: [1;33mCompiler option "skipLibCheck" is disabled to properly check generated output[0m
+#11 223.7 packages/sdk-typescript build: Done in 12.59s
+#11 224.1 packages/sdk-typescript build: Compiling input files...
+#11 225.0 packages/sdk-typescript build: Processing src/daemon/transcript.ts
+#11 225.2 packages/sdk-typescript build: Writing src/daemon/transcript.ts -> dist/daemon/transcript.d.ts
+#11 225.2 packages/sdk-typescript build: Checking generated files...
+#11 225.2 packages/sdk-typescript build: [1;33mCompiler option "skipLibCheck" is disabled to properly check generated output[0m
+#11 225.8 packages/sdk-typescript build: Done in 1.67s
+#11 225.9 packages/sdk-typescript build: Browser daemon SDK bundle is 257984 bytes
+#11 225.9 packages/sdk-typescript build: Browser daemon SDK bundle exceeds the 221184-byte warning threshold
+#11 226.0 packages/sdk-typescript build: Done
+#11 226.0 packages/qwen-live build$ node build.mjs
+#11 226.0 packages/web-shell build$ vite build && vite build --config vite.lib.config.ts && vite build --config vite.lib.config.ts --mode transcript && tsc -p tsconfig.lib.json
+#11 226.2 packages/web-shell build: vite v5.4.21 building for production...
+#11 226.3 packages/web-shell build: transforming...
+#11 228.2 packages/qwen-live build: Done
+#11 235.7 packages/web-shell build: ✓ 5914 modules transformed.
+#11 236.3 packages/web-shell build: rendering chunks...
+#11 237.5 packages/web-shell build: computing gzip size...
+#11 237.8 packages/web-shell build: ../dist/assets/capture-worklet-DvBxuiSL.js                   2.56 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Size3-Regular-CTq5MqoE.woff             4.42 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Size4-Regular-Dl5lxZxV.woff2            4.93 kB
+#11 237.8 packages/web-shell build: ../dist/assets/knowledge-Dg9788h4.svg                        4.97 kB │ gzip:     1.79 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Size2-Regular-Dy4dx90m.woff2            5.21 kB
+#11 237.8 packages/web-shell build: ../dist/assets/csv-CX7rUNeC.svg                              5.46 kB │ gzip:     1.99 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Size1-Regular-mCD8mA8B.woff2            5.47 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Size4-Regular-BF-4gkZK.woff             5.98 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Size2-Regular-oD1tc_U0.woff             6.19 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Size1-Regular-C195tn64.woff             6.50 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Caligraphic-Regular-Di6jR-x-.woff2      6.91 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Caligraphic-Bold-Dq_IR9rO.woff2         6.91 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Size3-Regular-DgpXs0kz.ttf              7.59 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Caligraphic-Regular-CTRA-rTL.woff       7.66 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Caligraphic-Bold-BEiXGLvX.woff          7.72 kB
+#11 237.8 packages/web-shell build: ../dist/assets/default-aEtf0G7-.svg                          8.90 kB │ gzip:     2.54 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Script-Regular-D3wIWfF6.woff2           9.64 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_SansSerif-Regular-DDBCnlJ7.woff2       10.34 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Size4-Regular-DWFBv043.ttf             10.36 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Script-Regular-D5yQViql.woff           10.59 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Fraktur-Regular-CTYiF6lA.woff2         11.32 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Fraktur-Bold-CL6g_b3V.woff2            11.35 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Size2-Regular-B7gKUWhC.ttf             11.51 kB
+#11 237.8 packages/web-shell build: ../dist/assets/queue-DWpnpFgW.svg                           11.56 kB │ gzip:     2.39 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_SansSerif-Italic-C3H0VqGB.woff2        12.03 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_SansSerif-Bold-D1sUS0GD.woff2          12.22 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Size1-Regular-Dbsnue_I.ttf             12.23 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_SansSerif-Regular-CS6fqUqJ.woff        12.32 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Caligraphic-Regular-wX97UBjC.ttf       12.34 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Caligraphic-Bold-ATXxdsX0.ttf          12.37 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Fraktur-Regular-Dxdc4cR9.woff          13.21 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Fraktur-Bold-BsDP51OF.woff             13.30 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Typewriter-Regular-CO6r4hn1.woff2      13.57 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_SansSerif-Italic-DN2j7dab.woff         14.11 kB
+#11 237.8 packages/web-shell build: ../dist/assets/qwen-code-notification-BRVagufF.png          14.13 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_SansSerif-Bold-DbIhKOiC.woff           14.41 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Typewriter-Regular-C0xS9mPB.woff       16.03 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Math-BoldItalic-CZnvNsCZ.woff2         16.40 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Math-Italic-t53AETM-.woff2             16.44 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Script-Regular-C5JkGWo-.ttf            16.65 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Main-BoldItalic-DxDJ3AOS.woff2         16.78 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Main-Italic-NWA7e6Wa.woff2             16.99 kB
+#11 237.8 packages/web-shell build: ../dist/index.html                                          18.66 kB │ gzip:     6.83 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Math-BoldItalic-iY-2wyZ7.woff          18.67 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Math-Italic-DA0__PXp.woff              18.75 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Main-BoldItalic-SpSLRI95.woff          19.41 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_SansSerif-Regular-BNo7hRIc.ttf         19.44 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Fraktur-Regular-CB_wures.ttf           19.57 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Fraktur-Bold-BdnERNNW.ttf              19.58 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Main-Italic-BMLOBm91.woff              19.68 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_SansSerif-Italic-YYjJ1zSn.ttf          22.36 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_SansSerif-Bold-CFMepnvq.ttf            24.50 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Main-Bold-Cx986IdX.woff2               25.32 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Main-Regular-B22Nviop.woff2            26.27 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Typewriter-Regular-D3Ib7_Hf.ttf        27.56 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_AMS-Regular-BQhdFMY1.woff2             28.08 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Main-Bold-Jm3AIy58.woff                29.91 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Main-Regular-Dr94JaBh.woff             30.77 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Math-BoldItalic-B3XSjfu4.ttf           31.20 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Math-Italic-flOr_0UB.ttf               31.31 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Main-BoldItalic-DzxPMmG6.ttf           32.97 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_AMS-Regular-DMm9YOAa.woff              33.52 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Main-Italic-3WenGoN9.ttf               33.58 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Main-Bold-waoOVXN0.ttf                 51.34 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_Main-Regular-ypZvNtVU.ttf              53.58 kB
+#11 237.8 packages/web-shell build: ../dist/assets/KaTeX_AMS-Regular-DRggAlZN.ttf               63.63 kB
+#11 237.8 packages/web-shell build: ../dist/assets/index-BtANA5bs.css                          600.16 kB │ gzip:   103.90 kB
+#11 237.8 packages/web-shell build: ../dist/assets/channel-DCaumfeM.js                           0.11 kB │ gzip:     0.13 kB
+#11 237.8 packages/web-shell build: ../dist/assets/init-Gi6I4Gst.js                              0.15 kB │ gzip:     0.13 kB
+#11 237.8 packages/web-shell build: ../dist/assets/chunk-2Q5K7J3B-ByAA6bxC.js                    0.19 kB │ gzip:     0.16 kB
+#11 237.8 packages/web-shell build: ../dist/assets/chunk-JWPE2WC7-Df7EDKWj.js                    0.23 kB │ gzip:     0.17 kB
+#11 237.8 packages/web-shell build: ../dist/assets/chunk-XXDRQBXY-Cqu4SRJN.js                    0.23 kB │ gzip:     0.21 kB
+#11 237.8 packages/web-shell build: ../dist/assets/chunk-5VM5RSS4-B9aNCzfh.js                    0.37 kB │ gzip:     0.27 kB
+#11 237.8 packages/web-shell build: ../dist/assets/stateDiagram-v2-4QOOHH4V-C0qo6RMj.js          0.43 kB │ gzip:     0.30 kB
+#11 237.8 packages/web-shell build: ../dist/assets/classDiagram-DTDB5LWJ-yV7Ku45M.js             0.47 kB │ gzip:     0.32 kB
+#11 237.8 packages/web-shell build: ../dist/assets/classDiagram-v2-JRS7N3AN-yV7Ku45M.js          0.47 kB │ gzip:     0.32 kB
+#11 237.8 packages/web-shell build: ../dist/assets/chunk-POPQ4Y6H-CJ_5UhNV.js                    0.51 kB │ gzip:     0.36 kB
+#11 237.8 packages/web-shell build: ../dist/assets/codeowners-Bp6g37R7.js                        0.55 kB │ gzip:     0.32 kB
+#11 237.8 packages/web-shell build: ../dist/assets/swimlanesDiagram-VK2B7HYN-B-4t3zXB.js         0.55 kB │ gzip:     0.37 kB
+#11 237.8 packages/web-shell build: ../dist/assets/infoDiagram-RXCK75RN-OI_YWSD9.js              0.59 kB │ gzip:     0.41 kB
+#11 237.8 packages/web-shell build: ../dist/assets/shellsession-C_rIy8kc.js                      0.72 kB │ gzip:     0.43 kB
+#11 237.8 packages/web-shell build: ../dist/assets/tsv-B_m7g4N7.js                               0.74 kB │ gzip:     0.34 kB
+#11 237.8 packages/web-shell build: ../dist/assets/sizeCapture-X5ZJPWSS-B_qIPwZe.js              0.94 kB │ gzip:     0.53 kB
+#11 237.8 packages/web-shell build: ../dist/assets/html-derivative-CSfWNPLT.js                   0.97 kB │ gzip:     0.53 kB
+#11 237.8 packages/web-shell build: ../dist/assets/git-rebase-B-v9cOL2.js                        0.98 kB │ gzip:     0.44 kB
+#11 237.8 packages/web-shell build: ../dist/assets/qmldir-C8lEn-DE.js                            1.00 kB │ gzip:     0.45 kB
+#11 237.8 packages/web-shell build: ../dist/assets/fortran-fixed-form-TqA4NnZg.js                1.11 kB │ gzip:     0.55 kB
+#11 237.8 packages/web-shell build: ../dist/assets/ordinal-Cboi1Yqb.js                           1.19 kB │ gzip:     0.57 kB
+#11 237.8 packages/web-shell build: ../dist/assets/csv-B0qRVHPH.js                               1.22 kB │ gzip:     0.37 kB
+#11 237.8 packages/web-shell build: ../dist/assets/xsl-Dd0NUgwM.js                               1.39 kB │ gzip:     0.52 kB
+#11 237.8 packages/web-shell build: ../dist/assets/sparql-bYkjHRlG.js                            1.51 kB │ gzip:     0.83 kB
+#11 237.8 packages/web-shell build: ../dist/assets/ini-BjABl1g7.js                               1.53 kB │ gzip:     0.50 kB
+#11 237.8 packages/web-shell build: ../dist/assets/git-commit-i4q6IMui.js                        1.55 kB │ gzip:     0.67 kB
+#11 237.8 packages/web-shell build: ../dist/assets/railroadDiagram-O6MQD6OU-C3HrNlFc.js          1.61 kB │ gzip:     0.76 kB
+#11 237.8 packages/web-shell build: ../dist/assets/dotenv-BjQB5zDj.js                            1.70 kB │ gzip:     0.64 kB
+#11 237.8 packages/web-shell build: ../dist/assets/wenyan-7A4Fjokl.js                            1.71 kB │ gzip:     1.11 kB
+#11 237.8 packages/web-shell build: ../dist/assets/docker-COcR7UxN.js                            1.77 kB │ gzip:     0.61 kB
+#11 237.8 packages/web-shell build: ../dist/assets/abnfDiagram-VCTEODGH-CZTFGMRJ.js              1.81 kB │ gzip:     0.89 kB
+#11 237.8 packages/web-shell build: ../dist/assets/hxml-TIA70rKU.js                              1.83 kB │ gzip:     0.90 kB
+#11 237.8 packages/web-shell build: ../dist/assets/chunk-F27PBJKO-6ic3aDcn.js                    1.85 kB │ gzip:     0.82 kB
+#11 237.8 packages/web-shell build: ../dist/sw.js                                                1.90 kB │ gzip:     1.15 kB
+#11 237.8 packages/web-shell build: ../dist/assets/pegDiagram-XKGWAZYB-CD1xxcXJ.js               1.96 kB │ gzip:     0.92 kB
+#11 237.8 packages/web-shell build: ../dist/assets/ebnfDiagram-PWID7BFC-DLsMcivj.js              2.01 kB │ gzip:     0.88 kB
+#11 237.8 packages/web-shell build: ../dist/assets/desktop-DEIpsLCJ.js                           2.03 kB │ gzip:     0.79 kB
+#11 237.8 packages/web-shell build: ../dist/assets/edge-D5gP-w-T.js                              2.36 kB │ gzip:     0.70 kB
+#11 237.8 packages/web-shell build: ../dist/assets/reg-5LuOXUq_.js                               2.37 kB │ gzip:     0.71 kB
+#11 237.8 packages/web-shell build: ../dist/assets/berry-3xVqZejG.js                             2.45 kB │ gzip:     0.80 kB
+#11 237.8 packages/web-shell build: ../dist/assets/erb-BYTLMnw6.js                               2.61 kB │ gzip:     0.85 kB
+#11 237.8 packages/web-shell build: ../dist/assets/diff-BgYniUM_.js                              2.64 kB │ gzip:     0.74 kB
+#11 237.8 packages/web-shell build: ../dist/assets/gleam-B430Bg39.js                             2.69 kB │ gzip:     0.86 kB
+#11 237.8 packages/web-shell build: ../dist/assets/hy-BMj5Y0dO.js                                2.82 kB │ gzip:     1.19 kB
+#11 237.8 packages/web-shell build: ../dist/assets/json-BQoSv7ci.js                              2.92 kB │ gzip:     0.81 kB
+#11 237.8 packages/web-shell build: ../dist/assets/cairo--RitsXJZ.js                             2.95 kB │ gzip:     0.81 kB
+#11 237.8 packages/web-shell build: ../dist/assets/log-Cc5clBb7.js                               2.97 kB │ gzip:     0.89 kB
+#11 237.8 packages/web-shell build: ../dist/assets/jssm-P4WzXJd0.js                              2.97 kB │ gzip:     0.70 kB
+#11 237.8 packages/web-shell build: ../dist/assets/jsonl-DREVFZK8.js                             3.10 kB │ gzip:     0.83 kB
+#11 237.8 packages/web-shell build: ../dist/assets/jsonc-TU54ms6u.js                             3.20 kB │ gzip:     0.83 kB
+#11 237.8 packages/web-shell build: ../dist/assets/logo-IuBKFhSY.js                              3.21 kB │ gzip:     1.48 kB
+#11 237.8 packages/web-shell build: ../dist/assets/genie-ajMbGru0.js                             3.38 kB │ gzip:     1.22 kB
+#11 237.8 packages/web-shell build: ../dist/assets/po-BFLt1xDp.js                                3.38 kB │ gzip:     0.99 kB
+#11 237.8 packages/web-shell build: ../dist/assets/tasl-CQjiPCtT.js                              3.39 kB │ gzip:     0.89 kB
+#11 237.8 packages/web-shell build: ../dist/assets/vala-BFOHcciG.js                              3.40 kB │ gzip:     1.19 kB
+#11 237.8 packages/web-shell build: ../dist/assets/mipsasm-BC5c_5Pe.js                           3.41 kB │ gzip:     1.27 kB
+#11 237.8 packages/web-shell build: ../dist/assets/arc-Bce454Nt.js                               3.43 kB │ gzip:     1.47 kB
+#11 237.8 packages/web-shell build: ../dist/assets/rel-DJlmqQ1C.js                               3.43 kB │ gzip:     1.11 kB
+#11 237.8 packages/web-shell build: ../dist/assets/json5-w8dY5SsB.js                             3.54 kB │ gzip:     0.94 kB
+#11 237.8 packages/web-shell build: ../dist/assets/ssh-config-BknIz3MU.js                        3.61 kB │ gzip:     1.59 kB
+#11 237.8 packages/web-shell build: ../dist/assets/fluent-Dayu4EKP.js                            3.62 kB │ gzip:     0.89 kB
+#11 237.8 packages/web-shell build: ../dist/assets/jsonnet-BfivnA6A.js                           3.63 kB │ gzip:     1.06 kB
+#11 237.8 packages/web-shell build: ../dist/assets/narrat-DLbgOhZU.js                            3.69 kB │ gzip:     1.11 kB
+#11 237.8 packages/web-shell build: ../dist/assets/turtle-BMR_PYu6.js                            3.71 kB │ gzip:     0.98 kB
+#11 237.8 packages/web-shell build: ../dist/assets/splunk-Cf8iN4DR.js                            3.92 kB │ gzip:     1.65 kB
+#11 237.8 packages/web-shell build: ../dist/assets/glsl-DBO2IWDn.js                              3.94 kB │ gzip:     1.43 kB
+#11 237.8 packages/web-shell build: ../dist/assets/nextflow-B0XVJmRM.js                          3.96 kB │ gzip:     1.10 kB
+#11 237.8 packages/web-shell build: ../dist/assets/sdbl-BLhTXw86.js                              4.14 kB │ gzip:     2.12 kB
+#11 237.8 packages/web-shell build: ../dist/assets/pascal-JqZropPD.js                            4.18 kB │ gzip:     1.68 kB
+#11 237.8 packages/web-shell build: ../dist/assets/smalltalk-DkLiglaE.js                         4.20 kB │ gzip:     1.26 kB
+#11 237.8 packages/web-shell build: ../dist/assets/diagram-Z3DM3KII-DK84ohrT.js                  4.21 kB │ gzip:     1.83 kB
+#11 237.8 packages/web-shell build: ../dist/assets/lean-XBlWyCtg.js                              4.29 kB │ gzip:     1.33 kB
+#11 237.8 packages/web-shell build: ../dist/assets/zenscript-HnGAYVZD.js                         4.40 kB │ gzip:     1.42 kB
+#11 237.8 packages/web-shell build: ../dist/assets/bicep-DHo0CJ0O.js                             4.45 kB │ gzip:     1.08 kB
+#11 237.8 packages/web-shell build: ../dist/assets/http-FRrOvY1W.js                              4.65 kB │ gzip:     1.14 kB
+#11 237.8 packages/web-shell build: ../dist/assets/polar-DKykz6zU.js                             4.68 kB │ gzip:     1.17 kB
+#11 237.8 packages/web-shell build: ../dist/assets/defaultLocale-DX6XiGOO.js                     4.69 kB │ gzip:     2.18 kB
+#11 237.8 packages/web-shell build: ../dist/assets/fennel-bCA53EVm.js                            4.82 kB │ gzip:     1.55 kB
+#11 237.8 packages/web-shell build: ../dist/assets/tcl-DQ1-QYvQ.js                               5.02 kB │ gzip:     1.69 kB
+#11 237.8 packages/web-shell build: ../dist/assets/bibtex-xW4inM5L.js                            5.08 kB │ gzip:     0.81 kB
+#11 237.8 packages/web-shell build: ../dist/assets/fish-w-ucz2PV.js                              5.39 kB │ gzip:     1.69 kB
+#11 237.8 packages/web-shell build: ../dist/assets/xml-e3z08dGr.js                               5.41 kB │ gzip:     1.23 kB
+#11 237.8 packages/web-shell build: ../dist/assets/qml-D8XfuvdV.js                               5.42 kB │ gzip:     1.39 kB
+#11 237.8 packages/web-shell build: ../dist/assets/zig-BVz_zdnA.js                               5.46 kB │ gzip:     1.60 kB
+#11 237.8 packages/web-shell build: ../dist/assets/gdresource-BHYsBjWJ.js                        5.48 kB │ gzip:     1.37 kB
+#11 237.8 packages/web-shell build: ../dist/assets/awk-eg146-Ew.js                               5.49 kB │ gzip:     1.39 kB
+#11 237.8 packages/web-shell build: ../dist/assets/dax-ClGRhx96.js                               5.53 kB │ gzip:     2.28 kB
+#11 237.8 packages/web-shell build: ../dist/assets/linear-DlmBHpW5.js                            5.66 kB │ gzip:     2.31 kB
+#11 237.8 packages/web-shell build: ../dist/assets/jinja-DGy0s7-h.js                             5.72 kB │ gzip:     1.42 kB
+#11 237.8 packages/web-shell build: ../dist/assets/powerquery-CSHBycmS.js                        5.93 kB │ gzip:     1.52 kB
+#11 237.8 packages/web-shell build: ../dist/assets/verilog-CJaU5se_.js                           5.94 kB │ gzip:     1.89 kB
+#11 237.8 packages/web-shell build: ../dist/assets/coq-Dsg_Bt_b.js                               5.99 kB │ gzip:     2.02 kB
+#11 237.8 packages/web-shell build: ../dist/assets/diagram-UQ7AKVKN-DyIXj7Vi.js                  6.08 kB │ gzip:     2.62 kB
+#11 237.8 packages/web-shell build: ../dist/assets/vb-CdO5JTpU.js                                6.26 kB │ gzip:     2.36 kB
+#11 237.8 packages/web-shell build: ../dist/assets/red-bN70gL4F.js                               6.26 kB │ gzip:     1.60 kB
+#11 237.8 packages/web-shell build: ../dist/assets/shaderlab-B7qAK45m.js                         6.27 kB │ gzip:     2.10 kB
+#11 237.8 packages/web-shell build: ../dist/assets/min-dark-CafNBF8u.js                          6.29 kB │ gzip:     1.71 kB
+#11 237.8 packages/web-shell build: ../dist/assets/pieDiagram-E7YTZNPT-CXiM774g.js               6.31 kB │ gzip:     2.63 kB
+#11 237.8 packages/web-shell build: ../dist/assets/gdshader-SKMF96pI.js                          6.37 kB │ gzip:     1.75 kB
+#11 237.8 packages/web-shell build: ../dist/assets/prisma-B48N-Iqd.js                            6.39 kB │ gzip:     1.40 kB
+#11 237.8 packages/web-shell build: ../dist/assets/solarized-light-L9t79GZl.js                   6.48 kB │ gzip:     1.73 kB
+#11 237.8 packages/web-shell build: ../dist/assets/wgsl-CB0Krxn9.js                              6.49 kB │ gzip:     1.71 kB
+#11 237.8 packages/web-shell build: ../dist/assets/postcss-B3ZDOciz.js                           6.52 kB │ gzip:     1.93 kB
+#11 237.8 packages/web-shell build: ../dist/assets/toml-CB2ApiWb.js                              6.53 kB │ gzip:     1.31 kB
+#11 237.8 packages/web-shell build: ../dist/assets/proto-zocC4JxJ.js                             6.57 kB │ gzip:     1.42 kB
+#11 237.8 packages/web-shell build: ../dist/assets/talonscript-C1XDQQGZ.js                       6.71 kB │ gzip:     1.47 kB
+#11 237.8 packages/web-shell build: ../dist/assets/cypher-m2LEI-9-.js                            6.81 kB │ gzip:     1.84 kB
+#11 237.8 packages/web-shell build: ../dist/assets/solarized-dark-DXbdFlpD.js                    6.85 kB │ gzip:     1.80 kB
+#11 237.8 packages/web-shell build: ../dist/assets/soy-C-lX7w71.js                               6.95 kB │ gzip:     1.68 kB
+#11 237.8 packages/web-shell build: ../dist/assets/min-light-CTRr51gU.js                         6.97 kB │ gzip:     1.89 kB
+#11 237.8 packages/web-shell build: ../dist/assets/clojure-DxSadP1t.js                           7.08 kB │ gzip:     1.49 kB
+#11 237.8 packages/web-shell build: ../dist/assets/ara-7O62HKoU.js                               7.25 kB │ gzip:     2.13 kB
+#11 237.8 packages/web-shell build: ../dist/assets/hlsl-ifBTmRxC.js                              7.61 kB │ gzip:     2.24 kB
+#11 237.8 packages/web-shell build: ../dist/assets/riscv-QhoSD0DR.js                             7.70 kB │ gzip:     2.21 kB
+#11 237.8 packages/web-shell build: ../dist/assets/qss-DhMKtDLN.js                               7.82 kB │ gzip:     2.59 kB
+#11 237.8 packages/web-shell build: ../dist/assets/monokai-D4h5O-jR.js                           7.88 kB │ gzip:     1.91 kB
+#11 237.8 packages/web-shell build: ../dist/assets/dart-B9wLZaAG.js                              7.89 kB │ gzip:     1.93 kB
+#11 237.8 packages/web-shell build: ../dist/assets/systemd-CUnW07Te.js                           8.00 kB │ gzip:     2.57 kB
+#11 237.8 packages/web-shell build: ../dist/assets/regexp-DWJ3fJO_.js                            8.07 kB │ gzip:     1.46 kB
+#11 237.8 packages/web-shell build: ../dist/assets/diagram-S7CK7UJ4-D-SSkUo-.js                  8.16 kB │ gzip:     3.67 kB
+#11 237.8 packages/web-shell build: ../dist/assets/haml-B2EZWmdv.js                              8.49 kB │ gzip:     1.87 kB
+#11 237.8 packages/web-shell build: ../dist/assets/typst-BVUVsWT6.js                             8.55 kB │ gzip:     1.70 kB
+#11 237.8 packages/web-shell build: ../dist/assets/plsql-LKU2TuZ1.js                             8.57 kB │ gzip:     3.00 kB
+#11 237.8 packages/web-shell build: ../dist/assets/vue-html-xdeiXROB.js                          8.70 kB │ gzip:     1.77 kB
+#11 237.8 packages/web-shell build: ../dist/assets/scheme-BJGe-b2p.js                            8.72 kB │ gzip:     2.60 kB
+#11 237.8 packages/web-shell build: ../dist/assets/kotlin-B5lbUyaz.js                            8.82 kB │ gzip:     2.14 kB
+#11 237.8 packages/web-shell build: ../dist/assets/andromeeda-C3khCPGq.js                        8.86 kB │ gzip:     2.31 kB
+#11 237.8 packages/web-shell build: ../dist/assets/make-Bvotw-X0.js                              9.01 kB │ gzip:     1.77 kB
+#11 237.8 packages/web-shell build: ../dist/assets/dark-plus-C3mMm8J8.js                         9.10 kB │ gzip:     2.10 kB
+#11 237.8 packages/web-shell build: ../dist/assets/slack-dark-BthQWCQV.js                        9.12 kB │ gzip:     1.97 kB
+#11 237.8 packages/web-shell build: ../dist/assets/ts-tags-CipyTH0X.js                           9.18 kB │ gzip:     1.25 kB
+#11 237.8 packages/web-shell build: ../dist/assets/plastic-3e1v2bzS.js                           9.30 kB │ gzip:     1.98 kB
+#11 237.8 packages/web-shell build: ../dist/assets/tex-rYs2v40G.js                               9.37 kB │ gzip:     2.94 kB
+#11 237.8 packages/web-shell build: ../dist/assets/sass-BJ4Li9vH.js                              9.41 kB │ gzip:     2.50 kB
+#11 237.8 packages/web-shell build: ../dist/assets/slack-ochin-DqwNpetd.js                       9.43 kB │ gzip:     2.10 kB
+#11 237.8 packages/web-shell build: ../dist/assets/jison-BqZprYcd.js                             9.72 kB │ gzip:     1.87 kB
+#11 237.8 packages/web-shell build: ../dist/assets/sas-BmTFh92c.js                               9.79 kB │ gzip:     4.07 kB
+#11 237.8 packages/web-shell build: ../dist/assets/light-plus-B7mTdjB0.js                        9.94 kB │ gzip:     2.27 kB
+#11 237.8 packages/web-shell build: ../dist/assets/cynefinDiagram-5FMLGOSQ-X_f5RuJU.js          10.08 kB │ gzip:     3.63 kB
+#11 237.8 packages/web-shell build: ../dist/assets/gherkin--30QC5Em.js                          10.12 kB │ gzip:     5.14 kB
+#11 237.8 packages/web-shell build: ../dist/assets/stateDiagram-HBIQ2CUA-Dhg8Olg_.js            10.37 kB │ gzip:     3.63 kB
+#11 237.8 packages/web-shell build: ../dist/assets/cmake-DbXoA79R.js                            10.50 kB │ gzip:     3.59 kB
+#11 237.8 packages/web-shell build: ../dist/assets/dream-maker-C-nORZOA.js                      10.61 kB │ gzip:     2.30 kB
+#11 237.8 packages/web-shell build: ../dist/assets/raku-B1bQXN8T.js                             10.61 kB │ gzip:     2.96 kB
+#11 237.8 packages/web-shell build: ../dist/assets/rst-4NLicBqY.js                              10.65 kB │ gzip:     2.42 kB
+#11 237.8 packages/web-shell build: ../dist/assets/dagre-3AP2YEHR-M_odz_Ek.js                   10.71 kB │ gzip:     4.04 kB
+#11 237.8 packages/web-shell build: ../dist/assets/diagram-VSXAHHWV-CTKFHvb-.js                 10.74 kB │ gzip:     4.14 kB
+#11 237.8 packages/web-shell build: ../dist/assets/beancount-BwXTMy5W.js                        10.76 kB │ gzip:     1.52 kB
+#11 237.8 packages/web-shell build: ../dist/assets/yaml-CVw76BM1.js                             10.79 kB │ gzip:     2.30 kB
+#11 237.8 packages/web-shell build: ../dist/assets/cadence-DNquZEk8.js                          11.03 kB │ gzip:     2.32 kB
+#11 237.8 packages/web-shell build: ../dist/assets/github-light-DAi9KRSo.js                     11.18 kB │ gzip:     2.51 kB
+#11 237.8 packages/web-shell build: ../dist/assets/elm-CmHSxxaM.js                              11.29 kB │ gzip:     2.23 kB
+#11 237.8 packages/web-shell build: ../dist/assets/github-dark-DHJKELXO.js                      11.41 kB │ gzip:     2.55 kB
+#11 237.8 packages/web-shell build: ../dist/assets/prolog-BY-TUvya.js                           11.44 kB │ gzip:     3.84 kB
+#11 237.8 packages/web-shell build: ../dist/assets/laserwave-DUszq2jm.js                        11.50 kB │ gzip:     2.58 kB
+#11 237.8 packages/web-shell build: ../dist/assets/puppet-Cza_XSSt.js                           11.75 kB │ gzip:     2.23 kB
+#11 237.8 packages/web-shell build: ../dist/assets/hcl-HzYwdGDm.js                              11.97 kB │ gzip:     2.51 kB
+#11 237.8 packages/web-shell build: ../dist/assets/handlebars-BQGss363.js                       12.27 kB │ gzip:     2.39 kB
+#11 237.8 packages/web-shell build: ../dist/assets/hjson-T-Tgc4AT.js                            12.33 kB │ gzip:     1.68 kB
+#11 237.8 packages/web-shell build: ../dist/assets/vesper-BEBZ7ncR.js                           12.66 kB │ gzip:     1.97 kB
+#11 237.8 packages/web-shell build: ../dist/assets/luau-Du5NY7AG.js                             12.92 kB │ gzip:     3.11 kB
+#11 237.8 packages/web-shell build: ../dist/assets/bat-fje9CFhw.js                              12.99 kB │ gzip:     3.26 kB
+#11 237.8 packages/web-shell build: ../dist/assets/apache-Dn00JSTd.js                           13.21 kB │ gzip:     3.79 kB
+#11 237.8 packages/web-shell build: ../dist/assets/terraform-BbSNqyBO.js                        13.38 kB │ gzip:     3.11 kB
+#11 237.8 packages/web-shell build: ../dist/assets/vitesse-light-CVO1_9PV.js                    13.62 kB │ gzip:     3.04 kB
+#11 237.8 packages/web-shell build: ../dist/assets/aurora-x-D-2ljcwZ.js                         13.66 kB │ gzip:     2.28 kB
+#11 237.8 packages/web-shell build: ../dist/assets/vitesse-black-Bkuqu6BP.js                    13.68 kB │ gzip:     3.06 kB
+#11 237.8 packages/web-shell build: ../dist/assets/v-CAQ2eGtk.js                                13.74 kB │ gzip:     2.85 kB
+#11 237.8 packages/web-shell build: ../dist/assets/vitesse-dark-D0r3Knsf.js                     13.76 kB │ gzip:     3.06 kB
+#11 237.8 packages/web-shell build: ../dist/assets/synthwave-84-CbfX1IO0.js                     14.04 kB │ gzip:     2.87 kB
+#11 237.8 packages/web-shell build: ../dist/assets/github-light-default-D7oLnXFd.js             14.16 kB │ gzip:     3.04 kB
+#11 237.8 packages/web-shell build: ../dist/assets/github-light-high-contrast-BfjtVDDH.js       14.28 kB │ gzip:     3.02 kB
+#11 237.8 packages/web-shell build: ../dist/assets/github-dark-dimmed-DH5Ifo-i.js               14.43 kB │ gzip:     3.13 kB
+#11 237.8 packages/web-shell build: ../dist/assets/github-dark-default-Cuk6v7N8.js              14.44 kB │ gzip:     3.13 kB
+#11 237.8 packages/web-shell build: ../dist/assets/clarity-BHOwM8T6.js                          14.55 kB │ gzip:     2.48 kB
+#11 237.8 packages/web-shell build: ../dist/assets/actionscript-3-D_z4Izcz.js                   14.56 kB │ gzip:     2.80 kB
+#11 237.8 packages/web-shell build: ../dist/assets/github-dark-high-contrast-E3gJ1_iC.js        14.60 kB │ gzip:     3.09 kB
+#11 237.8 packages/web-shell build: ../dist/assets/pug-CM9l7STV.js                              14.89 kB │ gzip:     2.91 kB
+#11 237.8 packages/web-shell build: ../dist/assets/gnuplot-CM8KxXT1.js                          14.91 kB │ gzip:     3.30 kB
+#11 237.8 packages/web-shell build: ../dist/assets/ayu-dark-Cv9koXgw.js                         14.95 kB │ gzip:     3.08 kB
+#11 237.8 packages/web-shell build: ../dist/assets/nix-shcSOmrb.js                              15.55 kB │ gzip:     2.35 kB
+#11 237.8 packages/web-shell build: ../dist/assets/lua-CvWAzNxB.js                              15.62 kB │ gzip:     3.16 kB
+#11 237.8 packages/web-shell build: ../dist/assets/chunk-SVP7TREG-olZSM8MK.js                   15.73 kB │ gzip:     4.41 kB
+#11 237.8 packages/web-shell build: ../dist/assets/wasm-C6j12Q_x.js                             15.93 kB │ gzip:     2.90 kB
+#11 237.8 packages/web-shell build: ../dist/assets/diagram-VX7I27RA-DPat6-Fc.js                 15.96 kB │ gzip:     5.70 kB
+#11 237.8 packages/web-shell build: ../dist/assets/solidity-C1w2a3ep.js                         16.23 kB │ gzip:     3.13 kB
+#11 237.8 packages/web-shell build: ../dist/assets/svelte-MSaWC3Je.js                           16.89 kB │ gzip:     2.96 kB
+#11 237.8 packages/web-shell build: ../dist/assets/purescript-Bg-kzb6g.js                       17.07 kB │ gzip:     2.65 kB
+#11 237.8 packages/web-shell build: ../dist/assets/kanagawa-wave-DWedfzmr.js                    17.12 kB │ gzip:     2.93 kB
+#11 237.8 packages/web-shell build: ../dist/assets/kanagawa-lotus-CfQXZHmo.js                   17.13 kB │ gzip:     2.93 kB
+#11 237.8 packages/web-shell build: ../dist/assets/kanagawa-dragon-CkXjmgJE.js                  17.13 kB │ gzip:     2.95 kB
+#11 237.8 packages/web-shell build: ../dist/assets/liquid-D3W5UaiH.js                           17.17 kB │ gzip:     3.08 kB
+#11 237.8 packages/web-shell build: ../dist/assets/cue-DtFQj3wx.js                              17.35 kB │ gzip:     2.09 kB
+#11 237.8 packages/web-shell build: ../dist/assets/ishikawaDiagram-5VMMS53U-CoGABTTF.js         17.47 kB │ gzip:     6.64 kB
+#11 237.8 packages/web-shell build: ../dist/assets/rust-Be6lgOlo.js                             17.60 kB │ gzip:     3.37 kB
+#11 237.8 packages/web-shell build: ../dist/assets/angular-html-LfdN0zeE.js                     17.66 kB │ gzip:     3.51 kB
+#11 237.8 packages/web-shell build: ../dist/assets/graphql-cDcHW_If.js                          18.20 kB │ gzip:     2.66 kB
+#11 237.8 packages/web-shell build: ../dist/assets/elixir-CLiX3zqd.js                           18.30 kB │ gzip:     3.22 kB
+#11 237.8 packages/web-shell build: ../dist/assets/material-theme-D5KoaKCx.js                   18.62 kB │ gzip:     3.11 kB
+#11 237.8 packages/web-shell build: ../dist/assets/material-theme-darker-BfHTSMKl.js            18.63 kB │ gzip:     3.11 kB
+#11 237.8 packages/web-shell build: ../dist/assets/material-theme-ocean-CyktbL80.js             18.63 kB │ gzip:     3.14 kB
+#11 237.8 packages/web-shell build: ../dist/assets/material-theme-lighter-B0m2ddpp.js           18.63 kB │ gzip:     3.11 kB
+#11 237.8 packages/web-shell build: ../dist/assets/material-theme-palenight-Csfq5Kiy.js         18.64 kB │ gzip:     3.13 kB
+#11 237.8 packages/web-shell build: ../dist/assets/gdscript-DfxzS6Rs.js                         18.65 kB │ gzip:     3.72 kB
+#11 237.8 packages/web-shell build: ../dist/assets/abap-DsBKuouk.js                             18.82 kB │ gzip:     6.20 kB
+#11 237.8 packages/web-shell build: ../dist/assets/marko-z0MBrx5-.js                            19.33 kB │ gzip:     3.20 kB
+#11 237.8 packages/web-shell build: ../dist/assets/groovy-DkBy-JyN.js                           19.65 kB │ gzip:     3.78 kB
+#11 237.8 packages/web-shell build: ../dist/assets/mdc-DB_EDNY_.js                              19.70 kB │ gzip:     6.61 kB
+#11 237.8 packages/web-shell build: ../dist/assets/nushell-D4Tzg5kh.js                          19.75 kB │ gzip:     4.94 kB
+#11 237.8 packages/web-shell build: ../dist/assets/matlab-D9-PGadD.js                           20.14 kB │ gzip:     3.87 kB
+#11 237.8 packages/web-shell build: ../dist/assets/move-DB_GagMm.js                             20.24 kB │ gzip:     4.05 kB
+#11 237.8 packages/web-shell build: ../dist/assets/kanban-definition-3QL26DDD-r16PWkfz.js       20.29 kB │ gzip:     7.21 kB
+#11 237.8 packages/web-shell build: ../dist/assets/glimmer-js-D-cwc0-E.js                       20.56 kB │ gzip:     3.00 kB
+#11 237.8 packages/web-shell build: ../dist/assets/glimmer-ts-pgjy16dm.js                       20.56 kB │ gzip:     3.00 kB
+#11 237.8 packages/web-shell build: ../dist/assets/kusto-mebxcVVE.js                            20.63 kB │ gzip:     4.55 kB
+#11 237.8 packages/web-shell build: ../dist/assets/snazzy-light-Bw305WKR.js                     20.77 kB │ gzip:     3.83 kB
+#11 237.8 packages/web-shell build: ../dist/assets/viml-m4uW47V2.js                             21.02 kB │ gzip:     7.24 kB
+#11 237.8 packages/web-shell build: ../dist/assets/dracula-BzJJZx-M.js                          21.07 kB │ gzip:     4.00 kB
+#11 237.8 packages/web-shell build: ../dist/assets/dracula-soft-BXkSAIEj.js                     21.08 kB │ gzip:     4.04 kB
+#11 237.8 packages/web-shell build: ../dist/assets/vue-BuYVFjOK.js                              21.48 kB │ gzip:     2.89 kB
+#11 237.8 packages/web-shell build: ../dist/assets/rose-pine-CmCqftbK.js                        21.76 kB │ gzip:     3.87 kB
+#11 237.8 packages/web-shell build: ../dist/assets/rose-pine-moon-CjDtw9vr.js                   21.77 kB │ gzip:     3.89 kB
+#11 237.8 packages/web-shell build: ../dist/assets/rose-pine-dawn-Ds-gbosJ.js                   21.77 kB │ gzip:     3.89 kB
+#11 237.8 packages/web-shell build: ../dist/assets/powershell-BIEUsx6d.js                       22.26 kB │ gzip:     4.70 kB
+#11 237.8 packages/web-shell build: ../dist/assets/apl-BBq3IX1j.js                              22.84 kB │ gzip:     4.22 kB
+#11 237.8 packages/web-shell build: ../dist/assets/twig-NC5TFiHP.js                             23.01 kB │ gzip:     4.15 kB
+#11 237.8 packages/web-shell build: ../dist/assets/mindmap-definition-FBJOCRG2-B3j4_bMU.js      23.17 kB │ gzip:     7.83 kB
+#11 237.8 packages/web-shell build: (!) Some chunks are larger than 500 kB after minification. Consider:
+#11 237.8 packages/web-shell build: - Using dynamic import() to code-split the application
+#11 237.8 packages/web-shell build: - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+#11 237.8 packages/web-shell build: - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+#11 237.8 packages/web-shell build: ../dist/assets/sankeyDiagram-P5KCCOFB-BNx8MO5z.js           23.20 kB │ gzip:     8.56 kB
+#11 237.8 packages/web-shell build: ../dist/assets/journeyDiagram-EYS64GPL-TQxr9pst.js          23.58 kB │ gzip:     8.35 kB
+#11 237.8 packages/web-shell build: ../dist/assets/nim-ZlGxZxc3.js                              23.63 kB │ gzip:     3.50 kB
+#11 237.8 packages/web-shell build: ../dist/assets/vhdl-DYoNaHQp.js                             23.78 kB │ gzip:     3.86 kB
+#11 237.8 packages/web-shell build: ../dist/assets/templ-dwX3ZSMB.js                            23.97 kB │ gzip:     5.39 kB
+#11 237.8 packages/web-shell build: ../dist/assets/astro-CqkE3fuf.js                            24.07 kB │ gzip:     7.45 kB
+#11 237.8 packages/web-shell build: ../dist/assets/sql-COK4E0Yg.js                              24.32 kB │ gzip:     7.68 kB
+#11 237.8 packages/web-shell build: ../dist/assets/one-light-PoHY5YXO.js                        25.30 kB │ gzip:     3.68 kB
+#11 237.8 packages/web-shell build: ../dist/assets/wardleyDiagram-VM6X3IG4-VXXztVLQ.js          25.50 kB │ gzip:     6.79 kB
+#11 237.8 packages/web-shell build: ../dist/assets/razor-CNLDkMZG.js                            25.81 kB │ gzip:     3.47 kB
+#11 237.8 packages/web-shell build: ../dist/assets/fsharp-XplgxFYe.js                           25.83 kB │ gzip:     4.22 kB
+#11 237.8 packages/web-shell build: ../dist/assets/nord-Ddv68eIx.js                             26.72 kB │ gzip:     4.40 kB
+#11 237.8 packages/web-shell build: ../dist/assets/system-verilog-C7L56vO4.js                   26.77 kB │ gzip:     4.88 kB
+#11 237.8 packages/web-shell build: ../dist/assets/bsl-Dgyn0ogV.js                              27.44 kB │ gzip:     8.92 kB
+#11 237.8 packages/web-shell build: ../dist/assets/java-xI-RfyKK.js                             27.49 kB │ gzip:     4.33 kB
+#11 237.8 packages/web-shell build: ../dist/assets/coffee-dyiR41kL.js                           27.75 kB │ gzip:     6.42 kB
+#11 237.8 packages/web-shell build: ../dist/assets/scss-C31hgJw-.js                             28.13 kB │ gzip:     4.43 kB
+#11 237.8 packages/web-shell build: ../dist/assets/typespec-BpWG_bgh.js                         28.19 kB │ gzip:     2.83 kB
+#11 237.8 packages/web-shell build: ../dist/assets/index-BbSBwux0.js                            28.29 kB │ gzip:     9.87 kB
+#11 237.8 packages/web-shell build: ../dist/assets/common-lisp-C7gG9l05.js                      28.50 kB │ gzip:     6.72 kB
+#11 237.8 packages/web-shell build: ../dist/assets/night-owl-C39BiMTA.js                        28.91 kB │ gzip:     5.16 kB
+#11 237.8 packages/web-shell build: ../dist/assets/gitGraphDiagram-WWUBYQGX-ChMF64cc.js         29.42 kB │ gzip:     8.70 kB
+#11 237.8 packages/web-shell build: ../dist/assets/julia-BBuGR-5E.js                            29.45 kB │ gzip:     6.13 kB
+#11 237.8 packages/web-shell build: ../dist/assets/scala-DQVVAn-B.js                            30.49 kB │ gzip:     4.32 kB
+#11 237.8 packages/web-shell build: ../dist/assets/applescript-Bu5BbsvL.js                      30.78 kB │ gzip:     6.35 kB
+#11 237.8 packages/web-shell build: ../dist/assets/erDiagram-SSCWMZ5O-BwN5ClCQ.js               30.79 kB │ gzip:    10.59 kB
+#11 237.8 packages/web-shell build: ../dist/assets/timeline-definition-24CTP7MA-BdacA7xo.js     30.84 kB │ gzip:    10.16 kB
+#11 237.8 packages/web-shell build: ../dist/assets/requirementDiagram-EFPCY7ZU-9SMCaKRf.js      31.00 kB │ gzip:     9.73 kB
+#11 237.8 packages/web-shell build: ../dist/assets/stylus-BeQkCIfX.js                           31.56 kB │ gzip:     8.11 kB
+#11 237.8 packages/web-shell build: ../dist/assets/mermaid-Ci6OQyBP.js                          33.06 kB │ gzip:     4.65 kB
+#11 237.8 packages/web-shell build: ../dist/assets/poimandres-CS3Unz2-.js                       33.49 kB │ gzip:     5.50 kB
+#11 237.8 packages/web-shell build: ../dist/assets/codeql-sacFqUAJ.js                           33.59 kB │ gzip:     4.00 kB
+#11 237.8 packages/web-shell build: ../dist/assets/one-dark-pro-GBQ2dnAY.js                     33.74 kB │ gzip:     5.51 kB
+#11 237.8 packages/web-shell build: ../dist/assets/crystal-DtDmRg-F.js                          33.75 kB │ gzip:     5.59 kB
+#11 237.8 packages/web-shell build: ../dist/assets/quadrantDiagram-AXDQQJYC-CqhTIo6W.js         34.00 kB │ gzip:     9.98 kB
+#11 237.8 packages/web-shell build: ../dist/assets/tokyo-night-DBQeEorK.js                      34.36 kB │ gzip:     5.97 kB
+#11 237.8 packages/web-shell build: ../dist/assets/haxe-C5wWYbrZ.js                             35.30 kB │ gzip:     5.93 kB
+#11 237.8 packages/web-shell build: ../dist/assets/houston-DnULxvSX.js                          35.42 kB │ gzip:     5.78 kB
+#11 237.8 packages/web-shell build: ../dist/assets/layout-CEITGak9.js                           35.44 kB │ gzip:    12.75 kB
+#11 237.8 packages/web-shell build: ../dist/assets/nginx-D_VnBJ67.js                            35.73 kB │ gzip:     4.49 kB
+#11 237.8 packages/web-shell build: ../dist/assets/erlang-B-DoSBHF.js                           36.31 kB │ gzip:     4.44 kB
+#11 237.8 packages/web-shell build: ../dist/assets/r-CwjWoCRV.js                                36.87 kB │ gzip:    11.22 kB
+#11 237.8 packages/web-shell build: ../dist/assets/chunk-G27WJ6UU-BkDf4na6.js                   38.06 kB │ gzip:    12.52 kB
+#11 237.8 packages/web-shell build: ../dist/assets/cobol-PTqiYgYu.js                            40.58 kB │ gzip:    11.08 kB
+#11 237.8 packages/web-shell build: ../dist/assets/asm-Dhn9LcZ4.js                              40.85 kB │ gzip:     8.18 kB
+#11 237.8 packages/web-shell build: ../dist/assets/blockDiagram-NRAW4CY4-Djz-zsgh.js            41.59 kB │ gzip:    13.55 kB
+#11 237.8 packages/web-shell build: ../dist/assets/vennDiagram-4TSXK5OY-D8YwnBBh.js             41.96 kB │ gzip:    15.70 kB
+#11 237.8 packages/web-shell build: ../dist/assets/shellscript-atvbtKCR.js                      42.71 kB │ gzip:     6.33 kB
+#11 237.8 packages/web-shell build: ../dist/assets/d-BoXegm-a.js                                43.01 kB │ gzip:     8.40 kB
+#11 237.8 packages/web-shell build: ../dist/assets/haskell-BILxekzW.js                          43.21 kB │ gzip:     7.02 kB
+#11 237.8 packages/web-shell build: ../dist/assets/xychartDiagram-S5SC5T6Z-fx9WGVpt.js          44.51 kB │ gzip:    12.61 kB
+#11 237.8 packages/web-shell build: ../dist/assets/perl-CHQXSrWU.js                             44.54 kB │ gzip:     4.87 kB
+#11 237.8 packages/web-shell build: ../dist/assets/catppuccin-mocha-LGGdnPYs.js                 45.61 kB │ gzip:     7.73 kB
+#11 237.8 packages/web-shell build: ../dist/assets/catppuccin-latte-DRW-0cLl.js                 45.61 kB │ gzip:     7.74 kB
+#11 237.8 packages/web-shell build: ../dist/assets/catppuccin-frappe-CD_QflpE.js                45.62 kB │ gzip:     7.75 kB
+#11 237.8 packages/web-shell build: ../dist/assets/catppuccin-macchiato-C-_shW-Y.js             45.62 kB │ gzip:     7.74 kB
+#11 237.8 packages/web-shell build: ../dist/assets/apex-COJ4H7py.js                             46.81 kB │ gzip:     6.78 kB
+#11 237.8 packages/web-shell build: ../dist/assets/ada-727ZlQH0.js                              48.53 kB │ gzip:     6.05 kB
+#11 237.8 packages/web-shell build: ../dist/assets/chunk-LCL6LL3I-DNKTyVTR.js                   49.18 kB │ gzip:    15.75 kB
+#11 237.8 packages/web-shell build: ../dist/assets/ruby-DeZ3UC14.js                             51.47 kB │ gzip:     7.13 kB
+#11 237.8 packages/web-shell build: ../dist/assets/go-B1SYOhNW.js                               52.41 kB │ gzip:     6.40 kB
+#11 237.8 packages/web-shell build: ../dist/assets/imba-bv_oIlVt.js                             53.46 kB │ gzip:    10.21 kB
+#11 237.8 packages/web-shell build: ../dist/assets/everforest-dark-BgDCqdQA.js                  53.75 kB │ gzip:     8.42 kB
+#11 237.8 packages/web-shell build: ../dist/assets/everforest-light-C8M2exoo.js                 53.75 kB │ gzip:     8.42 kB
+#11 237.8 packages/web-shell build: ../dist/assets/css-BPhBrDlE.js                              53.80 kB │ gzip:    13.50 kB
+#11 237.8 packages/web-shell build: ../dist/assets/wikitext-DCE3LsBG.js                         56.62 kB │ gzip:     4.82 kB
+#11 237.8 packages/web-shell build: ../dist/assets/markdown-UIAJJxZW.js                         56.99 kB │ gzip:     5.63 kB
+#11 237.8 packages/web-shell build: ../dist/assets/latex-C-cWTeAZ.js                            59.42 kB │ gzip:     6.01 kB
+#11 237.8 packages/web-shell build: ../dist/assets/stata-DorPZHa4.js                            61.01 kB │ gzip:    13.71 kB
+#11 237.8 packages/web-shell build: ../dist/assets/html-C2L_23MC.js                             61.33 kB │ gzip:    11.99 kB
+#11 237.8 packages/web-shell build: ../dist/assets/ballerina-Du268qiB.js                        61.63 kB │ gzip:     8.31 kB
+#11 237.8 packages/web-shell build: ../dist/assets/flowDiagram-A5DVABFB-DoJLkrYQ.js             61.84 kB │ gzip:    19.87 kB
+#11 237.8 packages/web-shell build: ../dist/assets/c4Diagram-UCG6FXSJ-DODqqgY2.js               65.47 kB │ gzip:    18.79 kB
+#11 237.8 packages/web-shell build: ../dist/assets/ocaml-BNioltXt.js                            65.87 kB │ gzip:     5.17 kB
+#11 237.8 packages/web-shell build: ../dist/assets/ganttDiagram-EL5Y4UJY-Zzs5GFqW.js            69.44 kB │ gzip:    23.44 kB
+#11 237.8 packages/web-shell build: ../dist/assets/mojo-Tz6hzZYG.js                             72.57 kB │ gzip:    10.36 kB
+#11 237.8 packages/web-shell build: ../dist/assets/python-DhUJRlN_.js                           73.53 kB │ gzip:    10.43 kB
+#11 237.8 packages/web-shell build: ../dist/assets/c-C3t2pwGQ.js                                73.97 kB │ gzip:    10.64 kB
+#11 237.8 packages/web-shell build: ../dist/assets/vyper-nyqBNV6O.js                            78.23 kB │ gzip:    12.05 kB
+#11 237.8 packages/web-shell build: ../dist/assets/cose-bilkent-JH36ORCC-Bwybf6ES.js            81.53 kB │ gzip:    22.44 kB
+#11 237.8 packages/web-shell build: ../dist/assets/hack-D1yCygmZ.js                             84.64 kB │ gzip:    27.60 kB
+#11 237.8 packages/web-shell build: ../dist/assets/csharp-D9R-vmeu.js                           87.17 kB │ gzip:    10.39 kB
+#11 237.8 packages/web-shell build: ../dist/assets/swift-BSxZ-RaX.js                            90.99 kB │ gzip:    14.55 kB
+#11 237.8 packages/web-shell build: ../dist/assets/asciidoc-BPT9niGB.js                         93.51 kB │ gzip:     7.43 kB
+#11 237.8 packages/web-shell build: ../dist/assets/racket-CzouJOBO.js                           97.61 kB │ gzip:    15.62 kB
+#11 237.8 packages/web-shell build: ../dist/assets/fortran-free-form-DKXYxT9g.js                98.19 kB │ gzip:    12.37 kB
+#11 237.8 packages/web-shell build: ../dist/assets/less-BfCpw3nA.js                            102.46 kB │ gzip:    15.13 kB
+#11 237.8 packages/web-shell build: ../dist/assets/objective-c-Deuh7S70.js                     107.79 kB │ gzip:    23.25 kB
+#11 237.8 packages/web-shell build: ../dist/assets/blade-a8OxSdnT.js                           108.00 kB │ gzip:    28.67 kB
+#11 237.8 packages/web-shell build: ../dist/assets/php-B5ebYQev.js                             113.76 kB │ gzip:    28.82 kB
+#11 237.8 packages/web-shell build: ../dist/assets/swimlanes-XN3QIQJK-CWRD5bXQ.js              115.80 kB │ gzip:    42.52 kB
+#11 237.8 packages/web-shell build: ../dist/assets/sequenceDiagram-WJ2MYXX4-BXETDP3C.js        116.94 kB │ gzip:    31.13 kB
+#11 237.8 packages/web-shell build: ../dist/assets/mdx-sdHcTMYB.js                             140.36 kB │ gzip:    23.62 kB
+#11 237.8 packages/web-shell build: ../dist/assets/architectureDiagram-5GKGNRK7-LlL0EntW.js    151.62 kB │ gzip:    43.10 kB
+#11 237.8 packages/web-shell build: ../dist/assets/objective-cpp-BUEGK8hf.js                   175.60 kB │ gzip:    30.67 kB
+#11 237.8 packages/web-shell build: ../dist/assets/javascript-ySlJ1b_l.js                      198.03 kB │ gzip:    17.45 kB
+#11 237.8 packages/web-shell build: ../dist/assets/tsx-B6W0miNI.js                             198.75 kB │ gzip:    17.45 kB
+#11 237.8 packages/web-shell build: ../dist/assets/jsx-BAng5TT0.js                             201.01 kB │ gzip:    17.55 kB
+#11 237.8 packages/web-shell build: ../dist/assets/typescript-Dj6nwHGl.js                      209.02 kB │ gzip:    17.02 kB
+#11 237.8 packages/web-shell build: ../dist/assets/angular-ts-CKsD7JZE.js                      211.78 kB │ gzip:    17.62 kB
+#11 237.8 packages/web-shell build: ../dist/assets/wolfram-C3FkfJm5.js                         268.60 kB │ gzip:    77.05 kB
+#11 237.8 packages/web-shell build: ../dist/assets/cytoscape.esm-DJK6lGiH.js                   443.65 kB │ gzip:   142.35 kB
+#11 237.8 packages/web-shell build: ../dist/assets/wasm-CG6Dc4jp.js                            622.34 kB │ gzip:   230.29 kB
+#11 237.8 packages/web-shell build: ../dist/assets/mermaid.core-CZyv2voI.js                    682.72 kB │ gzip:   169.15 kB
+#11 237.8 packages/web-shell build: ../dist/assets/cynefin-OW5HDTMX-D4pYFR4P.js                688.45 kB │ gzip:   154.49 kB
+#11 237.8 packages/web-shell build: ../dist/assets/cpp-BksuvNSY.js                             697.52 kB │ gzip:    50.25 kB
+#11 237.8 packages/web-shell build: ../dist/assets/emacs-lisp-BX77sIaO.js                      804.67 kB │ gzip:   196.96 kB
+#11 237.8 packages/web-shell build: ../dist/assets/index-DohPy72Z.js                         1,135.40 kB │ gzip:   382.19 kB
+#11 237.8 packages/web-shell build: ../dist/assets/index-CE76CrnP.js                         5,066.63 kB │ gzip: 1,513.57 kB
+#11 237.8 packages/web-shell build: ✓ built in 11.54s
+#11 238.3 packages/web-shell build: vite v5.4.21 building for production...
+#11 238.3 packages/web-shell build: transforming...
+#11 240.9 packages/web-shell build: ✓ 713 modules transformed.
+#11 241.0 packages/web-shell build: rendering chunks...
+#11 242.2 packages/web-shell build: computing gzip size...
+#11 242.3 packages/web-shell build: dist/code-highlighter.js              0.09 kB │ gzip:     0.10 kB
+#11 242.3 packages/web-shell build: dist/daemon-react-sdk.js              1.78 kB │ gzip:     0.79 kB
+#11 242.3 packages/web-shell build: dist/codeHighlighter-pfciSYNN.js      2.07 kB │ gzip:     0.97 kB
+#11 242.3 packages/web-shell build: dist/toolNames-BN-CjKbP.js          789.69 kB │ gzip:   218.08 kB
+#11 242.3 packages/web-shell build: dist/index.js                     7,542.92 kB │ gzip: 2,074.69 kB
+#11 242.3 packages/web-shell build: ✓ built in 4.02s
+#11 242.6 packages/web-shell build: vite v5.4.21 building for transcript...
+#11 242.6 packages/web-shell build: transforming...
+#11 243.7 packages/web-shell build: ✓ 345 modules transformed.
+#11 243.8 packages/web-shell build: rendering chunks...
+#11 244.2 packages/web-shell build: computing gzip size...
+#11 244.3 packages/web-shell build: dist/transcript.js  3,636.87 kB │ gzip: 1,336.44 kB
+#11 244.3 packages/web-shell build: ✓ built in 1.66s
+#11 259.0 packages/web-shell build: Done
+#11 259.0 packages/web-templates build$ node build.mjs && tsc --build --clean && tsc
+#11 259.0 packages/web-templates build: Building web-templates...
+#11 259.1 packages/web-templates build: Building insight assets with Vite...
+#11 259.1 packages/web-templates build: vite v5.4.21 building for production...
+#11 259.1 packages/web-templates build: ▲ [WARNING] "import.meta" is not available with the "iife" output format and will be empty [empty-import-meta]
+#11 259.1 packages/web-templates build:     ../../../web-shell/dist/transcript.js:15570:49:
+#11 259.1 packages/web-templates build:       15570 │ ... pt(void 0), fC = typeof import.meta.url == "string" && impo...
+#11 259.1 packages/web-templates build:             ╵                             ~~~~~~~~~~~
+#11 259.1 packages/web-templates build:   You need to set the output format to "esm" for "import.meta" to work correctly.
+#11 259.1 packages/web-templates build: ▲ [WARNING] "import.meta" is not available with the "iife" output format and will be empty [empty-import-meta]
+#11 259.1 packages/web-templates build:     ../../../web-shell/dist/transcript.js:15570:80:
+#11 259.1 packages/web-templates build:       15570 │ ....meta.url == "string" && import.meta.url ? import.meta.url :...
+#11 259.1 packages/web-templates build:             ╵                             ~~~~~~~~~~~
+#11 259.1 packages/web-templates build:   You need to set the output format to "esm" for "import.meta" to work correctly.
+#11 259.1 packages/web-templates build: ▲ [WARNING] "import.meta" is not available with the "iife" output format and will be empty [empty-import-meta]
+#11 259.1 packages/web-templates build:     ../../../web-shell/dist/transcript.js:15570:98:
+#11 259.1 packages/web-templates build:       15570 │ ...ng" && import.meta.url ? import.meta.url : "web-shell/Daemon...
+#11 259.1 packages/web-templates build:             ╵                             ~~~~~~~~~~~
+#11 259.1 packages/web-templates build:   You need to set the output format to "esm" for "import.meta" to work correctly.
+#11 259.3 packages/web-templates build: transforming...
+#11 259.3 packages/web-templates build: Browserslist: browsers data (caniuse-lite) is 10 months old. Please run:
+#11 259.3 packages/web-templates build:   npx update-browserslist-db@latest
+#11 259.3 packages/web-templates build:   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+#11 259.3 packages/web-templates build: Document export top inputs (pre-minify bytes): first-party 1616910, lucide-react 1574512, katex 601155, react-dom 545403, micromark-core-commonmark 114773, tailwind-merge 105606, micromark 70253, @datafe-open/markdown-chart-echarts 69449
+#11 259.3 packages/web-templates build: Document export renderer JS is 1947629 bytes; component CSS moved to export-transcript-document.css is 2344964 bytes
+#11 259.4 packages/web-templates build: ✓ 8 modules transformed.
+#11 259.4 packages/web-templates build: rendering chunks...
+#11 259.4 packages/web-templates build: computing gzip size...
+#11 259.4 packages/web-templates build: dist/main.css  17.77 kB │ gzip: 4.28 kB
+#11 259.4 packages/web-templates build: dist/main.js   32.80 kB │ gzip: 9.07 kB
+#11 259.4 packages/web-templates build: ✓ built in 253ms
+#11 259.4 packages/web-templates build: Reading generated files...
+#11 259.4 packages/web-templates build: Successfully generated /app/packages/web-templates/src/generated/insightTemplate.ts
+#11 259.4 packages/web-templates build: Successfully built all web-templates.
+#11 259.9 packages/web-templates build: Done
+#11 259.9 packages/cli build$ node ../../scripts/build_package.js
+#11 295.5 packages/cli build: Successfully copied files.
+#11 295.5 packages/cli build: Done
+#11 295.5 packages/vscode-ide-companion build$ npm run build:dev
+#11 295.6 packages/vscode-ide-companion build: > qwen-code-vscode-ide-companion@0.24.6 build:dev
+#11 295.6 packages/vscode-ide-companion build: > npm run check-types && npm run lint && node esbuild.js
+#11 295.6 packages/vscode-ide-companion build: > qwen-code-vscode-ide-companion@0.24.6 check-types
+#11 295.6 packages/vscode-ide-companion build: > tsc --noEmit
+#11 298.5 packages/vscode-ide-companion build: > qwen-code-vscode-ide-companion@0.24.6 lint
+#11 298.5 packages/vscode-ide-companion build: > eslint src
+#11 301.6 packages/vscode-ide-companion build: Done
+#11 302.3 Generated settings JSON Schema at: /app/packages/vscode-ide-companion/schemas/settings.schema.json
+#11 302.5 crucible: installed; qwen is on PATH and runs /app/./scripts/cli-entry.js
+#11 DONE 302.8s
+
+#12 [7/7] RUN if [ -n "" ]; then         echo "crucible: forcing declared pins: ";         npm install --no-save ;     fi
+#12 DONE 0.2s
+
+#13 exporting to image
+#13 exporting layers
+#13 exporting layers 18.5s done
+#13 writing image sha256:c4e631cb2836c6296abe25d36c75a013da225bc3424487d5e661d47b69f01730 done
+#13 naming to docker.io/crucible/qwenlm-qwen-code:0a136f89d7f9 done
+#13 DONE 18.5s
