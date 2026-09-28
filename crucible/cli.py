@@ -173,10 +173,9 @@ def main(argv: list[str] | None = None) -> int:
         return 1 if flags else 0
 
     if args.cmd == "plan":
+        from crucible.arena import invocable_agents
         from crucible.experiment import run_set
         from crucible.params import load_params
-        from crucible.store import Store
-        from crucible.arena import invocable_agents
         repo = Path.cwd()
         p = load_params(repo)
         store = Store(args.db); store.init_db()
