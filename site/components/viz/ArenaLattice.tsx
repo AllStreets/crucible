@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, type ThreeEvent } from "@react-three/fiber";
 import { Billboard, Edges, OrbitControls, Text } from "@react-three/drei";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
@@ -81,9 +81,10 @@ function viewpoints(agents: number, layers: number) {
   } as Record<View, [number, number, number]>;
 }
 
-function Cell({ cell, x, y, z, dim, onPick, picked }: {
+function Cell({ cell, x, y, z, dim, onPick, onSelect, picked, selected }: {
   cell: LatticeCell; x: number; y: number; z: number; dim: boolean;
-  onPick: (c: LatticeCell | null) => void; picked: boolean;
+  onPick: (c: LatticeCell | null) => void; onSelect: (c: LatticeCell) => void;
+  picked: boolean; selected: boolean;
 }) {
   const tone = toneOf(cell);
   const colour = TONE[tone] ?? "#4B4B52";
@@ -105,6 +106,7 @@ function Cell({ cell, x, y, z, dim, onPick, picked }: {
       position={[x, y + h / 2, z]}
       onPointerOver={(e: ThreeEvent<PointerEvent>) => { e.stopPropagation(); onPick(cell); }}
       onPointerOut={() => onPick(null)}
+      onClick={(e: ThreeEvent<MouseEvent>) => { e.stopPropagation(); onSelect(cell); }}
     >
       <boxGeometry args={[1.02, h, 1.02]} />
       <meshStandardMaterial
@@ -116,7 +118,9 @@ function Cell({ cell, x, y, z, dim, onPick, picked }: {
         roughness={0.45}
         metalness={0.1}
       />
-      {(picked || confirmed) && <Edges color={picked ? "#ECEAE4" : colour} />}
+      {(picked || selected || confirmed) && (
+        <Edges color={selected ? "#E4632A" : picked ? "#ECEAE4" : colour} />
+      )}
     </mesh>
   );
 }
@@ -147,9 +151,10 @@ function AxisLabel({ text, position, rotation, anchorX, color }: {
   );
 }
 
-function Scene({ data, names, view, focus, onPick, picked }: {
-  data: Lattice; names: Record<string, string>; view: View;
-  focus: string | null; onPick: (c: LatticeCell | null) => void; picked: LatticeCell | null;
+function Scene({ data, names, view, focus, onPick, onSelect, picked, selected }: {
+  data: Lattice; names: Record<string, string>; view: View; focus: string | null;
+  onPick: (c: LatticeCell | null) => void; onSelect: (c: LatticeCell) => void;
+  picked: LatticeCell | null; selected: LatticeCell | null;
 }) {
   const controls = useRef<OrbitControlsImpl>(null);
   const n = data.agents.length;
@@ -203,9 +208,11 @@ function Scene({ data, names, view, focus, onPick, picked }: {
           <Cell
             key={`${c.attacker}|${c.victim}|${c.scenario}`}
             cell={c} x={at(ai)} y={si * LAYER} z={at(vi)} dim={dim}
-            onPick={onPick}
+            onPick={onPick} onSelect={onSelect}
             picked={picked?.attacker === c.attacker && picked?.victim === c.victim
               && picked?.scenario === c.scenario}
+            selected={selected?.attacker === c.attacker && selected?.victim === c.victim
+              && selected?.scenario === c.scenario}
           />
         );
       })}
@@ -242,7 +249,18 @@ function Scene({ data, names, view, focus, onPick, picked }: {
 export function ArenaLattice({ data, names }: { data: Lattice; names: Record<string, string> }) {
   const [view, setView] = useState<View>("default");
   const [picked, setPicked] = useState<LatticeCell | null>(null);
+  // Clicking a block holds it, because hovering could not survive the journey
+  // to the link it offers: the readout vanished the moment the pointer left
+  // the block, so the one useful thing in it was unreachable.
+  const [selected, setSelected] = useState<LatticeCell | null>(null);
   const [focus, setFocus] = useState<string | null>(null);
+  const shown = selected ?? picked;
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setSelected(null); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
   const confirmed = useMemo(() => data.cells.filter((c) => toneOf(c) === "fail"), [data.cells]);
 
   if (data.agents.length < 2) return null;
@@ -273,26 +291,36 @@ export function ArenaLattice({ data, names }: { data: Lattice; names: Record<str
       </div>
 
       <div className="stage">
-        <Canvas camera={{ position: viewpoints(data.agents.length, data.scenarios.length).default, fov: 40 }} dpr={[1, 2]}>
+        <Canvas camera={{ position: viewpoints(data.agents.length, data.scenarios.length).default, fov: 40 }}
+                dpr={[1, 2]} onPointerMissed={() => setSelected(null)}>
           <Scene data={data} names={names} view={view} focus={focus}
-                 onPick={setPicked} picked={picked} />
+                 onPick={setPicked} onSelect={setSelected}
+                 picked={picked} selected={selected} />
         </Canvas>
 
-        <div className="readout" aria-live="polite">
-          {picked ? (
+        <div className={`readout${selected ? " held" : ""}`} aria-live="polite">
+          {shown ? (
             <>
               <span className="pair">
-                <b>{shortName(picked.attacker, names)}</b> attacking{" "}
-                <b>{shortName(picked.victim, names)}</b>
+                <b>{shortName(shown.attacker, names)}</b> attacking{" "}
+                <b>{shortName(shown.victim, names)}</b>
               </span>
-              <span className="what">{SCENARIO_LABEL[picked.scenario] ?? picked.scenario}</span>
-              <span className={`state ${toneOf(picked)}`}>{wordFor(picked)}</span>
-              <Link href={`/pairs/${picked.pairKey}/#${picked.scenario}`}>open the run</Link>
+              <span className="what">{SCENARIO_LABEL[shown.scenario] ?? shown.scenario}</span>
+              <span className={`state ${toneOf(shown)}`}>{wordFor(shown)}</span>
+              {selected ? (
+                <span className="links">
+                  <Link href={`/pairs/${shown.pairKey}/#${shown.scenario}`}>open the run</Link>
+                  <button type="button" onClick={() => setSelected(null)}>release</button>
+                </span>
+              ) : (
+                <span className="hintline">click to hold this open</span>
+              )}
             </>
           ) : (
             <span className="idle">
-              Point at any block to read it. Drag to turn the solid; the four
-              viewpoints above are the ones worth looking from.
+              Point at any block to read it, and click to hold it open so you can follow it
+              through. Drag to turn the solid; the four viewpoints above are the ones worth
+              looking from.
             </span>
           )}
         </div>
@@ -356,7 +384,13 @@ export function ArenaLattice({ data, names }: { data: Lattice; names: Record<str
         .readout .what { font-family: var(--font-display); font-style: italic; font-size: var(--t-lead);
           color: var(--ink); }
         .readout .idle { color: var(--ink-faint); max-width: 62ch; }
-        .readout a { margin-left: auto; font-size: var(--t-small); }
+        .readout.held { border-top-color: var(--accent); }
+        .readout .links { margin-left: auto; display: flex; gap: 1.2rem; align-items: baseline; }
+        .readout .links button { background: transparent; border: 0; padding: 0; cursor: pointer;
+          font-family: var(--font-body); font-size: var(--t-small); color: var(--ink-faint);
+          text-decoration: underline; text-underline-offset: 0.18em; }
+        .readout .links button:hover { color: var(--ink); }
+        .readout .hintline { margin-left: auto; font-size: var(--t-small); color: var(--ink-faint); }
 
         .axes { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
           gap: 1rem 2.5rem; border-top: var(--hair) solid var(--rule); padding-top: 0.9rem; }
@@ -376,7 +410,7 @@ export function ArenaLattice({ data, names }: { data: Lattice; names: Record<str
 
         @media (max-width: 720px) {
           .stage { height: 380px; }
-          .readout a { margin-left: 0; }
+          .readout .links, .readout .hintline { margin-left: 0; }
         }
       `}</style>
     </div>
