@@ -72,7 +72,11 @@ def build_parser() -> argparse.ArgumentParser:
     pause_cmd.add_argument("--now", action="store_true",
                            help="kill a running pass instead of letting it finish the run it is in")
 
-    sub.add_parser("resume", help="let the research run again, at the cadence in research.yaml")
+    resume_cmd = sub.add_parser(
+        "resume", help="let the research run again, starting a pass immediately")
+    resume_cmd.add_argument(
+        "--later", action="store_true",
+        help="do not start a pass now; wait for the next scheduled firing")
 
     sub.add_parser("schedule-status",
                    help="what launchd actually knows about the research job")
@@ -127,9 +131,13 @@ def main(argv: list[str] | None = None) -> int:
             print("\nThe research is paused. Nothing will run until `crucible resume`,")
             print("including after a reboot.")
         else:
-            for line in resume(repo, every_hours=p.cadence_hours or 6):
+            for line in resume(repo, every_hours=p.cadence_hours or 6,
+                               start_now=not args.later):
                 print(f"  {line}")
-            print(f"\nThe research runs again, every {p.cadence_hours} hours.")
+            if args.later:
+                print(f"\nThe research runs again, every {p.cadence_hours} hours.")
+            else:
+                print(f"\nA pass is starting now. After it, every {p.cadence_hours} hours.")
         return 0
 
     if args.cmd == "schedule-status":

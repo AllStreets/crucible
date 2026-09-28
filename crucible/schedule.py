@@ -48,6 +48,26 @@ def drift(*, every_hours: int) -> list[str]:
     return out
 
 
+def kickstart() -> str:
+    """Run the job now, the way launchd would.
+
+    Not the same as running `crucible research` in a shell, and the difference
+    is recorded: a pass started this way carries the variable the job sets, so
+    it counts as an unattended pass rather than one a person started. The
+    interval is unaffected, because launchd measures it from when the job was
+    loaded rather than from the last time it ran, so the next automatic firing
+    still lands a full cadence after the resume.
+    """
+    path = _plist_path()
+    if not path.exists():
+        return f"{LABEL}: not installed, so there is nothing to start"
+    r = subprocess.run(["launchctl", "kickstart", f"gui/{os.getuid()}/{LABEL}"],
+                       capture_output=True, text=True)
+    if r.returncode == 0:
+        return f"{LABEL}: started now, and the interval continues from the load"
+    return f"{LABEL}: could not start now: {(r.stderr or r.stdout).strip()[:120]}"
+
+
 def unload() -> str:
     """Stop the job firing, without deleting it.
 

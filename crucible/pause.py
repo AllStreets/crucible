@@ -125,8 +125,18 @@ def pause(repo: Path, *, reason: str = "", model: str | None = None,
     return done
 
 
-def resume(repo: Path, *, every_hours: int) -> list[str]:
-    from crucible.schedule import install
+def resume(repo: Path, *, every_hours: int, start_now: bool = True) -> list[str]:
+    """Let the research run again, and by default start a pass immediately.
+
+    Waiting a full cadence after a resume is the wrong default. A person
+    resuming has just decided the machine is free, and making them wait six
+    hours for the instrument to notice wastes the window they were offering.
+    Starting it through launchd rather than in a shell keeps the pass honest:
+    it carries the variable the job sets, so it is recorded as unattended,
+    which it is. The interval is measured from the load, so the next automatic
+    firing still lands a full cadence away rather than being pulled forward.
+    """
+    from crucible.schedule import install, kickstart
 
     done: list[str] = []
     path = sentinel_path(repo)
@@ -136,4 +146,8 @@ def resume(repo: Path, *, every_hours: int) -> list[str]:
     else:
         done.append(f"{SENTINEL} was not there; the research was not paused")
     done.append(install(every_hours=every_hours).splitlines()[0])
+    if start_now:
+        done.append(kickstart())
+    else:
+        done.append("not starting a pass now; the next one is a full cadence away")
     return done
