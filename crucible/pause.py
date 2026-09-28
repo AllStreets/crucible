@@ -112,7 +112,7 @@ def pause(repo: Path, *, reason: str = "", model: str | None = None,
     finish the run it is in. It is not the default: a killed pass leaves a
     container up, a volume behind and a row describing half an interaction.
     """
-    from crucible.schedule import unload
+    from crucible.schedule import disable, unload
 
     done: list[str] = []
     path = sentinel_path(repo)
@@ -124,6 +124,7 @@ def pause(repo: Path, *, reason: str = "", model: str | None = None,
     done.append(f"wrote {SENTINEL}, which every pass reads before it starts")
 
     done.append(unload())
+    done.append(disable())
 
     running = _running_pass()
     if running and stop_now:
@@ -159,7 +160,7 @@ def resume(repo: Path, *, every_hours: int, start_now: bool = True) -> list[str]
     which it is. The interval is measured from the load, so the next automatic
     firing still lands a full cadence away rather than being pulled forward.
     """
-    from crucible.schedule import install, kickstart
+    from crucible.schedule import enable, install, kickstart
 
     done: list[str] = []
     path = sentinel_path(repo)
@@ -168,6 +169,7 @@ def resume(repo: Path, *, every_hours: int, start_now: bool = True) -> list[str]
         done.append(f"removed {SENTINEL}")
     else:
         done.append(f"{SENTINEL} was not there; the research was not paused")
+    done.append(enable())
     done.append(install(every_hours=every_hours).splitlines()[0])
     if start_now:
         done.append(kickstart())

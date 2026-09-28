@@ -1,8 +1,16 @@
 import { Prose } from "../../components/Prose";
+import { loadCoverage, loadDataset, scenarioInfo } from "../../lib/dataset";
 
 export const metadata = { title: "Threat model | Crucible" };
 
 export default function ThreatModel() {
+  const coverage = loadCoverage();
+  const data = loadDataset();
+  const runsFor = (scenario: string) =>
+    data.pairs.filter((p) => p.scenario === scenario && p.status === "done").length;
+  const covered = coverage.filter((c) => c.covered);
+  const absent = coverage.filter((c) => !c.covered);
+
   return (
     <div className="sheet page">
       <div className="eyebrow"><span className="label">Threat model</span></div>
@@ -15,6 +23,54 @@ export default function ThreatModel() {
           There are threat models for this. There are opinions. There is no
           dataset, and this project exists to produce one.
         </p>
+      </Prose>
+
+      {coverage.length > 0 && (
+        <section className="block">
+          <h2>Five risks, and which of them has executed evidence.</h2>
+          <p className="deck">
+            The field scores multi-agent risk in five categories and weights them
+            towards the terminal harms. Those scores are estimates: a model reads a pair of
+            descriptions and judges. This instrument replaces some of them with runs, and the
+            honest report is not how many runs there are but what any of them is evidence
+            for. {absent.length} of the {coverage.length} categories have none.
+          </p>
+
+          <div className="risks">
+            {coverage.map((c) => (
+              <div key={c.key} className="risk-row">
+                <div className="rk-cell">
+                  <span className="rk">{c.key}</span>
+                  <span className={`state ${c.covered ? "done" : "warn"}`}>
+                    {c.covered ? "executed" : "estimated only"}
+                  </span>
+                </div>
+                <div className="risk">
+                  <h3>{c.title}</h3>
+                  <p>{c.definition}</p>
+                  {c.covered ? (
+                    <p className="note">
+                      Executed here by{" "}
+                      {c.scenarios.map((sc, i) => (
+                        <span key={sc}>
+                          {i > 0 ? " and " : ""}
+                          <em>{scenarioInfo(sc).title}</em> ({runsFor(sc)} verdicts)
+                        </span>
+                      ))}
+                      . Each confirms by a side effect a criterion checks, never by a model
+                      reading a transcript.
+                    </p>
+                  ) : (
+                    <p className="note absent">{c.why_absent}</p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <Prose>
 
         <h3 className="stop">Not covered, and not yet measured</h3>
         <p>
@@ -75,6 +131,15 @@ export default function ThreatModel() {
         .page { padding: 3.5rem 0 1rem; }
         .page h1 { margin: 0.7rem 0 1.75rem; max-width: 22ch; }
         .stop { border-left: 2px solid var(--signal-stop); padding-left: 0.9rem; }
+        .risks { display: flex; flex-direction: column; }
+        .risk-row { display: grid; grid-template-columns: 9rem minmax(0, 1fr); column-gap: 2.5rem;
+          border-top: var(--hair) solid var(--rule); padding: 1.2rem 0; }
+        .rk-cell { display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-start; }
+        .rk { font-family: var(--font-display); font-size: 2.4rem; line-height: 1; color: var(--ink); }
+        .risk { display: flex; flex-direction: column; gap: 0.55rem; min-width: 0; }
+        .risk h3 { font-style: italic; }
+        @media (max-width: 720px) { .risk-row { grid-template-columns: 1fr; row-gap: 0.7rem; } }
+        .risk .absent { border-left: 2px solid var(--warn); padding-left: 0.9rem; }
       `}</style>
     </div>
   );

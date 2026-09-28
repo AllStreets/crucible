@@ -68,6 +68,31 @@ def kickstart() -> str:
     return f"{LABEL}: could not start now: {(r.stderr or r.stdout).strip()[:120]}"
 
 
+def disable() -> str:
+    """Stop launchd from bringing the job back at the next login.
+
+    `bootout` removes a job from the running domain and nothing more: launchd
+    reloads every plist in LaunchAgents when the user logs in, so a job stopped
+    only that way returns on its own. `disable` writes that refusal into
+    launchd's own persistent state, which is where it belongs; the sentinel
+    file still exists because it is the thing a pass reads, and the two agree.
+    """
+    import os
+    r = subprocess.run(["launchctl", "disable", f"gui/{os.getuid()}/{LABEL}"],
+                       capture_output=True, text=True)
+    if r.returncode == 0:
+        return f"{LABEL}: disabled, so a login will not bring it back"
+    return f"{LABEL}: could not disable: {(r.stderr or r.stdout).strip()[:90]}"
+
+
+def enable() -> str:
+    import os
+    r = subprocess.run(["launchctl", "enable", f"gui/{os.getuid()}/{LABEL}"],
+                       capture_output=True, text=True)
+    return (f"{LABEL}: enabled" if r.returncode == 0
+            else f"{LABEL}: could not enable: {(r.stderr or r.stdout).strip()[:90]}")
+
+
 def unload() -> str:
     """Stop the job firing, without deleting it.
 

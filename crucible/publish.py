@@ -189,6 +189,14 @@ def publish_dataset(store: Store, out_dir: Path,
     # A rate driven by limits of this harness describes the harness, so this is
     # not a detail a page is allowed to get wrong.
     from crucible.press import _HARNESS_LIMITS
+    # What the executed evidence covers of the risk the field cares about, and
+    # what it does not. A count of runs says how much was done; this says what
+    # any of it is evidence for, which is the question a reader actually has.
+    from crucible.coverage import coverage
+    executed = {r["scenario"] for r in store.live_rows("pairs") if r["status"] == "done"}
+    (out_dir / "coverage.json").write_text(
+        json.dumps(coverage(executed), indent=2) + "\n")
+
     labels_path = out_dir / "labels.json"
     labels_path.write_text(json.dumps(
         {str(c): {"label": c.label,
@@ -259,7 +267,7 @@ def publish_dataset(store: Store, out_dir: Path,
         "research": research or _research_state(out_dir),
     }, indent=2, sort_keys=True) + "\n")
 
-    files = [dataset_path, schema_path, labels_path, manifest_path,
+    files = [dataset_path, schema_path, labels_path, out_dir / "coverage.json", manifest_path,
              papers_dir / "index.json"]
     files.extend(papers_dir / p["filename"] for p in index)
     files.extend(papers_dir / p["pdf"] for p in index)

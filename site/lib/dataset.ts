@@ -102,6 +102,18 @@ function read<T>(name: string): T {
 
 export function loadDataset(): Dataset { return read<Dataset>("dataset.json"); }
 export function loadManifest(): Manifest { return read<Manifest>("manifest.json"); }
+export interface RiskCoverage {
+  key: string; title: string; weight: number; definition: string;
+  scenarios: string[]; covered: boolean; why_absent: string;
+}
+
+/** The five categories the field scores, and which of them this instrument has
+ *  executed against. Published by the engine so the mapping lives in one place;
+ *  a category with no executed scenario is the useful half. */
+export function loadCoverage(): RiskCoverage[] {
+  try { return read<RiskCoverage[]>("coverage.json"); } catch { return []; }
+}
+
 export function loadSchema(): Record<string, string[]> {
   return read<Record<string, string[]>>("schema.json");
 }
