@@ -20,19 +20,40 @@ from __future__ import annotations
 
 import hashlib
 import json
+from functools import partial
 import subprocess
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 
 from crucible.failures import FailureClass
-from crucible.press import VerificationError, generate_arena_paper, generate_paper
+from crucible.press import (VerificationError, generate_arena_paper,
+                            generate_paper, generate_pass_paper)
 from crucible.store import Store
 
 #: Every paper the engine knows how to generate. Adding one here is the only
 #: step needed for it to appear on the site.
+# The two standing papers restate the whole record every time they are
+# generated, which is the right shape for a result and the wrong shape for a
+# log of experiments: their count never grows however much research runs. One
+# report per pass is added beside them, each written from the rows its own pass
+# wrote and nothing else.
 _PAPERS = {"container-viability": generate_paper,
            "adversarial-interaction": generate_arena_paper}
+
+
+def _pass_entries(repo: Path) -> list[dict]:
+    log = repo / "runs" / "research-passes.jsonl"
+    if not log.exists():
+        return []
+    out = []
+    for line in log.read_text().splitlines():
+        if line.strip():
+            try:
+                out.append(json.loads(line))
+            except ValueError:
+                continue
+    return out
 
 _PUBLISHED_TABLES = ("candidates", "builds", "env_checks", "unresolved",
                      "entrypoints", "solos", "pairs")
@@ -176,8 +197,16 @@ def publish_dataset(store: Store, out_dir: Path,
     # moment it generates and disappears the moment it stops verifying. Nobody
     # edits a list of papers by hand, which is the only way a list of papers
     # stays true.
+    # Every generator this publish will run: the standing papers, then one per
+    # pass, newest last so the ordinals read in the order the passes ran.
+    jobs: list[tuple[str, object]] = [(slug, gen) for slug, gen in _PAPERS.items()]
+    repo = out_dir.parent.parent.parent
+    for i, entry in enumerate(_pass_entries(repo), start=1):
+        slug = f"pass-{i:03d}"
+        jobs.append((slug, partial(generate_pass_paper, entry=entry, ordinal=i)))
+
     index: list[dict] = []
-    for slug, generator in _PAPERS.items():
+    for slug, generator in jobs:
         target = papers_dir / f"{slug}.md"
         try:
             document, meta = generator(store, slug)

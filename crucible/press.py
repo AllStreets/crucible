@@ -758,3 +758,278 @@ def generate_arena_paper(store: Store, slug: str = "adversarial-interaction") ->
                            generated_at=datetime.now(timezone.utc).isoformat(),
                            filename=f"{slug}.md", word_count=len(document.split()),
                            figures=figures_for_arena(facts))
+
+
+# ---- one paper per pass -----------------------------------------------------
+#
+# The two papers above are cumulative: they restate the whole record every time
+# they are generated, so their count never grows however much research runs.
+# That is the right shape for a standing result and the wrong shape for a log
+# of experiments. A pass is an experiment: it has parameters chosen in advance,
+# a window in which it ran, and rows that exist because it ran. This writes one
+# report per pass, from the rows inside that window and nothing else.
+
+@dataclass(frozen=True)
+class PassFacts:
+    ordinal: int
+    started: str
+    finished: str
+    unattended: bool | None
+    pushed: bool | None
+    model: str
+    scenarios: list[str]
+    rounds: int
+    agents_param: str
+    runs: int
+    earned: int
+    strong: int
+    weak: int
+    artifacts: int
+    blocked: int
+    confirmed: int
+    agents: list[str]
+    pairings: int
+    by_scenario: dict[str, dict[str, int]]
+    artifact_reasons: dict[str, int]
+    confirmations: list[dict]
+    solos: list[dict]
+    before_runs: int
+    before_confirmed: int
+    #: How long the pass took. A fact like any other: it was computed in the
+    #: prose before it was a field, and the verifier refused five of six papers
+    #: for stating a number the fact set did not contain, which is precisely
+    #: what it is for.
+    minutes: int = 0
+    consts: dict[str, str] = field(default_factory=dict)
+
+    @property
+    def total_runs(self) -> int:
+        return self.before_runs + self.runs
+
+    @property
+    def total_confirmed(self) -> int:
+        return self.before_confirmed + self.confirmed
+
+    def allowed_numerals(self) -> set[str]:
+        out = {str(n) for n in (self.ordinal, self.runs, self.earned, self.strong,
+                                self.weak, self.artifacts, self.blocked, self.confirmed,
+                                len(self.agents), self.pairings, len(self.scenarios),
+                                self.rounds, len(self.confirmations), len(self.solos),
+                                self.before_runs, self.before_confirmed,
+                                self.total_runs, self.total_confirmed,
+                                self.minutes, len(self.artifact_reasons))}
+        for counts in self.by_scenario.values():
+            out.update(str(v) for v in counts.values())
+        out.update(str(v) for v in self.artifact_reasons.values())
+        out |= _constant_numerals(self.consts)
+        for stamp in (self.started, self.finished):
+            for part in stamp.replace("T", "-").replace(":", "-").split("-"):
+                if part.isdigit():
+                    out.add(part); out.add(part.lstrip("0") or "0")
+        return out
+
+
+def _minutes(started: str, finished: str) -> int:
+    from datetime import datetime as _dt
+    try:
+        a = _dt.fromisoformat(started); b = _dt.fromisoformat(finished)
+        return max(0, int((b - a).total_seconds() // 60))
+    except ValueError:
+        return 0
+
+
+def gather_pass_facts(store: Store, entry: dict, ordinal: int) -> PassFacts:
+    """Everything one pass established, from the rows it wrote and no others."""
+    started, finished = entry.get("started", ""), entry.get("finished", "")
+    rows = [r for r in store.live_rows("pairs")
+            if started and finished and started <= (r.get("at") or "") <= finished]
+    done = [r for r in rows if r["status"] == "done"]
+    confirmed = [r for r in done if r["outcome"] == "fail"]
+
+    by: dict[str, dict[str, int]] = {}
+    for r in rows:
+        b = by.setdefault(r["scenario"], {"runs": 0, "earned": 0, "confirmed": 0, "artifact": 0})
+        b["runs"] += 1
+        if r["status"] == "done":
+            b["earned"] += 1
+            if r["outcome"] == "fail":
+                b["confirmed"] += 1
+        elif r["status"] == "artifact":
+            b["artifact"] += 1
+
+    reasons: dict[str, int] = {}
+    for r in rows:
+        if r["status"] != "artifact":
+            continue
+        why = (r.get("blocked_reason") or "").split(":")[0].strip() or "unrecorded"
+        reasons[why] = reasons.get(why, 0) + 1
+
+    agents = sorted({r["slug_a"] for r in rows} | {r["slug_b"] for r in rows})
+    pairings = len({(r["slug_a"], r["slug_b"]) for r in rows})
+    before = [r for r in store.live_rows("pairs") if (r.get("at") or "") < started]
+    params = entry.get("params") or {}
+    agents_param = params.get("agents")
+    return PassFacts(
+        ordinal=ordinal, started=started, finished=finished,
+        unattended=entry.get("unattended"), pushed=entry.get("pushed"),
+        model=entry.get("model") or params.get("model") or "",
+        scenarios=sorted(by) or list(params.get("scenarios") or []),
+        rounds=int(params.get("rounds") or 1),
+        agents_param=("every invocable agent" if agents_param == "all-invocable"
+                      else "a named set" if agents_param else "unrecorded"),
+        runs=len(rows), earned=len(done),
+        strong=sum(1 for r in done if r.get("strength") == "strong"),
+        weak=sum(1 for r in done if r.get("strength") == "weak"),
+        artifacts=sum(1 for r in rows if r["status"] == "artifact"),
+        blocked=sum(1 for r in rows if r["status"] == "blocked"),
+        confirmed=len(confirmed), agents=agents, pairings=pairings,
+        by_scenario=dict(sorted(by.items())),
+        artifact_reasons=dict(sorted(reasons.items(), key=lambda kv: -kv[1])),
+        confirmations=[{"attacker": r["slug_a"], "victim": r["slug_b"],
+                        "scenario": _SCENARIO_TITLES.get(r["scenario"], r["scenario"]),
+                        "strength": r.get("strength") or "",
+                        "run": (r.get("sandbox_run_id") or "")[-10:]} for r in confirmed],
+        solos=[{"slug": s["slug"], "outcome": s["outcome"]} for s in entry.get("solos") or []],
+        before_runs=len(before),
+        before_confirmed=sum(1 for r in before
+                             if r["status"] == "done" and r["outcome"] == "fail"),
+        minutes=_minutes(started, finished),
+        consts=_code_constants(),
+    )
+
+
+def render_pass(f: PassFacts) -> str:
+    lines: list[str] = []
+    w = lines.append
+    started_day = f.started[:10]
+
+    w(f"# Pass {f.ordinal}: {_n(f.runs, 'run')} on {started_day}")
+    w("")
+    w("*Generated from the rows this pass wrote. Every figure is a count of those "
+      "rows; nothing here restates the record as a whole.*")
+    w("")
+
+    w("## Abstract")
+    w("")
+    started_by = ("The scheduler started this pass without a person."
+                  if f.unattended else
+                  "A person started this pass." if f.unattended is False else
+                  "This pass ran before the record distinguished a pass the scheduler "
+                  "started from one a person did, so which it was is not recorded.")
+    w(f"{started_by} It ran {_n(f.runs, 'run')} over {_n(f.pairings, 'ordered pairing')} "
+      f"drawn from {_n(len(f.agents), 'agent')} against "
+      f"{_n(len(f.scenarios), 'adversarial scenario')}, taking "
+      f"{_n(f.minutes, 'minute')}. "
+      f"{_n(f.earned, 'run')} produced a verdict and "
+      f"{f.confirmed} {'confirms' if f.confirmed == 1 else 'confirm'} an attack. "
+      f"{_n(f.artifacts, 'run')} recorded an artifact of the instrument rather than a "
+      f"result and {_n(f.blocked, 'run')} never started. "
+      f"The record held {_n(f.before_runs, 'run')} before this pass and "
+      f"{f.total_runs} after.")
+    w("")
+
+    w("## What was asked")
+    w("")
+    w("The parameters were fixed before the pass began, in a file the pass reads after "
+      "pulling the repository, so nothing about the experiment was decided while it ran.")
+    w("")
+    w("| Parameter | Value |")
+    w("|---|---|")
+    w(f"| Model under every agent | `{f.model}` |")
+    w(f"| Agents | {f.agents_param} |")
+    w(f"| Rounds | {f.rounds} |")
+    w(f"| Scenarios | {', '.join(_SCENARIO_TITLES.get(s, s) for s in f.scenarios)} |")
+    w(f"| Started | {f.started[:19].replace('T', ' ')} |")
+    w(f"| Finished | {f.finished[:19].replace('T', ' ')} |")
+    w("")
+
+    w("## What happened")
+    w("")
+    w("| Scenario | Runs | Verdicts | Confirmed | Artifacts |")
+    w("|---|---|---|---|---|")
+    for name, c in f.by_scenario.items():
+        w(f"| {_SCENARIO_TITLES.get(name, name)} | {c['runs']} | {c['earned']} | "
+          f"{c['confirmed']} | {c['artifact']} |")
+    w("")
+    if f.earned:
+        w(f"Of the verdicts, {_n(f.strong, 'is', 'are')} strong, meaning the victim was seen "
+          f"engaging with the planted material, and {f.weak} weak, meaning it completed "
+          "without engaging, so refusal and inaction are not separable.")
+        w("")
+
+    w("## Confirmations")
+    w("")
+    if not f.confirmations:
+        w("None. No criterion in this pass observed the side effect that only compliance "
+          "produces, which is the ordinary outcome and is the finding most of the time.")
+    else:
+        w("Each was established by a criterion checking for a side effect, not by a model "
+          "reading a transcript. The attacker and the victim are the roles the scenario "
+          "declared, in the order the pass ran them.")
+        w("")
+        w("| Attacker | Victim | Scenario | Evidence | Run |")
+        w("|---|---|---|---|---|")
+        for c in f.confirmations:
+            w(f"| `{c['attacker']}` | `{c['victim']}` | {c['scenario']} | "
+              f"{c['strength'] or 'recorded'} | `{c['run']}` |")
+    w("")
+
+    if f.artifact_reasons:
+        w("## What the instrument cost")
+        w("")
+        w("Runs that produced no result, grouped by what stopped them. None of these enters "
+          "any rate: a run the instrument ended is not evidence about the agents in it.")
+        w("")
+        w("| Reason | Runs |")
+        w("|---|---|")
+        for why, n in f.artifact_reasons.items():
+            w(f"| {why} | {n} |")
+        w("")
+
+    if f.solos:
+        w("## Entrypoints verified before the arena")
+        w("")
+        w("An entrypoint whose last attempt did not act is re-gated at the start of every "
+          "pass, so one committed between passes enters the arena on the next without "
+          "anyone doing anything else.")
+        w("")
+        w("| Agent | Outcome |")
+        w("|---|---|")
+        for s in f.solos:
+            w(f"| `{s['slug']}` | {s['outcome']} |")
+        w("")
+
+    w("## Limitations")
+    w("")
+    w(f"- This is one pass. It reports {_n(f.runs, 'run')}, not the "
+      f"{f.total_runs} in the record.")
+    w("- Every run executed against one locally served model on a single machine, without "
+      "a hardened runtime.")
+    w("- No cooperative scenario is included; every run here is adversarial.")
+    if f.pushed is False:
+        w("- This pass could not reach the remote, so the published site may not carry these "
+          "rows.")
+    w("")
+    w(f"Generated from the record store. Every count above is a query; none is asserted.")
+    return "\n".join(lines) + "\n"
+
+
+def generate_pass_paper(store: Store, slug: str, entry: dict,
+                        ordinal: int) -> tuple[str, Paper]:
+    facts = gather_pass_facts(store, entry, ordinal)
+    if facts.runs == 0:
+        raise VerificationError(
+            "the pass wrote no rows that survive in the record, so there is nothing to "
+            "report. A paper over an empty pass would describe an experiment that left "
+            "no evidence.")
+    document = render_pass(facts)
+    offenders = verify(document, facts)  # type: ignore[arg-type]
+    if offenders:
+        raise VerificationError(
+            "the generated document states numbers that are not in the record:\n  "
+            + "\n  ".join(offenders))
+    title, abstract = _extract(document)
+    return document, Paper(slug=slug, title=title, abstract=abstract,
+                           generated_at=datetime.now(timezone.utc).isoformat(),
+                           filename=f"{slug}.md", word_count=len(document.split()),
+                           figures={})

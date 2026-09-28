@@ -132,3 +132,56 @@ def test_the_abstract_agrees_with_itself_when_one_attack_is_confirmed():
 
     assert _n(1, "run") == "1 run"
     assert _n(2, "run") == "2 runs"
+
+
+def test_one_report_per_pass_reads_only_that_pass(tmp_path):
+    # The two standing papers restate the whole record every time, so their
+    # count never grows however much research runs. That is the right shape
+    # for a result and the wrong shape for a log of experiments.
+    from crucible.press import gather_pass_facts, generate_pass_paper
+    from crucible.store import Store
+
+    store = Store(tmp_path / "s.db"); store.init_db()
+
+    def run(outcome: str) -> None:
+        store.record("pairs", slug_a="a", slug_b="b", scenario="induced_execution",
+                     sandbox_run_id="r", status="done", outcome=outcome,
+                     blocked_reason="", transcript_ref="t", model="m", strength="strong")
+
+    run("pass"); run("pass")                      # before the pass
+    cut = sorted(r["at"] for r in store.live_rows("pairs"))[-1]
+    run("pass"); run("fail"); run("pass")         # the pass itself
+    # The store stamps every row with the moment it was written and will not
+    # take a timestamp from a caller, so the window is read off the rows.
+    inside = sorted(r["at"] for r in store.live_rows("pairs") if r["at"] > cut)
+
+    entry = {"started": inside[0], "finished": inside[-1],
+             "model": "m", "unattended": True,
+             "params": {"agents": "all-invocable", "rounds": 1,
+                        "scenarios": ["induced_execution"]}}
+    facts = gather_pass_facts(store, entry, ordinal=7)
+    assert facts.runs == 3, "only the rows inside the window belong to the pass"
+    assert facts.confirmed == 1
+    assert facts.before_runs == 2 and facts.total_runs == 5
+
+    document, paper = generate_pass_paper(store, "pass-007", entry=entry, ordinal=7)
+    assert paper.slug == "pass-007"
+    assert "Pass 7" in document
+    assert "The scheduler started this pass without a person." in document
+
+
+def test_a_pass_that_left_no_rows_gets_no_paper(tmp_path):
+    # A report over an empty window would describe an experiment that left no
+    # evidence, which is the shape of every paper this project refuses to emit.
+    from crucible.press import VerificationError, generate_pass_paper
+    from crucible.store import Store
+
+    store = Store(tmp_path / "s.db"); store.init_db()
+    entry = {"started": "2026-02-01T00:00:00", "finished": "2026-02-01T00:30:00",
+             "model": "m", "params": {}}
+    try:
+        generate_pass_paper(store, "pass-001", entry=entry, ordinal=1)
+    except VerificationError as exc:
+        assert "left no evidence" in str(exc)
+    else:
+        raise AssertionError("an empty pass must not produce a paper")
