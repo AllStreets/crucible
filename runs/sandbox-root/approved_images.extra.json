@@ -4,6 +4,7 @@
   "huggingface-smolagents": "sha256:bc419b74df70f2d146e5b80ec3461cb82202406c1ae3f953b09dfd6095f9ba29",
   "openhands-openhands": "sha256:38b17f8e4f02ed07646ad3b09bc19912b1ff69287d9b8ffbf088275fc5afebc7",
   "openinterpreter-open-interpreter": "sha256:ec90ac5dbc138718c3e9398f92ad6fb2d47e278bf642e77632e17dce4b892254",
+  "qwenlm-qwen-code": "sha256:c4e631cb2836c6296abe25d36c75a013da225bc3424487d5e661d47b69f01730",
   "swe-agent-mini-swe-agent": "sha256:185b5c1328bdf2b030d4f5f56c4c679161f03eb5deda467631bb666eacf6a953",
   "ther1d-shell-gpt": "sha256:9acdd3cce0338970ba40e7a59d004bc6721fcc5d047beee5404e9cdb244bb1e9"
 }
