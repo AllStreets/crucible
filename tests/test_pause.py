@@ -131,3 +131,50 @@ def test_pause_still_stops_everything_after_the_resume_change(tmp_path, monkeypa
     assert sentinel_path(tmp_path).exists()
     assert any("a-model" in line for line in lines), "a pause has to free the memory"
     assert any("will not fire" in line or "not installed" in line for line in lines)
+
+
+def test_the_pause_file_is_nowhere_a_pass_writes(tmp_path):
+    """The failure this whole module exists to prevent, pinned.
+
+    The sentinel first lived at runs/PAUSED. A pass ends by staging that entire
+    directory and committing it, and begins by pulling and rebasing, so the one
+    file whose job was to stop the pass sat in the one directory the pass
+    rewrites. The pass deleted it and ran two hundred and twenty four runs over
+    eight hours on a machine whose owner had paused it and walked away.
+    """
+    import inspect
+
+    from crucible import pause as pause_mod
+    from crucible import research
+
+    assert not pause_mod.SENTINEL.startswith("runs/"), \
+        "the pass stages and commits runs/, so nothing that stops it may live there"
+
+    # And nothing else the pass commits may contain it either.
+    staged = inspect.getsource(research.research_pass)
+    for path in ("\"runs\"", "'runs'", "site/public"):
+        if path in staged:
+            assert pause_mod.SENTINEL.strip("./") not in path.strip("\"'")
+
+
+def test_a_pause_reports_when_it_did_not_take(tmp_path, monkeypatch):
+    # A pause that silently failed is worse than none, because the person who
+    # asked for it walks away believing the machine is theirs.
+    import crucible.pause as pause_mod
+    import crucible.schedule as schedule
+    from crucible.pause import pause
+
+    class Result:
+        returncode = 0
+        stdout = ""
+        stderr = ""
+
+    monkeypatch.setattr(Path, "home", staticmethod(lambda: tmp_path))
+    monkeypatch.setattr(schedule.subprocess, "run", lambda argv, **kw: Result())
+    monkeypatch.setattr(pause_mod.subprocess, "run", lambda argv, **kw: Result())
+    # launchctl print returning zero means the job is still loaded.
+    monkeypatch.setattr(pause_mod, "_job_is_loaded", lambda: True)
+
+    lines = pause(tmp_path, reason="working", model="m")
+    assert any("still loaded" in line for line in lines), \
+        "a pause must say so when the scheduler survived it"

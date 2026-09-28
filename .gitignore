@@ -8,3 +8,10 @@ data/runs/
 
 # Solo-gate workdirs are scratch: the store holds the evidence blobs.
 runs/solo*/
+
+# Pausing the research is a fact about one machine at one moment, not a
+# research parameter, so it stays out of the history. It also must not live
+# under runs/, which every pass stages and commits: the first version did, and
+# a pass deleted its own stop signal and ran for eight hours on a paused
+# machine.
+.crucible-paused

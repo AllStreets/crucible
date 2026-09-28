@@ -27,7 +27,15 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 
-SENTINEL = "runs/PAUSED"
+# Deliberately not inside runs/. The first version put it there and the pass
+# deleted it: a pass ends by staging that whole directory and committing it, and
+# it pulls and rebases before it starts, so the one file whose job is to stop
+# the pass was living in the one directory the pass rewrites. A machine that had
+# been paused ran two hundred and twenty four runs for eight hours because of
+# it. Local operational state does not belong in the history either, so this is
+# ignored rather than committed: a pause is a fact about one machine at one
+# moment, not a research parameter that should propagate to every clone.
+SENTINEL = ".crucible-paused"
 
 
 @dataclass(frozen=True)
@@ -84,6 +92,13 @@ def _stop_sandbox_containers() -> str:
     return f"stopped {len(ids)} running container{'s' if len(ids) != 1 else ''}"
 
 
+def _job_is_loaded() -> bool:
+    import os
+    r = subprocess.run(["launchctl", "print", f"gui/{os.getuid()}/com.crucible.research"],
+                       capture_output=True, text=True)
+    return r.returncode == 0
+
+
 def _running_pass() -> list[int]:
     r = subprocess.run(["pgrep", "-f", "crucible research"], capture_output=True, text=True)
     return [int(x) for x in r.stdout.split() if x.isdigit()]
@@ -122,6 +137,14 @@ def pause(repo: Path, *, reason: str = "", model: str | None = None,
 
     done.append(_stop_sandbox_containers())
     done.append(_free_the_model(model))
+
+    # A pause that did not take is worse than no pause, because the person who
+    # asked for it walks away. Both halves are read back rather than assumed.
+    if not is_paused(repo):
+        done.append("WARNING: the pause file is not readable back, so this pause did not take")
+    if _job_is_loaded():
+        done.append("WARNING: the scheduler is still loaded and may fire; "
+                    "run `launchctl bootout gui/$(id -u)/com.crucible.research`")
     return done
 
 
