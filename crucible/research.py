@@ -122,7 +122,8 @@ def research_pass(*, repo: Path, db: Path | None = None, root: Path | None = Non
         recorded = await run_arena(store, root, shim=shim, scenarios=params.scenarios,
                                    rounds=params.rounds, agents=agents,
                                    should_stop=lambda: is_paused(repo),
-                                   experiment=params.experiment)
+                                   experiment=params.experiment,
+                                   models=list(params.models) or [params.model])
         return harvested, solos, recorded
 
     harvested, solos, recorded = asyncio.run(stages())

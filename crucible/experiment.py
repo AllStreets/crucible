@@ -30,7 +30,7 @@ from dataclasses import dataclass, field
 #: The dimensions an axis may vary. Each corresponds to something a run row
 #: already records, because an axis that varied something unrecorded would
 #: produce a split nobody could trace back.
-AXES = ("victim", "attacker", "scenario")
+AXES = ("victim", "attacker", "scenario", "model")
 
 
 class ExperimentError(ValueError):
@@ -116,6 +116,10 @@ def parse(raw: object, *, known_scenarios: tuple[str, ...]) -> Experiment:
             f"{sorted(overlap)} predicted both to comply and to hold; a prediction "
             "that cannot be wrong is not a prediction")
 
+    # An axis over models multiplies every cell by the number of models, and
+    # each one is tens of gigabytes that has to be loaded, used and released.
+    # It is worth saying out loud what was asked for rather than discovering it
+    # eight hours in on somebody's working machine.
     return Experiment(
         question=str(raw.get("question") or "").strip(),
         hypothesis=str(raw.get("hypothesis") or "").strip(),
@@ -123,28 +127,39 @@ def parse(raw: object, *, known_scenarios: tuple[str, ...]) -> Experiment:
     )
 
 
-def run_set(exp: Experiment, *, agents: list[str],
-            scenarios: list[str]) -> list[tuple[str, str, str]]:
-    """The ordered (attacker, victim, scenario) triples this experiment runs.
+def run_set(exp: Experiment, *, agents: list[str], scenarios: list[str],
+            models: list[str] | None = None) -> list[tuple[str, str, str, str]]:
+    """The ordered (attacker, victim, scenario, model) runs this experiment needs.
 
     Mechanical, and deliberately so: an axis decides what is run, and nothing
     about what is run is a judgement. Holding a dimension pins it; varying one
     sweeps it; anything neither held nor varied sweeps too, because pinning it
     silently would mean the report described a narrower experiment than it ran.
+
+    The model is the outermost loop and that is not a detail. Every model this
+    could vary over is a weights file measured in tens of gigabytes, and the
+    server holding one unloads it to make room for the next. Interleaving them
+    would reload the same weights hundreds of times and spend the pass moving
+    bytes rather than running agents, on a machine somebody else is using.
+    Grouped this way each model is loaded once, used for every run that needs
+    it, and released.
     """
     if not exp.stated:
         return []
+    models = models or [""]
     held_scenario = exp.holding.get("scenario")
     held_attacker = exp.holding.get("attacker")
     held_victim = exp.holding.get("victim")
+    held_model = exp.holding.get("model")
 
-    out: list[tuple[str, str, str]] = []
-    for scenario in ([held_scenario] if held_scenario else scenarios):
-        for attacker in ([held_attacker] if held_attacker else agents):
-            for victim in ([held_victim] if held_victim else agents):
-                if attacker == victim:
-                    continue
-                out.extend([(attacker, victim, scenario)] * exp.repeats)
+    out: list[tuple[str, str, str, str]] = []
+    for model in ([held_model] if held_model else models):
+        for scenario in ([held_scenario] if held_scenario else scenarios):
+            for attacker in ([held_attacker] if held_attacker else agents):
+                for victim in ([held_victim] if held_victim else agents):
+                    if attacker == victim:
+                        continue
+                    out.extend([(attacker, victim, scenario, model)] * exp.repeats)
     return out
 
 
@@ -156,10 +171,12 @@ def split(exp: Experiment, rows: list[dict]) -> list[dict]:
     """
     if not exp.vary:
         return []
-    key = {"victim": "slug_b", "attacker": "slug_a", "scenario": "scenario"}[exp.vary]
+    key = {"victim": "slug_b", "attacker": "slug_a",
+           "scenario": "scenario", "model": "model"}[exp.vary]
     buckets: dict[str, dict[str, int]] = {}
     for r in rows:
-        b = buckets.setdefault(r[key], {"held": 0, "complied": 0, "no_result": 0})
+        b = buckets.setdefault(r.get(key) or "unrecorded",
+                               {"held": 0, "complied": 0, "no_result": 0})
         if r["status"] == "done":
             b["complied" if r["outcome"] == "fail" else "held"] += 1
         else:

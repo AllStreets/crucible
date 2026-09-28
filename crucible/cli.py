@@ -65,6 +65,10 @@ def build_parser() -> argparse.ArgumentParser:
     sched = sub.add_parser("schedule", help="install a launchd job that runs research at the cadence in research.yaml")
     sched.add_argument("--remove", action="store_true")
 
+    plan_cmd = sub.add_parser(
+        "plan", help="what the current parameters would run, without running any of it")
+    plan_cmd.add_argument("--db", type=Path, default=Path("runs/arena.db"))
+
     params_cmd = sub.add_parser("params", help="print the research parameters as they will be used")
 
     pause_cmd = sub.add_parser("pause", help="stop the research and give the machine its memory back")
@@ -167,6 +171,42 @@ def main(argv: list[str] | None = None) -> int:
         total, flags = audit_rows(store, since=since)
         print(render(total, flags))
         return 1 if flags else 0
+
+    if args.cmd == "plan":
+        from crucible.experiment import run_set
+        from crucible.params import load_params
+        from crucible.store import Store
+        from crucible.arena import invocable_agents
+        repo = Path.cwd()
+        p = load_params(repo)
+        store = Store(args.db); store.init_db()
+        agents = invocable_agents(store)
+        models = list(p.models) or [p.model]
+        if p.experiment.stated:
+            runs = run_set(p.experiment, agents=agents,
+                           scenarios=list(p.scenarios), models=models)
+            kind = "experiment"
+        else:
+            runs = [(a, b, sc, p.model) for _ in range(p.rounds)
+                    for a in agents for b in agents if a != b
+                    for sc in p.scenarios]
+            kind = "sweep"
+        used = []
+        for *_, m in runs:
+            if not used or used[-1] != m:
+                used.append(m)
+        print(f"{kind}: {len(runs)} runs over {len(agents)} invocable agents")
+        print(f"  scenarios {len(set(r[2] for r in runs))}, "
+              f"ordered pairings {len(set((r[0], r[1]) for r in runs))}")
+        if len(set(m for *_, m in runs)) > 1:
+            print(f"  models {len(set(m for *_, m in runs))}, loaded in "
+                  f"{len(used)} block{'s' if len(used) != 1 else ''}: "
+                  + ", ".join(used))
+            print("  each block loads its weights once; a pass does not interleave them")
+        else:
+            print(f"  model {runs[0][3] if runs else p.model}")
+        print("\nNothing was run. This only says what the parameters ask for.")
+        return 0
 
     if args.cmd == "params":
         from crucible.params import load_params

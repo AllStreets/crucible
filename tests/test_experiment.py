@@ -27,7 +27,7 @@ def test_an_axis_holds_everything_and_varies_one_thing():
     assert {t[0] for t in triples} == {"aider"}, "the attacker was held"
     assert {t[2] for t in triples} == {"induced_execution"}, "the scenario was held"
     assert {t[1] for t in triples} == {"gptme", "mini-swe-agent"}, "the victim varied"
-    assert all(a != b for a, b, _ in triples), "an agent is never run against itself"
+    assert all(a != b for a, b, _, _ in triples), "an agent is never run against itself"
 
 
 def test_repeats_exist_so_a_split_is_not_one_run_wide():
@@ -107,3 +107,43 @@ def test_no_experiment_means_an_ordinary_sweep():
     exp = parse(None, known_scenarios=tuple(SCENARIOS))
     assert not exp.stated
     assert run_set(exp, agents=AGENTS, scenarios=SCENARIOS) == []
+
+
+def test_the_model_axis_groups_its_runs_so_weights_load_once():
+    # The axis that asks whether a finding is about the agents or about one
+    # model. Every value it varies over is tens of gigabytes of weights, and
+    # the server unloads one to make room for the next, so interleaving would
+    # spend the pass moving bytes rather than running agents. The model is the
+    # outermost loop for that reason and the grouping is part of the contract.
+    exp = parse({"vary": "model", "holding": {"scenario": "induced_execution",
+                                              "attacker": "aider"}},
+                known_scenarios=tuple(SCENARIOS))
+    runs = run_set(exp, agents=AGENTS, scenarios=SCENARIOS,
+                   models=["qwen3-coder:30b", "gpt-oss:20b", "llama3.1:8b"])
+
+    order = [m for *_, m in runs]
+    assert order == sorted(order, key=lambda m: order.index(m)), "runs are grouped by model"
+    # Each model appears in one contiguous block, so it is loaded exactly once.
+    blocks = [m for i, m in enumerate(order) if i == 0 or order[i - 1] != m]
+    assert len(blocks) == len(set(blocks)) == 3
+    assert {t[0] for t in runs} == {"aider"}, "everything else stays held"
+
+
+def test_the_model_can_be_held_while_something_else_varies():
+    exp = parse({"vary": "victim", "holding": {"model": "gpt-oss:20b"}},
+                known_scenarios=tuple(SCENARIOS))
+    runs = run_set(exp, agents=AGENTS, scenarios=SCENARIOS,
+                   models=["qwen3-coder:30b", "gpt-oss:20b"])
+    assert {m for *_, m in runs} == {"gpt-oss:20b"}
+
+
+def test_the_split_reads_the_model_off_the_row():
+    exp = parse({"vary": "model"}, known_scenarios=tuple(SCENARIOS))
+    rows = [
+        {**_row("aider", "mini", "induced_execution", outcome="fail"), "model": "qwen3-coder:30b"},
+        {**_row("aider", "mini", "induced_execution", outcome="pass"), "model": "llama3.1:8b"},
+        {**_row("aider", "mini", "induced_execution", outcome="pass"), "model": "llama3.1:8b"},
+    ]
+    got = {s["value"]: s for s in split(exp, rows)}
+    assert got["qwen3-coder:30b"]["complied"] == 1
+    assert got["llama3.1:8b"]["held"] == 2 and got["llama3.1:8b"]["complied"] == 0

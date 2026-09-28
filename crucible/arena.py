@@ -158,7 +158,8 @@ def _write_allowlist(store: Store, root: Path, agents: list[str]) -> None:
 
 async def run_arena(store: Store, root: Path, *, should_stop=None, shim: ShimConfig,
                     scenarios: tuple[str, ...] = ADVERSARIAL,
-                    rounds: int = 1, agents: list[str] | None = None) -> list[dict]:
+                    rounds: int = 1, agents: list[str] | None = None,
+                    models: list[str] | None = None) -> list[dict]:
     """Every invocable pair, every scenario, `rounds` times; each run classified and recorded.
 
     `agents` restricts the pairing to the slugs listed; those that have not
@@ -168,7 +169,6 @@ async def run_arena(store: Store, root: Path, *, should_stop=None, shim: ShimCon
     root.mkdir(parents=True, exist_ok=True)
     invocable = invocable_agents(store)
     agents = invocable if agents is None else [a for a in agents if a in invocable]
-    emit_adapters(store, root, model=shim.model)
     _write_allowlist(store, root, agents)
     _sandbox_env(root)
 
@@ -177,10 +177,24 @@ async def run_arena(store: Store, root: Path, *, should_stop=None, shim: ShimCon
     from smadp.sandbox.binding import Config
     from smadp.sandbox.scenarios import load_scenario
 
-    cfg = Config(repo_root=root.resolve(), openai_api_key="crucible-local-no-secret",
-                 model_id=shim.model, model_name=shim.model)
     base = shim.base_url.replace("localhost", "host.docker.internal").replace("127.0.0.1", "host.docker.internal")
     env = {"OPENAI_API_KEY": "crucible-local-no-secret", "OPENAI_BASE_URL": base, "OPENAI_API_BASE": base}
+
+    # The model reaches an agent through its adapter, so changing it means
+    # rewriting the adapters. That is done once per model rather than once per
+    # run: the run set is grouped by model precisely so this happens as few
+    # times as there are models, and so the server holding one set of weights
+    # is not asked to swap them between every pair.
+    current_model: str | None = None
+
+    def use(model: str):
+        nonlocal current_model
+        if model != current_model:
+            emit_adapters(store, root, model=model)
+            current_model = model
+        return Config(repo_root=root.resolve(),
+                      openai_api_key="crucible-local-no-secret",
+                      model_id=model, model_name=model)
 
     recorded: list[dict] = []
     # An experiment names the runs it needs; a sweep runs every ordering of
@@ -196,13 +210,14 @@ async def run_arena(store: Store, root: Path, *, should_stop=None, shim: ShimCon
     # susceptible to anything.
     if experiment is not None and experiment.stated:
         from crucible.experiment import run_set
-        triples = run_set(experiment, agents=list(agents), scenarios=list(scenarios))
+        triples = run_set(experiment, agents=list(agents), scenarios=list(scenarios),
+                          models=list(models or [shim.model]))
     else:
-        triples = [(a, b, sc) for _ in range(rounds)
+        triples = [(a, b, sc, shim.model) for _ in range(rounds)
                    for a, b in itertools.permutations(agents, 2)
                    for sc in scenarios]
 
-    for a, b, scenario in triples:
+    for a, b, scenario, model in triples:
         # Checked between runs and never inside one. A pass killed
         # mid-run leaves a container up, a workspace volume behind and
         # a row describing half an interaction, and a dataset that
@@ -211,6 +226,7 @@ async def run_arena(store: Store, root: Path, *, should_stop=None, shim: ShimCon
         # recorded; the next one never starts.
         if should_stop is not None and should_stop():
             return recorded
+        cfg = use(model)
         declared = tuple(load_scenario(scenario).shared_workspace_files)
         run_id = enqueue_sandbox_run(a, b, scenario, config=cfg,
                                      preserve_order=True)
@@ -220,7 +236,7 @@ async def run_arena(store: Store, root: Path, *, should_stop=None, shim: ShimCon
                          markers=engagement_markers(victim))
         row = dict(slug_a=a, slug_b=b, scenario=scenario, sandbox_run_id=run_id,
                    status=c.status, outcome=c.outcome, blocked_reason=c.reason,
-                   transcript_ref=str(result.transcript_ref), model=shim.model,
+                   transcript_ref=str(result.transcript_ref), model=model,
                    strength=c.strength)
         store.record("pairs", **row)
         recorded.append(row)

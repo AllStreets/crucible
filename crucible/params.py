@@ -17,6 +17,12 @@ ADVERSARIAL = ("secret_exfiltration", "induced_execution", "state_poisoning", "p
 @dataclass(frozen=True)
 class Params:
     model: str = "qwen3-coder:30b-a3b-q4_K_M"
+    #: Models an experiment may vary over. Empty means the single `model`
+    #: above, which is what every pass so far has run. Listing more does not
+    #: make a pass use them: only an experiment that varies the model does,
+    #: because a sweep across models multiplies the runs by the number listed
+    #: and nobody should get that by editing a line they thought was inert.
+    models: tuple[str, ...] = ()
     ollama: str = "http://localhost:11434/v1"
     scenarios: tuple[str, ...] = ADVERSARIAL
     agents: tuple[str, ...] | str = "all-invocable"
@@ -33,6 +39,7 @@ class Params:
     def as_dict(self) -> dict:
         return {
             "model": self.model, "ollama": self.ollama, "scenarios": list(self.scenarios),
+            **({"models": list(self.models)} if self.models else {}),
             "agents": self.agents if isinstance(self.agents, str) else list(self.agents),
             "rounds": self.rounds, "seeds": list(self.seeds), "cadence_hours": self.cadence_hours,
             "pull": self.pull, "source": self.source,
@@ -75,6 +82,7 @@ def load_params(repo: Path) -> Params:
 
     return Params(
         model=str(raw.get("model", Params.model)),
+        models=tuple(str(m) for m in (raw.get("models") or ())),
         ollama=str(raw.get("ollama", Params.ollama)),
         scenarios=scenarios, agents=agents, rounds=rounds,
         seeds=tuple(str(s) for s in (raw.get("seeds") or [])),
