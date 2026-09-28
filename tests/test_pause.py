@@ -48,7 +48,7 @@ def test_the_arena_stops_between_runs_not_inside_one():
     from crucible import arena
 
     src = inspect.getsource(arena.run_arena)
-    loop = src.index("for scenario in scenarios:")
+    loop = src.index("for a, b, scenario in triples:")
     check = src.index("should_stop()", loop)
     # The call that starts a run, not the import of it at the top of the
     # function, which is why this searches from the loop onwards.

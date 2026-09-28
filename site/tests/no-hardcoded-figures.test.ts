@@ -25,9 +25,15 @@ test("no component hardcodes a figure", () => {
     // an arrow function's > follows an equals sign. Both were matched by
     // earlier drafts of this pattern, so every sort comparator and every
     // length check in the file read as a hardcoded figure.
-    for (const m of body.matchAll(/(?<=[A-Za-z0-9"'\/}\]])>[^<>{}]*\b\d+(?:\.\d+)?\b[^<>{}]*</g)) {
-      if (/Figure \d|20\d\d/.test(m[0])) continue;
-      offenders.push(`${file}: ${m[0].trim().slice(0, 70)}`);
+    // Line by line, because the pattern is allowed to cross nothing. Run over
+    // the whole file it spanned newlines, so a TypeScript generic on one line
+    // could close a match that began on another and a hook declaration read as
+    // JSX text. Real JSX text that states a figure sits on one line.
+    for (const line of body.split("\n")) {
+      for (const m of line.matchAll(/(?<=[A-Za-z0-9"'\/}\]])>[^<>{}]*\b\d+(?:\.\d+)?\b[^<>{}]*</g)) {
+        if (/Figure \d|20\d\d/.test(m[0])) continue;
+        offenders.push(`${file}: ${m[0].trim().slice(0, 70)}`);
+      }
     }
   }
   expect(offenders, `\n${offenders.join("\n")}`).toEqual([]);

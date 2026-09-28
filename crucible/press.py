@@ -795,6 +795,8 @@ class PassFacts:
     solos: list[dict]
     before_runs: int
     before_confirmed: int
+    #: The experiment this pass was asked to run, if it was asked anything.
+    experiment: dict = field(default_factory=dict)
     #: How long the pass took. A fact like any other: it was computed in the
     #: prose before it was a field, and the verifier refused five of six papers
     #: for stating a number the fact set did not contain, which is precisely
@@ -818,6 +820,16 @@ class PassFacts:
                                 self.before_runs, self.before_confirmed,
                                 self.total_runs, self.total_confirmed,
                                 self.minutes, len(self.artifact_reasons))}
+        exp = self.experiment or {}
+        for row in exp.get("split") or []:
+            out.update(str(v) for k, v in row.items() if k != "value")
+        pred = exp.get("prediction") or {}
+        out.update(str(pred.get(k, "")) for k in ("as_predicted", "total", "untested"))
+        for line in pred.get("lines") or []:
+            out.add(str(line.get("complied", 0))); out.add(str(line.get("verdicts", 0)))
+        if exp.get("repeats"):
+            out.add(str(exp["repeats"]))
+        out.discard("")
         for counts in self.by_scenario.values():
             out.update(str(v) for v in counts.values())
         out.update(str(v) for v in self.artifact_reasons.values())
@@ -894,6 +906,7 @@ def gather_pass_facts(store: Store, entry: dict, ordinal: int) -> PassFacts:
         before_confirmed=sum(1 for r in before
                              if r["status"] == "done" and r["outcome"] == "fail"),
         minutes=_minutes(started, finished),
+        experiment=entry.get("experiment") or {},
         consts=_code_constants(),
     )
 
@@ -927,6 +940,55 @@ def render_pass(f: PassFacts) -> str:
       f"The record held {_n(f.before_runs, 'run')} before this pass and "
       f"{f.total_runs} after.")
     w("")
+
+    exp = f.experiment
+    if exp:
+        w("## The question this pass was asked")
+        w("")
+        if exp.get("question"):
+            w(f"> {exp['question']}")
+            w("")
+        if exp.get("hypothesis"):
+            w(f"The hypothesis stated in advance: *{exp['hypothesis']}*")
+            w("")
+        w("Both are carried here exactly as they were written, and neither is "
+          "evaluated by anything. Nothing below is a judgement about them: the table "
+          "is a count of the rows this pass produced.")
+        w("")
+        if exp.get("vary"):
+            held = ", ".join(f"{k} fixed to {v}" for k, v in (exp.get("holding") or {}).items())
+            w(f"Everything was held except the **{exp['vary']}**"
+              + (f", with {held}" if held else "")
+              + (f", and each cell was run {_n(exp.get('repeats', 1), 'time')}" if exp.get("repeats", 1) > 1 else "")
+              + ".")
+            w("")
+        split = exp.get("split") or []
+        if split:
+            w(f"| {exp.get('vary', 'value').title()} | Held | Complied | No result |")
+            w("|---|---|---|---|")
+            for row in split:
+                w(f"| `{row['value']}` | {row['held']} | {row['complied']} | {row['no_result']} |")
+            w("")
+        pred = exp.get("prediction") or {}
+        if pred.get("lines"):
+            w("### What was predicted, and what happened")
+            w("")
+            w("A prediction names agents and what they were expected to do, which is a "
+              "claim rows can settle. This says how many of them held; it does not say "
+              "whether the hypothesis was right, because that is the reader's conclusion "
+              "to draw and not this document's to assert.")
+            w("")
+            w("| Agent | Predicted | Complied | Verdicts | As predicted |")
+            w("|---|---|---|---|---|")
+            for line in pred["lines"]:
+                mark = "yes" if line["as_predicted"] else ("not run" if not line["verdicts"] else "no")
+                w(f"| `{line['agent']}` | {line['predicted']} | {line['complied']} | "
+                  f"{line['verdicts']} | {mark} |")
+            w("")
+            w(f"{pred['as_predicted']} of {pred['total']} predictions held"
+              + (f", and {pred['untested']} named an agent this pass never ran, which "
+                 "settles nothing either way" if pred.get("untested") else "") + ".")
+            w("")
 
     w("## What was asked")
     w("")

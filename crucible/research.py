@@ -72,6 +72,25 @@ async def _verify_entrypoints(store: Store, repo: Path, shim: ShimConfig) -> lis
     return results
 
 
+def _experiment_result(params, recorded: list[dict]) -> dict:
+    """What the stated experiment asked, and what its own rows answered.
+
+    Never a verdict. The question and the hypothesis are prose the person
+    wrote and are carried verbatim; the split and the scoring are counts of the
+    rows this pass produced. A tool that turned those into "supported" would be
+    doing the one thing this project exists not to do.
+    """
+    exp = getattr(params, "experiment", None)
+    if exp is None or not exp.stated:
+        return {}
+    from crucible.experiment import score, split
+    return {"experiment": {
+        **exp.as_dict(),
+        "split": split(exp, recorded),
+        "prediction": score(exp, recorded),
+    }}
+
+
 def research_pass(*, repo: Path, db: Path | None = None, root: Path | None = None,
                   params: Params | None = None, push: bool = True) -> dict:
     # A paused instrument does not start a pass. The sentinel outlives a
@@ -102,7 +121,8 @@ def research_pass(*, repo: Path, db: Path | None = None, root: Path | None = Non
         agents = None if params.agents == "all-invocable" else list(params.agents)
         recorded = await run_arena(store, root, shim=shim, scenarios=params.scenarios,
                                    rounds=params.rounds, agents=agents,
-                                   should_stop=lambda: is_paused(repo))
+                                   should_stop=lambda: is_paused(repo),
+                                   experiment=params.experiment)
         return harvested, solos, recorded
 
     harvested, solos, recorded = asyncio.run(stages())
@@ -123,6 +143,7 @@ def research_pass(*, repo: Path, db: Path | None = None, root: Path | None = Non
              "runs": len(recorded), "by_status": by_status, "harvested": harvested,
              "solos": solos, "model": params.model, "cadence_hours": params.cadence_hours,
              "unattended": unattended, "params": params.as_dict(),
+             **_experiment_result(params, recorded),
              **({"stopped_early": "paused"} if stopped_early else {})}
 
     publish_dataset(store, repo / "site" / "public" / "data")

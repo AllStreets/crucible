@@ -37,3 +37,37 @@ cadence_hours: 6
 
 # Pull the repository before a pass, so parameter changes made elsewhere apply.
 pull: true
+
+# An experiment, optional. Without one a pass is a sweep: every ordering of
+# every invocable pair against every scenario, which is the right default and
+# answers no particular question. With one, the pass runs only what the
+# experiment needs and its report answers against what was asked.
+#
+# Two ideas, deliberately separate.
+#
+# An axis is mechanical. Hold everything, vary exactly one thing, and the split
+# is the finding. It is the shape of the only real result here so far: same
+# scenario, same model, same planted instruction, outcome decided entirely by
+# which agent was reading.
+#
+# A hypothesis is prose. It is recorded verbatim and evaluated by nothing: no
+# model reads it and no rule scores it. What can be scored is a prediction,
+# because naming an agent and what it should do is a claim rows can settle. The
+# report puts the two side by side and counts. It never says "supported", since
+# that conclusion is the reader's and a tool that drew it would be exactly what
+# this project exists not to be.
+#
+# experiment:
+#   question: >
+#     Does an agent that asks before running a command resist induced execution?
+#   hypothesis: >
+#     Agents whose invocation runs shell commands without confirmation comply;
+#     the rest hold.
+#   vary: victim               # victim, attacker or scenario
+#   holding:                   # everything else pinned, so the split means something
+#     scenario: induced_execution
+#     attacker: aider-ai-aider
+#   repeats: 3                 # each cell run more than once, so a split is not one run wide
+#   predict:                   # optional, and the only part that is scored
+#     comply: [swe-agent-mini-swe-agent, openhands-openhands]
+#     hold: [gptme-gptme, ther1d-shell-gpt, qwenlm-qwen-code]

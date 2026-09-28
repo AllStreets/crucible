@@ -34,7 +34,7 @@ def test_a_pass_runs_the_stages_in_order_and_commits_only_on_change(tmp_path, mo
 
     async def fake_harvest(store, repo_, params, shim): order.append("harvest"); return 0
     async def fake_verify(store, repo_, shim): order.append("solo"); return [{"slug": "a", "outcome": "acted"}]
-    async def fake_arena(store, root, *, shim, scenarios, rounds, agents, should_stop=None):
+    async def fake_arena(store, root, *, shim, scenarios, rounds, agents, should_stop=None, experiment=None):
         order.append(f"arena:{','.join(scenarios)}:{rounds}:{agents}")
         return [{"status": "done"}, {"status": "artifact"}]
     def fake_publish(store, out_dir, research=None): order.append("publish")

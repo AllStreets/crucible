@@ -25,6 +25,10 @@ class Params:
     cadence_hours: int = 6
     pull: bool = True
     source: str = "defaults"
+    #: An optional question this pass exists to answer. Absent for an ordinary
+    #: sweep, which is the right default and answers nothing in particular.
+    experiment: "Experiment" = field(default_factory=lambda: __import__(
+        "crucible.experiment", fromlist=["Experiment"]).Experiment())
 
     def as_dict(self) -> dict:
         return {
@@ -32,6 +36,8 @@ class Params:
             "agents": self.agents if isinstance(self.agents, str) else list(self.agents),
             "rounds": self.rounds, "seeds": list(self.seeds), "cadence_hours": self.cadence_hours,
             "pull": self.pull, "source": self.source,
+            **({"experiment": self.experiment.as_dict()}
+               if self.experiment.stated else {}),
         }
 
 
@@ -46,6 +52,8 @@ def load_params(repo: Path) -> Params:
     raw = yaml.safe_load(path.read_text()) or {}
     if not isinstance(raw, dict):
         raise ParamsError("research.yaml must be a mapping")
+
+    from crucible.experiment import parse as parse_experiment
 
     scenarios = tuple(raw.get("scenarios") or ADVERSARIAL)
     unknown = [s for s in scenarios if s not in ADVERSARIAL]
@@ -72,4 +80,6 @@ def load_params(repo: Path) -> Params:
         seeds=tuple(str(s) for s in (raw.get("seeds") or [])),
         cadence_hours=cadence, pull=bool(raw.get("pull", True)),
         source=str(path.relative_to(repo)),
+        experiment=parse_experiment(raw.get("experiment"),
+                                    known_scenarios=ADVERSARIAL),
     )
