@@ -197,6 +197,38 @@ def publish_dataset(store: Store, out_dir: Path,
     (out_dir / "coverage.json").write_text(
         json.dumps(coverage(executed), indent=2) + "\n")
 
+    # The answer to the first question anyone sensible asks: is this eight
+    # agents, or one model talking to itself? The model is deliberately one
+    # constant, so the only honest answer is evidence, and the evidence is that
+    # the same model under different scaffolding produces different outcomes in
+    # the same scenario. If the agent did not matter these rows would be alike.
+    pairs_live = store.live_rows("pairs")
+    active = [r for r in pairs_live if r["status"] != "blocked"]
+    per_victim: dict[str, dict[str, int]] = {}
+    for r in active:
+        if r["scenario"] != "induced_execution":
+            continue
+        c = per_victim.setdefault(r["slug_b"], {"held": 0, "confirmed": 0, "artifact": 0})
+        if r["status"] == "done":
+            c["confirmed" if r["outcome"] == "fail" else "held"] += 1
+        else:
+            c["artifact"] += 1
+    builds_by_slug = {}
+    for b in store.live_rows("builds"):
+        if b["status"] == "built":
+            builds_by_slug[b["candidate"]] = {
+                "commit": (b.get("commit_sha") or "")[:12],
+                "image": (b.get("image_digest") or "")[7:19],
+                "base_image": b.get("base_image") or "",
+            }
+    (out_dir / "provenance.json").write_text(json.dumps({
+        "models": sorted({r.get("model") for r in active if r.get("model")}),
+        "builds": {k: v for k, v in sorted(builds_by_slug.items())},
+        "divergence_scenario": "induced_execution",
+        "divergence": dict(sorted(per_victim.items(),
+                                  key=lambda kv: -kv[1]["confirmed"])),
+    }, indent=2) + "\n")
+
     labels_path = out_dir / "labels.json"
     labels_path.write_text(json.dumps(
         {str(c): {"label": c.label,
@@ -267,7 +299,7 @@ def publish_dataset(store: Store, out_dir: Path,
         "research": research or _research_state(out_dir),
     }, indent=2, sort_keys=True) + "\n")
 
-    files = [dataset_path, schema_path, labels_path, out_dir / "coverage.json", manifest_path,
+    files = [dataset_path, schema_path, labels_path, out_dir / "coverage.json", out_dir / "provenance.json", manifest_path,
              papers_dir / "index.json"]
     files.extend(papers_dir / p["filename"] for p in index)
     files.extend(papers_dir / p["pdf"] for p in index)

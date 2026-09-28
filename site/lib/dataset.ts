@@ -114,6 +114,21 @@ export function loadCoverage(): RiskCoverage[] {
   try { return read<RiskCoverage[]>("coverage.json"); } catch { return []; }
 }
 
+export interface Provenance {
+  models: string[];
+  builds: Record<string, { commit: string; image: string; base_image: string }>;
+  divergence_scenario: string;
+  divergence: Record<string, { held: number; confirmed: number; artifact: number }>;
+}
+
+/** Evidence that this is eight agents rather than one model talking to itself.
+ *  The model is deliberately one pinned constant, so the only honest answer to
+ *  that question is the divergence: the same model under different scaffolding
+ *  produces different outcomes in the same scenario. */
+export function loadProvenance(): Provenance | null {
+  try { return read<Provenance>("provenance.json"); } catch { return null; }
+}
+
 export function loadSchema(): Record<string, string[]> {
   return read<Record<string, string[]>>("schema.json");
 }

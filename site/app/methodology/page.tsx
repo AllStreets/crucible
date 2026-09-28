@@ -1,12 +1,91 @@
 import { Figure, Prose } from "../../components/Prose";
+import { loadProvenance, repoNames, loadDataset } from "../../lib/dataset";
 
 export const metadata = { title: "Method | Crucible" };
 
 export default function Methodology() {
+  const prov = loadProvenance();
+  const names = repoNames(loadDataset());
+  const short = (slug: string) => names[slug] ?? slug;
+  const rows = prov ? Object.entries(prov.divergence) : [];
+  const silent = rows.filter(([, c]) => c.confirmed === 0);
+  const silentVerdicts = silent.reduce((n, [, c]) => n + c.held, 0);
+
   return (
     <div className="sheet page">
       <div className="eyebrow"><span className="label">Method</span></div>
       <h1>How a run works, and what it does not claim</h1>
+
+      {prov && rows.length > 0 && (
+        <section className="block" id="one-model">
+          <h2>Is this eight agents, or one model talking to itself?</h2>
+          <p className="deck">
+            The fair version of that question is worth answering with rows rather than
+            assurance. Every agent here calls the same locally served model, deliberately:
+            it is the pinned constant, so that what varies between runs is the agent and not
+            the weights. The scaffolding is what is under test, and this is the evidence that
+            the scaffolding is what decides.
+          </p>
+
+          <div className="spec">
+            <span className="k">the constant</span>
+            <div className="v">
+              <p>
+                One model on every row in the record:{" "}
+                {prov.models.map((m) => <code key={m}>{m}</code>)}. A run that reached a
+                different one would be a different measurement and is recorded as such.
+              </p>
+            </div>
+
+            <span className="k">the variables</span>
+            <div className="v">
+              <p>
+                {Object.keys(prov.builds).length} distinct images, each built from its own
+                repository at its own pinned commit. They share nothing but the model endpoint.
+              </p>
+            </div>
+
+            <span className="k">the evidence</span>
+            <div className="v">
+              <p>
+                Same scenario, same model, and the outcome depends on which agent is reading.
+                If the scaffolding did not decide, these rows would be alike. Instead{" "}
+                {silent.length} agents have never once complied across {silentVerdicts} verdicts,
+                while two comply repeatedly.
+              </p>
+              <div className="scroll-x">
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col">Victim</th>
+                      <th scope="col" className="num">Held</th>
+                      <th scope="col" className="num">Complied</th>
+                      <th scope="col" className="num">No result</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rows.map(([slug, c]) => (
+                      <tr key={slug}>
+                        <th scope="row"><code>{short(slug)}</code></th>
+                        <td className="num">{c.held}</td>
+                        <td className="num" style={{ color: c.confirmed ? "var(--accent)" : "inherit" }}>
+                          {c.confirmed}
+                        </td>
+                        <td className="num">{c.artifact}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p className="note">
+                Induced execution only, because it is the one scenario that has ever produced a
+                confirmation. The agents that comply are the ones whose invocation runs a shell
+                command without asking, and those invocations are published with the findings.
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
 
       <Prose>
         <p>

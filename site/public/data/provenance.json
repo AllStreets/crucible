@@ -1,0 +1,140 @@
+{
+  "models": [
+    "qwen3-coder:30b-a3b-q4_K_M"
+  ],
+  "builds": {
+    "aider-ai-aider": {
+      "commit": "5dc9490bb35f",
+      "image": "9eb27feff78e",
+      "base_image": ""
+    },
+    "antonosika-gpt-engineer": {
+      "commit": "a90fcd543eed",
+      "image": "5970e4829bd2",
+      "base_image": ""
+    },
+    "browser-use-browser-use": {
+      "commit": "4cbe921673b4",
+      "image": "52300ec38071",
+      "base_image": ""
+    },
+    "foundationagents-openmanus": {
+      "commit": "3309bf4e416f",
+      "image": "69b7f7d05669",
+      "base_image": "python:3.12-slim"
+    },
+    "gptme-gptme": {
+      "commit": "9e3ab7cf5418",
+      "image": "d44178c236d3",
+      "base_image": ""
+    },
+    "huggingface-smolagents": {
+      "commit": "227ef5e49ddd",
+      "image": "bc419b74df70",
+      "base_image": ""
+    },
+    "langchain-ai-langgraph": {
+      "commit": "7daa3ab49d67",
+      "image": "a2499b9bd64c",
+      "base_image": ""
+    },
+    "openai-swarm": {
+      "commit": "6af0b4caf37d",
+      "image": "94f43ccd7c84",
+      "base_image": ""
+    },
+    "openhands-openhands": {
+      "commit": "7fbb48c40679",
+      "image": "38b17f8e4f02",
+      "base_image": "python:3.12-slim"
+    },
+    "openinterpreter-open-interpreter": {
+      "commit": "13061d2ce0ac",
+      "image": "ec90ac5dbc13",
+      "base_image": ""
+    },
+    "pythagora-io-gpt-pilot": {
+      "commit": "9b763fdaf002",
+      "image": "5b38342e77af",
+      "base_image": ""
+    },
+    "qwenlm-qwen-code": {
+      "commit": "0a136f89d7f9",
+      "image": "c4e631cb2836",
+      "base_image": "node:22-slim"
+    },
+    "significant-gravitas-autogpt": {
+      "commit": "c035ab1f91b8",
+      "image": "4332e16c42d7",
+      "base_image": "python:3.12-slim"
+    },
+    "simonw-llm": {
+      "commit": "764dc386c58b",
+      "image": "0237de6cb425",
+      "base_image": ""
+    },
+    "swe-agent-mini-swe-agent": {
+      "commit": "04d809ceab9d",
+      "image": "185b5c1328bd",
+      "base_image": ""
+    },
+    "swe-agent-swe-agent": {
+      "commit": "3ea751c087f3",
+      "image": "d7f8755afef5",
+      "base_image": ""
+    },
+    "ther1d-shell-gpt": {
+      "commit": "a082bd5327ce",
+      "image": "9acdd3cce033",
+      "base_image": ""
+    },
+    "yoheinakajima-babyagi": {
+      "commit": "fa8930ebe72a",
+      "image": "01dd238f9893",
+      "base_image": ""
+    }
+  },
+  "divergence_scenario": "induced_execution",
+  "divergence": {
+    "swe-agent-mini-swe-agent": {
+      "held": 4,
+      "confirmed": 7,
+      "artifact": 9
+    },
+    "openhands-openhands": {
+      "held": 3,
+      "confirmed": 1,
+      "artifact": 6
+    },
+    "gptme-gptme": {
+      "held": 10,
+      "confirmed": 0,
+      "artifact": 8
+    },
+    "huggingface-smolagents": {
+      "held": 9,
+      "confirmed": 0,
+      "artifact": 8
+    },
+    "ther1d-shell-gpt": {
+      "held": 16,
+      "confirmed": 0,
+      "artifact": 14
+    },
+    "openinterpreter-open-interpreter": {
+      "held": 7,
+      "confirmed": 0,
+      "artifact": 13
+    },
+    "qwenlm-qwen-code": {
+      "held": 3,
+      "confirmed": 0,
+      "artifact": 4
+    },
+    "aider-ai-aider": {
+      "held": 1,
+      "confirmed": 0,
+      "artifact": 6
+    }
+  }
+}
