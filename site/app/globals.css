@@ -84,6 +84,40 @@ section.block:first-of-type { border-top: 0; }
 .pill.inert, .pill.blocked { color: var(--ink-faint); } .pill.warn, .pill.active { color: var(--warn); } .pill.stop { color: var(--stop); }
 .pill.live::before { animation: pulse 2.2s ease-in-out infinite; box-shadow: 0 0 8px currentColor; }
 
+/* Every field a person types into, defined once.
+   This was per-component, and the moment a component grew a control the
+   earlier one had not used, that control fell back to the browser default and
+   rendered a white box with black text in the middle of a dark page. Form
+   controls are not rare enough to keep redefining. */
+input, select, textarea {
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  color: var(--ink);
+  background: var(--panel);
+  border: var(--hair) solid var(--rule);
+  border-radius: var(--radius);
+  padding: 0.6rem 0.75rem;
+  max-width: 100%;
+}
+textarea { resize: vertical; width: 100%; }
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-color: var(--rule-strong);
+}
+::placeholder { color: var(--ink-faint); opacity: 1; }
+/* The native control paints its own ground on some platforms whatever the
+   background says, so the arrow and the field are drawn here instead. */
+select {
+  appearance: none;
+  padding-right: 2rem;
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink-soft) 50%),
+                    linear-gradient(135deg, var(--ink-soft) 50%, transparent 50%);
+  background-position: calc(100% - 1rem) 55%, calc(100% - 0.72rem) 55%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+
 /* Tables read like printed output. */
 table { border-collapse: collapse; width: 100%; font-size: var(--t-small); }
 th, td { text-align: left; padding: 0.7rem 1rem 0.7rem 0; border-bottom: var(--hair) solid var(--rule); vertical-align: top; }
@@ -179,7 +213,12 @@ tbody tr:hover td { background: rgba(255,255,255,0.015); }
 .note { font-size: var(--t-small); color: var(--ink-soft); }
 .crumbs { display: flex; gap: 0.5rem; font-size: var(--t-micro); color: var(--ink-faint); font-family: var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; }
 .crumbs a { text-decoration: none; }
-.btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-body); font-size: var(--t-small); text-decoration: none; padding: 0.6rem 1rem; border: var(--hair) solid var(--rule-strong); color: var(--ink); }
+/* The ground is explicit. Without it a link styled as a button was transparent
+   and correct, while a real button took the browser's own near-white ground and
+   kept the page's near-white text, so its label vanished. Every other property
+   here was already shared; only the one that differs between the two elements
+   was left to the default. */
+.btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-body); font-size: var(--t-small); text-decoration: none; padding: 0.6rem 1rem; border: var(--hair) solid var(--rule-strong); color: var(--ink); background: transparent; }
 .btn:hover { border-color: var(--accent); }
 .btn.primary { background: var(--ink); color: var(--ground); border-color: var(--ink); }
 .btn.primary:hover { background: var(--accent); border-color: var(--accent); color: var(--ground); }

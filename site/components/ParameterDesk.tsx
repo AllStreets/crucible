@@ -308,10 +308,7 @@ export function ParameterDesk(
         .desk { display: flex; flex-direction: column; gap: 1.8rem;
           border-top: var(--hair) solid var(--rule-strong); padding-top: 1.6rem; }
         .desk .field { display: flex; flex-direction: column; gap: 0.5rem; border: 0; padding: 0; margin: 0; }
-        .desk input { font-family: var(--font-mono); font-size: var(--t-body); color: var(--ink);
-          background: var(--panel); border: var(--hair) solid var(--rule); padding: 0.6rem 0.7rem;
-          max-width: 34ch; }
-        .desk input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+        .desk input { font-family: var(--font-mono); max-width: 34ch; }
         .chips { display: flex; flex-wrap: wrap; gap: 0.45rem; }
         .chips.second { margin-top: 0.5rem; }
         .chips button { font-family: var(--font-mono); font-size: var(--t-small); color: var(--ink-soft);
@@ -331,7 +328,6 @@ export function ParameterDesk(
         .holding { display: flex; flex-wrap: wrap; gap: 1rem 1.6rem; margin-top: 0.6rem; }
         .holding label { display: flex; flex-direction: column; gap: 0.35rem; }
         .holding select, .holding input { font-family: var(--font-mono); font-size: var(--t-small);
-          color: var(--ink); background: var(--panel); border: var(--hair) solid var(--rule);
           padding: 0.35rem 0.5rem; }
         .predict { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
           gap: 1.2rem 2rem; margin-top: 0.5rem; }

@@ -125,11 +125,7 @@ export function ProposalComposer(
         .composer { display: flex; flex-direction: column; gap: 1.6rem;
           border-top: var(--hair) solid var(--rule-strong); padding-top: 1.6rem; }
         .field { display: flex; flex-direction: column; gap: 0.5rem; border: 0; padding: 0; margin: 0; }
-        .field textarea, .field select { font-family: var(--font-body); font-size: var(--t-body);
-          color: var(--ink); background: var(--panel); border: var(--hair) solid var(--rule);
-          padding: 0.7rem 0.8rem; resize: vertical; width: 100%; max-width: 62ch; }
-        .field textarea:focus, .field select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
-        .field textarea::placeholder { color: var(--ink-faint); }
+        .field textarea, .field select { max-width: 62ch; }
         .hint { font-size: var(--t-small); color: var(--ink-soft); max-width: 62ch; }
         .chips { display: flex; flex-wrap: wrap; gap: 0.45rem; }
         .chips button { font-family: var(--font-mono); font-size: var(--t-small); color: var(--ink-soft);
