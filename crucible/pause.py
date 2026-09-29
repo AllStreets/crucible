@@ -83,6 +83,38 @@ def _free_the_model(model: str | None) -> str:
     return f"could not unload {model}: {(r.stderr or r.stdout).strip()[:120] or 'no output'}"
 
 
+def _docker_resident_gb() -> float:
+    """Roughly what Docker is holding, in gigabytes."""
+    r = subprocess.run(["ps", "-Ao", "rss,comm"], capture_output=True, text=True)
+    total = 0
+    for line in r.stdout.splitlines():
+        parts = line.split(None, 1)
+        if len(parts) == 2 and "docker" in parts[1].lower() and parts[0].isdigit():
+            total += int(parts[0])
+    return total / 1048576
+
+
+def _quit_docker() -> str:
+    """Give back the memory the virtual machine is holding.
+
+    Pausing Docker Desktop from its own menu suspends containers and leaves the
+    virtual machine resident, which on this configuration is eight gigabytes
+    still gone hours after the research stopped. Quitting is what actually
+    returns it. Not the default, because the daemon is shared with whatever
+    else the machine is doing.
+    """
+    if not _docker_running():
+        return "docker was not running"
+    held = _docker_resident_gb()
+    subprocess.run(["osascript", "-e", 'quit app "Docker Desktop"'], capture_output=True)
+    subprocess.run(["osascript", "-e", 'quit app "Docker"'], capture_output=True)
+    return f"asked Docker to quit, releasing about {held:.1f} GB"
+
+
+def _docker_running() -> bool:
+    return subprocess.run(["docker", "info"], capture_output=True).returncode == 0
+
+
 def _stop_sandbox_containers() -> str:
     r = subprocess.run(["docker", "ps", "-q"], capture_output=True, text=True)
     ids = [x for x in r.stdout.split() if x]
@@ -105,7 +137,7 @@ def _running_pass() -> list[int]:
 
 
 def pause(repo: Path, *, reason: str = "", model: str | None = None,
-          stop_now: bool = False) -> list[str]:
+          stop_now: bool = False, quit_docker: bool = False) -> list[str]:
     """Write the sentinel, unload the job, and give the machine its memory back.
 
     `stop_now` kills a pass that is already running instead of letting it
@@ -139,6 +171,18 @@ def pause(repo: Path, *, reason: str = "", model: str | None = None,
     done.append(_stop_sandbox_containers())
     done.append(_free_the_model(model))
 
+    # The model is the larger share and the one people notice; the virtual
+    # machine is the quieter one, and pausing Docker from its own menu does not
+    # release it.
+    if quit_docker:
+        done.append(_quit_docker())
+    elif _docker_running():
+        held = _docker_resident_gb()
+        if held >= 1:
+            done.append(f"docker is still running and holding about {held:.1f} GB; "
+                        "pausing it in its own menu does not release that, "
+                        "`crucible pause --quit-docker` does")
+
     # A pause that did not take is worse than no pause, because the person who
     # asked for it walks away. Both halves are read back rather than assumed.
     if not is_paused(repo):
@@ -147,6 +191,26 @@ def pause(repo: Path, *, reason: str = "", model: str | None = None,
         done.append("WARNING: the scheduler is still loaded and may fire; "
                     "run `launchctl bootout gui/$(id -u)/com.crucible.research`")
     return done
+
+
+def _start_docker(wait_s: int = 120) -> str:
+    """Bring the daemon back, because a pass without it produces nothing.
+
+    Every run needs a container. With the daemon down a pass does not fail
+    loudly; it runs for hours and records an artifact for every pair, which
+    costs the time and teaches nothing.
+    """
+    import time
+    if _docker_running():
+        return "docker is already running"
+    subprocess.run(["open", "-a", "Docker"], capture_output=True)
+    deadline = time.monotonic() + wait_s
+    while time.monotonic() < deadline:
+        if _docker_running():
+            return "started docker and waited for the daemon"
+        time.sleep(3)
+    return ("WARNING: docker did not come up in time; a pass without it records "
+            "an artifact for every run and establishes nothing")
 
 
 def resume(repo: Path, *, every_hours: int, start_now: bool = True) -> list[str]:
@@ -171,6 +235,8 @@ def resume(repo: Path, *, every_hours: int, start_now: bool = True) -> list[str]
         done.append(f"{SENTINEL} was not there; the research was not paused")
     done.append(enable())
     done.append(install(every_hours=every_hours).splitlines()[0])
+    if start_now:
+        done.append(_start_docker())
     if start_now:
         done.append(kickstart())
     else:

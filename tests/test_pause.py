@@ -178,3 +178,58 @@ def test_a_pause_reports_when_it_did_not_take(tmp_path, monkeypatch):
     lines = pause(tmp_path, reason="working", model="m")
     assert any("still loaded" in line for line in lines), \
         "a pause must say so when the scheduler survived it"
+
+
+def test_a_pause_says_what_docker_is_still_holding(tmp_path, monkeypatch):
+    # Pausing Docker Desktop from its own menu suspends containers and leaves
+    # the virtual machine resident, so eight gigabytes stayed gone hours after
+    # the research had stopped. A pause that frees the model and says nothing
+    # about that is only half a pause.
+    import crucible.pause as pause_mod
+    import crucible.schedule as schedule
+    from crucible.pause import pause
+
+    class Result:
+        returncode = 0
+        stdout = ""
+        stderr = ""
+
+    monkeypatch.setattr(Path, "home", staticmethod(lambda: tmp_path))
+    monkeypatch.setattr(schedule.subprocess, "run", lambda argv, **kw: Result())
+    monkeypatch.setattr(pause_mod.subprocess, "run", lambda argv, **kw: Result())
+    monkeypatch.setattr(pause_mod, "_docker_running", lambda: True)
+    monkeypatch.setattr(pause_mod, "_docker_resident_gb", lambda: 8.3)
+
+    lines = pause(tmp_path, reason="working", model="m")
+    assert any("8.3 GB" in line and "--quit-docker" in line for line in lines)
+
+
+def test_a_resume_will_not_start_a_pass_into_a_dead_daemon(tmp_path, monkeypatch):
+    # Without the daemon a pass does not fail loudly. It runs for hours and
+    # records an artifact for every pair, which costs the time and teaches
+    # nothing, so the resume brings it back first.
+    import crucible.pause as pause_mod
+    import crucible.schedule as schedule
+    from crucible.pause import resume, sentinel_path
+
+    class Result:
+        returncode = 0
+        stdout = ""
+        stderr = ""
+
+    started: list[str] = []
+    monkeypatch.setattr(Path, "home", staticmethod(lambda: tmp_path))
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(schedule.subprocess, "run", lambda argv, **kw: Result())
+    monkeypatch.setattr(pause_mod.subprocess, "run",
+                        lambda argv, **kw: (started.append(" ".join(argv)), Result())[1])
+    # Down at first, up once it has been opened.
+    monkeypatch.setattr(pause_mod, "_docker_running",
+                        lambda: any("open -a Docker" in c for c in started))
+
+    sentinel_path(tmp_path).parent.mkdir(parents=True, exist_ok=True)
+    sentinel_path(tmp_path).write_text("{}")
+    lines = resume(tmp_path, every_hours=6)
+
+    assert any("open -a Docker" in c for c in started), "the daemon has to be brought back"
+    assert any("started docker" in line for line in lines)

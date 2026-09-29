@@ -73,6 +73,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     pause_cmd = sub.add_parser("pause", help="stop the research and give the machine its memory back")
     pause_cmd.add_argument("--reason", default="", help="why, recorded beside the pause")
+    pause_cmd.add_argument("--quit-docker", action="store_true",
+                           help="quit Docker Desktop too; pausing it in its own menu keeps the "
+                                "virtual machine resident and its memory with it")
     pause_cmd.add_argument("--now", action="store_true",
                            help="kill a running pass instead of letting it finish the run it is in")
 
@@ -130,7 +133,8 @@ def main(argv: list[str] | None = None) -> int:
         repo = Path.cwd()
         p = load_params(repo)
         if args.cmd == "pause":
-            for line in pause(repo, reason=args.reason, model=p.model, stop_now=args.now):
+            for line in pause(repo, reason=args.reason, model=p.model, stop_now=args.now,
+                              quit_docker=args.quit_docker):
                 print(f"  {line}")
             print("\nThe research is paused. Nothing will run until `crucible resume`,")
             print("including after a reboot.")
