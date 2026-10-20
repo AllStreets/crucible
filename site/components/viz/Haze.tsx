@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { THEME_EVENT } from "../../lib/themeBoot";
 
 /** Heat haze behind the opening statement: a slow fractal-noise field in the
  *  furnace palette, rendered at low resolution and scaled up. Atmosphere, not
@@ -9,7 +10,7 @@ import { useEffect, useRef } from "react";
 const VERT = `attribute vec2 p; void main(){ gl_Position = vec4(p, 0.0, 1.0); }`;
 const FRAG = `
 precision mediump float;
-uniform vec2 r; uniform float t; uniform vec2 m;
+uniform vec2 r; uniform float t; uniform vec2 m; uniform float light;
 float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 float noise(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.0-2.0*f);
   return mix(mix(hash(i), hash(i+vec2(1,0)), f.x), mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)), f.x), f.y); }
@@ -23,6 +24,11 @@ void main(){
   vec3 ember = vec3(0.894, 0.388, 0.165);
   vec3 white = vec3(1.0, 0.72, 0.45);
   vec3 col = cold + ember * heat * 0.55 + white * pow(heat, 3.0) * 0.35;
+  // on paper (light theme): the same field as a warm stain on the off-white ground
+  vec3 paper = vec3(0.961, 0.949, 0.925);
+  vec3 warm = vec3(0.925, 0.800, 0.690);
+  vec3 lit = mix(paper, warm, heat * 0.8);
+  col = mix(col, lit, light);
   col += (hash(uv * r + t) - 0.5) * 0.012;
   gl_FragColor = vec4(col, 1.0);
 }`;
@@ -40,7 +46,11 @@ export function Haze() {
     const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
     const loc = gl.getAttribLocation(prog, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-    const uR = gl.getUniformLocation(prog, "r"), uT = gl.getUniformLocation(prog, "t"), uM = gl.getUniformLocation(prog, "m");
+    const uR = gl.getUniformLocation(prog, "r"), uT = gl.getUniformLocation(prog, "t"), uM = gl.getUniformLocation(prog, "m"), uL = gl.getUniformLocation(prog, "light");
+    // --haze-light is 0 in the dark theme and 1 in the light one (tokens.css)
+    let light = 0;
+    const readLight = () => { light = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--haze-light")) || 0; };
+    readLight();
     let mouse = [0.5, 0.5], target = [0.5, 0.5], raf = 0, visible = true;
     const size = () => { const w = Math.floor(canvas.clientWidth * 0.5), h = Math.floor(canvas.clientHeight * 0.5); if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; gl.viewport(0, 0, w, h); } };
     const onMove = (e: MouseEvent) => { const b = canvas.getBoundingClientRect(); target = [(e.clientX - b.left) / b.width, 1 - (e.clientY - b.top) / b.height]; };
@@ -49,13 +59,18 @@ export function Haze() {
     const frame = () => {
       if (!visible) return;
       size(); mouse = [mouse[0] + (target[0] - mouse[0]) * 0.04, mouse[1] + (target[1] - mouse[1]) * 0.04];
-      gl.uniform2f(uR, canvas.width, canvas.height); gl.uniform1f(uT, (performance.now() - start) / 1000); gl.uniform2f(uM, mouse[0], mouse[1]);
+      gl.uniform2f(uR, canvas.width, canvas.height); gl.uniform1f(uT, (performance.now() - start) / 1000); gl.uniform2f(uM, mouse[0], mouse[1]); gl.uniform1f(uL, light);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       if (!reduced) raf = requestAnimationFrame(frame);
     };
+    // repaint on a theme change; under reduced motion this is the only redraw
+    const onTheme = () => { readLight(); if (reduced) frame(); };
+    const mq = window.matchMedia("(prefers-color-scheme: light)");
     window.addEventListener("mousemove", onMove); document.addEventListener("visibilitychange", onVis);
+    window.addEventListener(THEME_EVENT, onTheme); mq.addEventListener("change", onTheme);
     frame();
-    return () => { cancelAnimationFrame(raf); window.removeEventListener("mousemove", onMove); document.removeEventListener("visibilitychange", onVis); };
+    return () => { cancelAnimationFrame(raf); window.removeEventListener("mousemove", onMove); document.removeEventListener("visibilitychange", onVis);
+      window.removeEventListener(THEME_EVENT, onTheme); mq.removeEventListener("change", onTheme); };
   }, []);
   return <canvas ref={ref} className="haze" aria-hidden="true" />;
 }

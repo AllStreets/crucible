@@ -46,10 +46,10 @@ export default function Explorer() {
         </p>
         <figure className="fig">
           <Attrition stages={[
-            { key: "harvested", label: "harvested", count: stages.length, tone: "#3E6E8E" },
-            { key: "built", label: "built", count: stages.filter((r) => r.stage >= 1).length, tone: "#34A48F" },
-            { key: "checked", label: "env starts", count: stages.filter((r) => r.stage >= 2).length, tone: "#34A48F" },
-            { key: "invocable", label: "invocable", count: grid.agents.length, tone: "#C9922A" },
+            { key: "harvested", label: "harvested", count: stages.length, tone: "var(--stage-1)" },
+            { key: "built", label: "built", count: stages.filter((r) => r.stage >= 1).length, tone: "var(--earned)" },
+            { key: "checked", label: "env starts", count: stages.filter((r) => r.stage >= 2).length, tone: "var(--earned)" },
+            { key: "invocable", label: "invocable", count: grid.agents.length, tone: "var(--warn)" },
           ]} />
           <figcaption><b>Figure 2</b><span>Each bar is a count of rows; the width is its share of the agents harvested.</span></figcaption>
         </figure>

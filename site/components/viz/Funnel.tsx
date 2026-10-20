@@ -44,11 +44,11 @@ export function Funnel({ stages, total }: { stages: Stage[]; total: number }) {
                  border: var(--hair) solid var(--rule); border-radius: 2px;
                  overflow: hidden; }
         .bar { height: 100%; transition: width 700ms cubic-bezier(.2,.7,.3,1); }
-        .bar.t1 { background: linear-gradient(90deg, #2A4A5E, var(--stage-1)); }
-        .bar.t2 { background: linear-gradient(90deg, #1E6B61, var(--stage-2));
+        .bar.t1 { background: linear-gradient(90deg, color-mix(in srgb, var(--stage-1) 60%, var(--ground)), var(--stage-1)); }
+        .bar.t2 { background: linear-gradient(90deg, color-mix(in srgb, var(--stage-2) 60%, var(--ground)), var(--stage-2));
                   box-shadow: var(--glow-cool); }
-        .bar.t3 { background: linear-gradient(90deg, #8A6419, var(--stage-3)); }
-        .bar.t4 { background: linear-gradient(90deg, #A8471D, var(--stage-4));
+        .bar.t3 { background: linear-gradient(90deg, color-mix(in srgb, var(--stage-3) 60%, var(--ground)), var(--stage-3)); }
+        .bar.t4 { background: linear-gradient(90deg, color-mix(in srgb, var(--stage-4) 60%, var(--ground)), var(--stage-4));
                   box-shadow: var(--glow-accent); }
         .lost { height: 100%;
                 background-image: repeating-linear-gradient(135deg,

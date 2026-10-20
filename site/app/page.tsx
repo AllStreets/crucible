@@ -138,11 +138,11 @@ export default function Record() {
             <p className="deck">Getting an agent to the starting line is the hard part, and nobody had published how hard. The band between two bars is what was lost there.</p>
             <figure className="fig">
               <Attrition stages={[
-                { key: "harvested", label: "harvested", count: v.harvested, tone: "#3E6E8E" },
-                { key: "built", label: "built", count: v.built, tone: "#34A48F" },
-                { key: "checked", label: "env starts", count: v.checked, tone: "#34A48F" },
-                { key: "invocable", label: "invocable", count: acted.size, tone: "#C9922A" },
-                { key: "arena", label: "in the arena", count: inArena.size, tone: "#E4632A" },
+                { key: "harvested", label: "harvested", count: v.harvested, tone: "var(--stage-1)" },
+                { key: "built", label: "built", count: v.built, tone: "var(--earned)" },
+                { key: "checked", label: "env starts", count: v.checked, tone: "var(--earned)" },
+                { key: "invocable", label: "invocable", count: acted.size, tone: "var(--warn)" },
+                { key: "arena", label: "in the arena", count: inArena.size, tone: "var(--accent)" },
               ]} />
               <figcaption><b>Figure {F()}</b><span>Each bar is a count of rows; the width is its share of the agents harvested.</span></figcaption>
             </figure>

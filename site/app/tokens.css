@@ -3,8 +3,17 @@
  * Dark ground, because the instrument is watched in a dark room. Editorial
  * type, because what it prints is read like a journal. One accent, molten,
  * for the thing that is hot right now. Everything else is ink on a dark sheet.
+ *
+ * The light theme (2026-10-19) is the same record printed on paper: warm off-white
+ * ground, the same accent darkened until it reads as text. Dark stays the default
+ * look of the bare :root; the light palette applies when the viewer's system asks
+ * for light and they haven't chosen dark, or when they choose light.
  */
 :root {
+  color-scheme: dark;
+  --lattice-top:   #121217;   /* the 3D figure's backdrop, lit from above */
+  --lattice-floor: #17171C;
+  --haze-light:    0;         /* read by the haze shader: 0 furnace, 1 paper */
   --ground:        #0B0B0D;
   --ground-raised: #101013;
   --panel:         #121215;
@@ -52,4 +61,64 @@
   --hair: 1px;
   --radius: 2px;
   --col: minmax(0, 1fr);
+}
+
+/* light: the system asks for it and the viewer hasn't chosen dark */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+    --ground:        #F5F2EC;
+    --ground-raised: #EEEAE2;
+    --panel:         #FBFAF7;
+    --rule:          #DAD5CB;
+    --rule-strong:   #BEB8AC;
+    --grid:          #ECE8E0;
+
+    --ink:           #18171B;
+    --ink-soft:      #4F4C46;   /* 7.66:1 on the ground */
+    --ink-faint:     #6B675F;   /* 5.04:1 on the ground */
+
+    --accent:        #B84A16;   /* the molten accent, darkened to read as text */
+    --earned:        #17796A;
+    --artifact:      #6248A8;
+    --refused:       #8A8790;
+    --warn:          #8E6410;
+    --stop:          #AE372D;
+
+    --stage-1: #2F607E;
+    --glow-accent: 0 0 18px rgba(184,74,22,0.18); --glow-cool: 0 0 14px rgba(23,121,106,0.16);
+    --ink-over-haze: #3E3B36;   /* 8.41:1 at the haze's brightest */
+    --lattice-top:   #FFFFFF;
+    --lattice-floor: #E6E1D7;
+    --haze-light:    1;
+  }
+}
+
+/* light: the viewer chose it */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --ground:        #F5F2EC;
+  --ground-raised: #EEEAE2;
+  --panel:         #FBFAF7;
+  --rule:          #DAD5CB;
+  --rule-strong:   #BEB8AC;
+  --grid:          #ECE8E0;
+
+  --ink:           #18171B;
+  --ink-soft:      #4F4C46;   /* 7.66:1 on the ground */
+  --ink-faint:     #6B675F;   /* 5.04:1 on the ground */
+
+  --accent:        #B84A16;   /* the molten accent, darkened to read as text */
+  --earned:        #17796A;
+  --artifact:      #6248A8;
+  --refused:       #8A8790;
+  --warn:          #8E6410;
+  --stop:          #AE372D;
+
+  --stage-1: #2F607E;
+  --glow-accent: 0 0 18px rgba(184,74,22,0.18); --glow-cool: 0 0 14px rgba(23,121,106,0.16);
+  --ink-over-haze: #3E3B36;   /* 8.41:1 at the haze's brightest */
+  --lattice-top:   #FFFFFF;
+  --lattice-floor: #E6E1D7;
+  --haze-light:    1;
 }

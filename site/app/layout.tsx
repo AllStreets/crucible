@@ -5,6 +5,7 @@ import { Colophon } from "../components/Colophon";
 import { CommandPalette } from "../components/CommandPalette";
 import { Reveal } from "../components/Reveal";
 import { loadDataset, searchIndex } from "../lib/dataset";
+import { THEME_BOOT } from "../lib/themeBoot";
 
 export const metadata: Metadata = {
   title: "Crucible",
@@ -23,8 +24,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const index = searchIndex(loadDataset());
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_BOOT }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link

@@ -6,6 +6,7 @@ import { Canvas, useFrame, type ThreeEvent } from "@react-three/fiber";
 import { Billboard, Edges, OrbitControls, Text } from "@react-three/drei";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import type { Lattice, LatticeCell } from "../../lib/dataset";
+import { token, useThemeVersion } from "../../lib/theme";
 
 /** The arena as a solid: attackers along one axis, victims along the other,
  *  scenarios stacked in the third.
@@ -25,10 +26,21 @@ import type { Lattice, LatticeCell } from "../../lib/dataset";
  *  are reading it is a figure you cannot point at.
  */
 
-const TONE: Record<string, string> = {
-  fail: "#E4632A", done: "#34A48F", artifact: "#8B72C6",
-  blocked: "#4B4B52", lost: "#4B4B52",
-};
+/** The figure's colours, read from the theme tokens so the solid follows the light and
+ *  dark themes. three.js needs concrete values, so these are resolved in the browser and
+ *  re-read when the theme changes; the defaults are the dark theme, for the first render. */
+interface Palette { fail: string; done: string; artifact: string; blocked: string; lost: string;
+  ink: string; label: string; outline: string; floor: string; floorEdge: string }
+const DARK: Palette = { fail: "#E4632A", done: "#34A48F", artifact: "#8B72C6", blocked: "#4B4B52", lost: "#4B4B52",
+  ink: "#ECEAE4", label: "#C9C5BC", outline: "#0B0B0D", floor: "#17171C", floorEdge: "#232327" };
+function readPalette(): Palette {
+  const t = (n: string, d: string) => token(n) || d;
+  return { fail: t("--accent", DARK.fail), done: t("--earned", DARK.done), artifact: t("--artifact", DARK.artifact),
+    blocked: t("--refused", DARK.blocked), lost: t("--refused", DARK.lost), ink: t("--ink", DARK.ink),
+    label: t("--ink-over-haze", DARK.label), outline: t("--ground", DARK.outline),
+    floor: t("--lattice-floor", DARK.floor), floorEdge: t("--rule", DARK.floorEdge) };
+}
+const TONE = DARK as unknown as Record<string, string>; // the key's swatches; the solid uses the live palette
 
 function toneOf(c: LatticeCell): string {
   if (c.status === "done") return c.outcome === "fail" ? "fail" : "done";
@@ -81,13 +93,13 @@ function viewpoints(agents: number, layers: number) {
   } as Record<View, [number, number, number]>;
 }
 
-function Cell({ cell, x, y, z, dim, onPick, onSelect, picked, selected }: {
-  cell: LatticeCell; x: number; y: number; z: number; dim: boolean;
+function Cell({ cell, x, y, z, dim, onPick, onSelect, picked, selected, pal }: {
+  cell: LatticeCell; x: number; y: number; z: number; dim: boolean; pal: Palette;
   onPick: (c: LatticeCell | null) => void; onSelect: (c: LatticeCell) => void;
   picked: boolean; selected: boolean;
 }) {
   const tone = toneOf(cell);
-  const colour = TONE[tone] ?? "#4B4B52";
+  const colour = (pal as unknown as Record<string, string>)[tone] ?? pal.blocked;
   const confirmed = tone === "fail";
   // A confirmed attack is the thing a reader is looking for, so it is the
   // only cell allowed to be solid and full height. Everything else is a
@@ -119,27 +131,27 @@ function Cell({ cell, x, y, z, dim, onPick, onSelect, picked, selected }: {
         metalness={0.1}
       />
       {(picked || selected || confirmed) && (
-        <Edges color={selected ? "#E4632A" : picked ? "#ECEAE4" : colour} />
+        <Edges color={selected ? pal.fail : picked ? pal.ink : colour} />
       )}
     </mesh>
   );
 }
 
-function AxisLabel({ text, position, rotation, anchorX, color }: {
+function AxisLabel({ text, position, rotation, anchorX, color, pal }: {
   text: string; position: [number, number, number];
   rotation?: [number, number, number]; anchorX?: "left" | "right" | "center";
-  color?: string;
+  color?: string; pal: Palette;
 }) {
   return (
     <Text
       position={position}
       rotation={rotation}
       fontSize={0.5}
-      color={color ?? "#C9C6BE"}
+      color={color ?? pal.label}
       anchorX={anchorX ?? "center"}
       anchorY="middle"
       outlineWidth={0.012}
-      outlineColor="#0B0B0D"
+      outlineColor={pal.outline}
       /* A label that the thing it labels can hide is not a label. These draw
          over the solid rather than inside it. */
       renderOrder={999}
@@ -151,8 +163,8 @@ function AxisLabel({ text, position, rotation, anchorX, color }: {
   );
 }
 
-function Scene({ data, names, view, focus, onPick, onSelect, picked, selected }: {
-  data: Lattice; names: Record<string, string>; view: View; focus: string | null;
+function Scene({ data, names, view, focus, onPick, onSelect, picked, selected, pal }: {
+  data: Lattice; names: Record<string, string>; view: View; focus: string | null; pal: Palette;
   onPick: (c: LatticeCell | null) => void; onSelect: (c: LatticeCell) => void;
   picked: LatticeCell | null; selected: LatticeCell | null;
 }) {
@@ -173,7 +185,7 @@ function Scene({ data, names, view, focus, onPick, onSelect, picked, selected }:
     <>
       <ambientLight intensity={0.75} />
       <directionalLight position={[8, 14, 6]} intensity={1.1} />
-      <directionalLight position={[-8, 4, -6]} intensity={0.35} color="#E4632A" />
+      <directionalLight position={[-8, 4, -6]} intensity={0.35} color={pal.fail} />
 
       {data.scenarios.map((s, si) => {
         const y = si * LAYER;
@@ -184,15 +196,15 @@ function Scene({ data, names, view, focus, onPick, onSelect, picked, selected }:
                 than as absent. */}
             <mesh position={[0, y - 0.04, 0]} rotation={[-Math.PI / 2, 0, 0]}>
               <planeGeometry args={[(n - 0.1) * GAP, (n - 0.1) * GAP]} />
-              <meshBasicMaterial color="#17171C" transparent opacity={0.34} />
-              <Edges color="#232327" />
+              <meshBasicMaterial color={pal.floor} transparent opacity={0.34} />
+              <Edges color={pal.floorEdge} />
             </mesh>
             {/* Front-left of the solid rather than behind it. Depth tricks
                 did not survive the text renderer, and a position the solid
                 cannot stand in front of needs none. */}
             <Billboard position={[-half - 2.1, y + 0.5, half + 0.6]}>
               <AxisLabel text={SCENARIO_LABEL[s] ?? s} position={[0, 0, 0]} anchorX="right"
-                         color={hot ? "#E4632A" : undefined} />
+                         color={hot ? pal.fail : undefined} pal={pal} />
             </Billboard>
           </group>
         );
@@ -208,7 +220,7 @@ function Scene({ data, names, view, focus, onPick, onSelect, picked, selected }:
           <Cell
             key={`${c.attacker}|${c.victim}|${c.scenario}`}
             cell={c} x={at(ai)} y={si * LAYER} z={at(vi)} dim={dim}
-            onPick={onPick} onSelect={onSelect}
+            onPick={onPick} onSelect={onSelect} pal={pal}
             picked={picked?.attacker === c.attacker && picked?.victim === c.victim
               && picked?.scenario === c.scenario}
             selected={selected?.attacker === c.attacker && selected?.victim === c.victim
@@ -221,8 +233,8 @@ function Scene({ data, names, view, focus, onPick, onSelect, picked, selected }:
           beside the figure: text laid on a floor is unreadable from any angle
           that also shows the solid, and a label a reader has to tilt their
           head for is not a label. */}
-      <AxisLabel text="attacker →" position={[0, -1.3, half + 1.6]} rotation={[-Math.PI / 2, 0, 0]} />
-      <AxisLabel text="victim →" position={[half + 1.6, -1.3, 0]} rotation={[-Math.PI / 2, 0, -Math.PI / 2]} />
+      <AxisLabel text="attacker →" position={[0, -1.3, half + 1.6]} rotation={[-Math.PI / 2, 0, 0]} pal={pal} />
+      <AxisLabel text="victim →" position={[half + 1.6, -1.3, 0]} rotation={[-Math.PI / 2, 0, -Math.PI / 2]} pal={pal} />
 
       <OrbitControls
         ref={controls}
@@ -262,6 +274,9 @@ export function ArenaLattice({ data, names }: { data: Lattice; names: Record<str
     return () => window.removeEventListener("keydown", onKey);
   }, []);
   const confirmed = useMemo(() => data.cells.filter((c) => toneOf(c) === "fail"), [data.cells]);
+  const themeVersion = useThemeVersion();
+  const [pal, setPal] = useState<Palette>(DARK);
+  useEffect(() => { setPal(readPalette()); }, [themeVersion]);
 
   if (data.agents.length < 2) return null;
 
@@ -294,7 +309,7 @@ export function ArenaLattice({ data, names }: { data: Lattice; names: Record<str
            aria-label={`A 3D grid of ${data.cells.length} ordered pairings: attackers on one axis, victims on the other, ${data.scenarios.length} scenarios stacked. Each block shows that pairing's newest run; in ${confirmed.length} of them it confirmed an attack. The same data is in the table below the figure.`}>
         <Canvas camera={{ position: viewpoints(data.agents.length, data.scenarios.length).default, fov: 40 }}
                 dpr={[1, 2]} onPointerMissed={() => setSelected(null)}>
-          <Scene data={data} names={names} view={view} focus={focus}
+          <Scene data={data} names={names} view={view} focus={focus} pal={pal}
                  onPick={setPicked} onSelect={setSelected}
                  picked={picked} selected={selected} />
         </Canvas>
@@ -397,7 +412,7 @@ export function ArenaLattice({ data, names }: { data: Lattice; names: Record<str
           background: var(--panel); border: var(--hair) solid var(--rule); padding: 0.35rem 0.5rem; }
 
         .stage { position: relative; height: clamp(420px, 56vh, 620px); border: var(--hair) solid var(--rule);
-          background: radial-gradient(120% 90% at 50% 10%, #121217 0%, var(--ground) 70%); }
+          background: radial-gradient(120% 90% at 50% 10%, var(--lattice-top) 0%, var(--ground) 70%); }
         .stage canvas { display: block; touch-action: pan-y; }
 
         .readout { position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-wrap: wrap;

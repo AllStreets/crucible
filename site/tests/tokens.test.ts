@@ -56,3 +56,19 @@ test("motion respects the reduced-motion preference", () => {
   expect(globals.includes("prefers-reduced-motion")).toBe(true);
   expect(/animation-duration:\s*0\.01ms\s*!important/.test(globals)).toBe(true);
 });
+
+test("the light palette redefines every colour token, in both of its blocks", () => {
+  // The light theme applies two ways: the system asks for light (a media query) or the
+  // viewer chose it (data-theme). A token missing from either block would show a dark
+  // colour on paper in exactly that case.
+  const colour = ["--ground", "--ground-raised", "--panel", "--rule", "--rule-strong", "--ink", "--ink-soft",
+    "--ink-faint", "--accent", "--earned", "--artifact", "--refused", "--warn", "--stop", "--ink-over-haze",
+    "--lattice-top", "--lattice-floor", "--haze-light"];
+  const media = tokens.slice(tokens.indexOf("@media (prefers-color-scheme: light)"), tokens.indexOf(':root[data-theme="light"]'));
+  const chosen = tokens.slice(tokens.indexOf(':root[data-theme="light"]'));
+  for (const name of colour) {
+    expect(media.includes(`${name}:`), `${name} missing from the system-light block`).toBe(true);
+    expect(chosen.includes(`${name}:`), `${name} missing from the chosen-light block`).toBe(true);
+  }
+  expect(media.includes(':root:not([data-theme="dark"])')).toBe(true);
+});

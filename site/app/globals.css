@@ -309,3 +309,13 @@ code { overflow-wrap: anywhere; }
 /* Earlier build attempts, one per line: a build that failed and a build that
    later succeeded are two observations, not one corrected. */
 .attempt { display: block; }
+
+/* theme toggle (2026-10-19): system, light, dark */
+.masthead .theme-toggle { display: inline-flex; align-items: center; gap: 0.4rem; border: 0; background: transparent; padding: 0; cursor: pointer;
+  font: var(--t-micro) var(--font-mono); color: var(--ink-faint); }
+.masthead .theme-toggle:hover { color: var(--ink); }
+.masthead .theme-toggle:focus-visible { outline: 1px solid var(--accent); outline-offset: 3px; }
+.theme-glyph { width: 0.7rem; height: 0.7rem; border-radius: 50%; border: var(--hair) solid currentColor; display: inline-block; }
+.theme-glyph.light { background: currentColor; }
+.theme-glyph.system { background: linear-gradient(90deg, currentColor 50%, transparent 50%); }
+@media (max-width: 720px) { .masthead .theme-word { display: none; } }
