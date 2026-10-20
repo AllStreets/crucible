@@ -233,11 +233,13 @@ tbody tr:hover td { background: rgba(255,255,255,0.015); }
   background: linear-gradient(180deg, transparent, var(--ground)); pointer-events: none; }
 .hero .inner { position: relative; z-index: 1; padding-top: 6rem; padding-bottom: 3.5rem; display: grid;
   grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(2rem, 5vw, 6rem); align-items: end; }
-.hero h1 { font-size: var(--t-hero); line-height: 0.96; letter-spacing: -0.022em; max-width: 14ch; }
+/* the headline is written as three lines; size it so each line stays one line on a desktop column */
+.hero h1 { font-size: var(--t-hero); line-height: 0.98; letter-spacing: -0.022em; max-width: none; text-wrap: balance; }
+@media (min-width: 901px) { .hero h1 .line { white-space: nowrap; } }
 .hero h1 .line { display: block; animation: rise 900ms cubic-bezier(.2,.7,.2,1) both; }
 .hero h1 .line:nth-child(2) { animation-delay: 90ms; } .hero h1 .line:nth-child(3) { animation-delay: 180ms; }
 @keyframes rise { from { transform: translateY(0.35em); opacity: 0.001; } to { transform: none; opacity: 1; } }
-.hero .lede { margin-top: 1.6rem; max-width: 46ch; animation: rise 900ms 260ms cubic-bezier(.2,.7,.2,1) both; }
+.hero .lede { margin-top: 1.6rem; max-width: 46ch; color: var(--ink-over-haze); animation: rise 900ms 260ms cubic-bezier(.2,.7,.2,1) both; }
 .hero .status { margin-top: 1.4rem; display: flex; gap: 1.2rem; flex-wrap: wrap; align-items: baseline; animation: rise 900ms 340ms cubic-bezier(.2,.7,.2,1) both; }
 .hero .figures { animation: rise 900ms 420ms cubic-bezier(.2,.7,.2,1) both; }
 .hero .figures > div { padding-right: 1.25rem; }

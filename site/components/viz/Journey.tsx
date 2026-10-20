@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { StageRow } from "../../lib/dataset";
 
 const STAGES = ["harvested", "built", "env starts", "invocable", "arena"];
-const TONE = ["var(--t1)", "var(--t2)", "var(--t2)", "var(--t3)", "var(--t4)"];
+const TONE = ["var(--stage-1)", "var(--stage-2)", "var(--stage-2)", "var(--stage-3)", "var(--stage-4)"];
 
 /** Small multiples: one row per agent, one cell per stage, lit as far as the
  *  agent got. The whole population reads at a glance, and a new agent is a

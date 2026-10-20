@@ -44,7 +44,7 @@ export function Attrition({ stages }: { stages: AttritionStage[] }) {
                   fill={s.tone} opacity="0.13" />
               )}
               {next && s.count - next.count > 0 && (
-                <text x={left + w + 10} y={y + rowH + gap / 2 + 4} fill="var(--signal-warn)"
+                <text x={left + w + 10} y={y + rowH + gap / 2 + 4} fill="var(--warn)"
                       style={{ font: "11px var(--font-mono)" }}>
                   {`-${s.count - next.count}`}
                 </text>

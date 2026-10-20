@@ -290,7 +290,8 @@ export function ArenaLattice({ data, names }: { data: Lattice; names: Record<str
         </label>
       </div>
 
-      <div className="stage">
+      <div className="stage" role="img"
+           aria-label={`A 3D grid of ${data.cells.length} ordered pairings: attackers on one axis, victims on the other, ${data.scenarios.length} scenarios stacked. Each block shows that pairing's newest run; in ${confirmed.length} of them it confirmed an attack. The same data is in the table below the figure.`}>
         <Canvas camera={{ position: viewpoints(data.agents.length, data.scenarios.length).default, fov: 40 }}
                 dpr={[1, 2]} onPointerMissed={() => setSelected(null)}>
           <Scene data={data} names={names} view={view} focus={focus}
@@ -344,6 +345,30 @@ export function ArenaLattice({ data, names }: { data: Lattice; names: Record<str
         <li><i style={{ background: TONE.blocked }} />refused</li>
         <li><i className="empty" />never run in this direction</li>
       </ul>
+
+      {/* the solid's text alternative: every block, readable without a pointer or a GPU */}
+      <details className="as-table">
+        <summary>Read this figure as a table ({data.cells.length} pairings)</summary>
+        <div className="as-table-scroll">
+          <table>
+            <thead><tr><th scope="col">Attacker</th><th scope="col">Victim</th><th scope="col">Scenario</th><th scope="col">Newest result</th><th scope="col">Runs</th></tr></thead>
+            <tbody>
+              {[...data.cells]
+                .sort((a, b) => (toneOf(a) === "fail" ? 0 : 1) - (toneOf(b) === "fail" ? 0 : 1)
+                  || a.attacker.localeCompare(b.attacker) || a.victim.localeCompare(b.victim) || a.scenario.localeCompare(b.scenario))
+                .map((c) => (
+                  <tr key={`${c.attacker}|${c.victim}|${c.scenario}`}>
+                    <td>{shortName(c.attacker, names)}</td>
+                    <td>{shortName(c.victim, names)}</td>
+                    <td>{SCENARIO_LABEL[c.scenario] ?? c.scenario}</td>
+                    <td><Link href={`/pairs/${c.pairKey}/#${c.scenario}`} className={`state ${toneOf(c)}`}>{wordFor(c)}</Link></td>
+                    <td className="mono">{c.runs}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+      </details>
 
       <p className="note">
         {confirmed.length > 0 && (
@@ -407,6 +432,13 @@ export function ArenaLattice({ data, names }: { data: Lattice; names: Record<str
         .key i.empty { background: transparent; box-shadow: inset 0 0 0 1px var(--rule-strong); }
 
         .lattice .note { font-size: var(--t-small); color: var(--ink-soft); max-width: var(--measure); }
+        .as-table summary { cursor: pointer; font-size: var(--t-small); color: var(--ink-soft); }
+        .as-table summary:focus-visible { outline: 1px solid var(--accent); outline-offset: 3px; }
+        .as-table-scroll { overflow-x: auto; margin-top: 0.75rem; max-height: 28rem; overflow-y: auto; border: var(--hair) solid var(--rule); }
+        .as-table table { width: 100%; border-collapse: collapse; font-size: var(--t-small); }
+        .as-table th, .as-table td { text-align: left; padding: 0.4rem 0.75rem; border-bottom: var(--hair) solid var(--rule); white-space: nowrap; }
+        .as-table th { position: sticky; top: 0; background: var(--ground-raised); color: var(--ink-faint); font-weight: 500; }
+        .as-table td a { text-decoration: none; }
 
         @media (max-width: 720px) {
           .stage { height: 380px; }

@@ -11,8 +11,8 @@ test("every colour token is declared on bare :root", () => {
   const root = tokens.slice(tokens.indexOf(":root"), tokens.indexOf("}"));
   const required = [
     "--ground", "--panel", "--ink", "--ink-soft", "--rule", "--accent",
-    "--t0", "--t1", "--t2", "--t3", "--t4", "--t5",
-    "--signal-warn", "--signal-stop", "--signal-artifact",
+    "--earned", "--artifact", "--refused", "--warn", "--stop",
+    "--stage-1", "--stage-2", "--stage-3", "--stage-4", "--ink-over-haze",
   ];
   for (const name of required) {
     expect(root.includes(name), `${name} must be declared on :root`).toBe(true);

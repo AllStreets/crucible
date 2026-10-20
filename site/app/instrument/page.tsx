@@ -12,7 +12,7 @@ function Bars({ counts, tone }: { counts: Record<string, number>; tone: Record<s
         <div key={k} style={{ display: "grid", gridTemplateColumns: "9rem 1fr 3ch", gap: "0.8rem", alignItems: "center", fontSize: "var(--t-small)" }}>
           <span className={`pill ${tone[k] ?? "inert"}`}>{k}</span>
           <div style={{ height: 6, background: "var(--ground-raised)", border: "var(--hair) solid var(--rule)", borderRadius: 2, overflow: "hidden" }}>
-            <div style={{ width: `${(counts[k] / max) * 100}%`, height: "100%", background: "var(--rule-bright)" }} />
+            <div style={{ width: `${(counts[k] / max) * 100}%`, height: "100%", background: "var(--rule-strong)" }} />
           </div>
           <span className="num">{counts[k]}</span>
         </div>

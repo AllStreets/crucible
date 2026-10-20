@@ -23,11 +23,12 @@
   --warn:          #C9922A;
   --stop:          #C6453B;
 
-  /* kept for components that still name the thermal ramp */
-  --t0: #2B3242; --t1: #3E6E8E; --t2: #34A48F; --t3: #C9922A; --t4: #E4632A; --t5: #FF8A3D;
-  --accent-cool: var(--earned); --signal-warn: var(--warn); --signal-stop: var(--stop);
-  --signal-artifact: var(--artifact); --rule-bright: var(--rule-strong); --panel-hi: var(--panel);
+  /* the attrition stages, harvested to confirmed, used by the funnel and journey figures */
+  --stage-1: #3E6E8E; --stage-2: var(--earned); --stage-3: var(--warn); --stage-4: var(--accent);
   --glow-accent: 0 0 22px rgba(228,99,42,0.28); --glow-cool: 0 0 18px rgba(52,164,143,0.22);
+
+  /* the hero's lede sits over the molten haze, where --ink-soft falls to 4.47:1 */
+  --ink-over-haze: #C9C5BC;
 
   --font-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
   --font-body:    "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
@@ -44,7 +45,7 @@
   --t-h3:    1.45rem;
   --t-h2:    2rem;
   --t-h1:    clamp(2.6rem, 5.4vw, 4.6rem);
-  --t-hero:  clamp(3.2rem, 8vw, 7.4rem);
+  --t-hero:  clamp(3rem, 5.6vw, 6.2rem);  /* "happens when agents" must fit the hero's 7/12 column on one line */
   --t-figure: clamp(4.2rem, 7vw, 6.8rem);
 
   --measure: 64ch;

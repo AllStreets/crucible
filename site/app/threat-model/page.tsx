@@ -130,7 +130,7 @@ export default function ThreatModel() {
       <style>{`
         .page { padding: 3.5rem 0 1rem; }
         .page h1 { margin: 0.7rem 0 1.75rem; max-width: 22ch; }
-        .stop { border-left: 2px solid var(--signal-stop); padding-left: 0.9rem; }
+        .stop { border-left: 2px solid var(--stop); padding-left: 0.9rem; }
         .risks { display: flex; flex-direction: column; }
         .risk-row { display: grid; grid-template-columns: 9rem minmax(0, 1fr); column-gap: 2.5rem;
           border-top: var(--hair) solid var(--rule); padding: 1.2rem 0; }

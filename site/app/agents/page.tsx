@@ -22,7 +22,7 @@ export default function Agents() {
               <tr key={r.slug}>
                 <td><Link href={`/agents/${r.slug}/`}><code>{r.slug}</code></Link></td>
                 <td><span className={`pill ${s.stage >= 4 ? "hot" : s.stage === 3 ? "active" : s.stage >= 1 ? "ok" : "inert"}`}>{s.label}</span></td>
-                <td>{r.status === "built" ? <span className="pill ok">built</span> : <span style={{ color: "var(--signal-warn)", fontSize: "var(--t-small)" }}>{FAILURE_LABELS[r.failureClass ?? ""] ?? r.failureClass}</span>}</td>
+                <td>{r.status === "built" ? <span className="pill ok">built</span> : <span style={{ color: "var(--warn)", fontSize: "var(--t-small)" }}>{FAILURE_LABELS[r.failureClass ?? ""] ?? r.failureClass}</span>}</td>
                 <td><a href={r.repoUrl} rel="noreferrer" style={{ fontSize: "var(--t-small)", color: "var(--ink-soft)" }}>{r.repoUrl.replace("https://github.com/", "")}</a></td>
               </tr>); })}
           </tbody>

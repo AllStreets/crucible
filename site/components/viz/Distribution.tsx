@@ -55,8 +55,8 @@ export function Distribution({ causes }: { causes: Cause[] }) {
                  border: var(--hair) solid var(--rule); border-radius: 2px;
                  overflow: hidden; }
         .bar { height: 100%; }
-        .bar.harness { background: linear-gradient(90deg, #7A5A16, var(--signal-warn)); }
-        .bar.repo    { background: linear-gradient(90deg, #7A2A24, var(--signal-stop)); }
+        .bar.harness { background: linear-gradient(90deg, #7A5A16, var(--warn)); }
+        .bar.repo    { background: linear-gradient(90deg, #7A2A24, var(--stop)); }
         .who { font-family: var(--font-mono); font-size: var(--t-micro);
                color: var(--ink-faint); margin-top: 0.4rem; }
       `}</style>
