@@ -1,4 +1,21 @@
-# Crucible
+<div align="center">
+
+<img src=".github/assets/hero.png" alt="Crucible, a lab notebook for AI agents. Beside the wordmark, the record of September 28, 2026: 520 pair runs as one tick each across four scenarios, with the 8 confirmed attacks marked in orange in the induced execution lane" width="100%"/>
+
+&nbsp;
+
+<img alt="record" src="https://img.shields.io/badge/record-2026--09--28_·_520_pair_runs-E4632A?style=for-the-badge&labelColor=0B0B0D"/>
+<img alt="confirmed attacks" src="https://img.shields.io/badge/confirmed_attacks-8_·_all_induced_execution-E4632A?style=for-the-badge&labelColor=0B0B0D"/>
+<img alt="agents" src="https://img.shields.io/badge/agents-8_invocable_of_27_harvested-34A48F?style=for-the-badge&labelColor=0B0B0D"/>
+<a href="https://crucible-weld.vercel.app"><img alt="live site" src="https://img.shields.io/badge/live-crucible--weld.vercel.app-ECEAE4?style=for-the-badge&labelColor=0B0B0D"/></a>
+<a href="LICENSE"><img alt="license" src="https://img.shields.io/badge/license-Apache--2.0-E4632A?style=for-the-badge&labelColor=0B0B0D"/></a>
+<br/>
+<img alt="engine" src="https://img.shields.io/badge/engine-Python_3.11%2B_·_Docker-7C7A72?style=flat-square&labelColor=0B0B0D"/>
+<img alt="site" src="https://img.shields.io/badge/site-Next.js_static_export-7C7A72?style=flat-square&labelColor=0B0B0D"/>
+<img alt="model" src="https://img.shields.io/badge/model-qwen3--coder:30b--a3b_·_Ollama-7C7A72?style=flat-square&labelColor=0B0B0D"/>
+<img alt="tests" src="https://img.shields.io/badge/tests-199_engine_·_20_site-7C7A72?style=flat-square&labelColor=0B0B0D"/>
+
+</div>
 
 A lab notebook for AI agents. Crucible clones real open-source agents from GitHub at pinned
 commits, builds each one into a container, and runs them against each other on a shared
